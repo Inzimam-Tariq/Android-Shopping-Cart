@@ -1,0 +1,61 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="CustomETStyle" parent="@android:style/Widget.EditText">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@drawable/search_selector</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
+        <item name="android:paddingLeft">13dp</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:typeface">serif</item>
+
+    </style>
+
+    <style name="CustomPassETStyle" parent="CustomETStyle">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
+    <style name="CustomEmailETStyle" parent="CustomETStyle">
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginTop">15dp</item>
+    </style>
+
+    <style name="CustomTVStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <!-- Customize your theme here. -->
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="CustomTVHeadingStyleBlack" parent="@android:style/Widget.TextView">
+        <!-- Customize your theme here. -->
+        <!--<item name="android:paddingLeft">0dp</item>-->
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+</resources>

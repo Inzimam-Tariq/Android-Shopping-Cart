@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#565550</color>
+    <color name="colorPrimaryDark">#3e3d39</color>
+    <color name="colorAccentPinck">#FF4081</color>
+    <color name="colorAccent">#949390</color>
+    <color name="colorAccent1">#C75405</color>
+    <color name="colorAccent2">#EC7625</color>
+    <color name="colorAccent3">#565757</color>
+
+    <color name="year">#999999</color>
+    <color name="title">#222222</color>
+    <color name="outline">#ccc</color>
+    <color name="text_color">#555</color>
+
+</resources>

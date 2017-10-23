@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:id="@+id/nav"
+    android:background="@color/colorPrimary">
+
+        <TextView
+            android:id="@+id/back_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/ic_back_arrow"
+            android:onClick="onClickBackArrow"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search your deal here"
+            android:textColorHint="@android:color/white"
+            android:textColor="@android:color/white"
+            android:layout_toRightOf="@id/back_arrow"
+            android:layout_toEndOf="@id/back_arrow"
+            android:paddingStart="20dp"
+            android:paddingLeft="20dp"/>
+
+
+</RelativeLayout>

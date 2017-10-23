@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--<item-->
+        <!--android:id="@+id/action_search"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:icon="@drawable/ic_search"-->
+        <!--android:title="@string/action_search"-->
+        <!--app:showAsAction="always|collapseActionView"-->
+        <!--app:actionViewClass="android.support.v7.widget.SearchView"/>-->
+
+    <item
+        android:id="@+id/action_cart"
+        android:orderInCategory="100"
+        android:actionLayout="@layout/actionbar_badge_layout"
+        android:title="@string/action_shopping_cart"
+        android:icon="@drawable/ic_cart_white"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_overflow"
+        android:orderInCategory="100"
+        android:title="@string/action_login"
+        android:icon="@drawable/ic_dots_vertical"
+        app:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@+id/action_login"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_login"-->
+        <!--app:showAsAction="never" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_register"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_register"-->
+        <!--app:showAsAction="never" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_wishlist"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_wishlist"-->
+        <!--app:showAsAction="never" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_language"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_language"-->
+        <!--app:showAsAction="never" />-->
+    <!--<item-->
+        <!--android:id="@+id/action_currency"-->
+        <!--android:orderInCategory="100"-->
+        <!--android:title="@string/action_currency"-->
+        <!--app:showAsAction="never" />-->
+</menu>
