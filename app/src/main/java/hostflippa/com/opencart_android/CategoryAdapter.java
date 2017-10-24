@@ -40,7 +40,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         Log.e("OnBIndMethod", "OnBind Working");
         MyCategory data = dataList.get(position);
 //        holder.itemId.setText(data.getQuestionId());
-        holder.categoryTitle.setText(data.getItemTitle());
+        holder.categoryTitle.setText(data.getCategoryTitle());
         holder.categoryImage.setImageResource(data.getCatImage());
     }
 

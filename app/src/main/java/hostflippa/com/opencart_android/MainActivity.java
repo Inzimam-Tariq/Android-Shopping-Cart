@@ -24,7 +24,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,14 +38,10 @@ import me.relex.circleindicator.CircleIndicator;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    EditText searchField;
-    TextView backArrow, menuLeft;
     Toolbar toolbar;
     Context context;
-    RelativeLayout searchLayout;
     //    SearchView search;
     MenuItem shoppingCart;
-    String text;
     DrawerLayout drawer;
     NavigationView navigationView, navigationView2;
 
@@ -305,16 +300,14 @@ public class MainActivity extends AppCompatActivity
         Log.e("AdapterSet", "Adapter Set Success");
 
         // for Items
-        Log.e("DataListPopulated", "Data list populated");
+        Log.e("ItemDataListPopulated", "Item Data list populated");
         itemAdapter = new ItemAdapter(newArrivalList);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getApplicationContext()
                         ,LinearLayoutManager.HORIZONTAL,false);
-//        RecyclerView.LayoutManager mLayoutManager =
-//                new GridLayoutManager(context,2,LinearLayoutManager.HORIZONTAL,false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        Log.e("SettingAdapter", "Setting Adapter");
+        Log.e("SettingAdapterForItems", "Setting Adapter For Items");
         mRecyclerView.setAdapter(itemAdapter);
         Log.e("AdapterSet", "Adapter Set Success");
 
@@ -351,7 +344,8 @@ public class MainActivity extends AppCompatActivity
     private void loadDummyData() {
 
         String Item = "Item ";
-        String []price = {"$3000", "$2490", "$4965", "$3000", "$2490", "$4965"};
+        String []fullPrice = {"$3000", "$2490", "$4965", "$3000", "$2490", "$4965"};
+        String []discPrice = {"$2790", "$2360", "$4540", "$2810", "$2405", "$4884"};
         String []title = {"Woman", "Shoes", "Man", "Camera", "Clothing", "Child"};
         myCategoryImagesList = new ArrayList<>();
         myCategoryImagesList.add(R.drawable.bed0);
@@ -363,7 +357,7 @@ public class MainActivity extends AppCompatActivity
         int itemNo = 1;
         for (int i = 0; i < title.length; i++) {
 
-            MyItem data = new MyItem(""+itemNo, Item + itemNo, price[i]);
+            MyItem data = new MyItem(""+itemNo, Item + itemNo, discPrice[i], fullPrice[i]);
             Log.e("Question" + " " + itemNo,
                     "\nQuestion id = " + data.getItemId() +
                             " Question text = " + data.getItemTitle());

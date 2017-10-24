@@ -41,9 +41,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         MyItem data = dataList.get(position);
 //        holder.itemId.setText(data.getQuestionId());
         holder.itemTitle.setText(data.getItemTitle());
-        TextView tvPrice = holder.itemPrice;
-        tvPrice.setText(data.getItemPrice());
-        //.setText("<strike>"+data.getItemPrice()+"</strike>");
+        holder.itemPriceDisc.setText(data.getItemPriceDisc());
+        TextView tvPrice = holder.itemPriceFull;
+        tvPrice.setText(data.getItemPriceFull());
+        // set StrikeThrough to textView
         tvPrice.setPaintFlags(tvPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
     }
 
@@ -54,13 +55,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView itemId, itemTitle, itemPrice;
+        public TextView itemId, itemTitle, itemPriceFull, itemPriceDisc;
         public LinearLayout customLinearLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            itemPrice = (TextView) itemView.findViewById(R.id.disc_price);
             itemTitle = (TextView) itemView.findViewById(R.id.item_title);
+            itemPriceDisc = (TextView) itemView.findViewById(R.id.disc_price);
+            itemPriceFull = (TextView) itemView.findViewById(R.id.full_price);
             customLinearLayout = (LinearLayout) itemView.findViewById(R.id.custom_item_layout);
             customLinearLayout.getLayoutParams().width = (int) (Utils.getScreenWidth(itemView.getContext()) / 2-4);
 //            customLinearLayout.getLayoutParams().height = (int) (Utils.getScreenWidth(itemView.getContext()) / 2);

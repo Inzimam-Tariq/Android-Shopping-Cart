@@ -29,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void initViews() {
 //        toolbar = (Toolbar) findViewById(R.id.toolbar_login);
         rgNewsletter = (RadioGroup)findViewById(R.id.newsletterRadioGroup);
-        rgNewsletter.check(R.id.rbNo);
+        rgNewsletter.check(R.id.rbYes);
     }
 
     public void onClickHaveAccount(View view) {

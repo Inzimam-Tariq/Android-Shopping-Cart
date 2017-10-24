@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 //                passET.setInputType(InputType.TYPE_CLASS_TEXT |
 //                InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                utils.showToast("Checked = "+isChecked);
+//                utils.showToast("Checked = "+isChecked);
                 if(isChecked) {
                     passET.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 } else {
