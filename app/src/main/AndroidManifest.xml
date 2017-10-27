@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".SplashActivity"
+            android:name="com.qemasoft.alhabibshop.view.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,24 +21,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name="com.qemasoft.alhabibshop.view.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".JSONDataViewer"
-            android:label="@string/title_activity_json_viewer"
+            android:name="com.qemasoft.alhabibshop.view.ShowItems"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".RecyclerViewTest"
-            android:label="@string/title_activity_recycler_view_test"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ShowItems"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AboutUs" />
-        <activity android:name=".ContactUs"></activity>
     </application>
 
 </manifest>

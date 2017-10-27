@@ -21,11 +21,17 @@
     <string name="nav_head_small_text">Get Everything at Discounted Price</string>
 
     <string name="forgot_pass"><u>Forgot Password?</u></string>
+    <string name="privacy_policy_text"><u>Privacy Policy</u></string>
     <string name="sign_up"><u><i>Sign Up</i></u></string>
-    <string name="have_account"><u><i>If you have an account, Click here!</i></u></string>
+    <string name="do_not_have_account"><i>Don\'t have an account?</i></string>
+    <string name="register"><u>Register</u></string>
+    <string name="have_account"><i>If you have an account, </i></string>
+    <string name="click_here"> <u>Click here!</u></string>
+    <string name="privacy_policy_statement"><i>I have read and agree to the,</i></string>
     <string name="your_string_here">This is an &lt;u>underline&lt;/u>.</string>
 
     <string name="action_search">Search</string>
+    <string name="forgot_pass_text">Forgot Your Password?</string>
     <string name="title_activity_recycler_view_test">Recycler View Test</string>
     <string name="title_activity_json_viewer">JSON Viewer Activity</string>
     <string name="dummy_text">Opencart is an easy to-use, powerful, Open Source online store management program that can manage multiple online stores from a single back-end. Administrative area simply by filling in forms and clicking “Save”. There are many professionally-written extensions available to customize the store to your needs.\n\n

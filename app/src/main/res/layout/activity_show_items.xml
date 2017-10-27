@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="hostflippa.com.opencart_android.ShowItems">
+    tools:context="com.qemasoft.alhabibshop.view.ShowItems">
 
-    <include layout="@layout/actionbar_layout" />
+    <!--<include layout="@layout/actionbar_layout" />-->
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,6 +21,11 @@
                 android:layout_width="fill_parent"
                 android:layout_height="120dp"
                 android:layout_margin="1dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:focusedByDefault="true"/>
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/pager"
