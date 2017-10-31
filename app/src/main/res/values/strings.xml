@@ -39,4 +39,19 @@
 An OpenCart store can be ready to take orders soon after installation. All you have to do is have it installed for you (any web hosts do it for free), select a template form the many free or low-cost template sites, and your product descriptions and photos, click a few settings, and you are ready to begin accepting orders. Our free Installation &amp; Quick Start chapters show you how.\n
 
 The public side or “Storefront” of OpenCart looks very professional and ready to sell almost as soon as it is installed.</string>
+
+    <string-array name="qty_nums">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+    </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
+
 </resources>

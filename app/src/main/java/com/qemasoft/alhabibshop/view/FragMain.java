@@ -14,18 +14,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.qemasoft.alhabibshop.controller.CategoryAdapter;
+import com.qemasoft.alhabibshop.controller.ItemAdapter;
+import com.qemasoft.alhabibshop.controller.MyPagerAdapter;
+import com.qemasoft.alhabibshop.model.MyCategory;
+import com.qemasoft.alhabibshop.model.MyItem;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.qemasoft.alhabibshop.controller.CategoryAdapter;
-import com.qemasoft.alhabibshop.controller.ItemAdapter;
-import com.qemasoft.alhabibshop.model.MyCategory;
-import com.qemasoft.alhabibshop.model.MyItem;
-import com.qemasoft.alhabibshop.controller.MyPagerAdapter;
 import hostflippa.com.opencart_android.R;
 import me.relex.circleindicator.CircleIndicator;
+
+import static com.qemasoft.alhabibshop.view.MainActivity.KEY_EXTRA;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -62,11 +65,25 @@ public class FragMain extends Fragment {
         initViews(view);
         this.context = getContext();
 
+
         loadDummyData();
         setupSlider();
         setAdaptersAndData();
 
+        loadData();
+
         return view;
+    }
+
+    private void loadData() {
+        String response = "";
+        if (getActivity().getIntent().hasExtra(KEY_EXTRA)) {
+            response = getActivity().getIntent().getStringExtra(KEY_EXTRA);
+            Log.e("ResponseInMainFrag", response);
+        } else {
+            Log.e("ResponseExMainFrag", response);
+            throw new IllegalArgumentException("Activity cannot find  extras " + KEY_EXTRA);
+        }
     }
 
     private void initViews(View view) {

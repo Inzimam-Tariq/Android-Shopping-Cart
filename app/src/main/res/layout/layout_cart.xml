@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:grid="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/outline" />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/card_corner_radius"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="true">
+
+        <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:orientation="vertical"-->
+        <!--android:padding="5dp">-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/cam1" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    grid:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="Cannon Siko 5D" />
+
+                <TextView
+                    android:id="@+id/unit_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    grid:layout_columnWeight="1"
+                    android:gravity="end"
+                    android:layout_gravity="fill_horizontal"
+                    android:text="unit price" />
+
+                <EditText
+                    android:id="@+id/qty_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    grid:layout_columnWeight="1"
+                    android:gravity="center"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:text="1" />
+
+                <TextView
+                    android:id="@+id/sub_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    grid:layout_columnWeight="1"
+                    android:gravity="end"
+                    android:layout_gravity="fill_horizontal"
+                    android:layout_marginTop="15dp"
+                    android:text="unit price" />
+
+            </GridLayout>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

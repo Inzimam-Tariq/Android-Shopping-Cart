@@ -7,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import hostflippa.com.opencart_android.R;
 import com.qemasoft.alhabibshop.Utils;
+
+import hostflippa.com.opencart_android.R;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -36,7 +37,9 @@ public class FragEditAccount extends Fragment {
         editAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                utils.showAlertDialog("Information Saved!", "You Changed Account Information Successfully");
+                utils.showAlertDialog("Information Saved!",
+                        "You Changed Account Information Successfully");
+                ((MainActivity)getActivity()).changeFragment(0);
             }
         });
 

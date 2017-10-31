@@ -41,6 +41,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/have_account" />
                     <TextView
+                        android:id="@+id/login_tv_in_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/click_here" />
@@ -221,7 +222,7 @@
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/loginBtn"
+                    android:id="@+id/registerBtn"
                     style="@style/CustomButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"

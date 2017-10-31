@@ -93,7 +93,7 @@
                     android:textColorHint="@android:color/darker_gray" />
 
                 <Button
-                    android:id="@+id/loginBtn"
+                    android:id="@+id/submitContactBtn"
                     style="@style/CustomButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"

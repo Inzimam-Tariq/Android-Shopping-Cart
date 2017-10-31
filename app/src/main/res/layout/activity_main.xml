@@ -13,15 +13,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/nav_view"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="start"-->
+        <!--android:layout_marginTop="?attr/actionBarSize"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--app:headerLayout="@layout/nav_header_main_left"-->
+        <!--app:menu="@menu/activity_main_drawer_left" />-->
+
+    <LinearLayout
+        android:id="@+id/menu_droite"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
         android:layout_marginTop="?attr/actionBarSize"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main_left"
-        app:menu="@menu/activity_main_drawer_left" />
+        android:orientation="vertical"
+        android:layout_gravity="start"
+        android:background="@android:color/white">
+        <include layout="@layout/nav_header_main_left"/>
+
+        <!-- List menu -->
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:groupIndicator="@null"
+            android:choiceMode="singleChoice"
+            android:divider="@color/outline"
+            android:dividerHeight="1dp" />
+        <!--android:listSelector="#d1d3d4"-->
+
+    </LinearLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view2"
@@ -32,5 +55,5 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main_right"
         app:menu="@menu/activity_main_drawer_right" />
-    <!--app:headerLayout="@layout/nav_header_main_right"-->
+    app:headerLayout="@layout/nav_header_main_right"
 </android.support.v4.widget.DrawerLayout>

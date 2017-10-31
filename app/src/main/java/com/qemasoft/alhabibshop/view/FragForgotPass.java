@@ -7,8 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import hostflippa.com.opencart_android.R;
 import com.qemasoft.alhabibshop.Utils;
+
+import hostflippa.com.opencart_android.R;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -35,6 +36,7 @@ public class FragForgotPass extends Fragment {
                 Utils utils = new Utils(getContext());
                 utils.showAlertDialog("Confirmation Message!",
                         "A Password Reset Link Has Been Sent To Your Email");
+                ((MainActivity)getActivity()).changeFragment(0);
             }
         });
 
