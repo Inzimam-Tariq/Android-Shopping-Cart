@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,9 +13,9 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardUseCompatPadding="true"
             app:cardCornerRadius="@dimen/card_corner_radius"
-            app:cardElevation="1dp">
+            app:cardElevation="1dp"
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -30,13 +29,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:text="Contact Us" />
+                    android:text="@string/contact_us_text" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Your Name" />
+                    android:text="@string/your_name_text" />
 
                 <EditText
                     android:id="@+id/nameET"
@@ -44,13 +43,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:hint="enter your name"
+                    android:hint="@string/your_name_hint"
                     android:textColorHint="@android:color/darker_gray" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="E-Mail Address" />
+                    android:text="@string/email_text" />
 
                 <EditText
                     android:id="@+id/emailET"
@@ -58,14 +58,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:hint="please enter your email id"
+                    android:hint="@string/email_hint"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Phone #" />
+                    android:text="@string/phone_text" />
 
                 <EditText
                     android:id="@+id/contactET"
@@ -73,13 +73,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:hint="enter your phone #"
+                    android:hint="@string/phone_hint"
                     android:textColorHint="@android:color/darker_gray" />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Inquiry" />
+                    android:text="@string/inquiry_text" />
 
                 <EditText
                     android:id="@+id/inquiryET"
@@ -87,9 +88,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_marginBottom="20dp"
-                    android:inputType="text|textMultiLine"
                     android:gravity="top"
-                    android:hint="enter your inquiry here"
+                    android:hint="@string/inquiry_hint_"
+                    android:inputType="text|textMultiLine"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <Button
@@ -98,8 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:onClick="onCLickContactSubmit"
-                    android:text="Submit" />
+                    android:text="@string/submit_text" />
 
             </LinearLayout>
 

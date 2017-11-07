@@ -37,8 +37,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        this.context = getApplicationContext();
-        this.utils = new Utils(context);
+        context = getApplicationContext();
+        this.utils = new Utils(this);
         AndroidNetworking.initialize(context);
 
         if (utils.isNetworkConnected()) {
@@ -76,7 +76,7 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            utils.showInternetErrorDialog();
+            utils.showAlertDialogTurnWifiOn();
         }
 
 //        new Handler().postDelayed(new Runnable() {

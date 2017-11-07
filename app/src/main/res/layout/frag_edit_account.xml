@@ -29,13 +29,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:text="Edit Account" />
+                    android:text="@string/edit_account_text" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="First Name" />
+                    android:text="@string/first_name_text" />
 
                 <EditText
                     android:id="@+id/fNameET"
@@ -43,14 +43,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:hint="first name"
+                    android:hint="@string/first_name_hint"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Last Name" />
+                    android:text="@string/last_name_text" />
 
                 <EditText
                     android:id="@+id/lName"
@@ -58,14 +58,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:hint="last name"
+                    android:hint="@string/last_name_hint"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="E-Mail Address" />
+                    android:text="@string/email_text" />
 
                 <EditText
                     android:id="@+id/emailET"
@@ -73,14 +73,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:hint="please enter your email id"
+                    android:hint="@string/email_hint"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Contact #" />
+                    android:text="@string/phone_text" />
 
                 <EditText
                     android:id="@+id/contactET"
@@ -88,7 +88,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:hint="contact #"
+                    android:hint="@string/phone_hint"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <Button
@@ -97,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:text="Continue" />
+                    android:text="@string/continue_text" />
 
             </LinearLayout>
 

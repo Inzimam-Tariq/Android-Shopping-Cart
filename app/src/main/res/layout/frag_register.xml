@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
-                    android:text="Sign Up" />
+                    android:text="@string/action_register_text" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -71,6 +71,7 @@
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
                     android:hint="first name"
+                    android:maxLength="32"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
@@ -86,6 +87,7 @@
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
                     android:hint="last name"
+                    android:maxLength="32"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
@@ -101,6 +103,7 @@
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
                     android:hint="please enter your email id"
+                    android:maxLength="96"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
@@ -116,6 +119,7 @@
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
                     android:hint="contact #"
+                    android:maxLength="32"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
@@ -142,6 +146,7 @@
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
                     android:hint="password"
+                    android:maxLength="32"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
@@ -157,6 +162,7 @@
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
                     android:hint="confirm password"
+                    android:maxLength="32"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <TextView
@@ -205,6 +211,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
+                        android:id="@+id/terms_cb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="10sp"
@@ -216,7 +223,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginLeft="5dp"
-                        android:text="@string/privacy_policy_text"
+                        android:layout_marginStart="5dp"
+                        android:text="@string/privacy_policy_text_u"
                         android:textColor="@android:color/holo_blue_dark" />
 
                 </LinearLayout>
@@ -227,7 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:text="Register" />
+                    android:text="@string/action_register_text" />
 
             </LinearLayout>
 

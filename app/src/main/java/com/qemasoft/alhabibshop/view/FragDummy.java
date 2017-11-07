@@ -3,19 +3,13 @@ package com.qemasoft.alhabibshop.view;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.qemasoft.alhabibshop.controller.MyPagerAdapter;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import hostflippa.com.opencart_android.R;
 import me.relex.circleindicator.CircleIndicator;
@@ -48,7 +42,7 @@ public class FragDummy extends Fragment {
         initViews(view);
         this.context = getContext();
 
-        setupSlider();
+//        setupSlider();
 
         return view;
     }
@@ -63,31 +57,31 @@ public class FragDummy extends Fragment {
 
     }
 
-    private void setupSlider() {
-        Collections.addAll(XMENArray, XMEN);
-
-
-        mPager.setAdapter(new MyPagerAdapter(context, XMENArray));
-
-        indicator.setViewPager(mPager);
-
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == XMEN.length) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 2500, 2500);
-    }
+//    private void setupSlider() {
+//        Collections.addAll(XMENArray, XMEN);
+//
+//
+//        mPager.setAdapter(new MyPagerAdapter(context, XMENArray));
+//
+//        indicator.setViewPager(mPager);
+//
+//        // Auto start of viewpager
+//        final Handler handler = new Handler();
+//        final Runnable Update = new Runnable() {
+//            public void run() {
+//                if (currentPage == XMEN.length) {
+//                    currentPage = 0;
+//                }
+//                mPager.setCurrentItem(currentPage++, true);
+//            }
+//        };
+//        Timer swipeTimer = new Timer();
+//        swipeTimer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                handler.post(Update);
+//            }
+//        }, 2500, 2500);
+//    }
 
 }

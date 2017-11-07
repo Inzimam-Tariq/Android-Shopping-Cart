@@ -9,8 +9,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -30,8 +32,8 @@ import java.util.regex.Pattern;
  */
 
 public class Utils {
-    private Context mContext;
     public static int subTotalDummy = 0;
+    private Context mContext;
 
     public Utils(Context mContext) {
         this.mContext = mContext;
@@ -294,7 +296,8 @@ public class Utils {
         alertDialog.show();
 
     }
-    public void showAlertDialog(String title,String msg) {
+
+    public void showAlertDialog(String title, String msg) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(title)
@@ -302,6 +305,47 @@ public class Utils {
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                    }
+                });
+        // Create the AlertDialog object and return it
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    public AlertDialog showAlertDialogReturnDialog(String title, String msg) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle(title)
+                .setMessage(msg);
+
+        // Create the AlertDialog object and return it
+
+        return builder.create();
+    }
+
+    public void showAlertDialogTurnWifiOn() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle("Enable Internet")
+                .setMessage("It seems you have no internet connection, To turn on wifi press Wifi" +
+                        " or Goto settings")
+                .setPositiveButton("Wifi", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        WifiManager wifiManager = (WifiManager) mContext.getApplicationContext()
+                                .getSystemService(Context.WIFI_SERVICE);
+                        if (!wifiManager.isWifiEnabled()) {
+                            wifiManager.setWifiEnabled(true);
+//                        } else if (wifiManager.isWifiEnabled()) {
+//                            wifiManager.setWifiEnabled(false);
+                        }
+                    }
+                })
+                .setNegativeButton("Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ((AppCompatActivity)mContext).startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
                     }
                 });
         // Create the AlertDialog object and return it

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:grid="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:grid="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <View
@@ -18,13 +18,6 @@
         app:cardCornerRadius="@dimen/card_corner_radius"
         app:cardElevation="0dp"
         app:cardUseCompatPadding="true">
-
-        <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:orientation="vertical"-->
-        <!--android:padding="5dp">-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,39 +39,39 @@
                     android:id="@+id/product_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    grid:layout_columnWeight="1"
-                    android:gravity="center"
                     android:layout_gravity="fill_horizontal"
-                    android:text="Cannon Siko 5D" />
+                    android:gravity="center"
+                    android:text="Cannon Siko 5D"
+                    grid:layout_columnWeight="1" />
 
                 <TextView
                     android:id="@+id/unit_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    grid:layout_columnWeight="1"
-                    android:gravity="end"
                     android:layout_gravity="fill_horizontal"
-                    android:text="unit price" />
+                    android:gravity="end"
+                    android:text="unit price"
+                    grid:layout_columnWeight="1" />
 
                 <EditText
                     android:id="@+id/qty_spinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    grid:layout_columnWeight="1"
-                    android:gravity="center"
                     android:layout_gravity="fill_horizontal"
                     android:layout_marginTop="15dp"
-                    android:text="1" />
+                    android:gravity="center"
+                    android:text="1"
+                    grid:layout_columnWeight="1" />
 
                 <TextView
                     android:id="@+id/sub_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    grid:layout_columnWeight="1"
-                    android:gravity="end"
                     android:layout_gravity="fill_horizontal"
                     android:layout_marginTop="15dp"
-                    android:text="unit price" />
+                    android:gravity="end"
+                    android:text="unit price"
+                    grid:layout_columnWeight="1" />
 
             </GridLayout>
 

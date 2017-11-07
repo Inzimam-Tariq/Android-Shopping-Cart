@@ -19,13 +19,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.qemasoft.alhabibshop.Preferences;
 import com.qemasoft.alhabibshop.Utils;
+import com.qemasoft.alhabibshop.controller.ExpandableListAdapter;
 import com.qemasoft.alhabibshop.model.MenuCategory;
 import com.qemasoft.alhabibshop.model.MenuSubCategory;
 
@@ -39,27 +40,45 @@ import java.util.List;
 
 import hostflippa.com.opencart_android.R;
 
+import static com.qemasoft.alhabibshop.AppConstants.LOGIN_KEY;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String KEY_EXTRA = "com.qemasoft.alhabibshop.shopping_cart" + "menuCategoriesData";
-
+    ArrayList<Integer> loggedInIconList = new ArrayList<Integer>() {{
+        add(R.drawable.ic_dashboard_black);
+        add(R.drawable.ic_edit_black);
+        add(R.drawable.ic_vpn_key_black);
+        add(R.drawable.ic_add_shopping_cart_black);
+        add(R.drawable.ic_exit_to_app_black);
+        add(R.drawable.ic_language_black);
+        add(R.drawable.ic_attach_money_black);
+        add(R.drawable.ic_email_black);
+        add(R.drawable.ic_more_vert_black);
+    }};
+    ArrayList<Integer> NotLoggedInIconList = new ArrayList<Integer>() {{
+        add(R.drawable.ic_lock_black);
+        add(R.drawable.ic_person_add_black);
+        add(R.drawable.ic_language_black);
+        add(R.drawable.ic_attach_money_black);
+        add(R.drawable.ic_email_black);
+        add(R.drawable.ic_more_vert_black);
+    }};
     private Toolbar toolbar;
     private Context context;
     private SearchView searchView;
     private MenuItem shoppingCart;
     private DrawerLayout drawer;
-    private NavigationView navigationView, navigationView2;
     private Utils utils;
-
     // code from Main2Activity
-    private ExpandableListView listView;
+    private ExpandableListView listViewExpLeft, listViewExpRight;
     private ExpandableListAdapter listAdapter;
-    private List<String> dataListHeader;
-    private HashMap<String, List<String>> listHashMap;
-    private List<String> headerList;
-    private HashMap<String, List<MenuSubCategory>> childList;
-
+    private List<String> headerListRight;
+    private HashMap<String, List<MenuSubCategory>> hashMapRight;
+    private List<String> headerListLeft;
+    private HashMap<String, List<MenuSubCategory>> hashMapLeft;
+    private boolean isLoggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +89,26 @@ public class MainActivity extends AppCompatActivity
         this.utils = new Utils(this);
         setSupportActionBar(toolbar);
         decorateToolbar();
+        checkIsLoggedIn();
+
 
         loadData();
 //        Log.e("DataLoadingMethodCalled","Success");
 //        setupSearchView();
 
         initData();
-        listAdapter = new ExpandableListAdapter(this, headerList, childList);
-        listView.setAdapter(listAdapter);
+        listAdapter = new ExpandableListAdapter(headerListLeft, hashMapLeft,
+                false, isLoggedIn, loggedInIconList);
+        listViewExpLeft.setAdapter(listAdapter);
+        if (isLoggedIn) {
+            listAdapter = new ExpandableListAdapter(headerListRight, hashMapRight,
+                    true, isLoggedIn, loggedInIconList);
+        } else {
+            listAdapter = new ExpandableListAdapter(headerListRight, hashMapRight,
+                    true, isLoggedIn, NotLoggedInIconList);
+        }
+        listViewExpRight.setAdapter(listAdapter);
+
         enableSingleSelection();
         setExpandableListViewClickListener();
         setExpandableListViewChildClickListener();
@@ -88,26 +119,63 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-//        navigationView.setNavigationItemSelectedListener(this);
-        navigationView2.setNavigationItemSelectedListener(this);
+//        navigationView2.setNavigationItemSelectedListener(this);
+    }
+
+    private void checkIsLoggedIn() {
+        isLoggedIn = Preferences.getSharedPreferenceBoolean(getApplicationContext(), LOGIN_KEY, false);
+
+    }
+    private void clearLoginSession() {
+        Preferences.setSharedPreferenceBoolean(getApplicationContext(), LOGIN_KEY, false);
+        isLoggedIn = Preferences.getSharedPreferenceBoolean(getApplicationContext(), LOGIN_KEY, false);
+
     }
 
     private void setExpandableListViewClickListener() {
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewExpRight.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition,
+                                        long id) {
 
+                Log.e("GroupClicked", " Id = " + id);
+
+//                int count = listAdapter.getChildrenCount(groupPosition);
+                int childCount = parent.getExpandableListAdapter().getChildrenCount(groupPosition);
+                if (!isLoggedIn) {
+                    if (childCount < 1) {
+                        if (groupPosition == 0) {
+                            changeFragment(101);
+                        } else if (groupPosition == 1) {
+                            changeFragment(102);
+                        } else if (groupPosition == 2) {
+                            changeFragment(201);
+                        } else if (groupPosition == 3) {
+//                            changeFragment(103);
+                        } else if (groupPosition == 4) {
+                            changeFragment(109);
+                        }
+                        drawer.closeDrawer(GravityCompat.END);
+                    }
+                } else {
+                    if (childCount < 1) {
+                        changeFragment(103 + groupPosition);
+                        drawer.closeDrawer(GravityCompat.END);
+                    }
+                }
+
+                return false;
             }
         });
     }
 
     private void setExpandableListViewChildClickListener() {
-        listView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        listViewExpLeft.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
                 Log.e("InsideChildClick", " GP = " + groupPosition + " CP = " + childPosition);
-                changeFragment(1);
+                changeFragment(5);
 
                 drawer.closeDrawer(GravityCompat.START);
                 return true;
@@ -129,7 +197,6 @@ public class MainActivity extends AppCompatActivity
 
     private void setupSearchView() {
 
-//        search.setSearchableInfo(manager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -148,16 +215,15 @@ public class MainActivity extends AppCompatActivity
     private void initViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        listView = (ExpandableListView) findViewById(R.id.lvExp);
-//        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView2 = (NavigationView) findViewById(R.id.nav_view2);
+        listViewExpLeft = (ExpandableListView) findViewById(R.id.expandable_lv_left);
+        listViewExpRight = (ExpandableListView) findViewById(R.id.expandable_lv_right);
 
         searchView = (SearchView) findViewById(R.id.search_view);
     }
 
     @Override
     public void onBackPressed() {
-//        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else if (drawer.isDrawerOpen(GravityCompat.END)) {
@@ -183,10 +249,9 @@ public class MainActivity extends AppCompatActivity
         notifCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shoppingCart.setVisible(false);
-                shoppingCart.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM |
-                        MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-                invalidateOptionsMenu();
+
+//                startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+//                        Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
             }
         });
         // End Notification counter functionality
@@ -216,7 +281,6 @@ public class MainActivity extends AppCompatActivity
             }
             return true;
         }
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         drawer.closeDrawer(GravityCompat.END);
 
@@ -231,7 +295,7 @@ public class MainActivity extends AppCompatActivity
         boolean isRight = false;
 
         if (id == R.id.nav_women) {
-            // Handle the camera action
+// Handle the camera action
             changeFragment(0);
         } else if (id == R.id.nav_men) {
             changeFragment(3);
@@ -306,6 +370,9 @@ public class MainActivity extends AppCompatActivity
             case 4:
                 fragment = new FragCartDetail();
                 break;
+            case 5:
+                fragment = new FragCategories();
+                break;
             case 101:
                 fragment = new FragLogin();
                 break;
@@ -313,27 +380,40 @@ public class MainActivity extends AppCompatActivity
                 fragment = new FragRegister();
                 break;
             case 103:
-                fragment = new FragEditAccount();
+                fragment = new Dashboard();
                 break;
             case 104:
-                fragment = new FragOrderHistory();
+                fragment = new FragEditAccount();
                 break;
             case 105:
                 fragment = new FragForgotPass();
                 break;
             case 106:
-                fragment = new FragOrderDetail();
+                fragment = new FragOrderHistory();
+                break;
+            case 107:
+                // Clear Login Session
+                clearLoginSession();
+                recreate();
                 break;
             case 108:
-                fragment = new FragAboutUs();
-                break;
-            case 109:
-                fragment = new FragContactUs();
-                break;
-            case 110:
                 fragment = new FragMain();
                 break;
-
+            case 109:
+                fragment = new FragMain();
+                break;
+            case 110:
+                fragment = new FragContactUs();
+                break;
+            case 111:
+                fragment = new FragAboutUs();
+                break;
+            case 112:
+                fragment = new FragOrderDetail();
+                break;
+            case 201:
+                fragment = new FragSlider();
+                break;
         }
 
         transaction.replace(R.id.flFragments, fragment);
@@ -341,54 +421,61 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initData() {
-        dataListHeader = new ArrayList<>();
-        listHashMap = new HashMap<>();
+        headerListRight = new ArrayList<>();
+        hashMapRight = new HashMap<>();
 
-        dataListHeader.add("EDMTDev");
-        dataListHeader.add("Android");
-        dataListHeader.add("Xamarin");
-        dataListHeader.add("UWP");
-//        dataListHeader.add("EDMTDev");
-        List<String> edmtDev = new ArrayList<>();
-        edmtDev.add("This is an Expandable ListView");
-        List<String> androidStudio = new ArrayList<>();
-        androidStudio.add("Expandable ListView");
-        androidStudio.add("Google Maps");
-        androidStudio.add("Chat Application");
-        androidStudio.add("Firebase");
-        List<String> xamarin = new ArrayList<>();
-        xamarin.add("xamarin Expandable ListView");
-        xamarin.add("xamarin Google Maps");
-        xamarin.add("xamarin Chat Application");
-        xamarin.add("xamarin Firebase");
-        List<String> uwp = new ArrayList<>();
-        uwp.add("uwp Expandable ListView");
-        uwp.add("uwp Google Maps");
-        uwp.add("uwp Chat Application");
-        uwp.add("uwp Firebase");
+        List<MenuSubCategory> menuSubCategories = new ArrayList<>();
+        menuSubCategories.add(new MenuSubCategory("1", "About Us"));
+        menuSubCategories.add(new MenuSubCategory("2", "Privacy Policy"));
+        menuSubCategories.add(new MenuSubCategory("3", "Child three"));
+        menuSubCategories.add(new MenuSubCategory("4", "Child Four"));
 
-        listHashMap.put(dataListHeader.get(0), edmtDev);
-        listHashMap.put(dataListHeader.get(1), androidStudio);
-        listHashMap.put(dataListHeader.get(2), xamarin);
-        listHashMap.put(dataListHeader.get(3), uwp);
+        String[] notLoggedInMenu = {"Login", "Register",
+                "Language", "Currency", "Contact Us", "Information..."};
+        String[] loggedInMenu = {"Dashboard", "Edit Account", "Change Password", "Order History", "Logout",
+                "Language", "Currency", "Contact Us", "Information..."};
+
+        if (isLoggedIn) {
+            for (int i = 0; i < loggedInMenu.length; i++) {
+                headerListRight.add(loggedInMenu[i]);
+                if (i < loggedInMenu.length - 1) {
+                    hashMapRight.put(headerListRight.get(i), new ArrayList<MenuSubCategory>());
+                } else {
+                    hashMapRight.put(headerListRight.get(i), menuSubCategories);
+                }
+            }
+        } else {
+            for (int i = 0; i < notLoggedInMenu.length; i++) {
+                headerListRight.add(notLoggedInMenu[i]);
+                if (i < notLoggedInMenu.length - 1) {
+                    hashMapRight.put(headerListRight.get(i), new ArrayList<MenuSubCategory>());
+                } else {
+                    hashMapRight.put(headerListRight.get(i), menuSubCategories);
+                    Log.e("WorkingSubListRight", menuSubCategories.toString());
+                }
+            }
+        }
+
+//        Log.e("HashMapEntry", "Data Entered Successfully \n"
+//                + menuSubCategories.get(0).getMenuSubCategoryName());
     }
 
     private void enableSingleSelection() {
-        listView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+        listViewExpLeft.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
 
             @Override
             public void onGroupExpand(int groupPosition) {
                 if (groupPosition != previousGroup)
-                    listView.collapseGroup(previousGroup);
+                    listViewExpLeft.collapseGroup(previousGroup);
                 previousGroup = groupPosition;
             }
         });
     }
 
     private void loadData() {
-        headerList = new ArrayList<>();
-        childList = new HashMap<>();
+        headerListLeft = new ArrayList<>();
+        hashMapLeft = new HashMap<>();
         String responseStr = "";
         if (getIntent().hasExtra(KEY_EXTRA)) {
             responseStr = getIntent().getStringExtra(KEY_EXTRA);
@@ -416,8 +503,8 @@ public class MainActivity extends AppCompatActivity
                             }
                             MenuCategory menuCategory = new MenuCategory(menuCategoryObj.optString(
                                     "category_id"), menuCategoryObj.optString("name"), childMenuList);
-                            headerList.add(menuCategory.getMenuCategoryName());
-                            childList.put(headerList.get(i), menuCategory.getMenuSubCategory());
+                            headerListLeft.add(menuCategory.getMenuCategoryName());
+                            hashMapLeft.put(headerListLeft.get(i), menuCategory.getMenuSubCategory());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -426,7 +513,6 @@ public class MainActivity extends AppCompatActivity
                     utils.showErrorDialog("Error Getting Data From Server");
                     Log.e("SuccessFalse", "Within getCategories");
                 }
-//                Toast.makeText(context,""+responseObject.optString("success"),Toast.LENGTH_LONG).show();
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e("JSONObjEx_MainAct", responseStr);

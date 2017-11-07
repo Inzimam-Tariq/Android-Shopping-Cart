@@ -5,6 +5,7 @@ android {
     buildToolsVersion "26.0.2"
     defaultConfig {
         applicationId 'com.qemasoft.alhabibshop.shopping_cart'
+        vectorDrawables.useSupportLibrary = true
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
@@ -39,5 +40,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.2.0'
     compile 'com.android.support:support-v4:26.+'
     compile 'me.relex:circleindicator:1.2.2@aar'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'junit:junit:4.12'
 }

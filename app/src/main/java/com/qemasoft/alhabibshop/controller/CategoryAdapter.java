@@ -1,7 +1,6 @@
 package com.qemasoft.alhabibshop.controller;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +24,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     public CategoryAdapter(List<MyCategory> dataList) {
         this.dataList = dataList;
-        Log.e("Constructor", "Working");
-        Log.e("Constructor", "DataList Size = " + dataList.size());
+//        Log.e("Constructor", "Working");
+//        Log.e("Constructor", "DataList Size = " + dataList.size());
     }
 
     @Override
@@ -34,14 +33,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_category, parent, false);
-        Log.e("LayoutInflated", "Working");
+//        Log.e("LayoutInflated", "Working");
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.e("OnBIndMethod", "OnBind Working");
+//        Log.e("OnBIndMethod", "OnBind Working");
         MyCategory data = dataList.get(position);
 //        holder.itemId.setText(data.getQuestionId());
         holder.categoryTitle.setText(data.getCategoryTitle());
@@ -66,7 +65,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 //            customLinearLayout = (LinearLayout) itemView.findViewById(R.id.custom_item_layout);
 //            customLinearLayout.getLayoutParams().width = (int) (Utils.getScreenWidth(itemView.getContext()) / 2);
 //            customLinearLayout.getLayoutParams().height = (int) (Utils.getScreenWidth(itemView.getContext()) / 2);
-            Log.e("FindViewById", "Working");
+//            Log.e("FindViewById", "Working");
         }
     }
 }

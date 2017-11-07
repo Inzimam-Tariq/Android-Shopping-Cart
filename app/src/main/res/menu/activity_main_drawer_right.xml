@@ -29,7 +29,7 @@
             android:title="Language" />
         <item
             android:id="@+id/nav_currency"
-            android:icon="@drawable/ic_money"
+            android:icon="@drawable/ic_attach_money_black"
             android:title="Currency" />
         <item
             android:id="@+id/nav_about_us"
@@ -41,7 +41,7 @@
             android:title="Contact Us" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_logout"
+            android:icon="@drawable/ic_exit_to_app_black"
             android:title="Logout" />
     </group>
     <!--<item android:title="Communicate">-->

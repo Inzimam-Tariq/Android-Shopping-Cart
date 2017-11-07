@@ -23,6 +23,7 @@
         <item name="android:background">@drawable/search_selector</item>
         <item name="android:textColorHint">@color/colorAccent</item>
         <item name="android:paddingLeft">13dp</item>
+        <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">13sp</item>
         <item name="android:inputType">text</item>
@@ -47,7 +48,7 @@
 
     <style name="CustomTVStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
         <!-- Customize your theme here. -->
-        <item name="android:textStyle">bold</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
     </style>
 

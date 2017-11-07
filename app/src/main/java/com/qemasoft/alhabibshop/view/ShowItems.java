@@ -2,7 +2,6 @@ package com.qemasoft.alhabibshop.view;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,20 +10,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.androidnetworking.AndroidNetworking;
 import com.qemasoft.alhabibshop.controller.CategoryAdapter;
 import com.qemasoft.alhabibshop.controller.ItemAdapter;
 import com.qemasoft.alhabibshop.model.MyCategory;
-import com.qemasoft.alhabibshop.controller.MyPagerAdapter;
 import com.qemasoft.alhabibshop.model.MyItem;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import hostflippa.com.opencart_android.R;
-import me.relex.circleindicator.CircleIndicator;
 
 public class ShowItems extends AppCompatActivity {
 
@@ -45,12 +39,11 @@ public class ShowItems extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_items);
+        setContentView(R.layout.frag_main);
         initViews();
         this.context = this;
-        AndroidNetworking.initialize(getApplicationContext());
 
-        setupSlider();
+//        setupSlider();
         loadDummyData();
 //        loadData();
         setAdaptersAndData();
@@ -89,33 +82,33 @@ public class ShowItems extends AppCompatActivity {
 
     }
 
-    private void setupSlider() {
-        for(int i=0;i<XMEN.length;i++)
-            XMENArray.add(XMEN[i]);
-
-        mPager = (ViewPager) findViewById(R.id.pager);
-        mPager.setAdapter(new MyPagerAdapter(context,XMENArray));
-        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(mPager);
-
-        // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == XMEN.length) {
-                    currentPage = 0;
-                }
-                mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 2500, 2500);
-    }
+//    private void setupSlider() {
+//        for(int i=0;i<XMEN.length;i++)
+//            XMENArray.add(XMEN[i]);
+//
+//        mPager = (ViewPager) findViewById(R.id.pager);
+//        mPager.setAdapter(new MyPagerAdapter(context,XMENArray));
+//        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
+//        indicator.setViewPager(mPager);
+//
+//        // Auto start of viewpager
+//        final Handler handler = new Handler();
+//        final Runnable Update = new Runnable() {
+//            public void run() {
+//                if (currentPage == XMEN.length) {
+//                    currentPage = 0;
+//                }
+//                mPager.setCurrentItem(currentPage++, true);
+//            }
+//        };
+//        Timer swipeTimer = new Timer();
+//        swipeTimer.schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                handler.post(Update);
+//            }
+//        }, 2500, 2500);
+//    }
 
     private void loadDummyData() {
 

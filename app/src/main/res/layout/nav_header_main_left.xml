@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Browse by Category "
+            android:text="@string/browse_by_category_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>

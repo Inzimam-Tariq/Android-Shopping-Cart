@@ -28,7 +28,7 @@
                 style="@style/CustomTVHeadingStyleBlack"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Privacy Policy" />
+                android:text="@string/privacy_policy_text" />
 
             <TextView
                 android:layout_width="match_parent"

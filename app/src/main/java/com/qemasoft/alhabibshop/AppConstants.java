@@ -17,6 +17,8 @@ public class AppConstants {
     public static final String KEY_FOR_KEY = "KEY_VALUE";
     public static final String BASE_URL = "http://www.opencartgulf.com/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
+    public static final String LOGIN_KEY = "LOGIN_KEY";
+    public static final String CUSTOMER_KEY = "CUSTOMER_KEY";
     private static String MID_FIX_API;
 
     public static String getApiCallUrl(){
@@ -36,11 +38,22 @@ public class AppConstants {
 
         return sharedPref.getString(key, "");
     }
+    public static String GET_CUSTOMER_ID(String key) {
+        SharedPreferences sharedPref = appContext.getSharedPreferences(SECRET_KEY_FILE, 0);
 
-    public static void SET_KEY(String key, String value) {
+        return sharedPref.getString(key, "");
+    }
+
+    public static void SET_KEY(String secretKey, String secretKeyVal) {
         SharedPreferences settings = appContext.getSharedPreferences(SECRET_KEY_FILE, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putString(key, value);
+        editor.putString(secretKey, secretKeyVal);
+        editor.apply();
+    }
+    public static void SET_CUSTOMER_ID(String customerIdKey, String customerIdVal) {
+        SharedPreferences settings = appContext.getSharedPreferences(SECRET_KEY_FILE, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(customerIdKey, customerIdVal);
         editor.apply();
     }
 

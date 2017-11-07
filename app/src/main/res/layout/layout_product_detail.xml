@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="200dp"
-        android:focusableInTouchMode="true"
-        android:layout_margin="1dp">
+        android:layout_margin="1dp"
+        android:focusableInTouchMode="true">
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
@@ -26,64 +27,70 @@
         android:id="@+id/product_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:text="Nike Air MAG"
-        android:textSize="18sp"
-        android:layout_marginTop="15dp"/>
+        android:textSize="18sp" />
+
     <TextView
         android:id="@+id/product_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="Limited Edition Sneakers"
-        android:textSize="18sp"
-        android:layout_marginTop="10dp"/>
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal"
-        android:weightSum="2"
-        android:layout_marginTop="15dp">
+        android:weightSum="2">
+
         <RelativeLayout
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:padding="8dp">
+
             <TextView
                 android:id="@+id/product_price_disc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="$770.50"
                 android:gravity="center"
-                android:textSize="25sp"/>
+                android:text="$770.50"
+                android:textSize="25sp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$980.50 "
-                android:textSize="18sp"
-                android:layout_marginTop="7dp"
-                android:layout_below="@id/product_price_disc"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="24% OFF"
-                android:textSize="18sp"
-                android:layout_marginTop="7dp"
                 android:layout_below="@id/product_price_disc"
-                android:layout_alignParentRight="true"
+                android:layout_marginTop="7dp"
+                android:text="$980.50 "
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/product_price_disc"
+                android:layout_marginTop="7dp"
+                android:text="24% OFF"
                 android:textColor="@android:color/holo_red_dark"
-                />
+                android:textSize="18sp" />
         </RelativeLayout>
+
         <View
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:background="@color/outline" />
+
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:orientation="vertical"
             android:paddingTop="8dp">
 
@@ -91,40 +98,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_star_full"
-                    android:drawableStart="@drawable/ic_star_full"/>
+                    android:drawableStart="@drawable/ic_star_full" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_star_full"
-                    android:drawableStart="@drawable/ic_star_full"/>
+                    android:drawableStart="@drawable/ic_star_full" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_star_full"
-                    android:drawableStart="@drawable/ic_star_full"/>
+                    android:drawableStart="@drawable/ic_star_full" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_star_half"
-                    android:drawableStart="@drawable/ic_star_half"/>
+                    android:drawableStart="@drawable/ic_star_half" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_star_empty"
-                    android:drawableStart="@drawable/ic_star_empty"/>
+                    android:drawableStart="@drawable/ic_star_empty" />
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Based on 19 Views"
-                android:textSize="18sp"
                 android:layout_marginTop="7dp"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="Based on 19 Views"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -136,13 +148,12 @@
         style="@style/CustomButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="Add to Cart"
-        android:drawableLeft="@drawable/ic_cart_white"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:drawablePadding="-15dp"/>
-
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:drawableLeft="@drawable/ic_cart_white"
+        android:drawablePadding="-15dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:text="@string/add_to_cart_text" />
 
 
 </LinearLayout>

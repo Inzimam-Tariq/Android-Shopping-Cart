@@ -24,7 +24,7 @@
         <!--app:menu="@menu/activity_main_drawer_left" />-->
 
     <LinearLayout
-        android:id="@+id/menu_droite"
+        android:id="@+id/menu_left"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
@@ -33,11 +33,12 @@
         android:background="@android:color/white">
         <include layout="@layout/nav_header_main_left"/>
 
-        <!-- List menu -->
+        <!-- List menu Left-->
         <ExpandableListView
-            android:id="@+id/lvExp"
+            android:id="@+id/expandable_lv_left"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:groupIndicator="@null"
             android:choiceMode="singleChoice"
             android:divider="@color/outline"
@@ -46,14 +47,38 @@
 
     </LinearLayout>
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/menu_right"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="end"
         android:layout_marginTop="?attr/actionBarSize"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main_right"
-        app:menu="@menu/activity_main_drawer_right" />
-    app:headerLayout="@layout/nav_header_main_right"
+        android:orientation="vertical"
+        android:layout_gravity="end"
+        android:background="@android:color/white">
+        <include layout="@layout/nav_header_main_right"/>
+
+        <!-- List menu Left-->
+        <ExpandableListView
+            android:id="@+id/expandable_lv_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:groupIndicator="@null"
+            android:choiceMode="singleChoice"
+            android:divider="@color/outline"
+            android:dividerHeight="1dp" />
+        <!--android:listSelector="#d1d3d4"-->
+
+    </LinearLayout>
+
+    <!--<android.support.design.widget.NavigationView-->
+        <!--android:id="@+id/nav_view2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_gravity="end"-->
+        <!--android:layout_marginTop="?attr/actionBarSize"-->
+        <!--android:fitsSystemWindows="true"-->
+        <!--app:headerLayout="@layout/nav_header_main_right"-->
+        <!--app:menu="@menu/activity_main_drawer_right" />-->
+    <!--app:headerLayout="@layout/nav_header_main_right"-->
 </android.support.v4.widget.DrawerLayout>

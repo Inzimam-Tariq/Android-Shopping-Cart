@@ -13,9 +13,7 @@
         android:id="@+id/search_view"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
-        app:queryHint="search your deal here"
-        android:voiceSearchMode="showVoiceSearchButton|launchRecognizer">
-
-    </android.support.v7.widget.SearchView>
+        android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
+        app:queryHint="search your deal here" />
 
 </LinearLayout>

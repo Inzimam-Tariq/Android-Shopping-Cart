@@ -3,22 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    tools:context="com.qemasoft.alhabibshop.view.ShowItems">
+    android:orientation="vertical">
 
-    <!--<include layout="@layout/actionbar_layout" />-->
     <TextView
-        android:textSize="15sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Order History"
-        android:layout_marginLeft="8dp"/>
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/order_history_text"
+        android:textSize="15sp" />
 
-            <!--// Set Order History-->
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/order_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="vertical" />
+    <!--// Set Order History-->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/order_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 
 </LinearLayout>
