@@ -10,12 +10,14 @@ public class MenuCategory {
 
     private String menuCategoryId;
     private String menuCategoryName;
+    private String menuCategoryImage;
     private List<MenuSubCategory> menuSubCategory;
 
     public MenuCategory(String menuCategoryId, String menuCategoryName,
-                        List<MenuSubCategory> menuSubCategory) {
+                        String menuCategoryImage, List<MenuSubCategory> menuSubCategory) {
         this.menuCategoryId = menuCategoryId;
         this.menuCategoryName = menuCategoryName;
+        this.menuCategoryImage = menuCategoryImage;
         this.menuSubCategory = menuSubCategory;
     }
 
@@ -33,6 +35,14 @@ public class MenuCategory {
 
     public void setMenuCategoryName(String menuCategoryName) {
         this.menuCategoryName = menuCategoryName;
+    }
+
+    public String getMenuCategoryImage() {
+        return menuCategoryImage;
+    }
+
+    public void setMenuCategoryImage(String menuCategoryImage) {
+        this.menuCategoryImage = menuCategoryImage;
     }
 
     public List<MenuSubCategory> getMenuSubCategory() {

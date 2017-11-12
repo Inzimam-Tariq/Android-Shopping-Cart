@@ -1,6 +1,7 @@
 package com.qemasoft.alhabibshop.app;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,6 +35,7 @@ import java.util.regex.Pattern;
 public class Utils {
     public static int subTotalDummy = 0;
     private Context mContext;
+    private ProgressDialog progressBar;
 
     public Utils(Context mContext) {
         this.mContext = mContext;
@@ -155,6 +157,8 @@ public class Utils {
         return null;
     }
 
+    //Cache functions
+
     public File convertBitmapToFile(Bitmap bitmap, String filename) {
         //create a file to write bitmap data
         File f = new File(mContext.getCacheDir(), filename);
@@ -179,17 +183,11 @@ public class Utils {
         return f;
     }
 
-    //Cache functions
-
     public boolean validName(String s) {
         String validNumber = "(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,15})$";
         Pattern pattern = Pattern.compile(validNumber);
         Matcher matcher = pattern.matcher(s);
-        if (!matcher.find()) {
-            return false;
-        } else {
-            return true;
-        }
+        return matcher.find();
     }
 
     public boolean validPassword(String s) {
@@ -197,22 +195,14 @@ public class Utils {
         String validPass = "^([a-zA-Z0-9@*#]{8,15})$";
         Pattern pattern = Pattern.compile(validPass);
         Matcher matcher = pattern.matcher(s);
-        if (!matcher.find()) {
-            return false;
-        } else {
-            return true;
-        }
+        return matcher.find();
     }
 
     public boolean validNumber(String s) {
         String validNumber = "^((\\+92)|(0092))-{0,1}\\d{3}-{0,1}\\d{7}$|^\\d{11}$|^\\d{4}-\\d{7}$";
         Pattern pattern = Pattern.compile(validNumber);
         Matcher matcher = pattern.matcher(s);
-        if (!matcher.find()) {
-            return false;
-        } else {
-            return true;
-        }
+        return matcher.find();
     }
 
     public boolean validEmail(String email) {
@@ -226,11 +216,7 @@ public class Utils {
         String validNumber = "^\\d{5}[- .]?\\d{7}[- .]?\\d{1}$";
         Pattern pattern = Pattern.compile(validNumber);
         Matcher matcher = pattern.matcher(s);
-        if (!matcher.find()) {
-            return false;
-        } else {
-            return true;
-        }
+        return matcher.find();
     }
 
     public String milliSecondsToTimer(long milliseconds) {
@@ -345,13 +331,25 @@ public class Utils {
                 .setNegativeButton("Settings", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((AppCompatActivity)mContext).startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                        ((AppCompatActivity) mContext).startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
                     }
                 });
         // Create the AlertDialog object and return it
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
+    }
+
+    public void showProgress() {
+        String title = AppConstants.findStringByName("progress_dialog_title");
+        String text = AppConstants.findStringByName("progress_dialog_text");
+        progressBar = ProgressDialog.show(mContext, title, text);
+    }
+
+    public void hideProgress() {
+        if (progressBar.isShowing()) {
+            progressBar.dismiss();
+        }
     }
 
 }

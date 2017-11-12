@@ -1,0 +1,128 @@
+package com.qemasoft.alhabibshop.app.view.fragments;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.controller.OrderAdapter;
+import com.qemasoft.alhabibshop.app.model.MyOrder;
+import com.qemasoft.alhabibshop.app.view.activities.FetchData;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.GET_CUSTOMER_ID;
+import static com.qemasoft.alhabibshop.app.AppConstants.ORDER_HISTORY_REQUEST_CODE;
+
+/**
+ * Created by Inzimam on 24-Oct-17.
+ */
+
+public class FragOrderHistory extends MyBaseFragment {
+
+    private RecyclerView mRecyclerView;
+    private OrderAdapter orderAdapter;
+    private List<MyOrder> myOrderList = new ArrayList<>();
+
+    public FragOrderHistory() {
+        // Required empty public constructor
+    }
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.frag_order_history, container, false);
+        initUtils();
+        initViews(view);
+        this.context = getContext();
+
+        loadDummyData();
+        setupAdaptersAndShowData();
+
+        return view;
+    }
+
+    private void initViews(View view) {
+        mRecyclerView = view.findViewById(R.id.order_recycler_view);
+    }
+
+    private void setupAdaptersAndShowData() {
+
+        // for Orders
+        Log.e("ItemDataListPopulated", "Item Data list populated");
+        orderAdapter = new OrderAdapter(myOrderList);
+        RecyclerView.LayoutManager mLayoutManager =
+                new LinearLayoutManager(context
+                        , LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        Log.e("SettingAdapterForItems", "Setting Adapter For Items");
+        mRecyclerView.setAdapter(orderAdapter);
+        Log.e("AdapterSet", "Adapter Set Success");
+    }
+
+    private void loadDummyData() {
+
+        AppConstants.setMidFixApi("getorderbycus");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("customer_id", GET_CUSTOMER_ID(CUSTOMER_KEY));
+        Log.e("customer_id", GET_CUSTOMER_ID(CUSTOMER_KEY));
+
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("hasParameters", true);
+        bundle.putSerializable("parameters", (Serializable) map);
+        Intent intent = new Intent(getContext(), FetchData.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, ORDER_HISTORY_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ORDER_HISTORY_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    final JSONObject response = new JSONObject(data.getStringExtra("result"));
+
+                    Log.e("InsideOnResult", "FragOrderHistory");
+                    JSONArray orders = response.optJSONArray("orders");
+                    for (int i = 0; i < orders.length(); i++) {
+                        JSONObject orderObj = orders.optJSONObject(i);
+                        MyOrder myOrder = new MyOrder(orderObj.optString("order_id"),
+                                orderObj.optString("status"), orderObj.optString("products"),
+                                orderObj.optString("total"), orderObj.optString("date_added"));
+                        myOrderList.add(myOrder);
+                        orderAdapter.notifyDataSetChanged();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                utils.showAlertDialog("Invalid Request!", "Either the request is invalid or no relevant record found");
+            }
+        }
+    }
+
+}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#565550</color>
-    <color name="colorPrimaryDark">#3e3d39</color>
+    <color name="colorPrimary">@android:color/white</color>
+    <color name="colorPrimaryDark">#C75405</color>
     <color name="colorAccentPinck">#FF4081</color>
     <color name="colorAccent">#949390</color>
     <color name="colorAccent1">#C75405</color>

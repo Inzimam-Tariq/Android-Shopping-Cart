@@ -9,19 +9,19 @@
             android:title="Login" />
         <item
             android:id="@+id/nav_register"
-            android:icon="@drawable/ic_register_fill"
+            android:icon="@drawable/ic_person_add_black"
             android:title="Register" />
         <item
             android:id="@+id/nav_edit_account"
-            android:icon="@drawable/ic_register_fill"
+            android:icon="@drawable/ic_person_add_black"
             android:title="Edit Account" />
         <item
             android:id="@+id/nav_order_history"
-            android:icon="@drawable/ic_register_fill"
+            android:icon="@drawable/ic_person_add_black"
             android:title="Order History" />
         <item
             android:id="@+id/nav_password"
-            android:icon="@drawable/ic_dots_vertical"
+            android:icon="@drawable/ic_more_vert_black"
             android:title="Password" />
         <item
             android:id="@+id/nav_language"

@@ -28,8 +28,13 @@
                     style="@style/CustomTVHeadingStyleBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/edit_account_text" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/outline"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -98,6 +103,9 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:text="@string/continue_text" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"/>
 
             </LinearLayout>
 

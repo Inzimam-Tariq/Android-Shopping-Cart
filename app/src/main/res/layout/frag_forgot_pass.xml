@@ -28,8 +28,13 @@
                     style="@style/CustomTVHeadingStyleBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="5dp"
                     android:text="@string/forgot_pass_text" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/outline"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -38,7 +43,7 @@
                     android:text="@string/email_text" />
 
                 <EditText
-                    android:id="@+id/emailET"
+                    android:id="@+id/email_et"
                     style="@style/CustomEmailETStyle"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"

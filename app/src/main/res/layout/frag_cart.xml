@@ -82,7 +82,9 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:elevation="8dp"
                 android:text="@string/frag_cart_btn_text" />
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"/>
 
         </LinearLayout>
 

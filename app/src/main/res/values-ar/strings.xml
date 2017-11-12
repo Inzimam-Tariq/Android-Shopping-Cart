@@ -8,10 +8,15 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="progress_dialog_title">Loading Data</string>
+    <string name="progress_dialog_text">Loading…</string>
+
+
     <string name="action_settings">Settings</string>
     <string name="action_overflow">Click This</string>
     <string name="action_login_cap"><b>LOGIN</b></string>
     <string name="action_register_text">Register</string>
+    <string name="action_change_pass_text">Change Password</string>
     <string name="action_shopping_cart">Shopping Cart</string>
     <string name="action_wishlist">Wish List</string>
     <string name="action_language">Language</string>

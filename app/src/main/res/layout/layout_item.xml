@@ -22,7 +22,9 @@
             <ImageView
                 android:id="@+id/img"
                 android:layout_width="wrap_content"
-                android:layout_margin="12dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_height="95dp"
                 android:src="@drawable/laptop_1"/>
             <TextView
@@ -38,14 +40,14 @@
                 android:layout_below="@id/item_title"
                 android:padding="10dp">
             <TextView
-                android:id="@+id/disc_price"
+                android:id="@+id/full_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$895.55"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="15sp"/>
             <TextView
-                android:id="@+id/full_price"
+                android:id="@+id/disc_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$1012"

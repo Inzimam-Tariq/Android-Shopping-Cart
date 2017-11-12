@@ -7,18 +7,18 @@ package com.qemasoft.alhabibshop.app.model;
 public class MyCategory {
     private String categoryId;
     private String categoryTitle;
-    private int catImage;
+    private String catImage;
 
-    public MyCategory( String categoryTitle) {
+    public MyCategory(String categoryTitle) {
         this.categoryTitle = categoryTitle;
     }
 
-    public MyCategory(String categoryTitle, int catImage) {
+    public MyCategory(String categoryTitle, String catImage) {
         this.categoryTitle = categoryTitle;
         this.catImage = catImage;
     }
 
-    public MyCategory(String categoryId, String categoryTitle, int catImage) {
+    public MyCategory(String categoryId, String categoryTitle, String catImage) {
         this.categoryId = categoryId;
         this.categoryTitle = categoryTitle;
         this.catImage = catImage;
@@ -32,7 +32,7 @@ public class MyCategory {
         return categoryTitle;
     }
 
-    public int getCatImage() {
+    public String getCatImage() {
         return catImage;
     }
 

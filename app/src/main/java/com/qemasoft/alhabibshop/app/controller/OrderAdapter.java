@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyOrder;
-import com.qemasoft.alhabibshop.app.view.FragOrderDetail;
+import com.qemasoft.alhabibshop.app.view.fragments.FragOrderDetail;
 
 import java.util.List;
 

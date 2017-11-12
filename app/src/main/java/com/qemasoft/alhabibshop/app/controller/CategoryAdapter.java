@@ -1,5 +1,9 @@
 package com.qemasoft.alhabibshop.app.controller;
 
+import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyCategory;
+import com.qemasoft.alhabibshop.app.view.fragments.FragCategories;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -21,6 +28,7 @@ import java.util.List;
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
 
     private List<MyCategory> dataList;
+    private Context context;
 
     public CategoryAdapter(List<MyCategory> dataList) {
         this.dataList = dataList;
@@ -34,7 +42,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_category, parent, false);
 //        Log.e("LayoutInflated", "Working");
-
+        this.context = parent.getContext();
         return new MyViewHolder(itemView);
     }
 
@@ -44,7 +52,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         MyCategory data = dataList.get(position);
 //        holder.itemId.setText(data.getQuestionId());
         holder.categoryTitle.setText(data.getCategoryTitle());
-        holder.categoryImage.setImageResource(data.getCatImage());
+        Picasso.with(context).load(data.getCatImage()).into(holder.categoryImage);
+//        holder.categoryImage.setImageResource(data.getCatImage());
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            AppCompatActivity activity = (AppCompatActivity) context;
+
+            @Override
+            public void onClick(View v) {
+                Fragment fragment = new FragCategories();
+//        //           FragRegister fragRegister = new  FragRegister();
+                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+                transaction.addToBackStack(null);
+                transaction.replace(R.id.flFragments, fragment).commit();
+            }
+        });
     }
 
     @Override
@@ -60,11 +81,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            categoryImage = (ImageView) itemView.findViewById(R.id.cat_img);
-            categoryTitle = (TextView) itemView.findViewById(R.id.cat_title);
-//            customLinearLayout = (LinearLayout) itemView.findViewById(R.id.custom_item_layout);
-//            customLinearLayout.getLayoutParams().width = (int) (Utils.getScreenWidth(itemView.getContext()) / 2);
-//            customLinearLayout.getLayoutParams().height = (int) (Utils.getScreenWidth(itemView.getContext()) / 2);
+            categoryImage = itemView.findViewById(R.id.cat_img);
+            categoryTitle = itemView.findViewById(R.id.cat_title);
+            customLinearLayout = itemView.findViewById(R.id.cat_layout);
+            customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(itemView.getContext()) / 2 - 20;
+//            customLinearLayout.getLayoutParams().height = Utils.getScreenWidth(itemView.getContext()) / 2;
 //            Log.e("FindViewById", "Working");
         }
     }

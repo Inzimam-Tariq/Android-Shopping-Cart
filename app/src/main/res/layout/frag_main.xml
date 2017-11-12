@@ -17,7 +17,7 @@
 
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/slider_fragment"
-                android:name="com.qemasoft.alhabibshop.app.view.FragSlider"
+                android:name="com.qemasoft.alhabibshop.app.view.fragments.FragSlider"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:layout="@layout/slider_layout" />
@@ -38,7 +38,6 @@
                     android:layout_marginStart="4dp"
                     android:text="@string/browse_by_category_text"
                     android:textSize="15sp" />
-
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/cat_recycler_view"
@@ -71,6 +70,11 @@
 
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

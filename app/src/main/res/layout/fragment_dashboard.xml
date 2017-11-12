@@ -3,136 +3,158 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.qemasoft.alhabibshop.view.Dashboard">
+    tools:context="com.qemasoft.alhabibshop.app.view.fragments.Dashboard">
+
+    <TextView
+        android:id="@+id/user_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Welcome: Inzimam Tariq"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/outline"/>
 
     <TextView
         style="@style/CustomTVStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Dashboard"
-        android:layout_margin="30dp" />
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="5dp"
+        android:text="My Account" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@color/outline"/>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/edit_account_tv"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/ic_edit_black"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/edit_account_text" />
 
-            <TextView
-                android:id="@+id/edit_account_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/ic_edit_black"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/edit_account_text" />
-
-            <TextView
-                android:id="@+id/change_pass_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/ic_vpn_key_black"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/change_password_text" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/change_pass_tv"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/ic_vpn_key_black"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/action_change_pass_text" />
 
-            <TextView
-                android:id="@+id/address_book_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/ic_folder_shared_black"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/address_book_text" />
-
-            <TextView
-                android:id="@+id/order_history_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/ic_shopping_cart_black"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/order_history_text" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <TextView
-                android:id="@+id/transactions_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/ic_account_balance_black"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/transactions_text" />
-
-            <TextView
-                android:id="@+id/newsletter_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/ic_chat_black"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/newsletter_text" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <TextView
-                android:id="@+id/reward_points_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/ic_card_giftcard_black"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/reward_points_text" />
-
-            <TextView
-                android:id="@+id/return_history_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawablePadding="10dp"
-                android:drawableTop="@drawable/ic_remove_shopping_cart_black"
-                android:gravity="center"
-                android:padding="10dp"
-                android:text="@string/return_history_text" />
-
-        </LinearLayout>
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/address_book_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/ic_folder_shared_black"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/address_book_text" />
+
+        <TextView
+            android:id="@+id/order_history_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/ic_shopping_cart_black"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/order_history_text" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/transactions_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/ic_account_balance_black"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/transactions_text" />
+
+        <TextView
+            android:id="@+id/return_history_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawablePadding="10dp"
+            android:drawableTop="@drawable/ic_remove_shopping_cart_black"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/return_history_text" />
+
+
+    </LinearLayout>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:weightSum="2">-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/reward_points_tv"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawablePadding="10dp"-->
+            <!--android:drawableTop="@drawable/ic_card_giftcard_black"-->
+            <!--android:gravity="center"-->
+            <!--android:padding="10dp"-->
+            <!--android:text="@string/reward_points_text" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/newsletter_tv"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawablePadding="10dp"-->
+            <!--android:drawableTop="@drawable/ic_chat_black"-->
+            <!--android:gravity="center"-->
+            <!--android:padding="10dp"-->
+            <!--android:text="@string/newsletter_text" />-->
+
+    <!--</LinearLayout>-->
+</LinearLayout>
