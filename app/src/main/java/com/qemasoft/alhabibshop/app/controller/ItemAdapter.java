@@ -92,7 +92,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             itemPriceFull = itemView.findViewById(R.id.full_price);
             img = itemView.findViewById(R.id.img);
             customLinearLayout = itemView.findViewById(R.id.custom_item_layout);
-            customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(itemView.getContext()) / 2 - 4;
+            customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(itemView.getContext()) / 2 - 5;
         }
     }
 }

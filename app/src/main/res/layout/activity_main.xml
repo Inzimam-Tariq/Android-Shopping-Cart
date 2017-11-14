@@ -37,7 +37,7 @@
         <ExpandableListView
             android:id="@+id/expandable_lv_left"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:groupIndicator="@null"
             android:choiceMode="singleChoice"
@@ -61,7 +61,7 @@
         <ExpandableListView
             android:id="@+id/expandable_lv_right"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:groupIndicator="@null"
             android:choiceMode="singleChoice"

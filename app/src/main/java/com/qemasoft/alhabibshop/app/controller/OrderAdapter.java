@@ -1,7 +1,6 @@
 package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyOrder;
-import com.qemasoft.alhabibshop.app.view.fragments.FragOrderDetail;
 
 import java.util.List;
 
@@ -45,11 +43,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         Log.e("OnBIndMethod", "OnBind Working");
-        MyOrder data = myOrderList.get(position);
-//        holder.itemId.setText(data.getQuestionId());
-        holder.orderId.setText(data.getOrderId());
+        final int pos = holder.getAdapterPosition();
+        MyOrder data = myOrderList.get(holder.getAdapterPosition());
+
+        String orderId = data.getOrderId();
+        holder.orderId.setText(orderId);
         holder.orderStatus.setText(data.getOrderStatus());
         holder.orderQuantity.setText(data.getOrderQty());
         holder.orderDate.setText(data.getOrderDate());
@@ -62,11 +62,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             @Override
             public void onClick(View v) {
                 Utils utils = new Utils(context);
-                utils.showToast("Clicked & Position is : "+position);
-//                MainActivity.changeFragment(0);
-                FragOrderDetail frag = new FragOrderDetail();
-                AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.flFragments,frag).commit();
+                utils.showToast("Clicked & Position is : "+pos);
+
+//                FragOrderDetail frag = new FragOrderDetail();
+//                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.flFragments,frag).commit();
             }
         });
         // set StrikeThrough to textView

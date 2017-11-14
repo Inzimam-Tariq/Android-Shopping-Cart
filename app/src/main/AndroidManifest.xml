@@ -21,6 +21,7 @@
 
         <activity
             android:name=".view.activities.SplashActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,8 +32,10 @@
         <activity
             android:name=".view.activities.MainActivity"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.activities.FetchData"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
             android:excludeFromRecents="true">
 

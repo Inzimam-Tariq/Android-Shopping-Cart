@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
@@ -63,8 +64,12 @@ import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
 import static com.qemasoft.alhabibshop.app.AppConstants.setProductExtra;
 
 public class MainActivity extends AppCompatActivity {
-
     public static final String KEY_EXTRA = "com.qemasoft.alhabibshop.app" + "getMainScreenExtra";
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     ArrayList<Integer> loggedInIconList = new ArrayList<Integer>() {{
         add(R.drawable.ic_dashboard_black);
         add(R.drawable.ic_edit_black);
@@ -106,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isLoggedIn = false;
 
     private RelativeLayout appbarBottom;
+    private TextView myAccountTV, cartTV, discountTV, homeTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar(this);
         checkIsLoggedIn();
         changeFragment(0);
+        setCompoundDrawable();
 
 
         loadData();
@@ -305,6 +312,11 @@ public class MainActivity extends AppCompatActivity {
         listViewExpRight = (ExpandableListView) findViewById(R.id.expandable_lv_right);
 
         appbarBottom = (RelativeLayout) findViewById(R.id.appbar_bottom);
+        myAccountTV = (TextView) findViewById(R.id.my_account_tv);
+        cartTV = (TextView) findViewById(R.id.cart_tv);
+        discountTV = (TextView) findViewById(R.id.discount_tv);
+        homeTV = (TextView) findViewById(R.id.home_tv);
+
         searchView = (SearchView) findViewById(R.id.search_view);
     }
 
@@ -605,5 +617,20 @@ public class MainActivity extends AppCompatActivity {
         } else {
             utils.showInternetErrorDialog();
         }
+    }
+
+    public void switchFragment(Fragment fragment) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        transaction.replace(R.id.flFragments, fragment);
+        transaction.commit();
+    }
+
+    private void setCompoundDrawable() {
+        utils.setCompoundDrawable(myAccountTV, "top", R.drawable.ic_more_horiz_black);
+        utils.setCompoundDrawable(cartTV, "top", R.drawable.ic_shopping_cart_black);
+        utils.setCompoundDrawable(discountTV, "top", R.drawable.ic_tag_black);
+        utils.setCompoundDrawable(homeTV, "top", R.drawable.ic_home_black);
     }
 }

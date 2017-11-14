@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -19,6 +20,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -103,14 +105,20 @@ public class Utils {
 
     public static int getScreenWidth(Context context) {
         int screenWidth = 0;
-        if (screenWidth == 0) {
-            WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-            Display display = wm.getDefaultDisplay();
-            Point size = new Point();
-            display.getSize(size);
-            screenWidth = size.x;
-        }
+
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        screenWidth = size.x;
+
         return screenWidth;
+    }
+
+    public int getScreenSize(){
+
+        return mContext.getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK;
     }
 
     public void showToast(String message) {
@@ -349,6 +357,29 @@ public class Utils {
     public void hideProgress() {
         if (progressBar.isShowing()) {
             progressBar.dismiss();
+        }
+    }
+
+    public int checkOrientation() {
+        //        Activity.getResources().getConfiguration().orientation;
+
+        return mContext.getResources().getConfiguration().orientation;
+    }
+
+    public void setCompoundDrawable(TextView textView, String position, int icon) {
+        switch (position) {
+            case "top":
+                textView.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0);
+                break;
+            case "right":
+                textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, icon, 0);
+                break;
+            case "bottom":
+                textView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, icon);
+                break;
+            default:
+                textView.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0);
+                break;
         }
     }
 

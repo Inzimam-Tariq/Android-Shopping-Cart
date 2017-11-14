@@ -3,6 +3,7 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 
+import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 
 /**
@@ -21,5 +22,11 @@ public class MyBaseFragment extends Fragment {
     protected void initUtils() {
         this.context = getActivity();
         this.utils = new Utils(getActivity());
+    }
+
+    protected void switchFragment(Fragment fragment){
+        FragOrderDetail frag = new FragOrderDetail();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flFragments,frag).commit();
     }
 }

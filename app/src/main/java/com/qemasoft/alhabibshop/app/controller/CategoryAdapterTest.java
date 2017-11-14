@@ -1,6 +1,7 @@
 package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyCategory;
 import com.qemasoft.alhabibshop.app.model.MyItem;
 
@@ -22,6 +24,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.res.Configuration.SCREENLAYOUT_SIZE_LARGE;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.getHomeExtra;
 
@@ -43,11 +46,13 @@ public class CategoryAdapterTest extends RecyclerView.Adapter<CategoryAdapterTes
     private List<List<MyItem>> myItemListOfList;
 
     private Context context;
+    private Utils utils;
 
 
     public CategoryAdapterTest(List<String> list) {
         this.keysStr = list;
         this.isCategory = true;
+
     }
 
     @Override
@@ -57,6 +62,7 @@ public class CategoryAdapterTest extends RecyclerView.Adapter<CategoryAdapterTes
                 .inflate(R.layout.layout_main_frag_categories, parent, false);
 
         this.context = parent.getContext();
+        this.utils = new Utils(context);
         return new MyViewHolder(itemView);
     }
 
@@ -112,7 +118,7 @@ public class CategoryAdapterTest extends RecyclerView.Adapter<CategoryAdapterTes
                         for (int i = 0; i < featuredCategories.length(); i++) {
                             JSONObject categoryObject = featuredCategories.getJSONObject(i);
                             MyCategory myCategory = new MyCategory(categoryObject.optString("category_id"),
-                                    categoryObject.optString("name"), categoryObject.optString("thumb"));
+                                    categoryObject.optString("name"), categoryObject.optString("icon"));
                             myCategoryList.add(myCategory);
                         }
                     } else {
@@ -133,7 +139,7 @@ public class CategoryAdapterTest extends RecyclerView.Adapter<CategoryAdapterTes
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("JSONObjEx_CatAdptrTest", responseStr);
+            Log.e("JSONEx_CatAdapterTest", responseStr);
         }
     }
 
@@ -147,9 +153,28 @@ public class CategoryAdapterTest extends RecyclerView.Adapter<CategoryAdapterTes
 
             categoryTitle = itemView.findViewById(R.id.category_title_tv);
             recyclerView = itemView.findViewById(R.id.main_cat_recycler_view);
+            Log.e("Screen Width = ", "" + Utils.getScreenWidth(context));
+            String toastMsg;
+            int screenSize = utils.getScreenSize();
+            switch (screenSize) {
+                case SCREENLAYOUT_SIZE_LARGE:
+                    toastMsg = "Large screen";
+                    break;
+                case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+                    toastMsg = "Normal screen";
+                    break;
+                case Configuration.SCREENLAYOUT_SIZE_SMALL:
+                    toastMsg = "Small screen";
+                    break;
+                default:
+                    toastMsg = "Screen size is neither large, normal or small";
+            }
+//            Toast.makeText(context, toastMsg, Toast.LENGTH_LONG).show();
+
             RecyclerView.LayoutManager mLayoutManagerCat =
                     new GridLayoutManager(itemView.getContext(), 2, LinearLayoutManager.HORIZONTAL, false);
             recyclerView.setLayoutManager(mLayoutManagerCat);
+
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             prepareData();
         }

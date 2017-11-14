@@ -26,9 +26,10 @@ import static com.qemasoft.alhabibshop.app.AppConstants.getHomeExtra;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MainFragTest extends Fragment {
+public class MainFragTest extends MyBaseFragment {
 
     private Utils utils;
+    private RecyclerView recyclerView;
 
     public MainFragTest() {
         // Required empty public constructor
@@ -41,13 +42,14 @@ public class MainFragTest extends Fragment {
         View view = inflater.inflate(R.layout.frag_main_test, container, false);
         this.utils = new Utils(getActivity());
 
-        RecyclerView recyclerView = view.findViewById(R.id.all_recycler_view);
+        recyclerView = view.findViewById(R.id.all_recycler_view);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getActivity()
                         , LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
         List<String> list = prepareData();
         recyclerView.setAdapter(new CategoryAdapterTest(list));
+
 
         return view;
     }
@@ -73,7 +75,7 @@ public class MainFragTest extends Fragment {
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("JSONObjEx_CatAdptrTest", responseStr);
+            Log.e("JSONEx_MainFragTest", responseStr);
         }
 
         return keysStr;

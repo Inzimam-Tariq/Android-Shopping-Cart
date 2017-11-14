@@ -84,7 +84,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             categoryImage = itemView.findViewById(R.id.cat_img);
             categoryTitle = itemView.findViewById(R.id.cat_title);
             customLinearLayout = itemView.findViewById(R.id.cat_layout);
-            customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(itemView.getContext()) / 2 - 20;
+            int itemToShow = 2;
+            int screenWidth = Utils.getScreenWidth(context);
+            if (screenWidth <= 250) {
+                itemToShow = 1;
+            } else if (screenWidth > 480 && screenWidth <= 720) {
+                itemToShow = 3;
+            } else if (screenWidth > 720) {
+                itemToShow = 4;
+            }
+            customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(itemView.getContext()) / itemToShow - 20;
 //            customLinearLayout.getLayoutParams().height = Utils.getScreenWidth(itemView.getContext()) / 2;
 //            Log.e("FindViewById", "Working");
         }

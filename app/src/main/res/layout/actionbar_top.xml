@@ -58,15 +58,12 @@
                 <!-- Badge Count -->
                 <TextView
                     android:id="@+id/actionbar_notification_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/circle"
-                    android:paddingEnd="2dp"
-                    android:paddingStart="2dp"
-                    android:text="10"
-                    android:textColor="@android:color/white" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:text="2"
+                    android:gravity="center"
+                    android:textColor="@android:color/black" />
             </RelativeLayout>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
