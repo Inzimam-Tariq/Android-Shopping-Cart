@@ -28,10 +28,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.SET_CUSTOMER_ID;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 
@@ -101,7 +102,11 @@ public class FragLogin extends MyBaseFragment {
                 String emailVal = emailET.getText().toString().trim();
                 String passVal = passET.getText().toString().trim();
                 AppConstants.setMidFixApi("login");
-                if (emailVal.length() > 0 && passVal.length() > 0) {
+                if (emailVal.length() < 1) {
+                    emailET.setError("Required");
+                } else if (passVal.length() < 1) {
+                    passET.setError("Required");
+                } else {
                     Map<String, String> map = new HashMap<>();
                     map.put("email", emailVal);
                     map.put("password", passVal);
@@ -121,14 +126,6 @@ public class FragLogin extends MyBaseFragment {
 
     private void changeFragment(int frag) {
         ((MainActivity) getActivity()).changeFragment(frag);
-
-        // OR This
-
-//        Fragment fragRegister = new  FragRegister();
-//        //           FragRegister fragRegister = new  FragRegister();
-//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        transaction.addToBackStack(null);
-//        transaction.replace(R.id.flFragments, fragRegister).commit();
     }
 
     private void initViews(View view) {
@@ -149,10 +146,18 @@ public class FragLogin extends MyBaseFragment {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
 
-                    JSONObject object = response.optJSONObject("userdata");
-                    Log.e("CustomerId", object.optString("customer_id"));
+                    JSONObject object = response.optJSONObject("data");
+                    String customerId = object.optString("customer_id");
+                    String customerEmail = object.optString("email");
+                    String fName = object.optString("firstname");
+                    String lName = object.optString("lastname");
 
-                    SET_CUSTOMER_ID(CUSTOMER_KEY, object.optString("customer_id"));
+                    String userName = "Welcome: " +fName+" "+lName;
+                    Log.e("CustomerId = ", customerId+" Username = "+userName);
+
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, customerEmail);
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_KEY, customerId);
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, userName);
                     Preferences.setSharedPreferenceBoolean(appContext, LOGIN_KEY, true);
 
                     new Handler().postDelayed(new Runnable() {
@@ -160,10 +165,22 @@ public class FragLogin extends MyBaseFragment {
                         public void run() {
                             getActivity().recreate();
                         }
-                    }, 10);
+                    }, 100);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            } else if (resultCode == AppConstants.FORCED_CANCEL) {
+                try {
+                    JSONObject response = new JSONObject(data.getStringExtra("result"));
+                    String error = response.optString("message");
+                    if (!error.isEmpty()) {
+                        utils.showErrorDialog(error);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                utils.showErrorDialog("Maybe your Internet is too slow, try again");
             }
         }
     }

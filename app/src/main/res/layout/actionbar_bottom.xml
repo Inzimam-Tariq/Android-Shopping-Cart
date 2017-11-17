@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="More"
+                android:text="Account"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/cart_tv"

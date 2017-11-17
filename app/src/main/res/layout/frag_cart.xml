@@ -61,7 +61,7 @@
                     android:text="@string/grand_total_text" />
 
                 <TextView
-                    android:id="@+id/grand_total"
+                    android:id="@+id/grand_total_val_tv"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.3"

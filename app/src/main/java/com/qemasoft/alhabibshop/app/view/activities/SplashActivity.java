@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
@@ -30,10 +32,11 @@ import static com.qemasoft.alhabibshop.app.AppConstants.SET_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.SPLASH_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.setHomeExtra;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static Context context;
     private Utils utils;
+    private int clicks = 0;
 
     public static Context getAppContext() {
         return context;
@@ -45,6 +48,11 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         context = getApplicationContext();
         this.utils = new Utils(this);
+
+        LinearLayout splash = (LinearLayout) findViewById(R.id.splash_layout);
+        splash.setOnClickListener(this);
+
+
         AndroidNetworking.initialize(context);
 
         if (utils.isNetworkConnected()) {
@@ -71,6 +79,7 @@ public class SplashActivity extends AppCompatActivity {
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent, SPLASH_REQUEST_CODE);
                             } else {
+                                Log.e("Splash", "Success False");
                                 utils.showAlertDialog("Invalid Request!", "No Relevant Record Found");
                             }
                         }
@@ -112,17 +121,24 @@ public class SplashActivity extends AppCompatActivity {
                     } else {
                         utils.showErrorDialog("Server Response is False!");
                         Log.e("SuccessFalse", "Within getCategories");
-                        utils.hideProgress();
                     }
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                utils.showAlertDialog("Invalid Request!", "Either the request is invalid or no relevant record found");
+                Log.e("RequestCanceled", "Canceled");
+//                utils.showAlertDialog("Invalid Request!", "Either the request is invalid or no relevant record found");
             }
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        clicks++;
+        if (clicks % 2 == 0) {
+            recreate();
         }
     }
 }

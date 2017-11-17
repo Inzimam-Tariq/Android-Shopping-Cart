@@ -25,12 +25,18 @@ public class AppConstants {
     public static final int HOME_REQUEST_CODE = 11;
     public static final int CATEGORY_REQUEST_CODE = 12;
     public static final int PRODUCT_REQUEST_CODE = 13;
+    public static final int RIGHT_MENU_REQUEST_CODE = 14;
+    public static final int MA_GOTO_ITEMS_REQUEST_CODE = 15;
+    public static final int FORCED_CANCEL = 2;
+
     public static final String DEFAULT_STRING_VALUE = "";
     public static final Context appContext = SplashActivity.getAppContext();
     public static final String SECRET_KEY_FILE = "secret_key";
     public static final String KEY_FOR_KEY = "KEY_VALUE";
     public static final String LOGIN_KEY = "LOGIN_KEY";
     public static final String CUSTOMER_KEY = "CUSTOMER_KEY";
+    public static final String CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
+    public static final String CUSTOMER_NAME = "CUSTOMER_NAME";
     private static final String BASE_URL = "http://www.opencartgulf.com/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     private static String MID_FIX_API;
@@ -60,23 +66,10 @@ public class AppConstants {
         return sharedPref.getString(key, "");
     }
 
-    public static String GET_CUSTOMER_ID(String key) {
-        SharedPreferences sharedPref = appContext.getSharedPreferences(SECRET_KEY_FILE, 0);
-
-        return sharedPref.getString(key, "");
-    }
-
     public static void SET_KEY(String secretKey, String secretKeyVal) {
         SharedPreferences settings = appContext.getSharedPreferences(SECRET_KEY_FILE, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(secretKey, secretKeyVal);
-        editor.apply();
-    }
-
-    public static void SET_CUSTOMER_ID(String customerIdKey, String customerIdVal) {
-        SharedPreferences settings = appContext.getSharedPreferences(SECRET_KEY_FILE, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(customerIdKey, customerIdVal);
         editor.apply();
     }
 

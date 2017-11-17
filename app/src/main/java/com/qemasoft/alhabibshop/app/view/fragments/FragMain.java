@@ -62,7 +62,7 @@ public class FragMain extends Fragment {
     private void setAdaptersAndData() {
 
         // for Categories
-        categoryAdapter = new CategoryAdapter(myCategoryList);
+        categoryAdapter = new CategoryAdapter(myCategoryList, false);
 //        RecyclerView.LayoutManager mLayoutManagerCat =
 //                new LinearLayoutManager(getApplicationContext()
 //                        ,LinearLayoutManager.HORIZONTAL,false);
@@ -103,8 +103,8 @@ public class FragMain extends Fragment {
         int itemNo = 1;
         for (int i = 0; i < title.length; i++) {
 
-            MyItem data = new MyItem("" + itemNo, Item + itemNo, discPrice[i], fullPrice[i]);
-            newArrivalList.add(data);
+//            MyItem data = new MyItem("" + itemNo, Item + itemNo, discPrice[i], fullPrice[i]);
+//            newArrivalList.add(data);
             MyCategory category = new MyCategory(title[i]);
             myCategoryList.add(category);
             itemNo++;

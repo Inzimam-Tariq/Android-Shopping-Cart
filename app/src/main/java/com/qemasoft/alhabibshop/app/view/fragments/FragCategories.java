@@ -1,8 +1,6 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,22 +14,24 @@ import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.CategoryAdapter;
 import com.qemasoft.alhabibshop.app.model.MyCategory;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qemasoft.alhabibshop.app.view.activities.MainActivity.KEY_EXTRA;
+import static com.qemasoft.alhabibshop.app.AppConstants.getProductExtra;
 
 /**
  * Created by Inzimam on 24-Oct-17.
  */
 
-public class FragCategories extends Fragment {
+public class FragCategories extends MyBaseFragment {
 
-    Context context;
-    private RecyclerView mRecyclerViewCat;
+
     private CategoryAdapter categoryAdapter;
     private List<MyCategory> myCategoryList = new ArrayList<>();
-    private List<Integer> myCategoryImagesList = new ArrayList<>();
 
     public FragCategories() {
         // Required empty public constructor
@@ -43,65 +43,53 @@ public class FragCategories extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_categories, container, false);
+        initUtils();
         initViews(view);
-        this.context = getActivity();
 
-
-        loadDummyData();
         setAdaptersAndData();
-
         loadData();
+
 
         return view;
     }
 
     private void loadData() {
-        String response = "";
-        if (getActivity().getIntent().hasExtra(KEY_EXTRA)) {
-            response = getActivity().getIntent().getStringExtra(KEY_EXTRA);
-            Log.e("ResponseInMainFrag", response);
-        } else {
-            Log.e("ResponseExMainFrag", response);
-            throw new IllegalArgumentException("Activity cannot find  extras " + KEY_EXTRA);
+        String response = getProductExtra();
+            Log.e("ResponseInCategoryFrag", response);
+        try {
+            JSONObject object = new JSONObject(response);
+            JSONArray categoryArray = object.optJSONArray("products");
+            for (int i = 0; i<categoryArray.length(); i++){
+                JSONObject categoryObj = categoryArray.getJSONObject(i);
+                MyCategory category = new MyCategory(categoryObj.optString("product_id"),
+                        categoryObj.optString("name"),categoryObj.optString("thumb"));
+                myCategoryList.add(category);
+                categoryAdapter.notifyDataSetChanged();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
     }
 
     private void initViews(View view) {
-        mRecyclerViewCat = view.findViewById(R.id.cat_recycler_view);
+        mRecyclerView = view.findViewById(R.id.cat_recycler_view);
     }
 
     private void setAdaptersAndData() {
 
         // for Categories
         Log.e("DataListPopulated", "Data list populated");
-        categoryAdapter = new CategoryAdapter(myCategoryList);
+        categoryAdapter = new CategoryAdapter(myCategoryList, true);
 
         RecyclerView.LayoutManager mLayoutManagerCat =
                 new GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false);
-        mRecyclerViewCat.setLayoutManager(mLayoutManagerCat);
-        mRecyclerViewCat.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setLayoutManager(mLayoutManagerCat);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         Log.e("SettingAdapter", "Setting Adapter");
-        mRecyclerViewCat.setAdapter(categoryAdapter);
+        mRecyclerView.setAdapter(categoryAdapter);
         Log.e("AdapterSet", "Adapter Set Success");
 
-    }
-
-    private void loadDummyData() {
-
-        String[] title = {"Woman", "Shoes", "Man", "Camera", "Clothing", "Child"};
-        myCategoryImagesList = new ArrayList<>();
-        myCategoryImagesList.add(R.drawable.bed1);
-        myCategoryImagesList.add(R.drawable.bed2);
-        myCategoryImagesList.add(R.drawable.bed3);
-        myCategoryImagesList.add(R.drawable.bed4);
-        myCategoryImagesList.add(R.drawable.bed5);
-        myCategoryImagesList.add(R.drawable.bed7);
-
-        for (int i = 0; i < title.length; i++) {
-            MyCategory category = new MyCategory(title[i]);
-            myCategoryList.add(category);
-
-        }
     }
 
 }

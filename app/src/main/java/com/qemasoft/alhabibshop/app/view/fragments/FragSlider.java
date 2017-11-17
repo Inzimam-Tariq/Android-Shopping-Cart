@@ -1,9 +1,7 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.controller.MyPagerAdapter;
 
 import org.json.JSONArray;
@@ -28,11 +25,9 @@ import me.relex.circleindicator.CircleIndicator;
  * Created by Inzimam on 07-Nov-17.
  */
 
-public class FragSlider extends Fragment {
+public class FragSlider extends MyBaseFragment {
 
     public static final String SLIDER_EXTRA = "com.qemasoft.alhabibshop.app" + "getSliderExtra";
-    private Utils utils;
-    private Context context;
     private ViewPager mPager;
     private int currentPage = 0;
     private ArrayList<String> sliderImagesUrl;// = new ArrayList<>();
@@ -48,8 +43,7 @@ public class FragSlider extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.slider_layout, container, false);
-        this.context = getActivity();
-        this.utils = new Utils(context);
+        initUtils();
         initViews(view);
 
         setupSlider();

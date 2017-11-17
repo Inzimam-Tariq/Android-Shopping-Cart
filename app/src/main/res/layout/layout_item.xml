@@ -25,7 +25,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_height="95dp"
+                android:layout_height="@dimen/image_height"
+                android:layout_centerHorizontal="true"
                 android:src="@drawable/laptop_1"/>
             <TextView
                 android:id="@+id/item_title"

@@ -1,9 +1,7 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +20,6 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.qemasoft.alhabibshop.app.AppConstants;
-import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
@@ -36,7 +33,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
  * Created by Inzimam on 24-Oct-17.
  */
 
-public class FragRegister extends Fragment {
+public class FragRegister extends MyBaseFragment {
 
     private RadioGroup rgNewsletter;
     private RadioButton rbYes, rbNo;
@@ -44,23 +41,18 @@ public class FragRegister extends Fragment {
     private CheckBox termsCB;
     private Button registerBtn;
     private TextView privacyPolicyTV, clickLoginTV;
-    private Context context;
-    private Utils utils;
 
     public FragRegister() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_register, container, false);
-        this.utils = new Utils(getActivity());
-        this.context = getActivity();
+        initUtils();
         initViews(view);
-
 
         rgNewsletter.check(R.id.rbNo);
         privacyPolicyTV.setOnClickListener(new View.OnClickListener() {

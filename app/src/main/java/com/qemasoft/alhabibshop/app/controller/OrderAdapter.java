@@ -1,6 +1,8 @@
 package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyOrder;
+import com.qemasoft.alhabibshop.app.view.fragments.FragOrderDetail;
 
 import java.util.List;
 
@@ -46,7 +49,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Log.e("OnBIndMethod", "OnBind Working");
         final int pos = holder.getAdapterPosition();
-        MyOrder data = myOrderList.get(holder.getAdapterPosition());
+        final MyOrder data = myOrderList.get(holder.getAdapterPosition());
 
         String orderId = data.getOrderId();
         holder.orderId.setText(orderId);
@@ -61,12 +64,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         holder.viewOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle bundle=new Bundle();
+                bundle.putString("message", data.getOrderId());
                 Utils utils = new Utils(context);
                 utils.showToast("Clicked & Position is : "+pos);
 
-//                FragOrderDetail frag = new FragOrderDetail();
-//                AppCompatActivity activity = (AppCompatActivity) v.getContext();
-//                activity.getSupportFragmentManager().beginTransaction().replace(R.id.flFragments,frag).commit();
+                FragOrderDetail frag = new FragOrderDetail();
+                frag.setArguments(bundle);
+                AppCompatActivity activity = (AppCompatActivity) v.getContext();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.flFragments,frag).commit();
             }
         });
         // set StrikeThrough to textView

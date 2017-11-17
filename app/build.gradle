@@ -46,5 +46,6 @@ dependencies {
     compile 'me.relex:circleindicator:1.2.2@aar'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:support-vector-drawable:26.+'
+    compile 'com.google.code.gson:gson:2.8.1'
     testCompile 'junit:junit:4.12'
 }

@@ -2,10 +2,12 @@ package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +52,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
 //        Log.e("OnBIndMethod", "OnBind Working");
-        MyItem data = dataList.get(position);
-//        holder.itemId.setText(data.getQuestionId());
+        final MyItem data = dataList.get(position);
+
         holder.itemTitle.setText(data.getItemTitle());
         Picasso.with(context).load(data.getItemImage()).into(holder.img);
         holder.itemPriceFull.setText(data.getItemPriceFull());
@@ -59,14 +61,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         TextView tvPrice = holder.itemPriceDisc;
         tvPrice.setText(data.getItemPriceDisc());
         // set StrikeThrough to textView
-        tvPrice.setPaintFlags(tvPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        if (!data.getItemPriceDisc().isEmpty()) {
+            tvPrice.setPaintFlags(tvPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             AppCompatActivity activity = (AppCompatActivity) context;
 
             @Override
             public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("id", data.getItemId());
+                Log.e("itemId", data.getItemId());
                 Fragment fragment = new FragProductDetail();
+                fragment.setArguments(bundle);
                 FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.flFragments, fragment).commit();

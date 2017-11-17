@@ -35,7 +35,7 @@ import java.util.regex.Pattern;
  */
 
 public class Utils {
-    public static int subTotalDummy = 0;
+
     private Context mContext;
     private ProgressDialog progressBar;
 

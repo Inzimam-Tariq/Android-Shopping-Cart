@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.Utils;
-import com.qemasoft.alhabibshop.app.model.MyOrderDetail;
+import com.qemasoft.alhabibshop.app.model.Product;
 
 import java.util.List;
 
@@ -20,10 +19,10 @@ import java.util.List;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.MyViewHolder> {
 
-    private List<MyOrderDetail> myOrderDetailList;
+    private List<Product> productList;
 
-    public OrderDetailAdapter(List<MyOrderDetail> myOrderDetailList) {
-        this.myOrderDetailList = myOrderDetailList;
+    public OrderDetailAdapter(List<Product> myOrderDetailList) {
+        this.productList = myOrderDetailList;
         Log.e("Constructor", "Working");
         Log.e("Constructor", "DataList Size = " + myOrderDetailList.size());
     }
@@ -41,20 +40,18 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Log.e("OnBIndMethod", "OnBind Working");
-        MyOrderDetail data = myOrderDetailList.get(position);
-        holder.productName.setText(data.getProductName());
-        holder.orderQty.setText(data.getOrderQty());
-        holder.productPrice.setText(data.getProductPrice());
-        int totalInt = Integer.parseInt(data.getOrderQty()) * Integer.parseInt(
-                data.getProductPrice());
-        holder.total.setText("" + totalInt);
-        int t = Utils.subTotalDummy += totalInt;
-        Log.e("SubTotal = ", "" + t);
+        Product data = productList.get(position);
+        holder.productName.setText(data.getName());
+        holder.orderQty.setText(data.getQuantity());
+        holder.productPrice.setText(data.getPrice());
+        holder.total.setText(data.getTotal());
+//        int t = Utils.subTotalOrderDetail += totalInt;
+//        Log.e("SubTotal = ", "" + t);
     }
 
     @Override
     public int getItemCount() {
-        return myOrderDetailList.size();
+        return productList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {

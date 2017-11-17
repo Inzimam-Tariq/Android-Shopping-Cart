@@ -1,7 +1,6 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,20 +8,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
+
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VALUE;
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Dashboard extends Fragment implements View.OnClickListener {
+public class Dashboard extends MyBaseFragment implements View.OnClickListener {
 
-    private Context context;
-    private Utils utils;
-    private TextView editAccount, changePassword, addressBook, orderHistory,
-            transactions, newsletter, rewardPoints, returnHistory;
+    private TextView userNameTV, editAccountTV, changePasswordTV, addressBookTV, orderHistoryTV,
+            transactionsTV, newsletterTV, rewardPointsTV, returnHistoryTV;
 
     public Dashboard() {
         // Required empty public constructor
@@ -35,43 +36,56 @@ public class Dashboard extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         initViews(view);
-        this.context = getActivity();
+        initUtils();
+        setupIcons();
 
-        editAccount.setOnClickListener(this);
-        changePassword.setOnClickListener(this);
-        addressBook.setOnClickListener(this);
-        orderHistory.setOnClickListener(this);
-        transactions.setOnClickListener(this);
+        userNameTV.setText(Preferences.getSharedPreferenceString(appContext,
+                CUSTOMER_NAME, DEFAULT_STRING_VALUE));
+        editAccountTV.setOnClickListener(this);
+        changePasswordTV.setOnClickListener(this);
+        addressBookTV.setOnClickListener(this);
+        orderHistoryTV.setOnClickListener(this);
+        transactionsTV.setOnClickListener(this);
 //        newsletter.setOnClickListener(this);
 //        rewardPoints.setOnClickListener(this);
-        returnHistory.setOnClickListener(this);
+        returnHistoryTV.setOnClickListener(this);
 
 
         return view;
     }
 
+    private void setupIcons() {
+        utils.setCompoundDrawable(editAccountTV, "top", R.drawable.ic_edit_black);
+        utils.setCompoundDrawable(changePasswordTV, "top", R.drawable.ic_vpn_key_black);
+        utils.setCompoundDrawable(addressBookTV, "top", R.drawable.ic_folder_shared_black);
+        utils.setCompoundDrawable(orderHistoryTV, "top", R.drawable.ic_shopping_cart_black);
+        utils.setCompoundDrawable(transactionsTV, "top", R.drawable.ic_account_balance_black);
+        utils.setCompoundDrawable(returnHistoryTV, "top", R.drawable.ic_remove_shopping_cart_black);
+    }
+
     private void initViews(View view) {
-        editAccount = view.findViewById(R.id.edit_account_tv);
-        changePassword = view.findViewById(R.id.change_pass_tv);
-        addressBook = view.findViewById(R.id.address_book_tv);
-        orderHistory = view.findViewById(R.id.order_history_tv);
-        transactions = view.findViewById(R.id.transactions_tv);
+        userNameTV = view.findViewById(R.id.user_name_tv);
+        editAccountTV = view.findViewById(R.id.edit_account_tv);
+        changePasswordTV = view.findViewById(R.id.change_pass_tv);
+        addressBookTV = view.findViewById(R.id.address_book_tv);
+        orderHistoryTV = view.findViewById(R.id.order_history_tv);
+        transactionsTV = view.findViewById(R.id.transactions_tv);
 //        newsletter = view.findViewById(R.id.newsletter_tv);
 //        rewardPoints = view.findViewById(R.id.reward_points_tv);
-        returnHistory = view.findViewById(R.id.return_history_tv);
+        returnHistoryTV = view.findViewById(R.id.return_history_tv);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.edit_account_tv) {
-            ((MainActivity) getActivity()).changeFragment(104);
+            switchFragment(new FragEditAccount());
         } else if (id == R.id.change_pass_tv) {
-//            ((MainActivity) getActivity()).changeFragment(103);
+            switchFragment(new FragChangePassword());
         } else if (id == R.id.address_book_tv) {
 //            ((MainActivity) getActivity()).changeFragment(103);
         } else if (id == R.id.order_history_tv) {
-            ((MainActivity) getActivity()).changeFragment(106);
+            switchFragment(new FragOrderHistory());
         } else if (id == R.id.transactions_tv) {
 //            ((MainActivity) getActivity()).changeFragment(103);
 //        } else if (id == R.id.newsletter_tv) {

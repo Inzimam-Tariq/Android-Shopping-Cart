@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.model.MenuSubCategory;
+import com.qemasoft.alhabibshop.app.model.UserSubMenu;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -23,12 +23,12 @@ import java.util.List;
 public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
 
     private List<String> dataListHeader;
-    private HashMap<String, List<MenuSubCategory>> listHashMap;
+    private HashMap<String, List<UserSubMenu>> listHashMap;
     private boolean isRight;
     private List<Integer> userMenuIcons;
 
     public ExpandableListAdapterRight(List<String> dataListHeader,
-                                      HashMap<String, List<MenuSubCategory>> listHashMap,
+                                      HashMap<String, List<UserSubMenu>> listHashMap,
                                       boolean isRight, List<Integer> userMenuIcons) {
 
         this.dataListHeader = dataListHeader;
@@ -106,14 +106,16 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
                              View convertView, ViewGroup parent) {
 
-        MenuSubCategory textChild = (MenuSubCategory) getChild(groupPosition, childPosition);
+        UserSubMenu userSubMenu = (UserSubMenu) getChild(groupPosition, childPosition);
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item, parent, false);
 
         TextView lblListChild = itemView.findViewById(R.id.lblListItem);
-        lblListChild.setText(textChild.getMenuSubCategoryName());
-        Log.e("ChildText", textChild.getMenuSubCategoryName());
+        lblListChild.setText(userSubMenu.getUserSubMenuSymbolLeft() + ""
+                + userSubMenu.getUserSubMenuSymbolRight() + " "
+                + userSubMenu.getUserSubMenuTitle());
+        Log.e("ChildText", userSubMenu.getUserSubMenuTitle());
 
         return itemView;
     }

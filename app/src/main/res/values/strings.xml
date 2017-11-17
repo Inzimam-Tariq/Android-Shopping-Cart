@@ -93,6 +93,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="your_password_text">Your Password</string>
     <string name="confirm_password_text">Confirm Password</string>
     <string name="new_password_text">New Password</string>
+    <string name="old_password_text">Current Password</string>
     <string name="password_hint">enter your password</string>
     <string name="new_password_hint">confirm new password</string>
     <string name="phone_text">Phone #</string>
@@ -132,7 +133,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
 
 
     <!--Fragment Order Detail-->
-    <string name="order_detail_text">Order Detail</string>
+    <string name="order_detail_text">Order Details</string>
     <string name="order_id_text">Order ID : </string>
     <string name="order_date_text">Order Date : </string>
     <string name="order_status_text">Order Status : </string>

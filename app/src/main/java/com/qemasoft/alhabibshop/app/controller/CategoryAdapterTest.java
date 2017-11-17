@@ -38,7 +38,6 @@ public class CategoryAdapterTest extends RecyclerView.Adapter<CategoryAdapterTes
     private List<String> keysStr;
     private CategoryAdapter categoryAdapter;
     private List<MyCategory> myCategoryList;
-    private List<Integer> myCategoryImagesList = new ArrayList<>();
     private boolean isCategory = true;
     // Items
     private ItemAdapter itemAdapter;
@@ -75,7 +74,7 @@ public class CategoryAdapterTest extends RecyclerView.Adapter<CategoryAdapterTes
             holder.categoryTitle.setText(findStringByName(keysStr.get(position)));
         }
         if (myCategoryList.size() > 0 && isCategory) {
-            categoryAdapter = new CategoryAdapter(myCategoryList);
+            categoryAdapter = new CategoryAdapter(myCategoryList, false);
             holder.recyclerView.setAdapter(categoryAdapter);
             isCategory = false;
         } else {

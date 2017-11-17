@@ -12,19 +12,8 @@ public class MyItem {
     private String itemImage;
 
 
-    public MyItem(String itemId, String itemTitle, String itemPriceFull) {
-        this.itemId = itemId;
-        this.itemTitle = itemTitle;
-        this.itemPriceFull = itemPriceFull;
-    }
-
-    public MyItem(String itemId, String itemTitle, String itemPriceDisc,String itemPriceFull) {
-        this.itemId = itemId;
-        this.itemTitle = itemTitle;
-        this.itemPriceFull = itemPriceFull;
-        this.itemPriceDisc = itemPriceDisc;
-    }
-    public MyItem(String itemId, String itemTitle, String itemPriceDisc,String itemPriceFull, String itemImage) {
+    public MyItem(String itemId, String itemTitle, String itemPriceDisc,
+                  String itemPriceFull, String itemImage) {
         this.itemId = itemId;
         this.itemTitle = itemTitle;
         this.itemPriceFull = itemPriceFull;

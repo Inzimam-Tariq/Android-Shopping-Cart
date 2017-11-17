@@ -64,7 +64,7 @@
                     grid:layout_columnWeight="1" />
 
                 <TextView
-                    android:id="@+id/sub_total"
+                    android:id="@+id/sub_total_val_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="fill_horizontal"

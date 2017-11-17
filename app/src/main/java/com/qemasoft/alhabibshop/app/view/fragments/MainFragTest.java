@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.controller.CategoryAdapterTest;
 
 import org.json.JSONException;
@@ -28,27 +27,24 @@ import static com.qemasoft.alhabibshop.app.AppConstants.getHomeExtra;
  */
 public class MainFragTest extends MyBaseFragment {
 
-    private Utils utils;
-    private RecyclerView recyclerView;
-
     public MainFragTest() {
         // Required empty public constructor
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_main_test, container, false);
-        this.utils = new Utils(getActivity());
+        initUtils();
 
-        recyclerView = view.findViewById(R.id.all_recycler_view);
+        mRecyclerView = view.findViewById(R.id.all_recycler_view);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getActivity()
                         , LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         List<String> list = prepareData();
-        recyclerView.setAdapter(new CategoryAdapterTest(list));
+        mRecyclerView.setAdapter(new CategoryAdapterTest(list));
 
 
         return view;

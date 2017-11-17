@@ -34,12 +34,13 @@
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".view.activities.FetchData"
+        <activity
+            android:name=".view.activities.FetchData"
+            android:excludeFromRecents="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
-            android:excludeFromRecents="true">
-
-        </activity>
+            android:theme="@style/CustomProgressActivityTheme"/>
+        <activity android:name=".view.activities.SearchActivity"
+            android:theme="@style/SearchBarTheme"/>
     </application>
 
 </manifest>

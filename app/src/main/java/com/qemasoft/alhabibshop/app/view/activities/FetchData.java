@@ -1,7 +1,6 @@
 package com.qemasoft.alhabibshop.app.view.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,8 +11,8 @@ import com.androidnetworking.common.ANRequest;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.Utils;
 
 import org.json.JSONObject;
 
@@ -23,24 +22,18 @@ import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
 
 public class FetchData extends AppCompatActivity {
 
-    private Utils utils;
-    private Context context;
+
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_fetch_data);
         this.setFinishOnTouchOutside(false);
-        this.utils = new Utils(this);
-        this.context = this;
 
-        Bundle bundle = getIntent().getExtras();
-
-        boolean hasParameters = bundle.getBoolean("hasParameters", false);
-//        getBooleanExtra("hasParameters", false);
-//         getExtras().getBoolean("hasParameters");
-
-        Log.e("Inside FetchData", "Got Extra = " + hasParameters);
+        boolean hasParameters = getIntent().getBooleanExtra("hasParameters", false);
+        Log.e("Inside FetchData", "Has Extra = " + hasParameters);
 
         if (hasParameters) {
             doParametrisedRequest();
@@ -52,32 +45,36 @@ public class FetchData extends AppCompatActivity {
     private void doParametrisedRequest() {
         final ANRequest.PostRequestBuilder request = AndroidNetworking.post(getApiCallUrl());
         Log.e("Url = ", getApiCallUrl());
-        Bundle bundle = this.getIntent().getExtras();
+        bundle = getIntent().getExtras();
+
         if (bundle != null) {
-            Map<String, String> parameterMap = (Map<String, String>)
-                    bundle.getSerializable("parameters");
+            Map<String, String> parameterMap = (Map<String, String>) bundle.getSerializable("parameters");
+
             request.addBodyParameter(parameterMap);
             request.setPriority(Priority.HIGH);
             request.build().getAsJSONObject(new JSONObjectRequestListener() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.e("ResponseBaseFrag = ", response.toString());
+                    Log.e("ResponseFetchData = ", response.toString());
                     boolean success = response.optBoolean("success");
                     if (success) {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("result", response.toString());
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
+                        Log.e("doSimpleRequest", "If Success");
                     } else {
                         Intent returnIntent = new Intent();
-                        setResult(Activity.RESULT_CANCELED, returnIntent);
+                        returnIntent.putExtra("result", response.toString());
+                        setResult(AppConstants.FORCED_CANCEL, returnIntent);
                         finish();
+                        Log.e("doSimpleRequest", "Success False");
                     }
                 }
 
                 @Override
                 public void onError(ANError anError) {
-                    utils.showErrorDialog(anError.getErrorBody());
+                    anError.printStackTrace();
                     Intent returnIntent = new Intent();
                     setResult(Activity.RESULT_CANCELED, returnIntent);
                     finish();
@@ -100,15 +97,19 @@ public class FetchData extends AppCompatActivity {
                             returnIntent.putExtra("result", response.toString());
                             setResult(Activity.RESULT_OK, returnIntent);
                             finish();
+                            Log.e("doSimpleRequest", "If Success");
                         } else {
                             Intent returnIntent = new Intent();
-                            setResult(Activity.RESULT_CANCELED, returnIntent);
+                            returnIntent.putExtra("result", response.toString());
+                            setResult(AppConstants.FORCED_CANCEL, returnIntent);
                             finish();
+                            Log.e("doSimpleRequest", "Success False");
                         }
                     }
 
                     @Override
                     public void onError(ANError anError) {
+                        Log.e("doSimpleRequest", "If anError");
                         anError.printStackTrace();
                         Intent returnIntent = new Intent();
                         setResult(Activity.RESULT_CANCELED, returnIntent);

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.OrderAdapter;
 import com.qemasoft.alhabibshop.app.model.MyOrder;
@@ -28,8 +29,9 @@ import java.util.List;
 import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
-import static com.qemasoft.alhabibshop.app.AppConstants.GET_CUSTOMER_ID;
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VALUE;
 import static com.qemasoft.alhabibshop.app.AppConstants.ORDER_HISTORY_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -37,7 +39,6 @@ import static com.qemasoft.alhabibshop.app.AppConstants.ORDER_HISTORY_REQUEST_CO
 
 public class FragOrderHistory extends MyBaseFragment {
 
-    private RecyclerView mRecyclerView;
     private OrderAdapter orderAdapter;
     private List<MyOrder> myOrderList = new ArrayList<>();
 
@@ -75,18 +76,18 @@ public class FragOrderHistory extends MyBaseFragment {
                         , LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        Log.e("SettingAdapterForItems", "Setting Adapter For Items");
+//        Log.e("SettingAdapterForItems", "Setting Adapter For Items");
         mRecyclerView.setAdapter(orderAdapter);
         Log.e("AdapterSet", "Adapter Set Success");
     }
 
     private void loadDummyData() {
 
-        AppConstants.setMidFixApi("getorderbycus");
+        AppConstants.setMidFixApi("getOrders");
 
         Map<String, String> map = new HashMap<>();
-        map.put("customer_id", GET_CUSTOMER_ID(CUSTOMER_KEY));
-        Log.e("customer_id", GET_CUSTOMER_ID(CUSTOMER_KEY));
+        map.put("customer_id", Preferences.getSharedPreferenceString(appContext,
+                CUSTOMER_KEY, DEFAULT_STRING_VALUE));
 
         Bundle bundle = new Bundle();
         bundle.putBoolean("hasParameters", true);
@@ -120,7 +121,8 @@ public class FragOrderHistory extends MyBaseFragment {
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showAlertDialog("Invalid Request!", "Either the request is invalid or no relevant record found");
+                utils.showAlertDialog("Invalid Request!",
+                        "Either the request is invalid or no relevant record found");
             }
         }
     }

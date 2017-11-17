@@ -1,6 +1,8 @@
 package com.qemasoft.alhabibshop.app.view.activities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,10 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
+import com.google.gson.Gson;
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
@@ -32,8 +31,8 @@ import com.qemasoft.alhabibshop.app.controller.ExpandableListAdapter;
 import com.qemasoft.alhabibshop.app.controller.ExpandableListAdapterRight;
 import com.qemasoft.alhabibshop.app.model.MenuCategory;
 import com.qemasoft.alhabibshop.app.model.MenuSubCategory;
+import com.qemasoft.alhabibshop.app.model.UserSubMenu;
 import com.qemasoft.alhabibshop.app.view.fragments.Dashboard;
-import com.qemasoft.alhabibshop.app.view.fragments.FragAboutUs;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCartDetail;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCategories;
 import com.qemasoft.alhabibshop.app.view.fragments.FragChangePassword;
@@ -43,10 +42,10 @@ import com.qemasoft.alhabibshop.app.view.fragments.FragForgotPass;
 import com.qemasoft.alhabibshop.app.view.fragments.FragLogin;
 import com.qemasoft.alhabibshop.app.view.fragments.FragOrderDetail;
 import com.qemasoft.alhabibshop.app.view.fragments.FragOrderHistory;
-import com.qemasoft.alhabibshop.app.view.fragments.FragPrivacyPolicy;
 import com.qemasoft.alhabibshop.app.view.fragments.FragProduct;
 import com.qemasoft.alhabibshop.app.view.fragments.FragProductDetail;
 import com.qemasoft.alhabibshop.app.view.fragments.FragRegister;
+import com.qemasoft.alhabibshop.app.view.fragments.FragShowText;
 import com.qemasoft.alhabibshop.app.view.fragments.FragSlider;
 import com.qemasoft.alhabibshop.app.view.fragments.MainFragTest;
 
@@ -59,11 +58,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.MA_GOTO_ITEMS_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
 import static com.qemasoft.alhabibshop.app.AppConstants.setProductExtra;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String KEY_EXTRA = "com.qemasoft.alhabibshop.app" + "getMainScreenExtra";
 
     static {
@@ -76,18 +75,18 @@ public class MainActivity extends AppCompatActivity {
         add(R.drawable.ic_vpn_key_black);
         add(R.drawable.ic_add_shopping_cart_black);
         add(R.drawable.ic_exit_to_app_black);
+        add(R.drawable.ic_email_black);
         add(R.drawable.ic_language_black);
         add(R.drawable.ic_attach_money_black);
-        add(R.drawable.ic_email_black);
-        add(R.drawable.ic_more_vert_black);
+        add(R.drawable.ic_info_outline_black);
     }};
     ArrayList<Integer> NotLoggedInIconList = new ArrayList<Integer>() {{
         add(R.drawable.ic_lock_black);
         add(R.drawable.ic_person_add_black);
+        add(R.drawable.ic_email_black);
         add(R.drawable.ic_language_black);
         add(R.drawable.ic_attach_money_black);
-        add(R.drawable.ic_email_black);
-        add(R.drawable.ic_more_vert_black);
+        add(R.drawable.ic_info_outline_black);
     }};
     //   Toolbar stuff;
     ImageView drawerIconLeft, drawerIconRight, logoIcon;
@@ -105,10 +104,11 @@ public class MainActivity extends AppCompatActivity {
     private ExpandableListAdapter listAdapter;
     private ExpandableListAdapterRight listAdapterRight;
     private List<String> headerListRight;
-    private HashMap<String, List<MenuSubCategory>> hashMapRight;
+    private HashMap<String, List<UserSubMenu>> hashMapRight;
     private List<MenuCategory> headerListLeft;
     private HashMap<MenuCategory, List<MenuSubCategory>> hashMapLeft;
     private boolean isLoggedIn = false;
+
 
     private RelativeLayout appbarBottom;
     private TextView myAccountTV, cartTV, discountTV, homeTV;
@@ -125,13 +125,14 @@ public class MainActivity extends AppCompatActivity {
         checkIsLoggedIn();
         changeFragment(0);
         setCompoundDrawable();
+        setOnClickListener();
 
-
-        loadData();
+        initRgihtMenuData();
+        initLeftMenuData();
 //        Log.e("DataLoadingMethodCalled","Success");
 //        setupSearchView();
 
-        initData();
+
         listAdapter = new ExpandableListAdapter(headerListLeft, hashMapLeft,
                 false, loggedInIconList);
         listViewExpLeft.setAdapter(listAdapter);
@@ -148,6 +149,13 @@ public class MainActivity extends AppCompatActivity {
         setExpandableListViewClickListener();
         setExpandableListViewChildClickListener();
 
+        cartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(context, SearchActivity.class));
+            }
+        });
+
 
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -155,6 +163,13 @@ public class MainActivity extends AppCompatActivity {
 //        toggle.syncState();
 
 //        navigationView2.setNavigationItemSelectedListener(this);
+    }
+
+    private void setOnClickListener() {
+        myAccountTV.setOnClickListener(this);
+        cartTV.setOnClickListener(this);
+        discountTV.setOnClickListener(this);
+        homeTV.setOnClickListener(this);
     }
 
     private void checkIsLoggedIn() {
@@ -186,11 +201,9 @@ public class MainActivity extends AppCompatActivity {
                         } else if (groupPosition == 1) {
                             changeFragment(102);
                         } else if (groupPosition == 2) {
-                            changeFragment(201);
-                        } else if (groupPosition == 3) {
-//                            changeFragment(103);
-                        } else if (groupPosition == 4) {
-                            changeFragment(109);
+                            changeFragment(108);
+                        } else {
+                            recreate();
                         }
                         drawer.closeDrawer(GravityCompat.END);
                     }
@@ -230,14 +243,30 @@ public class MainActivity extends AppCompatActivity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
                                         int childPosition, long id) {
 
-                MenuSubCategory textChild = (MenuSubCategory) parent.getExpandableListAdapter()
+                MenuSubCategory subCategory = (MenuSubCategory) parent.getExpandableListAdapter()
                         .getChild(groupPosition, childPosition);
 
-                moveToProductFragment(textChild.getMenuSubCategoryId());
-                Log.e("InsideChildClick", "" + textChild.getMenuSubCategoryId());
+                moveToProductFragment(subCategory.getMenuSubCategoryId());
+                Log.e("InsideChildClick", "" + subCategory.getMenuSubCategoryId());
 
-                drawer.closeDrawer(GravityCompat.START);
                 return true;
+            }
+        });
+        listViewExpRight.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                String str = parent.getExpandableListAdapter().getGroup(groupPosition).toString();
+                UserSubMenu userSubMenu = (UserSubMenu) parent.getExpandableListAdapter()
+                        .getChild(groupPosition, childPosition);
+                if (str.contains("Information")) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id", userSubMenu.getUserSubMenuCode());
+                    switchFragment(new FragShowText(), bundle);
+                }
+                Log.e("InsideChildClick", "" + userSubMenu.getUserSubMenuCode());
+                drawer.closeDrawer(GravityCompat.END);
+
+                return false;
             }
         });
     }
@@ -366,20 +395,20 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_cart) {
-            Toast.makeText(context, "Cart Clicked", Toast.LENGTH_LONG).show();
+//        if (id == R.id.action_cart) {
+//            Toast.makeText(context, "Cart Clicked", Toast.LENGTH_LONG).show();
+//
+//            return true;
+//        }
 
-            return true;
-        }
-
-        if (id == R.id.action_overflow) {
-            if (drawer.isDrawerOpen(GravityCompat.END)) {
-                drawer.closeDrawer(GravityCompat.END);
-            } else {
-                drawer.openDrawer(GravityCompat.END);
-            }
-            return true;
-        }
+//        if (id == R.id.action_overflow) {
+//            if (drawer.isDrawerOpen(GravityCompat.END)) {
+//                drawer.closeDrawer(GravityCompat.END);
+//            } else {
+//                drawer.openDrawer(GravityCompat.END);
+//            }
+//            return true;
+//        }
         drawer.closeDrawer(GravityCompat.START);
         drawer.closeDrawer(GravityCompat.END);
 
@@ -396,7 +425,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new MainFragTest();
                 break;
             case 1:
-                fragment = new FragPrivacyPolicy();
+//                fragment = new FragPrivacyPolicy();
                 break;
             case 2:
                 fragment = new FragProduct();
@@ -434,17 +463,14 @@ public class MainActivity extends AppCompatActivity {
                 recreate();
                 break;
             case 108:
-                fragment = new MainFragTest();
+                fragment = new FragContactUs();
 //                appbarBottom.setVisibility(View.GONE);
                 break;
             case 109:
                 fragment = new MainFragTest();
                 break;
             case 110:
-                fragment = new FragContactUs();
-                break;
-            case 111:
-                fragment = new FragAboutUs();
+                fragment = new MainFragTest();
                 break;
             case 112:
                 fragment = new FragOrderDetail();
@@ -462,42 +488,71 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initData() {
+    private void initRgihtMenuData() {
         headerListRight = new ArrayList<>();
         hashMapRight = new HashMap<>();
 
-        List<MenuSubCategory> menuSubCategories = new ArrayList<>();
-        menuSubCategories.add(new MenuSubCategory("1", "About Us"));
-        menuSubCategories.add(new MenuSubCategory("2", "Privacy Policy"));
+        String[] notLoggedInMenu = {"Login", "Register", "Contact Us"};
+        String[] loggedInMenu = {"Dashboard", "Edit Account", "Change Password",
+                "Order History", "Logout", "Contact Us"};
 
-        String[] notLoggedInMenu = {"Login", "Register",
-                "Language", "Currency", "Contact Us", "Information..."};
-        String[] loggedInMenu = {"Dashboard", "Edit Account", "Change Password", "Order History", "Logout",
-                "Language", "Currency", "Contact Us", "Information..."};
-
+        List<UserSubMenu> userSubMenusList = new ArrayList<>();
         if (isLoggedIn) {
             for (int i = 0; i < loggedInMenu.length; i++) {
                 headerListRight.add(loggedInMenu[i]);
-                if (i < loggedInMenu.length - 1) {
-                    hashMapRight.put(headerListRight.get(i), new ArrayList<MenuSubCategory>());
-                } else {
-                    hashMapRight.put(headerListRight.get(i), menuSubCategories);
-                }
+                hashMapRight.put(headerListRight.get(i), userSubMenusList);
             }
         } else {
             for (int i = 0; i < notLoggedInMenu.length; i++) {
                 headerListRight.add(notLoggedInMenu[i]);
-                if (i < notLoggedInMenu.length - 1) {
-                    hashMapRight.put(headerListRight.get(i), new ArrayList<MenuSubCategory>());
-                } else {
-                    hashMapRight.put(headerListRight.get(i), menuSubCategories);
-                    Log.e("WorkingSubListRight", menuSubCategories.toString());
-                }
+                hashMapRight.put(headerListRight.get(i), userSubMenusList);
+
             }
         }
+        String responseStr = "";
+        if (getIntent().hasExtra(KEY_EXTRA)) {
+            responseStr = getIntent().getStringExtra(KEY_EXTRA);
+            Log.e("ResponseInInitData", responseStr);
+            try {
+                JSONObject responseObject = new JSONObject(responseStr);
+                boolean success = responseObject.optBoolean("success");
+                if (success) {
+                    try {
+                        JSONObject homeObject = responseObject.getJSONObject("home");
+                        JSONArray menuRight = homeObject.optJSONArray("usermenu");
 
-//        Log.e("HashMapEntry", "Data Entered Successfully \n"
-//                + menuSubCategories.get(0).getMenuSubCategoryName());
+                        for (int z = 0; z < menuRight.length(); z++) {
+                            List<UserSubMenu> userSubMenuList = new ArrayList<>();
+                            JSONObject object = menuRight.getJSONObject(z);
+                            headerListRight.add(object.optString("name"));
+                            JSONArray childArray = object.optJSONArray("children");
+
+                            for (int y = 0; y < childArray.length(); y++) {
+                                JSONObject obj = childArray.optJSONObject(y);
+                                userSubMenuList.add(new UserSubMenu(obj.optString("code"),
+                                        obj.optString("title"), obj.optString("symbol_left"),
+                                        obj.optString("symbol_right")));
+                            }
+                            hashMapRight.put(headerListRight.get(headerListRight.size() - 1), userSubMenuList);
+                            Log.e("AfterHashMap", "" + hashMapRight.size());
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    utils.showErrorDialog("Error Getting Data From Server");
+                    Log.e("SuccessFalse", "Within getCategories");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("JSONObjEx_MainAct", responseStr);
+            }
+        } else {
+            Log.e("ResponseExMainActivity", responseStr);
+            throw new IllegalArgumentException("Activity cannot find  extras " + KEY_EXTRA);
+        }
+
     }
 
     private void enableSingleSelection() {
@@ -511,11 +566,22 @@ public class MainActivity extends AppCompatActivity {
                 previousGroup = groupPosition;
             }
         });
+        listViewExpRight.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            int previousGroup = -1;
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (groupPosition != previousGroup)
+                    listViewExpRight.collapseGroup(previousGroup);
+                previousGroup = groupPosition;
+            }
+        });
     }
 
-    private void loadData() {
+    private void initLeftMenuData() {
         headerListLeft = new ArrayList<>();
         hashMapLeft = new HashMap<>();
+        Gson gson = new Gson();
         String responseStr = "";
         if (getIntent().hasExtra(KEY_EXTRA)) {
             responseStr = getIntent().getStringExtra(KEY_EXTRA);
@@ -525,12 +591,33 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("JSON_Response", "" + responseObject);
                 boolean success = responseObject.optBoolean("success");
                 if (success) {
-                    JSONObject homeObject = responseObject.getJSONObject("home");
+                    try {
+                        JSONObject homeObject = responseObject.getJSONObject("home");
 
-                    JSONArray menuCategories = homeObject.optJSONArray("menu");
-                    Log.e("Categories", menuCategories.toString());
-                    for (int i = 0; i < menuCategories.length(); i++) {
-                        try {
+                        JSONArray menuCategories = homeObject.optJSONArray("categoryMenu");
+//                        JSONArray menuRight = homeObject.optJSONArray("usermenu");
+//
+//                        List<UserSubMenu> userSubMenuList = new ArrayList<>();
+////                        List<String> userMenuHeaderList = new ArrayList<>();
+//                        for (int z = 0; z < menuRight.length(); z++) {
+//                            JSONObject object = menuRight.getJSONObject(z);
+////                            userMenuHeaderList.add(object.optString("name"));
+//                            JSONArray childArray = object.optJSONArray("children");
+//
+//                            for (int y = 0; y < childArray.length(); y++) {
+//                                JSONObject obj = childArray.optJSONObject(y);
+//                                userSubMenuList.add(new UserSubMenu(obj.optString("code"),
+//                                        obj.optString("title"), obj.optString("symbol_left"),
+//                                        obj.optString("symbol_right")));
+//                            }
+//                            hashMapRight.put(object.optString("name"), userSubMenuList);
+//                            listAdapterRight.notifyDataSetChanged();
+//                        }
+
+
+                        Log.e("Categories", menuCategories.toString());
+                        for (int i = 0; i < menuCategories.length(); i++) {
+
                             JSONObject menuCategoryObj = menuCategories.getJSONObject(i);
                             JSONArray menuSubCategoryArray = menuCategoryObj.optJSONArray(
                                     "children");
@@ -548,9 +635,9 @@ public class MainActivity extends AppCompatActivity {
                                     menuCategoryObj.optString("icon"), childMenuList);
                             headerListLeft.add(menuCategory);
                             hashMapLeft.put(headerListLeft.get(i), menuCategory.getMenuSubCategory());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 } else {
                     utils.showErrorDialog("Error Getting Data From Server");
@@ -586,51 +673,74 @@ public class MainActivity extends AppCompatActivity {
 
     private void moveToProductFragment(String id) {
 
-        if (utils.isNetworkConnected()) {
+        Bundle bundle = new Bundle();
+        bundle.putString("id", id);
+        switchFragment(new FragProduct(), bundle);
 
-            AppConstants.setMidFixApi("products/category/" + id);
-            AndroidNetworking.post(getApiCallUrl())
-                    .setPriority(Priority.HIGH)
-                    .build()
-                    .getAsJSONObject(new JSONObjectRequestListener() {
-                        @Override
-                        public void onResponse(final JSONObject response) {
-                            Log.i("LoadingData", "" + "Successful" + response);
-                            boolean success = response.optBoolean("success");
-                            if (success) {
-                                setProductExtra(response.toString());
-                                drawer.closeDrawer(GravityCompat.START);
-                                changeFragment(2);
-                            } else {
-                                utils.showErrorDialog("Server Response is False!");
-                                Log.e("SuccessFalse", "Within getCategories");
-                            }
-                        }
+        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.END);
 
-                        @Override
-                        public void onError(ANError anError) {
-                            anError.printStackTrace();
-                            Log.e("Invalid request", "Within onError getCategories");
-                            Toast.makeText(context, "ErrorGettingDataFromServer", Toast.LENGTH_LONG).show();
-                        }
-                    });
-        } else {
-            utils.showInternetErrorDialog();
-        }
     }
 
-    public void switchFragment(Fragment fragment) {
+    public void switchFragment(Fragment fragment, Bundle args) {
         FragmentManager manager = getSupportFragmentManager();
+        if (args != null){
+            fragment.setArguments(args);
+        }
         FragmentTransaction transaction = manager.beginTransaction();
-
         transaction.replace(R.id.flFragments, fragment);
         transaction.commit();
     }
 
     private void setCompoundDrawable() {
-        utils.setCompoundDrawable(myAccountTV, "top", R.drawable.ic_more_horiz_black);
+        utils.setCompoundDrawable(myAccountTV, "top", R.drawable.ic_person_black);
         utils.setCompoundDrawable(cartTV, "top", R.drawable.ic_shopping_cart_black);
         utils.setCompoundDrawable(discountTV, "top", R.drawable.ic_tag_black);
         utils.setCompoundDrawable(homeTV, "top", R.drawable.ic_home_black);
     }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+        if (id == R.id.my_account_tv) {
+            switchFragment(new Dashboard(), new Bundle());
+        } else if (id == R.id.cart_tv) {
+            switchFragment(new FragCartDetail(), new Bundle());
+        } else if (id == R.id.discount_tv) {
+//            switchFragment(new Di);
+        } else if (id == R.id.home_tv) {
+            recreate();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == MA_GOTO_ITEMS_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    final JSONObject response = new JSONObject(data.getStringExtra("result"));
+                    setProductExtra(response.toString());
+//                    switchFragment(new FragProduct());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (resultCode == AppConstants.FORCED_CANCEL) {
+                try {
+                    JSONObject response = new JSONObject(data.getStringExtra("result"));
+                    Log.e("Res Else", response.toString());
+                    String error = response.optString("message");
+                    if (!error.isEmpty()) {
+                        utils.showErrorDialog(error);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                utils.showErrorDialog("Maybe your Internet is too slow, try again");
+            }
+        }
+    }
+
 }

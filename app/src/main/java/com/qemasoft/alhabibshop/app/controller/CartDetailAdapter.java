@@ -10,7 +10,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyCartDetail;
 
 import java.util.List;
@@ -56,8 +55,8 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
         int totalInt = Integer.parseInt(data.getOrderQty()) * Integer.parseInt(
                 data.getProductPrice());
         holder.subTotal.setText("" + totalInt);
-        int t = Utils.subTotalDummy += totalInt;
-        Log.e("SubTotal = ", "" + t);
+//        int t = Utils.subTotalOrderDetail += totalInt;
+//        Log.e("SubTotal = ", "" + t);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
             productName = itemView.findViewById(R.id.product_name);
             qtyET = itemView.findViewById(R.id.qty_spinner);
             productPrice = itemView.findViewById(R.id.unit_price);
-            subTotal = itemView.findViewById(R.id.sub_total);
+            subTotal = itemView.findViewById(R.id.sub_total_val_tv);
 
             Log.e("FindViewById", "Working");
         }

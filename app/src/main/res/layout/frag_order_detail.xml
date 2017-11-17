@@ -48,7 +48,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.4"
-                        android:text="@string/order_detail_text" />
+                        android:text="@string/order_id_text" />
 
                     <TextView
                         android:id="@+id/order_id_value"
@@ -210,13 +210,14 @@
                     android:weightSum="1">
 
                     <TextView
+                        android:id="@+id/sub_total_txt_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:text="@string/sub_total_text" />
 
                     <TextView
-                        android:id="@+id/sub_total"
+                        android:id="@+id/sub_total_val_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
@@ -239,13 +240,14 @@
                     android:weightSum="1">
 
                     <TextView
+                        android:id="@+id/shipping_cost_txt_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:text="@string/shipping_cost_text" />
 
                     <TextView
-                        android:id="@+id/shipping_cost"
+                        android:id="@+id/shipping_cost_val_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
@@ -268,13 +270,14 @@
                     android:weightSum="1">
 
                     <TextView
+                        android:id="@+id/grand_total_txt_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:text="@string/grand_total_text" />
 
                     <TextView
-                        android:id="@+id/grand_total"
+                        android:id="@+id/grand_total_val_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"

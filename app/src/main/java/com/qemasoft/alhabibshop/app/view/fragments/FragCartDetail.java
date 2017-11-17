@@ -1,9 +1,7 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.controller.CartDetailAdapter;
 import com.qemasoft.alhabibshop.app.model.MyCartDetail;
 
@@ -30,16 +27,14 @@ import java.util.List;
  * Created by Inzimam on 24-Oct-17.
  */
 
-public class FragCartDetail extends Fragment {
+public class FragCartDetail extends MyBaseFragment {
 
-    Context context;
     CheckBox useCoupon;
     private RecyclerView mRecyclerView;
     private TextView orderId, orderDate, qty, productModel, ProductTitle,
             unitPrice, grandTotal;
     private CartDetailAdapter cartDetailAdapter;
     private List<MyCartDetail> myOrderList = new ArrayList<>();
-    private Utils utils;
 
     public FragCartDetail() {
         // Required empty public constructor
@@ -52,8 +47,7 @@ public class FragCartDetail extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_cart, container, false);
         initViews(view);
-        this.context = getContext();
-        this.utils = new Utils(context);
+        initUtils();
 
         loadDummyData();
         setupAdaptersAndShowData();
@@ -133,7 +127,7 @@ public class FragCartDetail extends Fragment {
     private void initViews(View view) {
         mRecyclerView = view.findViewById(R.id.cart_detail_recycler_view);
 //        orderId = view.findViewById(R.id.order_id_value);
-        grandTotal = view.findViewById(R.id.grand_total);
+        grandTotal = view.findViewById(R.id.grand_total_val_tv);
         useCoupon = view.findViewById(R.id.use_coupon_cb);
     }
 
@@ -171,7 +165,7 @@ public class FragCartDetail extends Fragment {
                             "\nPriceTotal = " + data.getProductPrice());
             myOrderList.add(data);
         }
-//        int sTotal = Utils.subTotalDummy;
+//        int sTotal = Utils.subTotalOrderDetail;
 //        subTotal.setText("" + sTotal);
 //        Log.e("SubTotalInMain = ", "" + sTotal);
 //        couponDisc.setText("26");
@@ -184,6 +178,6 @@ public class FragCartDetail extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        Utils.subTotalDummy = 0;
+//        Utils.subTotalOrderDetail = 0;
     }
 }
