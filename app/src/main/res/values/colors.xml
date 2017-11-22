@@ -2,10 +2,11 @@
 <resources>
     <color name="colorPrimary">@android:color/white</color>
     <color name="colorPrimaryDark">#C75405</color>
-    <color name="colorAccentPinck">#FF4081</color>
-    <color name="colorAccent">#949390</color>
+    <color name="colorAccentPink">#FF4081</color>
+    <color name="colorAccent">#EC7625</color>
+
     <color name="colorAccent1">#C75405</color>
-    <color name="colorAccent2">#EC7625</color>
+    <color name="colorAccent2">#949390</color>
     <color name="colorAccent3">#565757</color>
 
     <color name="year">#999999</color>

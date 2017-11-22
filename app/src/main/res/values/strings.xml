@@ -146,14 +146,21 @@ The public side or “Storefront” of OpenCart looks very professional and read
 
     <string name="add_to_cart_text">Add to Cart</string>
 
-    <string name="fcategory">Featured Categories</string>
-    <string name="featured">Featured Products</string>
-    <string name="latest">Latest Products</string>
+    <string name="categories">Featured Categories</string>
+    <string name="trending">Trending Products</string>
+    <string name="recombination">Recombination Products</string>
     <string name="bestseller">Best Seller</string>
     <string name="title_activity_main_q">MainActivityQ</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="account">Account</string>
+    <string name="logout">Logout</string>
+    <string name="cart">Cart</string>
+    <string name="coupon">سلة الشراء</string>
+    <string name="checkout">Checkout</string>
+    <string name="disc">Discount</string>
 
 
 </resources>

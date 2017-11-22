@@ -59,9 +59,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         holder.itemPriceFull.setText(data.getItemPriceFull());
 
         TextView tvPrice = holder.itemPriceDisc;
-        tvPrice.setText(data.getItemPriceDisc());
         // set StrikeThrough to textView
         if (!data.getItemPriceDisc().isEmpty()) {
+            tvPrice.setVisibility(View.VISIBLE);
+            tvPrice.setText(data.getItemPriceDisc());
             tvPrice.setPaintFlags(tvPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
 
@@ -100,7 +101,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             itemPriceFull = itemView.findViewById(R.id.full_price);
             img = itemView.findViewById(R.id.img);
             customLinearLayout = itemView.findViewById(R.id.custom_item_layout);
-            customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(itemView.getContext()) / 2 - 5;
+            customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(
+                    itemView.getContext()) / 2 - 5;
         }
     }
 }

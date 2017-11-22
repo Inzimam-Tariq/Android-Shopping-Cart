@@ -31,11 +31,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     private List<MyCategory> dataList;
     private Context context;
-    private boolean isPlainCategory;
+//    private boolean isPlainCategory;
 
-    public CategoryAdapter(List<MyCategory> dataList, boolean isPlainCategory) {
+    public CategoryAdapter(List<MyCategory> dataList) {
         this.dataList = dataList;
-        this.isPlainCategory = isPlainCategory;
+//        this.isPlainCategory = isPlainCategory;
 //        Log.e("Constructor", "Working");
 //        Log.e("Constructor", "DataList Size = " + dataList.size());
     }
@@ -43,13 +43,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View categoryView;
-        if (isPlainCategory) {
-            categoryView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.layout_categories, parent, false);
-        } else {
+//        if (isPlainCategory) {
+//            categoryView = LayoutInflater.from(parent.getContext())
+//                    .inflate(R.layout.layout_categories, parent, false);
+//        } else {
             categoryView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.layout_category, parent, false);
-        }
+//        }
 //        Log.e("LayoutInflated", "Working");
         this.context = parent.getContext();
         return new MyViewHolder(categoryView);
@@ -107,7 +107,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             } else if (screenWidth > 900) {
                 itemToShow = 4;
             }
-            customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(itemView.getContext()) / itemToShow - 20;
+            customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(
+                    itemView.getContext()) / itemToShow - 20;
 //            customLinearLayout.getLayoutParams().height = Utils.getScreenWidth(itemView.getContext()) / 2;
 //            Log.e("FindViewById", "Working");
         }

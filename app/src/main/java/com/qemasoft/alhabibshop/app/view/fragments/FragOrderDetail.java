@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VALUE;
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ORDER_DETAIL_REQUEST_CODE;
 
 /**
@@ -59,8 +59,8 @@ public class FragOrderDetail extends MyBaseFragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            Log.e("Message: ", "" + bundle.getString("message", DEFAULT_STRING_VALUE));
-            requestData(bundle.getString("message", DEFAULT_STRING_VALUE));
+            Log.e("Message: ", "" + bundle.getString("message", DEFAULT_STRING_VAL));
+            requestData(bundle.getString("message", DEFAULT_STRING_VAL));
         }
 
         setupAdaptersAndShowData();

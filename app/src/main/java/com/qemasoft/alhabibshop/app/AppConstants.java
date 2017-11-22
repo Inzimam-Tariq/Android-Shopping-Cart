@@ -29,14 +29,17 @@ public class AppConstants {
     public static final int MA_GOTO_ITEMS_REQUEST_CODE = 15;
     public static final int FORCED_CANCEL = 2;
 
-    public static final String DEFAULT_STRING_VALUE = "";
+    public static final String DEFAULT_STRING_VAL = "";
     public static final Context appContext = SplashActivity.getAppContext();
     public static final String SECRET_KEY_FILE = "secret_key";
     public static final String KEY_FOR_KEY = "KEY_VALUE";
     public static final String LOGIN_KEY = "LOGIN_KEY";
+    public static final String LOGO_KEY = "LOGO_KEY";
+    public static final String LANGUAGE_KEY = "DEFAULT_LANGUAGE";
     public static final String CUSTOMER_KEY = "CUSTOMER_KEY";
     public static final String CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
     public static final String CUSTOMER_NAME = "CUSTOMER_NAME";
+    public static final String ITEM_COUNTER = "ITEM_COUNTER";
     private static final String BASE_URL = "http://www.opencartgulf.com/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     private static String MID_FIX_API;

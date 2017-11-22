@@ -27,7 +27,7 @@ import java.util.Map;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CHANGE_PASS_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
-import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VALUE;
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.EDIT_ACCOUNT_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
@@ -79,7 +79,7 @@ public class FragEditAccount extends MyBaseFragment {
                     map.put("lastname", lNameVal);
                     map.put("telephone", contactVal);
                     map.put("customer_id", Preferences.getSharedPreferenceString(appContext,
-                            CUSTOMER_KEY, DEFAULT_STRING_VALUE));
+                            CUSTOMER_KEY, DEFAULT_STRING_VAL));
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("hasParameters", true);
                     bundle.putSerializable("parameters", (Serializable) map);

@@ -13,7 +13,7 @@ import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
-import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VALUE;
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 
@@ -40,7 +40,7 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
         setupIcons();
 
         userNameTV.setText(Preferences.getSharedPreferenceString(appContext,
-                CUSTOMER_NAME, DEFAULT_STRING_VALUE));
+                CUSTOMER_NAME, DEFAULT_STRING_VAL));
         editAccountTV.setOnClickListener(this);
         changePasswordTV.setOnClickListener(this);
         addressBookTV.setOnClickListener(this);

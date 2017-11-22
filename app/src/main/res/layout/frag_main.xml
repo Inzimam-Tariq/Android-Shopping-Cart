@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.qemasoft.alhabibshop.app.view.fragments.MainFrag">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,64 +11,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/slider_fragment"
                 android:name="com.qemasoft.alhabibshop.app.view.fragments.FragSlider"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:layout="@layout/slider_layout" />
 
-            <!--// Set Categories-->
-
-            <LinearLayout
-                android:id="@+id/featured_categories_layout"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/parent_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="2dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
-                    android:text="@string/browse_by_category_text"
-                    android:textSize="15sp" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/cat_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="horizontal" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="2dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
-                    android:text="@string/new_arrival_text"
-                    android:textSize="15sp" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/item_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="horizontal" />
-
-                <!--// Second Category-->
-
-
-            </LinearLayout>
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <View
                 android:layout_width="match_parent"
@@ -77,4 +33,5 @@
 
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

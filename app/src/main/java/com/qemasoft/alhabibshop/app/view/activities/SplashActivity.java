@@ -16,6 +16,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.view.fragments.FragSlider;
@@ -26,10 +27,13 @@ import org.json.JSONObject;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.GET_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.KEY_FOR_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.SECRET_KEY_FILE;
 import static com.qemasoft.alhabibshop.app.AppConstants.SECRET_KEY_URL;
 import static com.qemasoft.alhabibshop.app.AppConstants.SET_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.SPLASH_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.setHomeExtra;
 
 public class SplashActivity extends AppCompatActivity implements View.OnClickListener {
@@ -106,6 +110,15 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                     boolean success = response.optBoolean("success");
                     if (success) {
                         JSONObject homeObject = response.getJSONObject("home");
+                        JSONObject settingObject = homeObject.optJSONObject("setting");
+                        String logoPath = settingObject.optString("logo");
+                        String language = settingObject.optString("language");
+
+                        Preferences.setSharedPreferenceString(appContext,
+                                LOGO_KEY, logoPath);
+                        Preferences.setSharedPreferenceString(appContext,
+                                LANGUAGE_KEY, language);
+
                         final JSONArray slideshow = homeObject.optJSONArray("slideshow");
 
                         new Handler().postDelayed(new Runnable() {

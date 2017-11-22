@@ -29,28 +29,28 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="Account"
+                android:text="@string/account"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/cart_tv"
+                android:id="@+id/checkout_tv"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="Cart"
+                android:text="@string/checkout"
                 android:gravity="center"/>
             <TextView
-                android:id="@+id/discount_tv"
+                android:id="@+id/disc_tv"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="Discount"
+                android:text="@string/disc"
                 android:gravity="center"/>
             <TextView
                 android:id="@+id/home_tv"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="Home"
+                android:text="@string/title_home"
                 android:gravity="center"/>
 
         </LinearLayout>

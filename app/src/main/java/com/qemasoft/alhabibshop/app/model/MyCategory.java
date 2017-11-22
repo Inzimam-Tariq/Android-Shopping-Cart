@@ -8,20 +8,20 @@ public class MyCategory {
     private String categoryId;
     private String categoryTitle;
     private String catImage;
-
-    public MyCategory(String categoryTitle) {
-        this.categoryTitle = categoryTitle;
-    }
-
-    public MyCategory(String categoryTitle, String catImage) {
-        this.categoryTitle = categoryTitle;
-        this.catImage = catImage;
-    }
+    private String description;
 
     public MyCategory(String categoryId, String categoryTitle, String catImage) {
         this.categoryId = categoryId;
         this.categoryTitle = categoryTitle;
         this.catImage = catImage;
+    }
+
+    public MyCategory(String categoryId, String categoryTitle, String catImage,
+                      String description) {
+        this.categoryId = categoryId;
+        this.categoryTitle = categoryTitle;
+        this.catImage = catImage;
+        this.description = description;
     }
 
     public String getCategoryId() {
@@ -34,6 +34,10 @@ public class MyCategory {
 
     public String getCatImage() {
         return catImage;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
 }

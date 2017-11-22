@@ -14,15 +14,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
@@ -47,7 +44,8 @@ import com.qemasoft.alhabibshop.app.view.fragments.FragProductDetail;
 import com.qemasoft.alhabibshop.app.view.fragments.FragRegister;
 import com.qemasoft.alhabibshop.app.view.fragments.FragShowText;
 import com.qemasoft.alhabibshop.app.view.fragments.FragSlider;
-import com.qemasoft.alhabibshop.app.view.fragments.MainFragTest;
+import com.qemasoft.alhabibshop.app.view.fragments.MainFrag;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,10 +55,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
+import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
+import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.MA_GOTO_ITEMS_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.setProductExtra;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String KEY_EXTRA = "com.qemasoft.alhabibshop.app" + "getMainScreenExtra";
@@ -89,8 +93,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         add(R.drawable.ic_info_outline_black);
     }};
     //   Toolbar stuff;
-    ImageView drawerIconLeft, drawerIconRight, logoIcon;
-    RelativeLayout cartLayout;
+    private ImageView drawerIconLeft, drawerIconRight, logoIcon, searchIcon;
+    private RelativeLayout cartLayout;
+    private TextView counterTV;
 
 
     private Context context;
@@ -113,13 +118,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RelativeLayout appbarBottom;
     private TextView myAccountTV, cartTV, discountTV, homeTV;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setupDefaultLanguage();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
         this.context = this;
-        this.utils = new Utils(this);
+
 
         setupToolbar(this);
         checkIsLoggedIn();
@@ -127,11 +134,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setCompoundDrawable();
         setOnClickListener();
 
-        initRgihtMenuData();
+        initRightMenuData();
         initLeftMenuData();
-//        Log.e("DataLoadingMethodCalled","Success");
-//        setupSearchView();
-
 
         listAdapter = new ExpandableListAdapter(headerListLeft, hashMapLeft,
                 false, loggedInIconList);
@@ -148,21 +152,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         enableSingleSelection();
         setExpandableListViewClickListener();
         setExpandableListViewChildClickListener();
-
-        cartLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(context, SearchActivity.class));
-            }
-        });
-
-
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-
-//        navigationView2.setNavigationItemSelectedListener(this);
     }
 
     private void setOnClickListener() {
@@ -170,12 +159,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cartTV.setOnClickListener(this);
         discountTV.setOnClickListener(this);
         homeTV.setOnClickListener(this);
+        searchIcon.setOnClickListener(this);
+        cartLayout.setOnClickListener(this);
     }
 
     private void checkIsLoggedIn() {
         isLoggedIn = Preferences.getSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
         Log.e("IsLoggedIn = ", "" + isLoggedIn);
-
+        int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
+        counterTV.setText(String.valueOf(val));
     }
 
     private void clearLoginSession() {
@@ -191,8 +183,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         long id) {
 
                 Log.e("GroupClicked", " Id = " + id);
-
-//                int count = listAdapter.getChildrenCount(groupPosition);
                 int childCount = parent.getExpandableListAdapter().getChildrenCount(groupPosition);
                 if (!isLoggedIn) {
                     if (childCount < 1) {
@@ -262,6 +252,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Bundle bundle = new Bundle();
                     bundle.putString("id", userSubMenu.getUserSubMenuCode());
                     switchFragment(new FragShowText(), bundle);
+                } else if (str.contains("اللغة") || str.contains("Language")) {
+                    if (userSubMenu.getUserSubMenuTitle().contains("عربي")) {
+                        utils.changeLanguage("ar");
+                    } else if ((userSubMenu.getUserSubMenuTitle().contains("English"))) {
+                        utils.changeLanguage("en-gb");
+                    }
+
+                    recreate();
                 }
                 Log.e("InsideChildClick", "" + userSubMenu.getUserSubMenuCode());
                 drawer.closeDrawer(GravityCompat.END);
@@ -272,16 +270,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupToolbar(Context context) {
-        //        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setTitle("Al Habib");
 
-//        toolbar.setTitleTextAppearance();
-//        toolbar.setLogo(R.drawable.logo_mobile);
-
-//        Drawable drawable = ContextCompat.getDrawable(getApplicationContext(),
-//                R.drawable.ic_dots_vertical);
-//        toolbar.setOverflowIcon(drawable);
+        Picasso.with(getApplicationContext()).load(Preferences
+                .getSharedPreferenceString(appContext, LOGO_KEY, DEFAULT_STRING_VAL))
+                .into(logoIcon);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         actionbarToggle();
@@ -311,30 +303,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private void setupSearchView() {
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(context, query, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                Toast.makeText(context, newText, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-    }
-
     private void initViews() {
 //        toolbar = (Toolbar) findViewById(toolbar);
         drawerIconLeft = (ImageView) findViewById(R.id.drawer_icon_left);
         drawerIconRight = (ImageView) findViewById(R.id.drawer_icon_right);
         logoIcon = (ImageView) findViewById(R.id.logo_icon);
+        searchIcon = (ImageView) findViewById(R.id.search_icon);
         cartLayout = (RelativeLayout) findViewById(R.id.cart_layout);
-
+        counterTV = (TextView) findViewById(R.id.actionbar_notification_tv);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         listViewExpLeft = (ExpandableListView) findViewById(R.id.expandable_lv_left);
@@ -342,8 +318,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         appbarBottom = (RelativeLayout) findViewById(R.id.appbar_bottom);
         myAccountTV = (TextView) findViewById(R.id.my_account_tv);
-        cartTV = (TextView) findViewById(R.id.cart_tv);
-        discountTV = (TextView) findViewById(R.id.discount_tv);
+        discountTV = (TextView) findViewById(R.id.disc_tv);
+        cartTV = (TextView) findViewById(R.id.checkout_tv);
         homeTV = (TextView) findViewById(R.id.home_tv);
 
         searchView = (SearchView) findViewById(R.id.search_view);
@@ -361,60 +337,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        return false;
-//        getMenuInflater().inflate(R.menu.main, menu);
-//
-//        shoppingCart = menu.findItem(R.id.action_cart);
-//
-//        // Start Adding Notification counter functionality
-//        MenuItemCompat.setActionView(shoppingCart, R.layout.actionbar_badge_layout);
-//        RelativeLayout notifCount = (RelativeLayout) MenuItemCompat.getActionView(shoppingCart);
-//        TextView tv = notifCount.findViewById(R.id.actionbar_notifcation_textview);
-//        tv.setText("10");
-//        notifCount.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-////                startActivity(new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-////                        Uri.parse("package:" + BuildConfig.APPLICATION_ID)));
-//            }
-//        });
-//        // End Notification counter functionality
-//
-//        return super.onCreateOptionsMenu(menu);
-//    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_cart) {
-//            Toast.makeText(context, "Cart Clicked", Toast.LENGTH_LONG).show();
-//
-//            return true;
-//        }
-
-//        if (id == R.id.action_overflow) {
-//            if (drawer.isDrawerOpen(GravityCompat.END)) {
-//                drawer.closeDrawer(GravityCompat.END);
-//            } else {
-//                drawer.openDrawer(GravityCompat.END);
-//            }
-//            return true;
-//        }
-        drawer.closeDrawer(GravityCompat.START);
-        drawer.closeDrawer(GravityCompat.END);
-
-        return super.onOptionsItemSelected(item);
-    }
-
     public void changeFragment(int position) {
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -422,7 +344,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (position) {
             case 0:
-                fragment = new MainFragTest();
+                fragment = new MainFrag();
                 break;
             case 1:
 //                fragment = new FragPrivacyPolicy();
@@ -467,10 +389,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                appbarBottom.setVisibility(View.GONE);
                 break;
             case 109:
-                fragment = new MainFragTest();
+                fragment = new MainFrag();
                 break;
             case 110:
-                fragment = new MainFragTest();
+                fragment = new MainFrag();
                 break;
             case 112:
                 fragment = new FragOrderDetail();
@@ -488,13 +410,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void initRgihtMenuData() {
+    private void initRightMenuData() {
         headerListRight = new ArrayList<>();
         hashMapRight = new HashMap<>();
 
-        String[] notLoggedInMenu = {"Login", "Register", "Contact Us"};
-        String[] loggedInMenu = {"Dashboard", "Edit Account", "Change Password",
-                "Order History", "Logout", "Contact Us"};
+        String[] notLoggedInMenu = {findStringByName("login_text"),
+                findStringByName("action_register_text"),
+                findStringByName("contact_us_text")};
+        String[] loggedInMenu = {findStringByName("account"), findStringByName("edit_account_text"),
+                findStringByName("action_change_pass_text"),
+                findStringByName("order_history_text"),
+                findStringByName("logout"), findStringByName("contact_us_text")};
 
         List<UserSubMenu> userSubMenusList = new ArrayList<>();
         if (isLoggedIn) {
@@ -581,7 +507,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initLeftMenuData() {
         headerListLeft = new ArrayList<>();
         hashMapLeft = new HashMap<>();
-        Gson gson = new Gson();
+
         String responseStr = "";
         if (getIntent().hasExtra(KEY_EXTRA)) {
             responseStr = getIntent().getStringExtra(KEY_EXTRA);
@@ -595,26 +521,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         JSONObject homeObject = responseObject.getJSONObject("home");
 
                         JSONArray menuCategories = homeObject.optJSONArray("categoryMenu");
-//                        JSONArray menuRight = homeObject.optJSONArray("usermenu");
-//
-//                        List<UserSubMenu> userSubMenuList = new ArrayList<>();
-////                        List<String> userMenuHeaderList = new ArrayList<>();
-//                        for (int z = 0; z < menuRight.length(); z++) {
-//                            JSONObject object = menuRight.getJSONObject(z);
-////                            userMenuHeaderList.add(object.optString("name"));
-//                            JSONArray childArray = object.optJSONArray("children");
-//
-//                            for (int y = 0; y < childArray.length(); y++) {
-//                                JSONObject obj = childArray.optJSONObject(y);
-//                                userSubMenuList.add(new UserSubMenu(obj.optString("code"),
-//                                        obj.optString("title"), obj.optString("symbol_left"),
-//                                        obj.optString("symbol_right")));
-//                            }
-//                            hashMapRight.put(object.optString("name"), userSubMenuList);
-//                            listAdapterRight.notifyDataSetChanged();
-//                        }
-
-
                         Log.e("Categories", menuCategories.toString());
                         for (int i = 0; i < menuCategories.length(); i++) {
 
@@ -679,12 +585,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         drawer.closeDrawer(GravityCompat.START);
         drawer.closeDrawer(GravityCompat.END);
-
     }
 
     public void switchFragment(Fragment fragment, Bundle args) {
         FragmentManager manager = getSupportFragmentManager();
-        if (args != null){
+        if (args != null) {
             fragment.setArguments(args);
         }
         FragmentTransaction transaction = manager.beginTransaction();
@@ -697,6 +602,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         utils.setCompoundDrawable(cartTV, "top", R.drawable.ic_shopping_cart_black);
         utils.setCompoundDrawable(discountTV, "top", R.drawable.ic_tag_black);
         utils.setCompoundDrawable(homeTV, "top", R.drawable.ic_home_black);
+
     }
 
     @Override
@@ -705,12 +611,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (id == R.id.my_account_tv) {
             switchFragment(new Dashboard(), new Bundle());
-        } else if (id == R.id.cart_tv) {
+        } else if (id == R.id.disc_tv) {
+//            switchFragment(new FragCartDetail(), new Bundle());
+        } else if (id == R.id.checkout_tv) {
             switchFragment(new FragCartDetail(), new Bundle());
-        } else if (id == R.id.discount_tv) {
-//            switchFragment(new Di);
         } else if (id == R.id.home_tv) {
             recreate();
+        } else if (id == R.id.search_icon) {
+            startActivity(new Intent(context, SearchActivity.class));
+        } else if (id == R.id.cart_layout) {
+            switchFragment(new FragCartDetail(), new Bundle());
         }
     }
 
@@ -741,6 +651,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 utils.showErrorDialog("Maybe your Internet is too slow, try again");
             }
         }
+    }
+
+    private void setupDefaultLanguage() {
+        this.utils = new Utils(this);
+        String language = Preferences.getSharedPreferenceString(appContext,
+                LANGUAGE_KEY, DEFAULT_STRING_VAL);
+        utils.changeLanguage(language);
     }
 
 }

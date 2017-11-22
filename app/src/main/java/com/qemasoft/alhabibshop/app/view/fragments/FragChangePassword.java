@@ -27,7 +27,7 @@ import java.util.Map;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CHANGE_PASS_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
-import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VALUE;
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 /**
@@ -79,7 +79,7 @@ public class FragChangePassword extends MyBaseFragment {
 
                     Map<String, String> map = new HashMap<>();
                     map.put("email", Preferences.getSharedPreferenceString(appContext,
-                            CUSTOMER_EMAIL, DEFAULT_STRING_VALUE));
+                            CUSTOMER_EMAIL, DEFAULT_STRING_VAL));
                     map.put("oldPassword", currentPassVal);
                     map.put("password", newPassVal);
                     Bundle bundle = new Bundle();

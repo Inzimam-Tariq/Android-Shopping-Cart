@@ -62,18 +62,21 @@ public class FetchData extends AppCompatActivity {
                         returnIntent.putExtra("result", response.toString());
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
-                        Log.e("doSimpleRequest", "If Success");
+                        Log.e("doParametrizedRequest", "If Success");
+                        Log.e("doParametrizedRequest", response.toString());
                     } else {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("result", response.toString());
                         setResult(AppConstants.FORCED_CANCEL, returnIntent);
                         finish();
-                        Log.e("doSimpleRequest", "Success False");
+                        Log.e("doParametrizedRequest", "If Success False");
+                        Log.e("ForceCanceled", response.toString());
                     }
                 }
 
                 @Override
                 public void onError(ANError anError) {
+                    Log.e("doParametrizedRequest", "If anError");
                     anError.printStackTrace();
                     Intent returnIntent = new Intent();
                     setResult(Activity.RESULT_CANCELED, returnIntent);
@@ -98,12 +101,14 @@ public class FetchData extends AppCompatActivity {
                             setResult(Activity.RESULT_OK, returnIntent);
                             finish();
                             Log.e("doSimpleRequest", "If Success");
+                            Log.e("doSimpleRequest", response.toString());
                         } else {
                             Intent returnIntent = new Intent();
                             returnIntent.putExtra("result", response.toString());
                             setResult(AppConstants.FORCED_CANCEL, returnIntent);
                             finish();
                             Log.e("doSimpleRequest", "Success False");
+                            Log.e("doSimpleRequest", response.toString());
                         }
                     }
 

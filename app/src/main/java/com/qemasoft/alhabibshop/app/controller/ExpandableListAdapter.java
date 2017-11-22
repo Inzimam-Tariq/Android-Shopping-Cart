@@ -79,7 +79,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         MenuCategory menuCategory = (MenuCategory) getGroup(groupPosition);
 
         View groupView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_group, parent, false);
+                .inflate(R.layout.list_group_left, parent, false);
 
         int iconPosition = groupPosition + 1;
 

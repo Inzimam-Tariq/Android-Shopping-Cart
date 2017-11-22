@@ -80,7 +80,7 @@ public class FragCategories extends MyBaseFragment {
 
         // for Categories
         Log.e("DataListPopulated", "Data list populated");
-        categoryAdapter = new CategoryAdapter(myCategoryList, true);
+        categoryAdapter = new CategoryAdapter(myCategoryList);
 
         RecyclerView.LayoutManager mLayoutManagerCat =
                 new GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false);

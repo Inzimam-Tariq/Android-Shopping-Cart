@@ -104,7 +104,7 @@ public class FragProduct extends MyBaseFragment {
             } else if (resultCode == AppConstants.FORCED_CANCEL) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    String error = response.optString("message");
+                    String error = response.optString("error");
                     if (!error.isEmpty()) {
                         utils.showErrorDialog(error);
                     }
@@ -112,7 +112,7 @@ public class FragProduct extends MyBaseFragment {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Maybe your Internet is too slow, try again");
+                utils.showErrorDialog("Error Fetching Data! ...");
             }
         }
     }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.MyPagerAdapter;
+import com.qemasoft.alhabibshop.app.model.Slideshow;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,7 +31,7 @@ public class FragSlider extends MyBaseFragment {
     public static final String SLIDER_EXTRA = "com.qemasoft.alhabibshop.app" + "getSliderExtra";
     private ViewPager mPager;
     private int currentPage = 0;
-    private ArrayList<String> sliderImagesUrl;// = new ArrayList<>();
+    private ArrayList<Slideshow> slideshowArrayList;
     private CircleIndicator indicator;
 
     public FragSlider() {
@@ -58,7 +59,7 @@ public class FragSlider extends MyBaseFragment {
     }
 
     private void setupSlider() {
-        sliderImagesUrl = new ArrayList<>();
+        slideshowArrayList = new ArrayList<>();
         String responseStr = "";
         if (getActivity().getIntent().hasExtra(SLIDER_EXTRA)) {
             responseStr = getActivity().getIntent().getStringExtra(SLIDER_EXTRA);
@@ -69,7 +70,8 @@ public class FragSlider extends MyBaseFragment {
                 for (int i = 0; i < slideShowArray.length(); i++) {
                     try {
                         JSONObject sliderObj = slideShowArray.getJSONObject(i);
-                        sliderImagesUrl.add(sliderObj.optString("image"));
+                        slideshowArrayList.add(new Slideshow(sliderObj.optString("image"),
+                                sliderObj.optString("id"), sliderObj.optString("banertype")));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -84,13 +86,13 @@ public class FragSlider extends MyBaseFragment {
             throw new IllegalArgumentException("Cannot find  extras " + SLIDER_EXTRA);
         }
 
-        mPager.setAdapter(new MyPagerAdapter(context, sliderImagesUrl));
+        mPager.setAdapter(new MyPagerAdapter(context, slideshowArrayList));
         indicator.setViewPager(mPager);
         // Auto start of viewpager
         final Handler handler = new Handler();
         final Runnable Update = new Runnable() {
             public void run() {
-                if (currentPage == sliderImagesUrl.size()) {
+                if (currentPage == slideshowArrayList.size()) {
                     currentPage = 0;
                 }
                 mPager.setCurrentItem(currentPage++, true);

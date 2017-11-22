@@ -27,8 +27,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 /**
  * Created by Inzimam on 18/10/2017.
@@ -381,6 +384,15 @@ public class Utils {
                 textView.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0);
                 break;
         }
+    }
+
+    public void changeLanguage(String languageCode){
+        Locale locale = new Locale(languageCode);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        appContext.getResources().updateConfiguration(config, appContext.getResources().getDisplayMetrics());
+
     }
 
 }
