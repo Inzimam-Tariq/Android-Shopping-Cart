@@ -1,6 +1,8 @@
 package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,8 +37,6 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final static int ITEM_VIEW = 2;
 
     private List<String> keysStrList;
-    private CategoryAdapter categoryAdapter;
-    private ItemAdapter itemAdapter;
 
     private List<Object> myAllItemsList = new ArrayList<>();
 
@@ -54,12 +54,12 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
 
-        Log.e("getItemViewType ", myAllItemsList.get(position).getClass() + "");
+//        Log.e("getItemViewType ", myAllItemsList.get(position).getClass() + "");
         Object o = myAllItemsList.get(position);
         if (o instanceof List) {
             for (Object obj : (List) o) {
                 if (obj instanceof MyCategory) {
-                    Log.e("InsideInstenceof", "Success");
+//                    Log.e("InsideInstenceof", "Success");
                     return CATEGORY_VIEW;
                 }
             }
@@ -99,9 +99,23 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int itemType = holder.getItemViewType();
         Log.e("itemType = ", itemType + "");
+        Object o = myAllItemsList.get(position);
+        RecyclerView.LayoutManager mLayoutManagerCat = null;
+        if (o instanceof List) {
+            List<Object> list = (List<Object>) myAllItemsList.get(position);
+
+            int layoutColumns = 2;
+            if (list.size() < 4) {
+                layoutColumns = 1;
+            }
+            mLayoutManagerCat =
+                    new GridLayoutManager(context, layoutColumns,
+                            LinearLayoutManager.HORIZONTAL, false);
+        }
         switch (itemType) {
             case CATEGORY_VIEW:
                 ViewHolder1 vh1 = (ViewHolder1) holder;
+                vh1.getmRecyclerView().setLayoutManager(mLayoutManagerCat);
                 vh1.getTitle().setText(findStringByName(keysStrList.get(position)));
                 vh1.getmRecyclerView().setAdapter(new CategoryAdapter(
                         (List<MyCategory>) myAllItemsList.get(position)));
@@ -112,9 +126,10 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             default:
                 ViewHolder1 vh3 = (ViewHolder1) holder;
+                vh3.getmRecyclerView().setLayoutManager(mLayoutManagerCat);
                 vh3.getTitle().setText(findStringByName(keysStrList.get(position)));
                 vh3.getmRecyclerView().setAdapter(new ItemAdapter(
-                        (List<MyItem>)myAllItemsList.get(position)));
+                        (List<MyItem>) myAllItemsList.get(position)));
                 break;
         }
     }

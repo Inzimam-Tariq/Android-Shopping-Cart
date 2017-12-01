@@ -28,7 +28,7 @@
     <string name="forgot_pass"><u>Forgot Password?</u></string>
     <string name="privacy_policy_text_u"><u>Privacy Policy</u></string>
     <string name="sign_up"><u><i>Sign Up</i></u></string>
-    <string name="do_not_have_account"><i>Don\'t have an account?</i></string>
+    <string name="do_not_have_account"><i>Don\'t have account?</i></string>
     <string name="register"><u>Register</u></string>
     <string name="have_account"><i>If you have an account, </i></string>
     <string name="click_here"> <u>Click here!</u></string>
@@ -48,9 +48,11 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="title_activity_main2">Main2Activity</string>
     <!--Fragment Cart -->
     <string name="frag_cart_checkbox_text">Use Coupon</string>
+    <string name="enter_coupon_text">Use Coupon</string>
     <string name="frag_cart_btn_text">Checkout</string>
     <!--Fragment Categories -->
     <string name="browse_by_category_text">Browse by Category</string>
+    <string name="user_menu_text">User Menu</string>
 
     <!--Fragment Register -->
     <string name="personal_detail_text">Your Personal Details</string>
@@ -60,7 +62,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
 
     <!--Fragment Edit Address -->
     <string name="company_text">Company</string>
-    <string name="Address1_text">Address1</string>
+    <string name="Address_text">Address</string>
     <string name="Address2_text">Address2</string>
     <string name="city_text">City</string>
     <string name="country_text">Country</string>
@@ -76,7 +78,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <!--Fragment Edit Account -->
     <string name="edit_account_text">Edit Account</string>
     <!--Fragment Edit Account -->
-    <string name="login_text">LOGIN</string>
+    <string name="login_text">Login</string>
 
     <!--Misc...-->
     <string name="contact_us_text">Contact Us</string>
@@ -106,9 +108,9 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="qty_text">Qty</string>
     <string name="price_text">Price</string>
     <string name="total_text">Total</string>
-    <string name="shipping_cost_text">Shipping Cost : </string>
-    <string name="sub_total_text">Sub Total : </string>
-    <string name="grand_total_text">Grand Total : </string>
+    <string name="shipping_cost_text">Shipping Cost</string>
+    <string name="sub_total_text">Sub Total</string>
+    <string name="grand_total_text">Grand Total</string>
 
     <!--Fragment Order History-->
     <string name="order_history_text">Order History</string>
@@ -142,15 +144,15 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="payment_method_text">Payment Method : </string>
     <string name="shipping_method_text">Shipping Method : </string>
     <string name="view_order_detail_text">View Order Detail</string>
+    <string name="my_orders__text">View Order Detail</string>
 
 
     <string name="add_to_cart_text">Add to Cart</string>
 
     <string name="categories">Featured Categories</string>
     <string name="trending">Trending Products</string>
-    <string name="recombination">Recombination Products</string>
+    <string name="recombination">Featured</string>
     <string name="bestseller">Best Seller</string>
-    <string name="title_activity_main_q">MainActivityQ</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -158,9 +160,8 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="account">Account</string>
     <string name="logout">Logout</string>
     <string name="cart">Cart</string>
-    <string name="coupon">سلة الشراء</string>
     <string name="checkout">Checkout</string>
-    <string name="disc">Discount</string>
+    <string name="text_disc">Discount</string>
 
 
 </resources>

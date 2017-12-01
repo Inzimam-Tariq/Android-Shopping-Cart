@@ -38,21 +38,21 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:paddingEnd="7dp"
-                android:paddingRight="7dp"
+                android:paddingEnd="5dp"
+                android:paddingRight="5dp"
                 app:srcCompat="@drawable/ic_more_vert_black" />
 
             <RelativeLayout
                 android:id="@+id/cart_layout"
-                android:layout_width="48dp"
+                android:layout_width="36dp"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/drawer_icon_right"
-                android:layout_toStartOf="@+id/drawer_icon_right">
-
+                android:layout_toRightOf="@id/drawer_icon_left"
+                android:layout_toEndOf="@id/drawer_icon_left">
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/cart_icon" />
+                    android:layout_height="36dp"
+                    app:srcCompat="@drawable/cart_icon"
+                    android:layout_centerVertical="true"/>
 
                 <!-- Badge Count -->
                 <TextView
@@ -69,12 +69,12 @@
                 android:id="@+id/search_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@id/cart_layout"
-                android:layout_toStartOf="@id/cart_layout"
-                android:paddingEnd="8dp"
-                android:paddingLeft="8dp"
-                android:paddingRight="8dp"
-                android:paddingStart="8dp"
+                android:layout_toRightOf="@id/cart_layout"
+                android:layout_toEndOf="@id/cart_layout"
+                android:paddingEnd="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingStart="5dp"
                 app:srcCompat="@drawable/ic_search_black" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>

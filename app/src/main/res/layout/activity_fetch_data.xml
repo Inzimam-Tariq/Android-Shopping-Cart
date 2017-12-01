@@ -3,42 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context="com.qemasoft.alhabibshop.app.view.activities.FetchData">
 
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
-            android:padding="15dp"
-            android:text="@string/progress_dialog_title" />
-
-
-    <View android:id="@+id/titleDivider"
-        android:layout_width="match_parent"
-        android:layout_height="2dip"
-        android:background="@color/colorPrimaryDark" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ProgressBar
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-        android:gravity="center">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:text="@string/progress_dialog_text"
-            android:layout_margin="20dp"/>
-    </LinearLayout>
-
+        android:indeterminate="true" />
 
 </LinearLayout>

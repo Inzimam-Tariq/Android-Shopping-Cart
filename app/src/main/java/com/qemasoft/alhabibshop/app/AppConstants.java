@@ -25,11 +25,20 @@ public class AppConstants {
     public static final int HOME_REQUEST_CODE = 11;
     public static final int CATEGORY_REQUEST_CODE = 12;
     public static final int PRODUCT_REQUEST_CODE = 13;
-    public static final int RIGHT_MENU_REQUEST_CODE = 14;
-    public static final int MA_GOTO_ITEMS_REQUEST_CODE = 15;
+    public static final int PRODUCT_DETAIL_REQUEST_CODE = 14;
+    public static final int RIGHT_MENU_REQUEST_CODE = 15;
+    public static final int MA_GOTO_ITEMS_REQUEST_CODE = 16;
+    public static final int ADD_TO_CART_REQUEST_CODE = 16;
+    public static final int ADDRESS_BOOK_REQUEST_CODE = 17;
+    public static final int ADD_ADDRESS_REQUEST_CODE = 18;
+    public static final int EDIT_ADDRESS_REQUEST_CODE = 19;
+    public static final int DELETE_ADDRESS_REQUEST_CODE = 20;
+    public static final int COUNTRIES_REQUEST_CODE = 21;
+    public static final int STATES_REQUEST_CODE = 22;
     public static final int FORCED_CANCEL = 2;
 
     public static final String DEFAULT_STRING_VAL = "";
+    public static final String UNIQUE_ID_KEY = "UNIQUE_ID_KEY";
     public static final Context appContext = SplashActivity.getAppContext();
     public static final String SECRET_KEY_FILE = "secret_key";
     public static final String KEY_FOR_KEY = "KEY_VALUE";
@@ -40,11 +49,13 @@ public class AppConstants {
     public static final String CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
     public static final String CUSTOMER_NAME = "CUSTOMER_NAME";
     public static final String ITEM_COUNTER = "ITEM_COUNTER";
-    private static final String BASE_URL = "http://www.opencartgulf.com/api/";
+        private static final String BASE_URL = "http://www.opencartgulf.com/api/";
+//    private static final String BASE_URL = "http://www.alhabibshop.com/new/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     private static String MID_FIX_API;
     private static String HOME_EXTRA;
     private static String PRODUCT_EXTRA;
+    private static String SLIDESHOW_EXTRA;
 
     public static String findStringByName(String name) {
         Resources res = appContext.getResources();
@@ -55,7 +66,7 @@ public class AppConstants {
         return BASE_URL + getMidFixApi() + "/" + GET_KEY(appContext, KEY_FOR_KEY);
     }
 
-    public static String getMidFixApi() {
+    private static String getMidFixApi() {
         return MID_FIX_API;
     }
 
@@ -90,5 +101,13 @@ public class AppConstants {
 
     public static void setProductExtra(String productExtra) {
         PRODUCT_EXTRA = productExtra;
+    }
+
+    public static String getSlideshowExtra() {
+        return SLIDESHOW_EXTRA;
+    }
+
+    public static void setSlideshowExtra(String slideshowExtra) {
+        SLIDESHOW_EXTRA = slideshowExtra;
     }
 }

@@ -3,6 +3,7 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator;
+
 import static com.qemasoft.alhabibshop.app.AppConstants.getHomeExtra;
 
 /**
@@ -27,7 +30,8 @@ import static com.qemasoft.alhabibshop.app.AppConstants.getHomeExtra;
  */
 public class MainFrag extends MyBaseFragment {
 
-//    private List<MyPromotion> promotionList = new ArrayList<>();
+    private ViewPager mPager;
+    private CircleIndicator indicator;
 
     public MainFrag() {
         // Required empty public constructor
@@ -39,8 +43,9 @@ public class MainFrag extends MyBaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_main, container, false);
         initUtils();
+        initViews(view);
+        utils.setupSlider(mPager, indicator, true);
 
-        mRecyclerView = view.findViewById(R.id.parent_recycler_view);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(getActivity()
                         , LinearLayoutManager.VERTICAL, false);
@@ -51,6 +56,12 @@ public class MainFrag extends MyBaseFragment {
         }
 
         return view;
+    }
+
+    private void initViews(View view) {
+        mRecyclerView = view.findViewById(R.id.parent_recycler_view);
+        mPager = view.findViewById(R.id.pager);
+        indicator = view.findViewById(R.id.indicator);
     }
 
     private List<String> prepareData() {
@@ -68,15 +79,9 @@ public class MainFrag extends MyBaseFragment {
                 while (keys.hasNext()) {
                     String key = (String) keys.next();
                     keysStr.add(key);
-                    Log.e("KeyStr",key);
+                    Log.e("KeyStr", key);
                 }
-                Log.e("ModuleSize",modules.toString());
-//                JSONArray promotionArray = modules.optJSONArray("promotion");
-//                JSONObject promotionObject = promotionArray.optJSONObject(0);
-//                MyPromotion myPromotion = new MyPromotion(promotionObject.optString("id"),
-//                        promotionObject.optString("name"),
-//                        promotionObject.optString("description"));
-//                promotionList.add(myPromotion);
+                Log.e("ModuleSize", modules.toString());
             } else {
                 Log.e("SuccessFalse", "Within getCategories");
             }

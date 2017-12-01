@@ -3,55 +3,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
+    android:layout_gravity="bottom"
     android:background="?attr/colorPrimary"
     android:orientation="vertical"
-    android:layout_gravity="bottom"
     app:popupTheme="@style/AppTheme.PopupOverlay">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/outline"
-        android:layout_marginBottom="3dp"/>
+        android:layout_marginBottom="3dp"
+        android:background="@color/outline" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardUseCompatPadding="true"
-        android:clickable="true">
+        android:clickable="true"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
+            android:id="@+id/ab_bottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:weightSum="4">
 
             <TextView
                 android:id="@+id/my_account_tv"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/account"
-                android:gravity="center"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/account" />
+
             <TextView
                 android:id="@+id/checkout_tv"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/checkout"
-                android:gravity="center"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/checkout" />
+
             <TextView
                 android:id="@+id/disc_tv"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/disc"
-                android:gravity="center"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_disc" />
+
             <TextView
                 android:id="@+id/home_tv"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/title_home"
-                android:gravity="center"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/title_home" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

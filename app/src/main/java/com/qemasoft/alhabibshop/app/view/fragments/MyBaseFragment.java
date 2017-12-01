@@ -1,6 +1,7 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 
@@ -26,9 +27,17 @@ public class MyBaseFragment extends Fragment {
         this.utils = new Utils(getActivity());
     }
 
-    protected void switchFragment(Fragment fragment){
-        FragOrderDetail frag = new FragOrderDetail();
+    protected void switchFragment(Fragment fragment) {
         getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flFragments,frag).commit();
+                .replace(R.id.flFragments, fragment).commit();
+    }
+
+    protected void switchFragment(Fragment fragment, Bundle bundle) {
+
+        if (bundle != null) {
+            fragment.setArguments(bundle);
+        }
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flFragments, fragment).commit();
     }
 }

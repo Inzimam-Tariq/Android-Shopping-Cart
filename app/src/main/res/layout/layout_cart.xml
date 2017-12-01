@@ -25,55 +25,88 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/product_img"
                 android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_height="match_parent"
                 android:src="@drawable/cam1" />
 
-            <GridLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
+                android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/product_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="fill_horizontal"
-                    android:gravity="center"
-                    android:text="Cannon Siko 5D"
-                    grid:layout_columnWeight="1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:id="@+id/unit_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="fill_horizontal"
-                    android:gravity="end"
-                    android:text="unit price"
-                    grid:layout_columnWeight="1" />
+                    <TextView
+                        android:id="@+id/product_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill_horizontal"
+                        android:layout_weight="0.5"
+                        android:text="Cannon Siko 5D"
+                        grid:layout_columnWeight="1" />
 
-                <EditText
-                    android:id="@+id/qty_spinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="fill_horizontal"
-                    android:layout_marginTop="15dp"
-                    android:gravity="center"
-                    android:text="1"
-                    grid:layout_columnWeight="1" />
+                    <TextView
+                        android:id="@+id/unit_price"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="fill_horizontal"
+                        android:layout_weight="0.5"
+                        android:gravity="end"
+                        android:text="unit price"
+                        grid:layout_columnWeight="1" />
 
-                <TextView
-                    android:id="@+id/sub_total_val_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="fill_horizontal"
-                    android:layout_marginTop="15dp"
-                    android:gravity="end"
-                    android:text="unit price"
-                    grid:layout_columnWeight="1" />
+                </LinearLayout>
 
-            </GridLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp">
+
+                    <EditText
+                        android:id="@+id/qty_spinner"
+                        style="@style/CustomETStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="0.25"
+                        android:gravity="center"
+                        android:inputType="none"
+                        android:text="1" />
+
+                    <ImageView
+                        android:id="@+id/update_cart_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingStart="5dp"
+                        app:srcCompat="@drawable/ic_refresh_black" />
+
+                    <ImageView
+                        android:id="@+id/remove_cart_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:paddingEnd="5dp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingStart="5dp"
+                        app:srcCompat="@drawable/ic_close_black" />
+
+                    <TextView
+                        android:id="@+id/sub_total_val_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:gravity="end"
+                        android:text="total price" />
+                </LinearLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

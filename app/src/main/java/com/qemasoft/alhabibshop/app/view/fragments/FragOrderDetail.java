@@ -111,39 +111,6 @@ public class FragOrderDetail extends MyBaseFragment {
         intent.putExtras(bundle);
         startActivityForResult(intent, ORDER_DETAIL_REQUEST_CODE);
 
-
-//        int orderIdInt = 1;
-//        String[] fullPrice = {"3000", "2490", "4965", "3000", "2490", "4965"};
-//        String[] qty = {"2", "1", "3", "1", "1", "4"};
-//        String[] productName = {"IPhone", "Laptop", "LCD", "Speaker", "Headphone"};
-//        orderId.setText("" + orderIdInt);
-//        orderDate.setText("24-Oct-2017");
-//        paymentMethod.setText("Cash On Delivery");
-//        shippingMethod.setText("Aramex Shipping");
-
-//        for (int i = 0; i < 2; i++) {
-//
-//            MyOrderDetail data = new MyOrderDetail(productName[i], qty[i], fullPrice[i]);
-//            Log.e("LogsInForLoop",
-//                    "\nProductName = " + data.getProductName() +
-//                            "\nOrderQuantity = " + data.getOrderQty() +
-//                            "\nPriceTotal = " + data.getProductPrice());
-//            myOrderList.add(data);
-//        }
-//        int sTotal = Utils.subTotalOrderDetail;
-//        subTotal.setText("" + sTotal);
-//        Log.e("SubTotalInMain = ", "" + sTotal);
-//        shippingCost.setText("26");
-//        int gTotalInt = Integer.parseInt(subTotal.getText().toString()) -
-//                Integer.parseInt(shippingCost.getText().toString());
-//        grandTotal.setText("" + gTotalInt);
-
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-//        Utils.subTotalOrderDetail = 0;
     }
 
     @Override

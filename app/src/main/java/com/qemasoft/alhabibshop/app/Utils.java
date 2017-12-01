@@ -13,23 +13,44 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.qemasoft.alhabibshop.app.controller.MyPagerAdapter;
+import com.qemasoft.alhabibshop.app.model.Slideshow;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import me.relex.circleindicator.CircleIndicator;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
@@ -41,6 +62,7 @@ public class Utils {
 
     private Context mContext;
     private ProgressDialog progressBar;
+    private int position, currentPage;
 
     public Utils(Context mContext) {
         this.mContext = mContext;
@@ -118,7 +140,7 @@ public class Utils {
         return screenWidth;
     }
 
-    public int getScreenSize(){
+    public int getScreenSize() {
 
         return mContext.getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK;
@@ -351,6 +373,37 @@ public class Utils {
 
     }
 
+    public void showRadioAlertDialog(final Button button, String title, final List<String> list) {
+        // setup the alert builder
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setTitle(title);
+        builder.setCancelable(false);
+
+        int checkedItem = position = 0; // 1st element
+
+        builder.setSingleChoiceItems(list.toArray(new String[list.size()]),
+                checkedItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which > 0) {
+                            position = which;
+                        }
+                    }
+                });
+        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.e("Which", "position =" + which);
+                Log.e("Which", "List position =" + list.get(position));
+                button.setHint(list.get(position));
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     public void showProgress() {
         String title = AppConstants.findStringByName("progress_dialog_title");
         String text = AppConstants.findStringByName("progress_dialog_text");
@@ -386,13 +439,113 @@ public class Utils {
         }
     }
 
-    public void changeLanguage(String languageCode){
+    public void changeLanguage(String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         appContext.getResources().updateConfiguration(config, appContext.getResources().getDisplayMetrics());
 
+    }
+
+    public void setupSlider(final ViewPager mPager, CircleIndicator indicator,
+                            boolean isIndicatorSet) {
+
+        currentPage = 0;
+        final ArrayList<Slideshow> slideshowArrayList = new ArrayList<>();
+        final String responseStr = AppConstants.getSlideshowExtra();
+
+        if (!responseStr.isEmpty()) {
+            Log.e("ResponseInSliderFrag", responseStr);
+            try {
+                JSONArray slideShowArray = new JSONArray(responseStr);
+
+                for (int i = 0; i < slideShowArray.length(); i++) {
+                    try {
+                        JSONObject sliderObj = slideShowArray.getJSONObject(i);
+                        slideshowArrayList.add(new Slideshow(sliderObj.optString("image"),
+                                sliderObj.optString("id"), sliderObj.optString("banertype")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Log.e("JSONObjEx_SliderFrag", responseStr);
+            }
+        } else {
+            Log.e("ResponseExSliderFrag", responseStr);
+        }
+        mPager.setAdapter(new MyPagerAdapter(mContext, slideshowArrayList));
+
+        if (isIndicatorSet)
+            indicator.setViewPager(mPager);
+        // Auto start of viewpager
+        final Handler handler = new Handler();
+        final Runnable Update = new Runnable() {
+            public void run() {
+                if (currentPage == slideshowArrayList.size()) {
+//                    Log.e("SlideshowArray", slideshowArrayList.toString());
+                    currentPage = -1;
+                    mPager.setCurrentItem(currentPage++, false);
+                } else
+                    mPager.setCurrentItem(currentPage++, true);
+            }
+        };
+        Timer swipeTimer = new Timer();
+        swipeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, 3000, 3000);
+    }
+
+    public void showNumberPickerDialog() {
+
+
+        final NumberPicker picker = new NumberPicker(mContext);
+        picker.setMinValue(1);
+        picker.setMaxValue(10);
+        final FrameLayout layout = new FrameLayout(mContext);
+        layout.addView(picker, new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                Gravity.CENTER));
+
+        new AlertDialog.Builder(mContext)
+                .setView(layout)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // do something with picker.getValue()
+                        picker.getValue();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+
+    }
+
+    public String getUniqueId() {
+        String uniqueId = UUID.randomUUID().toString();
+        String subStrId = uniqueId.substring(0, 24);
+        Log.e("UniqueId", subStrId);
+        return subStrId;
+    }
+
+    public void sendAppMsg(View view) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        sendIntent.setType("text/plain");
+        sendIntent.setPackage("com.whatsapp");
+        mContext.startActivity(sendIntent);
+    }
+
+    public void setError(EditText editText){
+        editText.setError("Required!");
+        editText.requestFocus();
     }
 
 }

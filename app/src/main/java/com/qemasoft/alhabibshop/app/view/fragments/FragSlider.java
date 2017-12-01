@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.MyPagerAdapter;
 import com.qemasoft.alhabibshop.app.model.Slideshow;
@@ -28,7 +29,7 @@ import me.relex.circleindicator.CircleIndicator;
 
 public class FragSlider extends MyBaseFragment {
 
-    public static final String SLIDER_EXTRA = "com.qemasoft.alhabibshop.app" + "getSliderExtra";
+
     private ViewPager mPager;
     private int currentPage = 0;
     private ArrayList<Slideshow> slideshowArrayList;
@@ -60,9 +61,9 @@ public class FragSlider extends MyBaseFragment {
 
     private void setupSlider() {
         slideshowArrayList = new ArrayList<>();
-        String responseStr = "";
-        if (getActivity().getIntent().hasExtra(SLIDER_EXTRA)) {
-            responseStr = getActivity().getIntent().getStringExtra(SLIDER_EXTRA);
+        String responseStr = AppConstants.getSlideshowExtra();
+
+        if (!responseStr.isEmpty()) {
             Log.e("ResponseInSliderFrag", responseStr);
             try {
                 JSONArray slideShowArray = new JSONArray(responseStr);
@@ -76,17 +77,18 @@ public class FragSlider extends MyBaseFragment {
                         e.printStackTrace();
                     }
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
                 Log.e("JSONObjEx_SliderFrag", responseStr);
             }
         } else {
             Log.e("ResponseExSliderFrag", responseStr);
-            throw new IllegalArgumentException("Cannot find  extras " + SLIDER_EXTRA);
         }
 
-        mPager.setAdapter(new MyPagerAdapter(context, slideshowArrayList));
+        MyPagerAdapter adapter = new MyPagerAdapter(context, slideshowArrayList);
+        mPager.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
         indicator.setViewPager(mPager);
         // Auto start of viewpager
         final Handler handler = new Handler();
@@ -104,7 +106,7 @@ public class FragSlider extends MyBaseFragment {
             public void run() {
                 handler.post(Update);
             }
-        }, 2500, 2500);
+        }, 3000, 3000);
     }
 
 }

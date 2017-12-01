@@ -19,9 +19,7 @@ import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
-import com.qemasoft.alhabibshop.app.view.fragments.FragSlider;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -119,14 +117,11 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                         Preferences.setSharedPreferenceString(appContext,
                                 LANGUAGE_KEY, language);
 
-                        final JSONArray slideshow = homeObject.optJSONArray("slideshow");
-
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 Intent intent = new Intent(context, MainActivity.class);
                                 intent.putExtra(MainActivity.KEY_EXTRA, "" + response);
-                                intent.putExtra(FragSlider.SLIDER_EXTRA, "" + slideshow);
                                 startActivity(intent);
                                 setHomeExtra(response.toString());
                             }

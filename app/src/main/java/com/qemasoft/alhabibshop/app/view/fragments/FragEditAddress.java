@@ -31,7 +31,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
 
 public class FragEditAddress extends MyBaseFragment {
 
-    private EditText fName, lName, companyName, address1, address2, postalCode, country, State;
+    private EditText fName, lName, companyName, address1, address2, postalCode, country, state;
     private Button continueBtn;
 
     public FragEditAddress() {
@@ -42,7 +42,7 @@ public class FragEditAddress extends MyBaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.frag_register, container, false);
+        View view = inflater.inflate(R.layout.frag_edit_address, container, false);
         initUtils();
         initViews(view);
 
@@ -67,7 +67,7 @@ public class FragEditAddress extends MyBaseFragment {
                     Log.e("InsideLoginClicked = ", "Inside if");
                     if (utils.isNetworkConnected()) {
                         Log.e("InsideLoginClicked = ", "isNetwork");
-                        AppConstants.setMidFixApi("register");
+                        AppConstants.setMidFixApi("editaddress");
                         Log.e("RegisterUrl = ", getApiCallUrl());
                         AndroidNetworking.post(getApiCallUrl())
                                 .addBodyParameter("firstname", fNameVal)

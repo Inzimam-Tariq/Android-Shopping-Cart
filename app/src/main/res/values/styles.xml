@@ -14,14 +14,20 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <!--<style name="AppTheme.ProgressTheme">-->
-        <!--<item name="colorAccent">@color/colorAccent2</item> &lt;!&ndash; Whatever color you want&ndash;&gt;-->
-    <!--</style>-->
+    <style name="AppTheme.ProgressTheme">
+        <item name="colorAccent">@android:color/holo_red_light</item> <!-- Whatever color you want-->
+    </style>
 
     <style name="CustomProgressActivityTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="windowActionBar">false</item>
+        <item name="colorAccent">@android:color/holo_red_light</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowIsFloating">true</item>
     </style>
+
     <style name="SearchBarTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@android:color/white</item>
         <item name="windowNoTitle">true</item>
@@ -31,16 +37,35 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="NumberPickerText">
+        <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="Theme.Transparent" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
     <style name="CustomETStyle" parent="@android:style/Widget.EditText">
         <!-- Customize your theme here. -->
         <item name="android:background">@drawable/search_selector</item>
-        <item name="android:textColorHint">@color/colorAccent</item>
+        <!--<item name="android:textColorHint">@color/colorAccent</item>-->
         <item name="android:paddingLeft">13dp</item>
         <item name="android:maxLines">1</item>
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">13sp</item>
         <item name="android:inputType">text</item>
         <item name="android:typeface">serif</item>
+
+    </style>
+
+    <style name="CustomDropDownStyle" parent="@android:style/Widget.Button">
+        <item name="android:background">@drawable/search_selector</item>
 
     </style>
 

@@ -19,7 +19,6 @@ import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
-import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -86,13 +85,13 @@ public class FragLogin extends MyBaseFragment {
         registerTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeFragment(102);
+                switchFragment(new FragRegister());
             }
         });
         forgotPassTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                changeFragment(202);
+                switchFragment(new FragForgotPass());
             }
         });
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -122,10 +121,6 @@ public class FragLogin extends MyBaseFragment {
 
 
         return view;
-    }
-
-    private void changeFragment(int frag) {
-        ((MainActivity) getActivity()).changeFragment(frag);
     }
 
     private void initViews(View view) {
@@ -182,6 +177,7 @@ public class FragLogin extends MyBaseFragment {
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 utils.showErrorDialog("Maybe your Internet is too slow, try again");
             }
+
         }
     }
 }

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
@@ -83,17 +82,17 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
         } else if (id == R.id.change_pass_tv) {
             switchFragment(new FragChangePassword());
         } else if (id == R.id.address_book_tv) {
-//            ((MainActivity) getActivity()).changeFragment(103);
+            switchFragment(new AddressBook());
         } else if (id == R.id.order_history_tv) {
             switchFragment(new FragOrderHistory());
-        } else if (id == R.id.transactions_tv) {
+//        } else if (id == R.id.transactions_tv) {
 //            ((MainActivity) getActivity()).changeFragment(103);
 //        } else if (id == R.id.newsletter_tv) {
 //            ((MainActivity) getActivity()).changeFragment(103);
 //        } else if (id == R.id.reward_points_tv) {
 //            ((MainActivity) getActivity()).changeFragment(103);
         } else if (id == R.id.return_history_tv) {
-            ((MainActivity) getActivity()).changeFragment(106);
+            switchFragment(new FragOrderHistory());
         }
     }
 }

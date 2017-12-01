@@ -30,11 +30,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="@string/login_text" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@color/outline"/>
+                    android:background="@color/outline" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -68,6 +69,8 @@
                         style="@style/CustomPassETStyle"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:textAlignment="viewStart"
+                        android:gravity="start|center_vertical"
                         android:hint="@string/password_hint"
                         android:maxLength="32"
                         android:textColorHint="@android:color/darker_gray" />
@@ -115,16 +118,21 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingEnd="15dp"
+                        android:paddingLeft="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingStart="15dp"
+                        android:gravity="center"
                         android:text="@string/do_not_have_account" />
 
                     <TextView
                         android:id="@+id/reg_tv_in_login"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginStart="15dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:gravity="center"
-                        android:text="@string/register" />
+                        android:text="@string/action_register_text" />
                 </LinearLayout>
 
             </LinearLayout>

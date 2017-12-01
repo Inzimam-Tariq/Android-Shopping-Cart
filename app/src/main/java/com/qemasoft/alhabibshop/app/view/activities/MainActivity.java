@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.text.TextUtilsCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -54,6 +57,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
@@ -61,6 +65,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.MA_GOTO_ITEMS_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.setProductExtra;
@@ -116,7 +121,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private RelativeLayout appbarBottom;
-    private TextView myAccountTV, cartTV, discountTV, homeTV;
+    private LinearLayout abBottom;
+    private TextView myAccountTV, checkoutTV, discountTV, homeTV;
 
 
     @Override
@@ -126,9 +132,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         initViews();
         this.context = this;
-
-
         setupToolbar(this);
+        checkForUniqueId();
         checkIsLoggedIn();
         changeFragment(0);
         setCompoundDrawable();
@@ -142,10 +147,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listViewExpLeft.setAdapter(listAdapter);
         if (isLoggedIn) {
             listAdapterRight = new ExpandableListAdapterRight(headerListRight, hashMapRight,
-                    true, loggedInIconList);
+                    loggedInIconList);
         } else {
             listAdapterRight = new ExpandableListAdapterRight(headerListRight, hashMapRight,
-                    true, NotLoggedInIconList);
+                    NotLoggedInIconList);
         }
         listViewExpRight.setAdapter(listAdapterRight);
 
@@ -154,9 +159,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setExpandableListViewChildClickListener();
     }
 
+    private void checkForUniqueId() {
+        String uniqueId = Preferences.getSharedPreferenceString(appContext,
+                UNIQUE_ID_KEY, DEFAULT_STRING_VAL);
+        if (uniqueId.isEmpty() || uniqueId.equals("")) {
+            Preferences.setSharedPreferenceString(appContext, UNIQUE_ID_KEY, utils.getUniqueId());
+        }
+    }
+
     private void setOnClickListener() {
         myAccountTV.setOnClickListener(this);
-        cartTV.setOnClickListener(this);
+        checkoutTV.setOnClickListener(this);
         discountTV.setOnClickListener(this);
         homeTV.setOnClickListener(this);
         searchIcon.setOnClickListener(this);
@@ -254,9 +267,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     switchFragment(new FragShowText(), bundle);
                 } else if (str.contains("اللغة") || str.contains("Language")) {
                     if (userSubMenu.getUserSubMenuTitle().contains("عربي")) {
-                        utils.changeLanguage("ar");
+                        Preferences.setSharedPreferenceString(appContext, LANGUAGE_KEY, "ar");
                     } else if ((userSubMenu.getUserSubMenuTitle().contains("English"))) {
-                        utils.changeLanguage("en-gb");
+                        Preferences.setSharedPreferenceString(appContext, LANGUAGE_KEY, "en");
                     }
 
                     recreate();
@@ -270,6 +283,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setupToolbar(Context context) {
+
+        boolean isRightToLeft = TextUtilsCompat.getLayoutDirectionFromLocale(Locale
+                .getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
+        if (isRightToLeft) {
+            ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
+            ViewCompat.setLayoutDirection(abBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
+        }
 
         Picasso.with(getApplicationContext()).load(Preferences
                 .getSharedPreferenceString(appContext, LOGO_KEY, DEFAULT_STRING_VAL))
@@ -317,9 +337,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listViewExpRight = (ExpandableListView) findViewById(R.id.expandable_lv_right);
 
         appbarBottom = (RelativeLayout) findViewById(R.id.appbar_bottom);
+        abBottom = (LinearLayout) findViewById(R.id.ab_bottom);
         myAccountTV = (TextView) findViewById(R.id.my_account_tv);
         discountTV = (TextView) findViewById(R.id.disc_tv);
-        cartTV = (TextView) findViewById(R.id.checkout_tv);
+        checkoutTV = (TextView) findViewById(R.id.checkout_tv);
         homeTV = (TextView) findViewById(R.id.home_tv);
 
         searchView = (SearchView) findViewById(R.id.search_view);
@@ -445,6 +466,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (success) {
                     try {
                         JSONObject homeObject = responseObject.getJSONObject("home");
+                        JSONArray slideshow = homeObject.optJSONArray("slideshow");
+                        AppConstants.setSlideshowExtra(slideshow.toString());
                         JSONArray menuRight = homeObject.optJSONArray("usermenu");
 
                         for (int z = 0; z < menuRight.length(); z++) {
@@ -599,7 +622,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setCompoundDrawable() {
         utils.setCompoundDrawable(myAccountTV, "top", R.drawable.ic_person_black);
-        utils.setCompoundDrawable(cartTV, "top", R.drawable.ic_shopping_cart_black);
+        utils.setCompoundDrawable(checkoutTV, "top", R.drawable.ic_shopping_cart_black);
         utils.setCompoundDrawable(discountTV, "top", R.drawable.ic_tag_black);
         utils.setCompoundDrawable(homeTV, "top", R.drawable.ic_home_black);
 
@@ -612,6 +635,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.my_account_tv) {
             switchFragment(new Dashboard(), new Bundle());
         } else if (id == R.id.disc_tv) {
+//            utils.sendAppMsg(v);
+//            utils.showNumberPickerDialog();
+//            Log.e("UniqueId", "Id = " + utils.getUniqueId());
 //            switchFragment(new FragCartDetail(), new Bundle());
         } else if (id == R.id.checkout_tv) {
             switchFragment(new FragCartDetail(), new Bundle());

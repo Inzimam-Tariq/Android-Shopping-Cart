@@ -1,8 +1,6 @@
 package com.qemasoft.alhabibshop.app.controller;
 
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -22,10 +20,6 @@ public class ViewHolder1 extends RecyclerView.ViewHolder {
         super(v);
         title = v.findViewById(R.id.category_title_tv);
         mRecyclerView = v.findViewById(R.id.main_cat_recycler_view);
-        RecyclerView.LayoutManager mLayoutManagerCat =
-                new GridLayoutManager(v.getContext(), 2,
-                        LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManagerCat);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 

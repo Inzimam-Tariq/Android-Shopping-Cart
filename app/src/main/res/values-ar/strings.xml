@@ -8,16 +8,16 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="progress_dialog_title">Loading Data</string>
-    <string name="progress_dialog_text">Loading…</string>
+    <string name="progress_dialog_title">تحميل البيانات</string>
+    <string name="progress_dialog_text">جار التحميل…</string>
 
-    <string name="action_settings">Settings</string>
-    <string name="action_overflow">Click This</string>
+    <string name="action_settings">إعدادات</string>
+    <string name="action_overflow">فوق هذا</string>
     <string name="action_login_cap"><b>LOGIN</b></string>
     <string name="action_register_text">تسجيل جديد</string>
-    <string name="edit_address_text">Edit Address</string>
+    <string name="edit_address_text">تعديل العنوان</string>
     <string name="action_change_pass_text">تغيير كلمة المرور</string>
-    <string name="action_shopping_cart">Shopping Cart</string>
+    <string name="action_shopping_cart">عربة التسوق</string>
     <string name="action_wishlist">Wish List</string>
     <string name="action_language">Language</string>
     <string name="action_currency">Currency</string>
@@ -25,53 +25,51 @@
     <string name="nav_head_normal_text">Order Your Everyday Things Here!</string>
     <string name="nav_head_small_text">Get Everything at Discounted Price</string>
 
-    <string name="forgot_pass"><u>Forgot Password?</u></string>
-    <string name="privacy_policy_text_u"><u>Privacy Policy</u></string>
+    <string name="forgot_pass"><u>نسيت كلمة المرور؟</u></string>
+    <string name="privacy_policy_text_u"><u>سياسة الخصوصية</u></string>
     <string name="sign_up"><u><i>Sign Up</i></u></string>
-    <string name="do_not_have_account"><i>Don\'t have an account?</i></string>
-    <string name="register"><u>Register</u></string>
-    <string name="have_account"><i>If you have an account, </i></string>
-    <string name="click_here"> <u>Click here!</u></string>
-    <string name="privacy_policy_statement"><i>I have read and agree to the,</i></string>
+    <string name="do_not_have_account"><i> ليس لديك حساب؟</i></string>
+    <string name="register"><u>تسجيل</u></string>
+    <string name="have_account"><i>إذا كان لديك حساب، </i></string>
+    <string name="click_here"> <u>انقر هنا!</u></string>
+    <string name="privacy_policy_statement"><i> لقد قرات ووافقت على ال، </i></string>
     <string name="your_string_here">This is an &lt;u>underline&lt;/u>.</string>
 
-    <string name="action_search">Search</string>
-    <string name="forgot_pass_text">Forgot Your Password?</string>
-    <string name="title_activity_recycler_view_test">Recycler View Test</string>
-    <string name="title_activity_json_viewer">JSON Viewer Activity</string>
+    <string name="action_search">بحث</string>
+    <string name="forgot_pass_text">نسيت كلمة المرور؟</string>
     <string name="dummy_text">Opencart is an easy to-use, powerful, Open Source online store management program that can manage multiple online stores from a single back-end. Administrative area simply by filling in forms and clicking “Save”. There are many professionally-written extensions available to customize the store to your needs.\n\n
 
 An OpenCart store can be ready to take orders soon after installation. All you have to do is have it installed for you (any web hosts do it for free), select a template form the many free or low-cost template sites, and your product descriptions and photos, click a few settings, and you are ready to begin accepting orders. Our free Installation &amp; Quick Start chapters show you how.\n
 
 The public side or “Storefront” of OpenCart looks very professional and ready to sell almost as soon as it is installed.</string>
 
-    <string name="title_activity_main2">Main2Activity</string>
     <!--Fragment Cart -->
-    <string name="frag_cart_checkbox_text">Use Coupon</string>
-    <string name="frag_cart_btn_text">Checkout</string>
+    <string name="frag_cart_checkbox_text"> استخدم قسيمة </string>
+    <string name="enter_coupon_text"> أدخل القسيمة هنا </string>
     <!--Fragment Categories -->
     <string name="browse_by_category_text">أقسام الموقع</string>
+    <string name="user_menu_text">قائمة المستخدم</string>
 
     <!--Fragment Register -->
-    <string name="personal_detail_text">Your Personal Details</string>
-    <string name="subscribe_text">Subscribe</string>
-    <string name="Yes_text">Yes</string>
-    <string name="No_text">No</string>
+    <string name="personal_detail_text">تفاصيلك الشخصية</string>
+    <string name="subscribe_text">الاشتراك</string>
+    <string name="Yes_text">نعم فعلا</string>
+    <string name="No_text">لا</string>
 
     <!--Fragment Edit Address -->
-    <string name="company_text">Company</string>
-    <string name="Address1_text">Address1</string>
-    <string name="Address2_text">Address2</string>
-    <string name="city_text">City</string>
-    <string name="country_text">Country</string>
-    <string name="state_text">State/Region</string>
-    <string name="post_code_text">Postal Code</string>
+    <string name="company_text">الشركة</string>
+    <string name="Address_text">العنوان الاول</string>
+    <string name="Address2_text">العنوان الثاني</string>
+    <string name="city_text">المدينة</string>
+    <string name="country_text">البلد</string>
+    <string name="state_text">المنطقة / المحافظة</string>
+    <string name="post_code_text">صندوق البريد</string>
 
 
     <!--Fragment Categories -->
-    <string name="inquiry_text">Inquiry</string>
+    <string name="inquiry_text">تحقيق</string>
 
-    <string name="inquiry_hint_">enter your inquiry here</string>
+    <string name="inquiry_hint_">أدخل استفسارك هنا</string>
 
     <!--Fragment Edit Account -->
     <string name="edit_account_text">تحرير الحساب</string>
@@ -80,77 +78,76 @@ The public side or “Storefront” of OpenCart looks very professional and read
 
     <!--Misc...-->
     <string name="contact_us_text">اتصل بنا</string>
-    <string name="about_us_text">About Us</string>
-    <string name="your_name_text">Your Name</string>
-    <string name="your_name_hint">enter your name</string>
-    <string name="first_name_text">First Name</string>
-    <string name="first_name_hint">enter your first name</string>
-    <string name="last_name_text">Last Name</string>
-    <string name="last_name_hint">enter your last name</string>
-    <string name="email_text">E-Mail Address</string>
-    <string name="email_hint">enter your email id</string>
-    <string name="password_text">Password</string>
-    <string name="your_password_text">Your Password</string>
-    <string name="confirm_password_text">Confirm Password</string>
-    <string name="new_password_text">New Password</string>
-    <string name="old_password_text">Current Password</string>
-    <string name="password_hint">enter your password</string>
-    <string name="new_password_hint">confirm new password</string>
-    <string name="phone_text">Phone #</string>
-    <string name="phone_hint">enter your phone #</string>
-    <string name="submit_text">Submit</string>
-    <string name="continue_text">Continue</string>
+    <string name="about_us_text">معلومات عنا</string>
+    <string name="your_name_text">اسمك</string>
+    <string name="your_name_hint">أدخل أسمك</string>
+    <string name="first_name_text">الاسم الأول</string>
+    <string name="first_name_hint">الاسم الأول</string>
+    <string name="last_name_text">الاسم الاخير</string>
+    <string name="last_name_hint">الاسم الاخير</string>
+    <string name="email_text">البريد الإلكتروني</string>
+    <string name="email_hint">البريد الإلكتروني</string>
+    <string name="password_text">كلمة المرور</string>
+    <string name="your_password_text">كلمة المرور</string>
+    <string name="confirm_password_text">تأكيد كلمة المرور</string>
+    <string name="new_password_text">كلمة المرور الجديدة</string>
+    <string name="old_password_text">كلمة السر الحالية</string>
+    <string name="password_hint">كلمة المرور</string>
+    <string name="new_password_hint">تأكيد كلمة المرور الجديدة</string>
+    <string name="phone_text">رقم الهاتف أو الجوال</string>
+    <string name="phone_hint">رقم الهاتف أو الجوال</string>
+    <string name="submit_text">خضع</string>
+    <string name="continue_text">استمر</string>
 
     <!--Fragment Order Detail-->
-    <string name="name_text">Name</string>
-    <string name="qty_text">Qty</string>
-    <string name="price_text">Price</string>
-    <string name="total_text">Total</string>
-    <string name="shipping_cost_text">Shipping Cost : </string>
-    <string name="sub_total_text">Sub Total : </string>
-    <string name="grand_total_text">Grand Total : </string>
+    <string name="name_text">اسم</string>
+    <string name="qty_text">كمية</string>
+    <string name="price_text">السعر</string>
+    <string name="total_text">مجموع</string>
+    <string name="shipping_cost_text">تكلفة الشحن</string>
+    <string name="sub_total_text"> المجموع الفرعي </string>
+    <string name="grand_total_text"> المبلغ الإجمالي </string>
 
     <!--Fragment Order History-->
-    <string name="order_history_text">طلباتي</string>
+    <string name="order_history_text">تاريخ الطلب</string>
 
     <!--Fragment Privacy Policy-->
-    <string name="privacy_policy_text">Privacy Policy</string>
+    <string name="privacy_policy_text">سياسة الخصوصية</string>
 
     <!--Fragment Address Book-->
-    <string name="address_book_text">تعديل العناوين</string>
+    <string name="address_book_text">قائمة دفتر العناوين</string>
 
     <!--Fragment Transactions-->
     <string name="transactions_text">عرض رصيدك المتوفر</string>
 
     <!--Fragment Newsletter-->
-    <string name="newsletter_text">Newsletter</string>
+    <string name="newsletter_text">النشرة الإخبارية</string>
 
     <!--Fragment Reward Points-->
     <string name="reward_points_text">Reward Points</string>
 
     <!--Fragment Return History-->
-    <string name="return_history_text">Return History</string>
+    <string name="return_history_text">عرض طلبات الإرجاع الخاصة بك</string>
 
 
     <!--Fragment Order Detail-->
-    <string name="order_detail_text">Order Details</string>
-    <string name="order_id_text">Order ID : </string>
-    <string name="order_date_text">Order Date : </string>
-    <string name="order_status_text">Order Status : </string>
-    <string name="order_quantity_text">Quantity : </string>
-    <string name="total_amount_text">Total Amount : </string>
-    <string name="payment_method_text">Payment Method : </string>
-    <string name="shipping_method_text">Shipping Method : </string>
-    <string name="view_order_detail_text">View Order Detail</string>
+    <string name="order_detail_text">تفاصيل الطلب</string>
+    <string name="order_id_text">رقم الطلب</string>
+    <string name="order_date_text">تاريخ البداية</string>
+    <string name="order_status_text">الحالة</string>
+    <string name="order_quantity_text">الكمية</string>
+    <string name="total_amount_text">المبلغ الإجمالي</string>
+    <string name="payment_method_text">طريقة الدفع</string>
+    <string name="shipping_method_text">طريقة الشحن</string>
+    <string name="view_order_detail_text">معاينة تفاصيل الطلب</string>
+    <string name="my_orders__text">طلباتي</string>
 
+    <string name="add_to_cart_text">أضف إلى السلة</string>
 
-    <string name="add_to_cart_text">Add to Cart</string>
-
-    <string name="fcategory">تسوق جميع الأقسام</string>
+    <string name="categories">تسوق جميع الأقسام</string>
     <string name="featured">منتجات مميزة</string>
     <string name="latest">أضيف مؤخراً</string>
     <string name="bestseller">الأكثر مبيعاً</string>
-    <string name="title_activity_main_q">MainActivityQ</string>
     <string name="title_home">الرئيسية</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -158,9 +155,10 @@ The public side or “Storefront” of OpenCart looks very professional and read
 
     <string name="account">حسابي</string>
     <string name="logout">خروج</string>
-    <string name="checkout">إنهاء الطلب</string>
-    <string name="coupon">سلة الشراء</string>
-    <string name="cart">سلة الشراء</string>
+    <string name="checkout">سلة الشراء</string>
+    <string name="cart">إنهاء الطلب</string>
+    <string name="text_disc">خصم</string>
+    <string name="recombination">منتجات مميزة</string>
 
 
 

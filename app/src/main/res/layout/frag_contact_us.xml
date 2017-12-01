@@ -30,11 +30,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="@string/contact_us_text" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@color/outline"/>
+                    android:background="@color/outline" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -91,11 +92,15 @@
                     android:id="@+id/inquiryET"
                     style="@style/CustomETStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:gravity="top"
                     android:hint="@string/inquiry_hint_"
-                    android:inputType="text|textMultiLine"
+                    android:inputType="textMultiLine"
+                    android:lines="8"
+                    android:maxLines="10"
+                    android:minLines="6"
+                    android:scrollbars="vertical"
                     android:textColorHint="@android:color/darker_gray" />
 
                 <Button
@@ -105,9 +110,10 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:text="@string/submit_text" />
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"/>
+                    android:layout_height="?attr/actionBarSize" />
 
             </LinearLayout>
 

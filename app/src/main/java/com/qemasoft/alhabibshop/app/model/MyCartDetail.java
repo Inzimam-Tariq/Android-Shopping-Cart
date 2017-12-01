@@ -10,10 +10,13 @@ public class MyCartDetail {
     private String paymentMethod;
     private String deliveryMethod;
     private String orderStatus;
+    private String productId;
+    private String productImage;
     private String productName;
     private String productModel;
     private String orderQty;
     private String productPrice;
+    private String total;
     private String subTotal;
     private String couponDiscount;
     private String grandTotal;
@@ -24,6 +27,18 @@ public class MyCartDetail {
         this.productPrice = productPrice;
         this.orderQty = orderQty;
         this.productModel = productModel;
+    }
+
+    public MyCartDetail(String cartId, String productId, String productImage,
+                        String productName, String orderQty,
+                        String productPrice, String total) {
+        this.cartId = cartId;
+        this.productId = productId;
+        this.productImage = productImage;
+        this.productName = productName;
+        this.orderQty = orderQty;
+        this.productPrice = productPrice;
+        this.total = total;
     }
 
     public String getCartId() {
@@ -46,6 +61,14 @@ public class MyCartDetail {
         return orderStatus;
     }
 
+    public String getProductId() {
+        return productId;
+    }
+
+    public String getProductImage() {
+        return productImage;
+    }
+
     public String getProductName() {
         return productName;
     }
@@ -62,6 +85,10 @@ public class MyCartDetail {
         return productPrice;
     }
 
+    public String getTotal() {
+        return total;
+    }
+
     public String getSubTotal() {
         return subTotal;
     }
@@ -72,13 +99,5 @@ public class MyCartDetail {
 
     public String getGrandTotal() {
         return grandTotal;
-    }
-
-    public void setSubTotal(String subTotal) {
-        this.subTotal = subTotal;
-    }
-
-    public void setGrandTotal(String grandTotal) {
-        this.grandTotal = grandTotal;
     }
 }

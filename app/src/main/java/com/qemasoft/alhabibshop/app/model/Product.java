@@ -2,119 +2,128 @@ package com.qemasoft.alhabibshop.app.model;
 
 import java.util.List;
 
-public class Product{
-	private String total;
-	private String orderProductId;
-	private String quantity;
-	private String price;
-	private String productId;
-	private String name;
-	private String tax;
-	private String model;
-	private String orderId;
-	private List<Object> option;
+public class Product {
 
-	public Product(String name, String quantity, String price, String total) {
-		this.total = total;
-		this.quantity = quantity;
-		this.price = price;
-		this.name = name;
-	}
+    private String productId;
+    private String name;
+    private String model;
+    private String price;
+    private String quantity;
+    private String productDescription;
+    private String stockStatus;
+    private String manufacturer;
+    private String discount;
+    private String discPercent;
+    private String dateAdded;
+    private String reviewCount;
+    private String rating;
+    private String tax;
+    private String orderId;
+    private List<Object> option;
+    private String total;
+    private String orderProductId;
+    private List<Reviews> reviewsList;
 
-	public void setTotal(String total){
-		this.total = total;
-	}
 
-	public String getTotal(){
-		return total;
-	}
+    public Product(String name, String quantity, String price, String total) {
+        this.total = total;
+        this.quantity = quantity;
+        this.price = price;
+        this.name = name;
+    }
 
-	public void setOrderProductId(String orderProductId){
-		this.orderProductId = orderProductId;
-	}
+    public Product(String productId, String name, String model, String price,
+                   String quantity, String productDescription, String stockStatus,
+                   String manufacturer, String discount, String discPercent,
+                   String dateAdded, String rating, String reviewCount) {
+        this.productId = productId;
+        this.name = name;
+        this.model = model;
+        this.price = price;
+        this.quantity = quantity;
+        this.productDescription = productDescription;
+        this.stockStatus = stockStatus;
+        this.manufacturer = manufacturer;
+        this.discPercent = discPercent;
+        this.discount = discount;
+        this.dateAdded = dateAdded;
+        this.rating = rating;
+        this.reviewCount = reviewCount;
+    }
 
-	public String getOrderProductId(){
-		return orderProductId;
-	}
+    public String getProductId() {
+        return productId;
+    }
 
-	public void setQuantity(String quantity){
-		this.quantity = quantity;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getQuantity(){
-		return quantity;
-	}
+    public String getModel() {
+        return model;
+    }
 
-	public void setPrice(String price){
-		this.price = price;
-	}
+    public String getPrice() {
+        return price;
+    }
 
-	public String getPrice(){
-		return price;
-	}
+    public String getQuantity() {
+        return quantity;
+    }
 
-	public void setProductId(String productId){
-		this.productId = productId;
-	}
+    public String getProductDescription() {
+        return productDescription;
+    }
 
-	public String getProductId(){
-		return productId;
-	}
+    public String getStockStatus() {
+        return stockStatus;
+    }
 
-	public void setName(String name){
-		this.name = name;
-	}
+    public String getManufacturer() {
+        return manufacturer;
+    }
 
-	public String getName(){
-		return name;
-	}
+    public String getDiscPercent() {
+        return discPercent;
+    }
 
-	public void setTax(String tax){
-		this.tax = tax;
-	}
+    public String getDiscount() {
+        return discount;
+    }
 
-	public String getTax(){
-		return tax;
-	}
+    public String getDateAdded() {
+        return dateAdded;
+    }
 
-	public void setModel(String model){
-		this.model = model;
-	}
+    public String getReviewCount() {
+        return reviewCount;
+    }
 
-	public String getModel(){
-		return model;
-	}
+    public String getRating() {
+        return rating;
+    }
 
-	public void setOrderId(String orderId){
-		this.orderId = orderId;
-	}
+    public String getTax() {
+        return tax;
+    }
 
-	public String getOrderId(){
-		return orderId;
-	}
+    public String getOrderId() {
+        return orderId;
+    }
 
-	public void setOption(List<Object> option){
-		this.option = option;
-	}
+    public List<Object> getOption() {
+        return option;
+    }
 
-	public List<Object> getOption(){
-		return option;
-	}
+    public String getTotal() {
+        return total;
+    }
 
-	@Override
- 	public String toString(){
-		return 
-			"Product{" + 
-			"total = '" + total + '\'' + 
-			",order_product_id = '" + orderProductId + '\'' + 
-			",quantity = '" + quantity + '\'' + 
-			",price = '" + price + '\'' + 
-			",product_id = '" + productId + '\'' + 
-			",name = '" + name + '\'' + 
-			",tax = '" + tax + '\'' + 
-			",model = '" + model + '\'' + 
-			",order_id = '" + orderId + '\'' + 
-			",option = '" + option + '\'' + 
-			"}";
-		}
+    public String getOrderProductId() {
+        return orderProductId;
+    }
+
+    public List<Reviews> getReviewsList() {
+        return reviewsList;
+    }
 }
