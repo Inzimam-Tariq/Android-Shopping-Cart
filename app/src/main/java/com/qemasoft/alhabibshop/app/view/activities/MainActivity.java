@@ -36,6 +36,7 @@ import com.qemasoft.alhabibshop.app.view.fragments.Dashboard;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCartDetail;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCategories;
 import com.qemasoft.alhabibshop.app.view.fragments.FragChangePassword;
+import com.qemasoft.alhabibshop.app.view.fragments.FragCheckout;
 import com.qemasoft.alhabibshop.app.view.fragments.FragContactUs;
 import com.qemasoft.alhabibshop.app.view.fragments.FragEditAccount;
 import com.qemasoft.alhabibshop.app.view.fragments.FragForgotPass;
@@ -53,6 +54,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -60,15 +62,15 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
+import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_KEY;
-import static com.qemasoft.alhabibshop.app.AppConstants.MA_GOTO_ITEMS_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.SEARCH_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
-import static com.qemasoft.alhabibshop.app.AppConstants.setProductExtra;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -640,11 +642,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            Log.e("UniqueId", "Id = " + utils.getUniqueId());
 //            switchFragment(new FragCartDetail(), new Bundle());
         } else if (id == R.id.checkout_tv) {
-            switchFragment(new FragCartDetail(), new Bundle());
+            switchFragment(new FragCheckout(), new Bundle());
         } else if (id == R.id.home_tv) {
             recreate();
         } else if (id == R.id.search_icon) {
-            startActivity(new Intent(context, SearchActivity.class));
+            startActivityForResult(new Intent(context, SearchActivity.class), SEARCH_REQUEST_CODE);
         } else if (id == R.id.cart_layout) {
             switchFragment(new FragCartDetail(), new Bundle());
         }
@@ -653,29 +655,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MA_GOTO_ITEMS_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                try {
-                    final JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    setProductExtra(response.toString());
-//                    switchFragment(new FragProduct());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else if (resultCode == AppConstants.FORCED_CANCEL) {
-                try {
-                    JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    Log.e("Res Else", response.toString());
-                    String error = response.optString("message");
-                    if (!error.isEmpty()) {
-                        utils.showErrorDialog(error);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Maybe your Internet is too slow, try again");
+
+        String responseStr = data.getStringExtra("result");
+        Log.e("ResponseIsString", "" + responseStr);
+
+        JSONObject response = null;
+        if (!isJSONString(responseStr)) {
+            try {
+                response = new JSONObject(responseStr);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+        } else {
+            Bundle bundle = new Bundle();
+            bundle.putString("id", responseStr);
+            bundle.putBoolean("isFromSearch", true);
+            switchFragment(new FragProduct(), bundle);
+            return;
+        }
+
+        if (response != null) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (requestCode == SEARCH_REQUEST_CODE) {
+                    Log.e("WithinSearchResult", "If Success" + response.toString());
+                }
+            } else if (resultCode == FORCED_CANCEL) {
+                Log.e("WithinSearchResult", "If Success False" + response.toString());
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.e("WithinSearchResult", "Result Cancel" + response.toString());
+            }
+        }
+    }
+
+    private boolean isJSONString(String data) {
+        try {
+            Object json = new JSONTokener(data).nextValue();
+            return !(json instanceof JSONObject);
+        } catch (JSONException e) {
+            return true;
         }
     }
 

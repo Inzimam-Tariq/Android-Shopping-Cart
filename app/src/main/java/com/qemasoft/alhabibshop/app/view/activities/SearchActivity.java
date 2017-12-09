@@ -1,6 +1,8 @@
 package com.qemasoft.alhabibshop.app.view.activities;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -23,6 +25,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         this.context = this;
         initViews();
+        setFinishOnTouchOutside(false);
 
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.width = MATCH_PARENT;
@@ -40,13 +43,17 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", query);
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
                 Toast.makeText(context, query, Toast.LENGTH_SHORT).show();
-                return true;
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(context, newText, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, newText, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });

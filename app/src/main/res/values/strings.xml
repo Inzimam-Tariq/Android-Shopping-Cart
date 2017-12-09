@@ -50,6 +50,14 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="frag_cart_checkbox_text">Use Coupon</string>
     <string name="enter_coupon_text">Use Coupon</string>
     <string name="frag_cart_btn_text">Checkout</string>
+    <string name="preferred_shipping_method_text">Please select the preferred shipping method to use on this order</string>
+    <string name="preferred_payment_method_text">Please select the preferred Payment method to use on this order</string>
+    <string name="comment_about_order_text">Add Comments About Your Order</string>
+    <string name="terms_text">Terms and Conditions</string>
+    <string name="confirm_order_text">Confirm Order</string>
+    <string name="please_select_text">--Please Select--</string>
+    <string name="next_text">Next</string>
+    <string name="back_text">Back</string>
     <!--Fragment Categories -->
     <string name="browse_by_category_text">Browse by Category</string>
     <string name="user_menu_text">User Menu</string>

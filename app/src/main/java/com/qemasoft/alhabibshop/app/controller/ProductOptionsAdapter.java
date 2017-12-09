@@ -63,7 +63,7 @@ public class ProductOptionsAdapter extends RecyclerView.Adapter<ProductOptionsAd
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                utils.showRadioAlertDialog(textView,  data.getName(), options);
+                utils.showRadioAlertDialog(textView,  data.getName(), options, 0);
             }
         });
 

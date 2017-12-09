@@ -13,6 +13,7 @@ import com.qemasoft.alhabibshop.app.view.activities.SplashActivity;
 public class AppConstants {
 
     public static final int SPLASH_REQUEST_CODE = 1;
+    public static final int SEARCH_REQUEST_CODE = 769;
     public static final int LOGIN_REQUEST_CODE = 2;
     public static final int REGISTER_REQUEST_CODE = 3;
     public static final int ORDER_HISTORY_REQUEST_CODE = 4;
@@ -35,6 +36,8 @@ public class AppConstants {
     public static final int DELETE_ADDRESS_REQUEST_CODE = 20;
     public static final int COUNTRIES_REQUEST_CODE = 21;
     public static final int STATES_REQUEST_CODE = 22;
+    public static final int SHIPPING_METHOD_REQUEST_CODE = 23;
+    public static final int PAYMENT_METHOD_REQUEST_CODE = 24;
     public static final int FORCED_CANCEL = 2;
 
     public static final String DEFAULT_STRING_VAL = "";

@@ -24,8 +24,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.PRODUCT_REQUEST_CODE;
 
@@ -62,10 +65,18 @@ public class FragProduct extends MyBaseFragment {
     }
 
     private void requestData(String id) {
-        AppConstants.setMidFixApi("products/category_id/" + id);
-
+        boolean isFromSearch = getArguments().getBoolean("isFromSearch", false);
         Bundle bundle = new Bundle();
         Intent intent = new Intent(getContext(), FetchData.class);
+        Map<String, String> map = new HashMap<>();
+        if (isFromSearch){
+            AppConstants.setMidFixApi("searchProduct");
+            map.put("search", id);
+            bundle.putBoolean("hasParameters", true);
+            bundle.putSerializable("parameters", (Serializable) map);
+        }else {
+            AppConstants.setMidFixApi("products/category_id/" + id);
+        }
         intent.putExtras(bundle);
         startActivityForResult(intent, PRODUCT_REQUEST_CODE);
     }

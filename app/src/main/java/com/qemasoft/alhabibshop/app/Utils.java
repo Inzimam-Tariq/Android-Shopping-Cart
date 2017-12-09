@@ -373,17 +373,18 @@ public class Utils {
 
     }
 
-    public void showRadioAlertDialog(final Button button, String title, final List<String> list) {
+    public void showRadioAlertDialog(final Button button, String title,
+                                     final List<String> list, int selectedIndex) {
         // setup the alert builder
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(title);
         builder.setCancelable(false);
 
-        int checkedItem = position = 0; // 1st element
+        position = 0;
 
         builder.setSingleChoiceItems(list.toArray(new String[list.size()]),
-                checkedItem, new DialogInterface.OnClickListener() {
+                selectedIndex, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which > 0) {
