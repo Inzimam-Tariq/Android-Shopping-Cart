@@ -38,15 +38,16 @@ public class ProductOptionsAdapter extends RecyclerView.Adapter<ProductOptionsAd
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_product_option, parent, false);
-        Log.e("LayoutInflated", "Working");
+
         this.context = parent.getContext();
         this.utils = new Utils(context);
+        utils.printLog("LayoutInflated", "Working");
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.e("OnBIndMethod", "OnBind Working");
+        utils.printLog("OnBIndMethod", "OnBind Working");
 //        final int pos = holder.getAdapterPosition();
         final Options data = dataList.get(position);
 
@@ -55,15 +56,15 @@ public class ProductOptionsAdapter extends RecyclerView.Adapter<ProductOptionsAd
 
         for (int i = 0; i < data.getProductOptionValueItemList().size(); i++) {
             ProductOptionValueItem item = data.getProductOptionValueItemList().get(i);
-            Log.e("Option", " option name = "+ item.getName());
+            utils.printLog("Option", " option name = "+ item.getName());
             options.add(item.getName());
         }
 
-        final Button textView = holder.optionsTV;
-        textView.setOnClickListener(new View.OnClickListener() {
+        final Button btn = holder.optionsBtn;
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                utils.showRadioAlertDialog(textView,  data.getName(), options, 0);
+                utils.showRadioAlertDialog(btn,  data.getName(), options, 0);
             }
         });
 
@@ -77,15 +78,15 @@ public class ProductOptionsAdapter extends RecyclerView.Adapter<ProductOptionsAd
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView optionsNameTV;
-                Button optionsTV;
+                Button optionsBtn;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            optionsTV = itemView.findViewById(R.id.options_tv);
+            optionsBtn = itemView.findViewById(R.id.options_btn);
             optionsNameTV = itemView.findViewById(R.id.option_name_tv);
 
-            Log.e("FindViewById", "Working");
+            utils.printLog("FindViewById Working");
         }
     }
 

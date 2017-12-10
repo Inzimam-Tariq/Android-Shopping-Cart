@@ -3,7 +3,6 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,7 @@ public class FragSlider extends MyBaseFragment {
         String responseStr = AppConstants.getSlideshowExtra();
 
         if (!responseStr.isEmpty()) {
-            Log.e("ResponseInSliderFrag", responseStr);
+            utils.printLog("ResponseInSliderFrag", responseStr);
             try {
                 JSONArray slideShowArray = new JSONArray(responseStr);
 
@@ -79,10 +78,10 @@ public class FragSlider extends MyBaseFragment {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e("JSONObjEx_SliderFrag", responseStr);
+                utils.printLog("JSONObjEx_SliderFrag", responseStr);
             }
         } else {
-            Log.e("ResponseExSliderFrag", responseStr);
+            utils.printLog("ResponseExSliderFrag", responseStr);
         }
 
         MyPagerAdapter adapter = new MyPagerAdapter(context, slideshowArrayList);

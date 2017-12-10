@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.Slideshow;
-import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 import com.qemasoft.alhabibshop.app.view.fragments.FragProduct;
 import com.qemasoft.alhabibshop.app.view.fragments.FragProductDetail;
 import com.squareup.picasso.Picasso;
@@ -25,6 +25,7 @@ public class MyPagerAdapter extends PagerAdapter {
 
     private ArrayList<Slideshow> slideshowArrayList;
     private LayoutInflater inflater;
+    private Utils utils;
 
 
     public MyPagerAdapter(Context context, ArrayList<Slideshow> slideshowArrayList) {
@@ -44,10 +45,12 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup view, int position) {
+
         View myImageLayout = inflater.inflate(R.layout.slide, view, false);
+
         ImageView myImage = myImageLayout.findViewById(R.id.image);
         final Slideshow slideshow = slideshowArrayList.get(position);
-//        myImage.setImageResource(slideshowArrayList.get(position));
+        utils = new Utils(view.getContext());
         Picasso.with(view.getContext()).load(slideshow.getImage()).into(myImage);
         view.addView(myImageLayout, 0);
 
@@ -59,14 +62,11 @@ public class MyPagerAdapter extends PagerAdapter {
                 Bundle bundle = new Bundle();
                 if (type.equals("0")){
                     bundle.putString("id",id);
-                    ((MainActivity)view.getContext()).switchFragment(new FragProduct()
-                            ,bundle);
+                    utils.switchFragment(new FragProduct(),bundle);
                 }else {
                     bundle.putString("id",id);
-                    ((MainActivity)view.getContext()).switchFragment(new FragProductDetail()
-                            ,bundle);
+                    utils.switchFragment(new FragProductDetail(),bundle);
                 }
-
             }
         });
 

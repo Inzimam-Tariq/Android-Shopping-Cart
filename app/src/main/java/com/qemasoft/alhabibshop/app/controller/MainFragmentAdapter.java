@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,18 +47,17 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public MainFragmentAdapter(List<String> keysList) {
         this.keysStrList = keysList;
         prepareData();
-        Log.e("AllItemTypeSize = ", myAllItemsList.size() + "");
+        utils.printLog("AllItemTypeSize = ", myAllItemsList.size() + "");
     }
 
     @Override
     public int getItemViewType(int position) {
 
-//        Log.e("getItemViewType ", myAllItemsList.get(position).getClass() + "");
         Object o = myAllItemsList.get(position);
         if (o instanceof List) {
             for (Object obj : (List) o) {
                 if (obj instanceof MyCategory) {
-//                    Log.e("InsideInstenceof", "Success");
+//                    utils.printLog("InsideInstenceof", "Success");
                     return CATEGORY_VIEW;
                 }
             }
@@ -76,7 +74,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        Log.e("itemType = ", "ViewTypeOnCreate " + viewType);
+        utils.printLog("itemType = ", "ViewTypeOnCreate " + viewType);
         switch (viewType) {
             case CATEGORY_VIEW:
                 View v1 = inflater.inflate(R.layout.layout_main_frag_categories, parent, false);
@@ -98,7 +96,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int itemType = holder.getItemViewType();
-        Log.e("itemType = ", itemType + "");
+        utils.printLog("itemType = ", itemType + "");
         Object o = myAllItemsList.get(position);
         RecyclerView.LayoutManager mLayoutManagerCat = null;
         if (o instanceof List) {
@@ -156,14 +154,14 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         String responseStr = getHomeExtra();
         try {
             JSONObject responseObject = new JSONObject(responseStr);
-            Log.e("JSON_Response", "" + responseObject);
+            utils.printLog("JSON_Response", "" + responseObject);
             boolean success = responseObject.optBoolean("success");
             if (success) {
                 JSONObject homeObject = responseObject.optJSONObject("home");
                 JSONObject modules = homeObject.optJSONObject("modules");
 
                 for (int a = 0; a < keysStrList.size(); a++) {
-                    Log.e("KeyStr = ", keysStrList.get(a));
+                    utils.printLog("KeyStr = ", keysStrList.get(a));
                     if (keysStrList.get(a).equals("categories")) {
                         JSONArray featuredCategories = modules.optJSONArray(keysStrList.get(a));
                         for (int i = 0; i < featuredCategories.length(); i++) {
@@ -195,23 +193,11 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     }
                 }
             } else {
-                Log.e("SuccessFalse", "Within getCategories");
+                utils.printLog("SuccessFalse", "Within getCategories");
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("JSONEx_CatAdapterTest", responseStr);
-        }
-    }
-
-    public class GenericList<T> extends ArrayList<T> {
-        private Class<T> genericType;
-
-        public GenericList(Class<T> c) {
-            this.genericType = c;
-        }
-
-        public Class<T> getGenericType() {
-            return genericType;
+            utils.printLog("JSONEx_CatAdapterTest", responseStr);
         }
     }
 

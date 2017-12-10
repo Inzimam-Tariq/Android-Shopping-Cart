@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.Preferences;
@@ -57,15 +55,15 @@ public class AddressBook extends MyBaseFragment {
         initUtils();
         initViews(view);
 
-        String customerId = Preferences.getSharedPreferenceString(appContext,CUSTOMER_KEY,"");
-        Log.e("CustomerId", customerId);
-        Toast.makeText(context, "CustomerID="+customerId,Toast.LENGTH_LONG).show();
+        String customerId = Preferences.getSharedPreferenceString(appContext, CUSTOMER_KEY, "");
+        utils.printLog("CustomerId = ", customerId);
+        utils.showToast("CustomerID = " + customerId);
 
         requestData();
         addAddressIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchFragment(new AddAddress());
+                utils.switchFragment(new AddAddress());
             }
         });
 

@@ -34,7 +34,7 @@ public class ProductReviewsAdapter extends RecyclerView.Adapter<ProductReviewsAd
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_pro_author_review, parent, false);
-        Log.e("LayoutInflated", "Working");
+        utils.log("LayoutInflated", "Working");
         this.context = parent.getContext();
 
         return new MyViewHolder(itemView);
@@ -42,7 +42,7 @@ public class ProductReviewsAdapter extends RecyclerView.Adapter<ProductReviewsAd
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.e("OnBIndMethod", "OnBind Working");
+        utils.log("OnBIndMethod", "OnBind Working");
         final int pos = holder.getAdapterPosition();
         final Reviews data = dataList.get(pos);
 
@@ -73,7 +73,7 @@ public class ProductReviewsAdapter extends RecyclerView.Adapter<ProductReviewsAd
             revComment = itemView.findViewById(R.id.review_comment_tv);
             authorRating = itemView.findViewById(R.id.author_rating_bar);
 
-            Log.e("FindViewById", "Working");
+            utils.log("FindViewById", "Working");
         }
     }
 }

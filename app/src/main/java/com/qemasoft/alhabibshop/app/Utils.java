@@ -14,6 +14,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 
 import com.qemasoft.alhabibshop.app.controller.MyPagerAdapter;
 import com.qemasoft.alhabibshop.app.model.Slideshow;
+import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -52,6 +54,12 @@ import java.util.regex.Pattern;
 
 import me.relex.circleindicator.CircleIndicator;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
+import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 /**
@@ -146,11 +154,6 @@ public class Utils {
                 Configuration.SCREENLAYOUT_SIZE_MASK;
     }
 
-    public void showToast(String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-
-    }
-
     public void startNewActivity(Class activityToStart, Bundle extras, boolean isFinish) {
         Intent intent = new Intent(mContext, activityToStart);
         if (extras != null)
@@ -159,10 +162,6 @@ public class Utils {
 
         if (isFinish)
             ((Activity) mContext).finish();
-    }
-
-    public void printLog(String tag, String s) {
-        Log.e(tag, s);
     }
 
     public void hideKeyboard(View view) {
@@ -326,7 +325,6 @@ public class Utils {
                         dialog.cancel();
                     }
                 });
-        // Create the AlertDialog object and return it
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
@@ -373,8 +371,8 @@ public class Utils {
 
     }
 
-    public void showRadioAlertDialog(final Button button, String title,
-                                     final List<String> list, int selectedIndex) {
+    public int showRadioAlertDialog(final Button button, String title,
+                                    final List<String> list, int selectedIndex) {
         // setup the alert builder
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
@@ -395,14 +393,16 @@ public class Utils {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.e("Which", "position =" + which);
-                Log.e("Which", "List position =" + list.get(position));
+                printLog("Which", "position =" + which);
+                printLog("Which", "List position =" + list.get(position));
                 button.setHint(list.get(position));
             }
         });
         builder.setNegativeButton("Cancel", null);
         AlertDialog dialog = builder.create();
         dialog.show();
+
+        return position;
     }
 
     public void showProgress() {
@@ -441,12 +441,33 @@ public class Utils {
     }
 
     public void changeLanguage(String languageCode) {
-        Locale locale = new Locale(languageCode);
+        String language = Preferences.getSharedPreferenceString(appContext,
+                LANGUAGE_KEY, "en");
+        Locale locale = new Locale(language);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         appContext.getResources().updateConfiguration(config, appContext.getResources().getDisplayMetrics());
 
+    }
+
+    public void clearSession() {
+        Preferences.setSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
+        Preferences.setSharedPreferenceString(appContext, CUSTOMER_KEY, DEFAULT_STRING_VAL);
+        Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, DEFAULT_STRING_VAL);
+        Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, DEFAULT_STRING_VAL);
+    }
+
+    public void showToast(String msg) {
+        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void printLog(String msg) {
+        Log.e("TAG" + mContext.getPackageName(), msg);
+    }
+
+    public void printLog(String tag, String msg) {
+        Log.e(tag + mContext.getPackageName(), msg);
     }
 
     public void setupSlider(final ViewPager mPager, CircleIndicator indicator,
@@ -457,7 +478,7 @@ public class Utils {
         final String responseStr = AppConstants.getSlideshowExtra();
 
         if (!responseStr.isEmpty()) {
-            Log.e("ResponseInSliderFrag", responseStr);
+            printLog("ResponseInSliderFrag", responseStr);
             try {
                 JSONArray slideShowArray = new JSONArray(responseStr);
 
@@ -472,10 +493,10 @@ public class Utils {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e("JSONObjEx_SliderFrag", responseStr);
+                printLog("JSONObjEx_SliderFrag", responseStr);
             }
         } else {
-            Log.e("ResponseExSliderFrag", responseStr);
+            printLog("ResponseExSliderFrag", responseStr);
         }
         mPager.setAdapter(new MyPagerAdapter(mContext, slideshowArrayList));
 
@@ -486,7 +507,7 @@ public class Utils {
         final Runnable Update = new Runnable() {
             public void run() {
                 if (currentPage == slideshowArrayList.size()) {
-//                    Log.e("SlideshowArray", slideshowArrayList.toString());
+//                    utils.printLog("SlideshowArray", slideshowArrayList.toString());
                     currentPage = -1;
                     mPager.setCurrentItem(currentPage++, false);
                 } else
@@ -531,7 +552,7 @@ public class Utils {
     public String getUniqueId() {
         String uniqueId = UUID.randomUUID().toString();
         String subStrId = uniqueId.substring(0, 24);
-        Log.e("UniqueId", subStrId);
+        printLog("UniqueId", subStrId);
         return subStrId;
     }
 
@@ -544,9 +565,22 @@ public class Utils {
         mContext.startActivity(sendIntent);
     }
 
-    public void setError(EditText editText){
+    public void setError(EditText editText) {
         editText.setError("Required!");
         editText.requestFocus();
+    }
+
+    public void switchFragment(Fragment fragment) {
+        ((MainActivity) mContext).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flFragments, fragment).commit();
+    }
+
+    public void switchFragment(Fragment fragment, Bundle bundle) {
+        if (bundle != null) {
+            fragment.setArguments(bundle);
+        }
+        ((MainActivity) mContext).getSupportFragmentManager().beginTransaction()
+                .replace(R.id.flFragments, fragment).commit();
     }
 
 }

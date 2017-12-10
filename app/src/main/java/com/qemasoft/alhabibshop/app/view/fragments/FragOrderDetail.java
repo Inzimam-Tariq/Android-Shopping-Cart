@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +58,8 @@ public class FragOrderDetail extends MyBaseFragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            Log.e("Message: ", "" + bundle.getString("message", DEFAULT_STRING_VAL));
-            requestData(bundle.getString("message", DEFAULT_STRING_VAL));
+            utils.printLog("ID: ", "" + bundle.getString("id", DEFAULT_STRING_VAL));
+            requestData(bundle.getString("id", DEFAULT_STRING_VAL));
         }
 
         setupAdaptersAndShowData();
@@ -84,25 +83,25 @@ public class FragOrderDetail extends MyBaseFragment {
     private void setupAdaptersAndShowData() {
 
         // for Orders
-        Log.e("ItemDataListPopulated", "Item Data list populated");
+        utils.printLog("Order Data list populated");
         orderDetailAdapter = new OrderDetailAdapter(myOrderList);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(context
                         , LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        Log.e("SettingAdapterForItems", "Setting Adapter For Items");
+        utils.printLog("Setting Adapter For Order");
         mRecyclerView.setAdapter(orderDetailAdapter);
-        Log.e("AdapterSet", "Adapter Set Success");
+        utils.printLog("Adapter Set Success");
     }
 
-    private void requestData(String orderId) {
+    private void requestData(String id) {
 
         AppConstants.setMidFixApi("getOrder");
 
         Map<String, String> map = new HashMap<>();
-        map.put("order_id", orderId);
-        Log.e("order_id", orderId);
+        map.put("order_id", id);
+        utils.printLog("order_id", id);
 
         Bundle bundle = new Bundle();
         bundle.putBoolean("hasParameters", true);
@@ -121,7 +120,7 @@ public class FragOrderDetail extends MyBaseFragment {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
 
-                    Log.e("InsideOnResult", "FragOrderDetail");
+                    utils.printLog("InsideOnResult");
 
                     JSONObject order = response.optJSONObject("order");
                     JSONObject orderInfo = order.optJSONObject("order_info");

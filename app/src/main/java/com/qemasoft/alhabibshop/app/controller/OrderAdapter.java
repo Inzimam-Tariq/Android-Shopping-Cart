@@ -2,7 +2,6 @@ package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,7 +38,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_order, parent, false);
-        Log.e("LayoutInflated", "Working");
+        utils.log("LayoutInflated", "Working");
         this.context = parent.getContext();
 
         return new MyViewHolder(itemView);
@@ -47,7 +46,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.e("OnBIndMethod", "OnBind Working");
+        utils.log("OnBIndMethod", "OnBind Working");
         final int pos = holder.getAdapterPosition();
         final MyOrder data = myOrderList.get(holder.getAdapterPosition());
 
@@ -58,21 +57,16 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         holder.orderDate.setText(data.getOrderDate());
         TextView tvPrice = holder.orderTotalPrice;
         tvPrice.setText(data.getOrderTotalPrice());
-//        double width = holder.customLinearLayout.getWidth();
-//        Utils utils = new Utils(context);
-//        utils.showToast("Clicked & Position is : " + position);
+
         holder.viewOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle=new Bundle();
-                bundle.putString("message", data.getOrderId());
+                bundle.putString("id", data.getOrderId());
                 Utils utils = new Utils(context);
                 utils.showToast("Clicked & Position is : "+pos);
 
-                FragOrderDetail frag = new FragOrderDetail();
-                frag.setArguments(bundle);
-                AppCompatActivity activity = (AppCompatActivity) v.getContext();
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.flFragments,frag).commit();
+                utils.switchFragment(new FragOrderDetail(), bundle);
             }
         });
         // set StrikeThrough to textView
@@ -98,15 +92,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             orderQuantity = itemView.findViewById(R.id.order_quantity);
             orderDate = itemView.findViewById(R.id.order_date);
             viewOrderBtn = itemView.findViewById(R.id.view_order_btn);
-//            customLinearLayout = (LinearLayout) itemView.findViewById(R.id.custom_item_layout);
 
-//            double width = viewOrderBtn.getWidth();
-//            Utils utils = new Utils(context);
-//            utils.showToast("Clicked & Position is : " + width);
-
-//            customLinearLayout.getLayoutParams().width = (int) (Utils.getScreenWidth(itemView.getContext()) / 2-4);
-//            customLinearLayout.getLayoutParams().height = (int) (Utils.getScreenWidth(itemView.getContext()) / 2);
-            Log.e("FindViewById", "Working");
+            utils.log("FindViewById", "Working");
         }
     }
 
@@ -114,7 +101,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         @Override
         public void onClick(View v) {
 //            int itemPosition = recyclerView.indexOfChild(v);
-//            Log.e("Clicked and Position is",String.valueOf(itemPosition));
+//            utils.printLog("Clicked and Position is",String.valueOf(itemPosition));
         }
     }
 }

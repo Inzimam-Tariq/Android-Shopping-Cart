@@ -2,9 +2,6 @@ package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,6 +28,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     private List<MyCategory> dataList;
     private Context context;
+    private Utils utils;
 //    private boolean isPlainCategory;
 
     public CategoryAdapter(List<MyCategory> dataList) {
@@ -47,11 +45,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 //            categoryView = LayoutInflater.from(parent.getContext())
 //                    .inflate(R.layout.layout_categories, parent, false);
 //        } else {
-            categoryView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.layout_category, parent, false);
+        categoryView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.layout_category, parent, false);
 //        }
 //        Log.e("LayoutInflated", "Working");
         this.context = parent.getContext();
+        this.utils = new Utils(context);
         return new MyViewHolder(categoryView);
     }
 
@@ -60,24 +59,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 //        Log.e("OnBIndMethod", "OnBind Working");
         final MyCategory data = dataList.get(position);
         final String id = data.getCategoryId();
-//        holder.itemId.setText(data.getQuestionId());
         holder.categoryTitle.setText(data.getCategoryTitle());
         Picasso.with(context).load(data.getCatImage()).into(holder.categoryImage);
-//        holder.categoryImage.setImageResource(data.getCatImage());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
-            AppCompatActivity activity = (AppCompatActivity) context;
-
             @Override
             public void onClick(View v) {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("id", id);
                 Log.e("itemId", id);
-                Fragment fragment = new FragProduct();
-                fragment.setArguments(bundle);
-                FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-                transaction.addToBackStack(null);
-                transaction.replace(R.id.flFragments, fragment).commit();
+                utils.switchFragment(new FragProduct(), bundle);
             }
         });
     }

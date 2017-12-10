@@ -32,21 +32,19 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_order_detail, parent, false);
-        Log.e("LayoutInflated", "Working");
+        utils.log("LayoutInflated", "Working");
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.e("OnBIndMethod", "OnBind Working");
+        utils.log("OnBIndMethod", "OnBind Working");
         Product data = productList.get(position);
         holder.productName.setText(data.getName());
         holder.orderQty.setText(data.getQuantity());
         holder.productPrice.setText(data.getPrice());
         holder.total.setText(data.getTotal());
-//        int t = Utils.subTotalOrderDetail += totalInt;
-//        Log.e("SubTotal = ", "" + t);
     }
 
     @Override
@@ -65,7 +63,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             productPrice = itemView.findViewById(R.id.product_price);
             total = itemView.findViewById(R.id.total);
 
-            Log.e("FindViewById", "Working");
+            utils.log("FindViewById", "Working");
         }
     }
 }

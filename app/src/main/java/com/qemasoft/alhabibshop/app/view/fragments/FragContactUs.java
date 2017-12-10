@@ -36,7 +36,7 @@ public class FragContactUs extends MyBaseFragment {
             @Override
             public void onClick(View v) {
                 utils.showToast("You Query Submitted Successfully\nWe will contact you back soon");
-                switchFragment(new MainFrag());
+                utils.switchFragment(new MainFrag());
             }
         });
 

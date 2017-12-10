@@ -68,11 +68,11 @@ public class FragChangePassword extends MyBaseFragment {
                     return;
                 }
                 if (currentPassVal.length() < 1) {
-                    pass.setError("Required");
+                    utils.setError(currentPass);
                 } else if (newPassVal.length() < 1) {
-                    pass.setError("Required");
+                    utils.setError(pass);
                 } else if (confirmPassVal.length() < 1) {
-                    pass.setError("Required");
+                    utils.setError(confirmPass);
                 } else {
 
                     AppConstants.setMidFixApi("editPassword");

@@ -3,7 +3,6 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +70,7 @@ public class FragShowText extends MyBaseFragment {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
                     String  title = response.optString("title");
                     String  description = response.optString("description");
-                    Log.e("Categories", title);
+                    utils.printLog("Categories", title);
                     titleTV.setText(title);
                     contentTV.setText(description);
                 } catch (JSONException e) {

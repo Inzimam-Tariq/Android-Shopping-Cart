@@ -5,7 +5,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +54,7 @@ public class FragCategories extends MyBaseFragment {
 
     private void loadData() {
         String response = getProductExtra();
-            Log.e("ResponseInCategoryFrag", response);
+            utils.printLog("ResponseInCategoryFrag", response);
         try {
             JSONObject object = new JSONObject(response);
             JSONArray categoryArray = object.optJSONArray("products");
@@ -79,16 +78,16 @@ public class FragCategories extends MyBaseFragment {
     private void setAdaptersAndData() {
 
         // for Categories
-        Log.e("DataListPopulated", "Data list populated");
+        utils.printLog("Data list populated");
         categoryAdapter = new CategoryAdapter(myCategoryList);
 
         RecyclerView.LayoutManager mLayoutManagerCat =
                 new GridLayoutManager(context, 2, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManagerCat);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        Log.e("SettingAdapter", "Setting Adapter");
+        utils.printLog("Setting Adapter");
         mRecyclerView.setAdapter(categoryAdapter);
-        Log.e("AdapterSet", "Adapter Set Success");
+        utils.printLog("Adapter Set Success");
 
     }
 

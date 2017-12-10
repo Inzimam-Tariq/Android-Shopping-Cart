@@ -78,21 +78,15 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.edit_account_tv) {
-            switchFragment(new FragEditAccount());
+            utils.switchFragment(new FragEditAccount());
         } else if (id == R.id.change_pass_tv) {
-            switchFragment(new FragChangePassword());
+            utils.switchFragment(new FragChangePassword());
         } else if (id == R.id.address_book_tv) {
-            switchFragment(new AddressBook());
+            utils.switchFragment(new AddressBook());
         } else if (id == R.id.order_history_tv) {
-            switchFragment(new FragOrderHistory());
-//        } else if (id == R.id.transactions_tv) {
-//            ((MainActivity) getActivity()).changeFragment(103);
-//        } else if (id == R.id.newsletter_tv) {
-//            ((MainActivity) getActivity()).changeFragment(103);
-//        } else if (id == R.id.reward_points_tv) {
-//            ((MainActivity) getActivity()).changeFragment(103);
+            utils.switchFragment(new FragOrderHistory());
         } else if (id == R.id.return_history_tv) {
-            switchFragment(new FragOrderHistory());
+            utils.switchFragment(new FragOrderHistory());
         }
     }
 }

@@ -50,7 +50,7 @@
                         grid:layout_columnWeight="1" />
 
                     <TextView
-                        android:id="@+id/unit_price"
+                        android:id="@+id/product_price_val_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="fill_horizontal"
@@ -98,7 +98,7 @@
                         app:srcCompat="@drawable/ic_close_black" />
 
                     <TextView
-                        android:id="@+id/sub_total_val_tv"
+                        android:id="@+id/total_val_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"

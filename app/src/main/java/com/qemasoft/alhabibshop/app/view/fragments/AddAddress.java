@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.Preferences;
@@ -62,8 +60,7 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.frag_add_address, container, false);
         initUtils();
         initViews(view);
-        Toast.makeText(context, "Click and hold to Edit or Delete Address"
-                , Toast.LENGTH_LONG).show();
+        utils.showToast("Click and hold to Edit or Delete Address");
 
         radioGroup.check(R.id.rbNo);
         countryBtn.setOnClickListener(this);
@@ -121,7 +118,7 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
         if (response != null) {
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == ADD_ADDRESS_REQUEST_CODE) {
-                    switchFragment(new AddressBook());
+                    utils.switchFragment(new AddressBook());
                 } else if (requestCode == COUNTRIES_REQUEST_CODE) {
                     try {
                         JSONArray countries = response.optJSONArray("countries");
@@ -174,7 +171,7 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                         -1, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.e("CountryId", countryIdList.get(which));
+                                utils.printLog("CountryId", countryIdList.get(which));
                                 countryBtn.setHint(countryList.get(which));
                                 getStates(countryIdList.get(which));
                                 countryId = countryIdList.get(which);
@@ -201,7 +198,7 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                 dialog.show();
                 break;
             case R.id.continue_btn:
-                Log.e("ContinueButtonClicked", "Success");
+                utils.printLog("ContinueButtonClicked", "Success");
                 String fNameVal = fNameET.getText().toString().trim();
                 String lNameVal = lNameET.getText().toString().trim();
                 String companyVal = companyNameET.getText().toString().trim();
@@ -210,19 +207,15 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                 String cityVal = cityET.getText().toString().trim();
                 String countryVal = countryBtn.getHint().toString().trim();
                 String stateVal = stateBtn.getHint().toString().trim();
-                Log.e("CountryVal", countryVal + "CVal");
+                utils.printLog("CountryVal", countryVal + "CVal");
                 if (fNameVal.isEmpty()) {
-                    fNameET.setError("Required!");
-                    fNameET.requestFocus();
+                    utils.setError(fNameET);
                 } else if (lNameVal.isEmpty()) {
-                    lNameET.setError("Required!");
-                    lNameET.requestFocus();
+                    utils.setError(lNameET);
                 } else if (addressVal.isEmpty()) {
-                    addressET.setError("Required!");
-                    addressET.requestFocus();
+                    utils.setError(addressET);;
                 } else if (cityVal.isEmpty()) {
-                    cityET.setError("Required!");
-                    cityET.requestFocus();
+                    utils.setError(cityET);
                 } else if (countryVal.isEmpty() || countryVal.contains("select")) {
                     countryBtn.setError("Required!");
                 } else if (stateVal.isEmpty()) {

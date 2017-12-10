@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,7 +68,7 @@ public class MainFrag extends MyBaseFragment {
         List<String> keysStr = new ArrayList<>();
         try {
             JSONObject responseObject = new JSONObject(responseStr);
-            Log.e("JSON_Response", "" + responseObject);
+            utils.printLog("JSON_Response", "" + responseObject);
             boolean success = responseObject.optBoolean("success");
             if (success) {
                 JSONObject homeObject = responseObject.optJSONObject("home");
@@ -79,15 +78,15 @@ public class MainFrag extends MyBaseFragment {
                 while (keys.hasNext()) {
                     String key = (String) keys.next();
                     keysStr.add(key);
-                    Log.e("KeyStr", key);
+                    utils.printLog("KeyStr", key);
                 }
-                Log.e("ModuleSize", modules.toString());
+                utils.printLog("ModuleSize", modules.toString());
             } else {
-                Log.e("SuccessFalse", "Within getCategories");
+                utils.printLog("SuccessFalse", "Within getCategories");
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e("JSONEx_MainFragTest", responseStr);
+            utils.printLog("JSONEx_MainFragTest", responseStr);
         }
 
         return keysStr;

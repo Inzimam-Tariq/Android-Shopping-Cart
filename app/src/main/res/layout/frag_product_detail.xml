@@ -261,12 +261,12 @@
 
                                 <TextView
                                     android:id="@+id/write_review_tv"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_marginBottom="5dp"
                                     android:layout_weight="0.7"
                                     android:gravity="center_vertical"
-                                    android:text="1 Reviews / Write a Review"
+                                    android:text="0 Reviews / Write a Review"
                                     android:textColor="@android:color/holo_blue_dark" />
 
                                 <ImageView

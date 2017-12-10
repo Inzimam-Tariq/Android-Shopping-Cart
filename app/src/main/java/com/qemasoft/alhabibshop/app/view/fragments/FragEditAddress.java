@@ -3,13 +3,11 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -64,11 +62,11 @@ public class FragEditAddress extends MyBaseFragment {
                 if (fNameVal.length() > 0 && lNameVal.length() > 0 && cityVal.length() > 0
                         && address1val.length() > 0 && countryVal.length() > 0
                         && stateVal.length() > 0) {
-                    Log.e("InsideLoginClicked = ", "Inside if");
+                    utils.printLog("InsideLoginClicked = ", "Inside if");
                     if (utils.isNetworkConnected()) {
-                        Log.e("InsideLoginClicked = ", "isNetwork");
+                        utils.printLog("InsideLoginClicked = ", "isNetwork");
                         AppConstants.setMidFixApi("editaddress");
-                        Log.e("RegisterUrl = ", getApiCallUrl());
+                        utils.printLog("RegisterUrl = ", getApiCallUrl());
                         AndroidNetworking.post(getApiCallUrl())
                                 .addBodyParameter("firstname", fNameVal)
                                 .addBodyParameter("lastname", lNameVal)
@@ -111,7 +109,7 @@ public class FragEditAddress extends MyBaseFragment {
                                     public void onError(ANError anError) {
                                         anError.printStackTrace();
                                         utils.showErrorDialog("Error Getting Data From Server");
-                                        Toast.makeText(context, "ErrorGettingDataFromServer", Toast.LENGTH_LONG).show();
+                                        utils.showToast("ErrorGettingDataFromServer");
                                     }
                                 });
                     } else {

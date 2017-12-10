@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,8 +49,6 @@ import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 public class FragProductDetail extends MyBaseFragment implements View.OnClickListener {
 
     private ViewPager mPager;
-    //    private int currentPage = 0;
-//    private ArrayList<Slideshow> slideshowArrayList;
     private CircleIndicator indicator;
     private List<Reviews> reviewsList;
     private Product product;
@@ -161,7 +158,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    Log.e("ResponseInFragProDetail",response.toString());
+                    utils.printLog("ResponseInFragProDetail",response.toString());
                     JSONObject proObj = response.optJSONObject("product");
 
                     product = new Product(proObj.optString("id")
@@ -206,9 +203,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                     mRecyclerViewRating.setLayoutManager(mLayoutManagerReviews);
                     mRecyclerViewRating.setAdapter(new ProductReviewsAdapter(reviewsList));
                     if (!product.getReviewCount().isEmpty()) {
-                        writeReviewTV.setText(product.getReviewCount() + " Reviews/ Write Review");
-                    }else {
-                        writeReviewTV.setText("0 Reviews/ Write Review");
+                        writeReviewTV.setText(product.getReviewCount().concat(" Reviews/ Write Review"));
                     }
 
                     JSONArray optionsArray = proObj.optJSONArray("options");
@@ -223,7 +218,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                                     subOptionsObj.optString("option_value_id")
                                     , subOptionsObj.optString("name")));
                             String val = subOptionsList.get(k).getName();
-                            Log.e("Color Value = ", val);
+                            utils.printLog("Color Value = ", val);
                         }
                         optionsList.add(new Options(optionsObj.optString("product_option_id")
                                 , subOptionsList
@@ -261,7 +256,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                         Integer.parseInt(itemCountTV.getText().toString()));
                 Bundle bundle = new Bundle();
                 bundle.putString("id", product.getProductId());
-                switchFragment(new FragCartDetail(), bundle);
+                utils.switchFragment(new FragCartDetail(), bundle);
 
                 break;
             case R.id.submit_btn:
@@ -269,11 +264,11 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                 String commentVal = reviewCommentET.getText().toString();
                 float rating = ratingBarPost.getRating();
                 if (nameVal.isEmpty()) {
-                    yourNameET.setError("Required!");
+                    utils.setError(yourNameET);
                     return;
                 }
                 if (commentVal.isEmpty()) {
-                    reviewCommentET.setError("Required!");
+                    utils.setError(reviewCommentET);
                     return;
                 }
                 reviewsList.add(new Reviews(nameVal, "", commentVal,
@@ -284,7 +279,8 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                 scrollView.smoothScrollTo(0, mRecyclerViewRating.getBottom());
                 yourNameET.setText("");
                 reviewCommentET.setText("");
-//                utils.showAlertDialog("Confirmation Dialog","Review submitted successfully");
+                utils.showToast("Review submitted successfully");
+
                 break;
             case R.id.whatsapp_icon:
                 utils.sendAppMsg(v);

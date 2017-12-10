@@ -2,11 +2,8 @@ package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +12,6 @@ import android.widget.TextView;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.Address;
-import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 import com.qemasoft.alhabibshop.app.view.fragments.FragEditAddress;
 
 import java.util.ArrayList;
@@ -34,8 +30,8 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
 
     public AddressBookAdapter(List<Address> dataList) {
         this.dataList = dataList;
-        Log.e("Constructor", "Working");
-        Log.e("Constructor", "DataList Size = " + dataList.size());
+        utils.printLog("Constructor", "Working");
+        utils.printLog("Constructor", "DataList Size = " + dataList.size());
     }
 
     @Override
@@ -43,26 +39,26 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_address, parent, false);
-        Log.e("LayoutInflated", "Working");
+        utils.printLog("LayoutInflated", "Working");
         this.context = parent.getContext();
         this.utils = new Utils(context);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Log.e("OnBIndMethod", "OnBind Working");
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+        utils.printLog("OnBIndMethod", "OnBind Working");
 //        final int pos = holder.getAdapterPosition();
         final Address data = dataList.get(position);
 
-        holder.nameTV.setText(data.getFirstName() + " " + data.getLastName());
+        holder.nameTV.setText(data.getFirstName().concat(" ").concat(data.getLastName()));
 
-        Log.e("Company", data.getCompany() + "C");
-        Log.e("Address", data.getAddress());
-        Log.e("City", data.getCity());
-        Log.e("PostCode", data.getPostalCode());
-        Log.e("Country", data.getCountry());
-        Log.e("State", data.getState());
+        utils.printLog("Company", data.getCompany() + "C");
+        utils.printLog("Address", data.getAddress());
+        utils.printLog("City", data.getCity());
+        utils.printLog("PostCode", data.getPostalCode());
+        utils.printLog("Country", data.getCountry());
+        utils.printLog("State", data.getState());
         if (data.getCompany().isEmpty()) {
             holder.companyTV.setVisibility(View.GONE);
         } else {
@@ -82,13 +78,13 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.e("Position", "Long Click Position = " + position);
+                utils.printLog("Position", "Long Click Position = " + holder.getAdapterPosition());
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Select Option");
                 builder.setCancelable(false);
 
                 int checkedItem = itemPosition = 0; // 1st element
-                final List<String> list = new ArrayList();
+                final List<String> list = new ArrayList<>();
                 list.add("Edit");
                 list.add("Delete");
                 builder.setSingleChoiceItems(list.toArray(new String[list.size()]),
@@ -103,17 +99,16 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.e("Which", "List position =" + list.get(itemPosition));
+                        utils.printLog("Which", "List position =" + list.get(itemPosition));
                         if (itemPosition == 0) {
-                            Fragment fragment = new FragEditAddress();
-                            FragmentTransaction transaction = ((MainActivity) context).getSupportFragmentManager().beginTransaction();
-                            transaction.addToBackStack(null);
-                            transaction.replace(R.id.flFragments, fragment).commit();
+
+                            utils.switchFragment(new FragEditAddress());
                         } else if (itemPosition == 1) {
-                            Log.e("Position", "Position = " + position);
-                            dataList.remove(position);
-                            notifyItemRemoved(position);
-                            notifyItemRangeChanged(position, dataList.size());
+
+                            utils.printLog("Position", "Position = " + holder.getAdapterPosition());
+                            dataList.remove(holder.getAdapterPosition());
+                            notifyItemRemoved(holder.getAdapterPosition());
+                            notifyItemRangeChanged(holder.getAdapterPosition(), dataList.size());
                         }
                     }
                 });
@@ -147,7 +142,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
             countryTV = itemView.findViewById(R.id.country_tv);
             stateTV = itemView.findViewById(R.id.state_tv);
 
-            Log.e("FindViewById", "Working");
+            utils.printLog("FindViewById", "Working");
         }
     }
 

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,13 +84,13 @@ public class FragLogin extends MyBaseFragment {
         registerTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchFragment(new FragRegister());
+                utils.switchFragment(new FragRegister());
             }
         });
         forgotPassTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switchFragment(new FragForgotPass());
+                utils.switchFragment(new FragForgotPass());
             }
         });
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -102,9 +101,9 @@ public class FragLogin extends MyBaseFragment {
                 String passVal = passET.getText().toString().trim();
                 AppConstants.setMidFixApi("login");
                 if (emailVal.length() < 1) {
-                    emailET.setError("Required");
+                    utils.setError(emailET);
                 } else if (passVal.length() < 1) {
-                    passET.setError("Required");
+                    utils.setError(passET);
                 } else {
                     Map<String, String> map = new HashMap<>();
                     map.put("email", emailVal);
@@ -148,7 +147,7 @@ public class FragLogin extends MyBaseFragment {
                     String lName = object.optString("lastname");
 
                     String userName = "Welcome: " +fName+" "+lName;
-                    Log.e("CustomerId = ", customerId+" Username = "+userName);
+                    utils.printLog("CustomerId = ", customerId+" Username = "+userName);
 
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, customerEmail);
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_KEY, customerId);

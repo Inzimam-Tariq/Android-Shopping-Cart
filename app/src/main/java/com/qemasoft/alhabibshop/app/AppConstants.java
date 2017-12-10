@@ -38,6 +38,8 @@ public class AppConstants {
     public static final int STATES_REQUEST_CODE = 22;
     public static final int SHIPPING_METHOD_REQUEST_CODE = 23;
     public static final int PAYMENT_METHOD_REQUEST_CODE = 24;
+    public static final int CONFIRM_CHECKOUT_REQUEST_CODE = 25;
+    public static final int ADD_ORDER_REQUEST_CODE = 26;
     public static final int FORCED_CANCEL = 2;
 
     public static final String DEFAULT_STRING_VAL = "";
@@ -52,8 +54,8 @@ public class AppConstants {
     public static final String CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
     public static final String CUSTOMER_NAME = "CUSTOMER_NAME";
     public static final String ITEM_COUNTER = "ITEM_COUNTER";
-        private static final String BASE_URL = "http://www.opencartgulf.com/api/";
-//    private static final String BASE_URL = "http://www.alhabibshop.com/new/api/";
+    private static final String BASE_URL = "http://www.opencartgulf.com/api/";
+    //    private static final String BASE_URL = "http://www.alhabibshop.com/new/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     private static String MID_FIX_API;
     private static String HOME_EXTRA;

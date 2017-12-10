@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,16 +68,16 @@ public class FragOrderHistory extends MyBaseFragment {
     private void setupAdaptersAndShowData() {
 
         // for Orders
-        Log.e("ItemDataListPopulated", "Item Data list populated");
+        utils.printLog("Item Data list populated");
         orderAdapter = new OrderAdapter(myOrderList);
         RecyclerView.LayoutManager mLayoutManager =
                 new LinearLayoutManager(context
                         , LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-//        Log.e("SettingAdapterForItems", "Setting Adapter For Items");
         mRecyclerView.setAdapter(orderAdapter);
-        Log.e("AdapterSet", "Adapter Set Success");
+
+        utils.printLog("Adapter Set Success");
     }
 
     private void loadDummyData() {
@@ -105,7 +104,7 @@ public class FragOrderHistory extends MyBaseFragment {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
 
-                    Log.e("InsideOnResult", "FragOrderHistory");
+                    utils.printLog("InsideOnResult");
                     JSONArray orders = response.optJSONArray("orders");
                     for (int i = 0; i < orders.length(); i++) {
                         JSONObject orderObj = orders.optJSONObject(i);

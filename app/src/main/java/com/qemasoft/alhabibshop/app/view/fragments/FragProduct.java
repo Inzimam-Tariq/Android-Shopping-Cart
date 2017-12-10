@@ -9,7 +9,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,7 +92,7 @@ public class FragProduct extends MyBaseFragment {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
                     JSONArray products = response.optJSONArray("products");
-                    Log.e("Categories", products.toString());
+                    utils.printLog("Products", products.toString());
                     for (int i = 0; i < products.length(); i++) {
                         JSONObject productObj = products.optJSONObject(i);
                         MyItem item = new MyItem(productObj.optString("product_id")

@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -69,11 +67,11 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                                 AppConstants.setMidFixApi("home");
                                 String secretKey = response.optString(SECRET_KEY_FILE);
                                 String keyVal = GET_KEY(context, KEY_FOR_KEY);
-                                Log.e("StoredKey", "Key = " + keyVal);
+                                utils.printLog("StoredKey", "Key = " + keyVal);
                                 if (keyVal.isEmpty() || keyVal.length() < 1) {
-                                    Log.e("StoringKey", "Success");
+                                    utils.printLog("StoringKey", "Success");
                                     SET_KEY(KEY_FOR_KEY, secretKey);
-                                    Log.e("KeyStored", "Success");
+                                    utils.printLog("KeyStored", "Success");
                                 }
                                 Bundle bundle = new Bundle();
                                 bundle.putBoolean("hasParameters", false);
@@ -81,7 +79,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent, SPLASH_REQUEST_CODE);
                             } else {
-                                Log.e("Splash", "Success False");
+                                utils.printLog("Splash", "Success False");
                                 utils.showAlertDialog("Invalid Request!", "No Relevant Record Found");
                             }
                         }
@@ -90,7 +88,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                         public void onError(ANError anError) {
                             anError.printStackTrace();
                             utils.showErrorDialog("Error Getting Data From Server");
-                            Toast.makeText(context, "ErrorGettingDataFromServer", Toast.LENGTH_LONG).show();
+                            utils.showToast("ErrorGettingDataFromServer");
                         }
                     });
         } else {
@@ -128,7 +126,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                         }, 700);
                     } else {
                         utils.showErrorDialog("Server Response is False!");
-                        Log.e("SuccessFalse", "Within getCategories");
+                        utils.printLog("SuccessFalse", "Within getCategories");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -136,7 +134,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
-                Log.e("RequestCanceled", "Canceled");
+                utils.printLog("RequestCanceled", "Canceled");
 //                utils.showAlertDialog("Invalid Request!", "Either the request is invalid or no relevant record found");
             }
         }

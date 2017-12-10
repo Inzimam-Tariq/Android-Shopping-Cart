@@ -58,6 +58,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="please_select_text">--Please Select--</string>
     <string name="next_text">Next</string>
     <string name="back_text">Back</string>
+    <string name="confirm_text">Confirm</string>
     <!--Fragment Categories -->
     <string name="browse_by_category_text">Browse by Category</string>
     <string name="user_menu_text">User Menu</string>
@@ -122,6 +123,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
 
     <!--Fragment Order History-->
     <string name="order_history_text">Order History</string>
+    <string name="view_order_history_text">View Order History</string>
 
     <!--Fragment Privacy Policy-->
     <string name="privacy_policy_text">Privacy Policy</string>

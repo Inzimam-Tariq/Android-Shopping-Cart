@@ -63,13 +63,13 @@ public class FragEditAccount extends MyBaseFragment {
                 String emailVal = email.getText().toString().trim();
                 String contactVal = contact.getText().toString().trim();
                 if (fNameVal.length() < 1) {
-                    fName.setError("Required");
+                    utils.setError(fName);
                 } else if (lNameVal.length() < 1) {
-                    lName.setError("Required");
+                    utils.setError(lName);
                 } else if (emailVal.length() < 1) {
-                    email.setError("Required");
+                    utils.setError(email);
                 } else if (contactVal.length() < 1) {
-                    contact.setError("Required");
+                    utils.setError(contact);
                 } else {
                     AppConstants.setMidFixApi("editCustomer");
 

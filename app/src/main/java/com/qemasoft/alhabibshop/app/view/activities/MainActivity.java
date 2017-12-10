@@ -7,15 +7,12 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.text.TextUtilsCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -39,15 +36,11 @@ import com.qemasoft.alhabibshop.app.view.fragments.FragChangePassword;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCheckout;
 import com.qemasoft.alhabibshop.app.view.fragments.FragContactUs;
 import com.qemasoft.alhabibshop.app.view.fragments.FragEditAccount;
-import com.qemasoft.alhabibshop.app.view.fragments.FragForgotPass;
 import com.qemasoft.alhabibshop.app.view.fragments.FragLogin;
-import com.qemasoft.alhabibshop.app.view.fragments.FragOrderDetail;
 import com.qemasoft.alhabibshop.app.view.fragments.FragOrderHistory;
 import com.qemasoft.alhabibshop.app.view.fragments.FragProduct;
-import com.qemasoft.alhabibshop.app.view.fragments.FragProductDetail;
 import com.qemasoft.alhabibshop.app.view.fragments.FragRegister;
 import com.qemasoft.alhabibshop.app.view.fragments.FragShowText;
-import com.qemasoft.alhabibshop.app.view.fragments.FragSlider;
 import com.qemasoft.alhabibshop.app.view.fragments.MainFrag;
 import com.squareup.picasso.Picasso;
 
@@ -59,7 +52,6 @@ import org.json.JSONTokener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
@@ -119,7 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private HashMap<String, List<UserSubMenu>> hashMapRight;
     private List<MenuCategory> headerListLeft;
     private HashMap<MenuCategory, List<MenuSubCategory>> hashMapLeft;
-    private boolean isLoggedIn = false;
+//    private boolean isLoggedIn = false;
 
 
     private RelativeLayout appbarBottom;
@@ -129,15 +121,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setupDefaultLanguage();
+        this.utils = new Utils(this);
+        utils.changeLanguage("en");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initViews();
         this.context = this;
         setupToolbar(this);
         checkForUniqueId();
-        checkIsLoggedIn();
-        changeFragment(0);
+        utils.switchFragment(new MainFrag());
         setCompoundDrawable();
         setOnClickListener();
 
@@ -147,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listAdapter = new ExpandableListAdapter(headerListLeft, hashMapLeft,
                 false, loggedInIconList);
         listViewExpLeft.setAdapter(listAdapter);
-        if (isLoggedIn) {
+        if (isLoggedIn()) {
             listAdapterRight = new ExpandableListAdapterRight(headerListRight, hashMapRight,
                     loggedInIconList);
         } else {
@@ -178,17 +170,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         cartLayout.setOnClickListener(this);
     }
 
-    private void checkIsLoggedIn() {
-        isLoggedIn = Preferences.getSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
-        Log.e("IsLoggedIn = ", "" + isLoggedIn);
+    public boolean isLoggedIn() {
+        boolean isLoggedIn = Preferences.getSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
+        utils.printLog("IsLoggedIn = ", "" + isLoggedIn);
         int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
         counterTV.setText(String.valueOf(val));
-    }
 
-    private void clearLoginSession() {
-        Preferences.setSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
-        isLoggedIn = Preferences.getSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
 
+        return isLoggedIn;
     }
 
     private void setExpandableListViewClickListener() {
@@ -197,16 +186,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition,
                                         long id) {
 
-                Log.e("GroupClicked", " Id = " + id);
+                utils.printLog("GroupClicked", " Id = " + id);
                 int childCount = parent.getExpandableListAdapter().getChildrenCount(groupPosition);
-                if (!isLoggedIn) {
+                if (!isLoggedIn()) {
                     if (childCount < 1) {
                         if (groupPosition == 0) {
-                            changeFragment(101);
+                            utils.switchFragment(new FragLogin());
                         } else if (groupPosition == 1) {
-                            changeFragment(102);
+                            utils.switchFragment(new FragRegister());
                         } else if (groupPosition == 2) {
-                            changeFragment(108);
+                            utils.switchFragment(new FragContactUs());
                         } else {
                             recreate();
                         }
@@ -233,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     MenuCategory textChild = (MenuCategory) parent.getExpandableListAdapter()
                             .getGroup(groupPosition);
                     moveToProductFragment(textChild.getMenuCategoryId());
-                    Log.e("InsideChildClick", "" + textChild.getMenuCategoryId());
+                    utils.printLog("InsideChildClick", "" + textChild.getMenuCategoryId());
 
                 }
 
@@ -252,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .getChild(groupPosition, childPosition);
 
                 moveToProductFragment(subCategory.getMenuSubCategoryId());
-                Log.e("InsideChildClick", "" + subCategory.getMenuSubCategoryId());
+                utils.printLog("InsideChildClick", "" + subCategory.getMenuSubCategoryId());
 
                 return true;
             }
@@ -266,17 +255,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (str.contains("Information")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", userSubMenu.getUserSubMenuCode());
-                    switchFragment(new FragShowText(), bundle);
+                    utils.switchFragment(new FragShowText(), bundle);
                 } else if (str.contains("اللغة") || str.contains("Language")) {
-                    if (userSubMenu.getUserSubMenuTitle().contains("عربي")) {
+                    if (userSubMenu.getUserSubMenuTitle().contains("عربي")
+                            || userSubMenu.getUserSubMenuTitle().contains("Arabic")) {
                         Preferences.setSharedPreferenceString(appContext, LANGUAGE_KEY, "ar");
                     } else if ((userSubMenu.getUserSubMenuTitle().contains("English"))) {
                         Preferences.setSharedPreferenceString(appContext, LANGUAGE_KEY, "en");
                     }
-
                     recreate();
                 }
-                Log.e("InsideChildClick", "" + userSubMenu.getUserSubMenuCode());
+                utils.printLog("InsideChildClick", "" + userSubMenu.getUserSubMenuCode());
                 drawer.closeDrawer(GravityCompat.END);
 
                 return false;
@@ -286,12 +275,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setupToolbar(Context context) {
 
-        boolean isRightToLeft = TextUtilsCompat.getLayoutDirectionFromLocale(Locale
-                .getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
-        if (isRightToLeft) {
-            ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
-            ViewCompat.setLayoutDirection(abBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
-        }
+//        boolean isRightToLeft = TextUtilsCompat.getLayoutDirectionFromLocale(Locale
+//                .getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
+//        if (!isRightToLeft) {
+//            ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
+//            ViewCompat.setLayoutDirection(abBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
+//        }
 
         Picasso.with(getApplicationContext()).load(Preferences
                 .getSharedPreferenceString(appContext, LOGO_KEY, DEFAULT_STRING_VAL))
@@ -327,25 +316,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initViews() {
 //        toolbar = (Toolbar) findViewById(toolbar);
-        drawerIconLeft = (ImageView) findViewById(R.id.drawer_icon_left);
-        drawerIconRight = (ImageView) findViewById(R.id.drawer_icon_right);
-        logoIcon = (ImageView) findViewById(R.id.logo_icon);
-        searchIcon = (ImageView) findViewById(R.id.search_icon);
-        cartLayout = (RelativeLayout) findViewById(R.id.cart_layout);
-        counterTV = (TextView) findViewById(R.id.actionbar_notification_tv);
+        drawerIconLeft = findViewById(R.id.drawer_icon_left);
+        drawerIconRight = findViewById(R.id.drawer_icon_right);
+        logoIcon = findViewById(R.id.logo_icon);
+        searchIcon = findViewById(R.id.search_icon);
+        cartLayout = findViewById(R.id.cart_layout);
+        counterTV = findViewById(R.id.actionbar_notification_tv);
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        listViewExpLeft = (ExpandableListView) findViewById(R.id.expandable_lv_left);
-        listViewExpRight = (ExpandableListView) findViewById(R.id.expandable_lv_right);
+        drawer = findViewById(R.id.drawer_layout);
+        listViewExpLeft = findViewById(R.id.expandable_lv_left);
+        listViewExpRight = findViewById(R.id.expandable_lv_right);
 
-        appbarBottom = (RelativeLayout) findViewById(R.id.appbar_bottom);
-        abBottom = (LinearLayout) findViewById(R.id.ab_bottom);
-        myAccountTV = (TextView) findViewById(R.id.my_account_tv);
-        discountTV = (TextView) findViewById(R.id.disc_tv);
-        checkoutTV = (TextView) findViewById(R.id.checkout_tv);
-        homeTV = (TextView) findViewById(R.id.home_tv);
+        appbarBottom = findViewById(R.id.appbar_bottom);
+        abBottom = findViewById(R.id.ab_bottom);
+        myAccountTV = findViewById(R.id.my_account_tv);
+        discountTV = findViewById(R.id.disc_tv);
+        checkoutTV = findViewById(R.id.checkout_tv);
+        homeTV = findViewById(R.id.home_tv);
 
-        searchView = (SearchView) findViewById(R.id.search_view);
+        searchView = findViewById(R.id.search_view);
     }
 
     @Override
@@ -366,29 +355,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Fragment fragment = new Fragment();
 
         switch (position) {
-            case 0:
-                fragment = new MainFrag();
-                break;
-            case 1:
-//                fragment = new FragPrivacyPolicy();
-                break;
             case 2:
-                fragment = new FragProduct();
-                break;
-            case 3:
-                fragment = new FragProductDetail();
-                break;
-            case 4:
-                fragment = new FragCartDetail();
-                break;
-            case 5:
                 fragment = new FragCategories();
-                break;
-            case 101:
-                fragment = new FragLogin();
-                break;
-            case 102:
-                fragment = new FragRegister();
                 break;
             case 103:
                 fragment = new Dashboard();
@@ -404,28 +372,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case 107:
                 // Clear Login Session
-                clearLoginSession();
+                utils.clearSession();
                 recreate();
                 break;
             case 108:
                 fragment = new FragContactUs();
 //                appbarBottom.setVisibility(View.GONE);
                 break;
-            case 109:
-                fragment = new MainFrag();
-                break;
-            case 110:
-                fragment = new MainFrag();
-                break;
-            case 112:
-                fragment = new FragOrderDetail();
-                break;
-            case 201:
-                fragment = new FragSlider();
-                break;
-            case 202:
-                fragment = new FragForgotPass();
-                break;
+
         }
 
         transaction.replace(R.id.flFragments, fragment);
@@ -446,7 +400,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 findStringByName("logout"), findStringByName("contact_us_text")};
 
         List<UserSubMenu> userSubMenusList = new ArrayList<>();
-        if (isLoggedIn) {
+        if (isLoggedIn()) {
             for (int i = 0; i < loggedInMenu.length; i++) {
                 headerListRight.add(loggedInMenu[i]);
                 hashMapRight.put(headerListRight.get(i), userSubMenusList);
@@ -461,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String responseStr = "";
         if (getIntent().hasExtra(KEY_EXTRA)) {
             responseStr = getIntent().getStringExtra(KEY_EXTRA);
-            Log.e("ResponseInInitData", responseStr);
+            utils.printLog("ResponseInInitData", responseStr);
             try {
                 JSONObject responseObject = new JSONObject(responseStr);
                 boolean success = responseObject.optBoolean("success");
@@ -485,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         obj.optString("symbol_right")));
                             }
                             hashMapRight.put(headerListRight.get(headerListRight.size() - 1), userSubMenuList);
-                            Log.e("AfterHashMap", "" + hashMapRight.size());
+                            utils.printLog("AfterHashMap", "" + hashMapRight.size());
                         }
 
                     } catch (JSONException e) {
@@ -493,14 +447,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 } else {
                     utils.showErrorDialog("Error Getting Data From Server");
-                    Log.e("SuccessFalse", "Within getCategories");
+                    utils.printLog("SuccessFalse", "Within getCategories");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e("JSONObjEx_MainAct", responseStr);
+                utils.printLog("JSONObjEx_MainAct", responseStr);
             }
         } else {
-            Log.e("ResponseExMainActivity", responseStr);
+            utils.printLog("ResponseExMainActivity", responseStr);
             throw new IllegalArgumentException("Activity cannot find  extras " + KEY_EXTRA);
         }
 
@@ -536,17 +490,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String responseStr = "";
         if (getIntent().hasExtra(KEY_EXTRA)) {
             responseStr = getIntent().getStringExtra(KEY_EXTRA);
-            Log.e("ResponseInMainActivity", responseStr);
+            utils.printLog("ResponseInMainActivity", responseStr);
             try {
                 JSONObject responseObject = new JSONObject(responseStr);
-                Log.e("JSON_Response", "" + responseObject);
+                utils.printLog("JSON_Response", "" + responseObject);
                 boolean success = responseObject.optBoolean("success");
                 if (success) {
                     try {
                         JSONObject homeObject = responseObject.getJSONObject("home");
 
                         JSONArray menuCategories = homeObject.optJSONArray("categoryMenu");
-                        Log.e("Categories", menuCategories.toString());
+                        utils.printLog("Categories", menuCategories.toString());
                         for (int i = 0; i < menuCategories.length(); i++) {
 
                             JSONObject menuCategoryObj = menuCategories.getJSONObject(i);
@@ -572,14 +526,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 } else {
                     utils.showErrorDialog("Error Getting Data From Server");
-                    Log.e("SuccessFalse", "Within getCategories");
+                    utils.printLog("SuccessFalse", "Within getCategories");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e("JSONObjEx_MainAct", responseStr);
+                utils.printLog("JSONObjEx_MainAct", responseStr);
             }
         } else {
-            Log.e("ResponseExMainActivity", responseStr);
+            utils.printLog("ResponseExMainActivity", responseStr);
             throw new IllegalArgumentException("Activity cannot find  extras " + KEY_EXTRA);
         }
     }
@@ -606,20 +560,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Bundle bundle = new Bundle();
         bundle.putString("id", id);
-        switchFragment(new FragProduct(), bundle);
+        utils.switchFragment(new FragProduct(), bundle);
 
         drawer.closeDrawer(GravityCompat.START);
         drawer.closeDrawer(GravityCompat.END);
-    }
-
-    public void switchFragment(Fragment fragment, Bundle args) {
-        FragmentManager manager = getSupportFragmentManager();
-        if (args != null) {
-            fragment.setArguments(args);
-        }
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.flFragments, fragment);
-        transaction.commit();
     }
 
     private void setCompoundDrawable() {
@@ -635,20 +579,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = v.getId();
 
         if (id == R.id.my_account_tv) {
-            switchFragment(new Dashboard(), new Bundle());
+            utils.switchFragment(new Dashboard());
         } else if (id == R.id.disc_tv) {
-//            utils.sendAppMsg(v);
 //            utils.showNumberPickerDialog();
-//            Log.e("UniqueId", "Id = " + utils.getUniqueId());
-//            switchFragment(new FragCartDetail(), new Bundle());
         } else if (id == R.id.checkout_tv) {
-            switchFragment(new FragCheckout(), new Bundle());
+            if (isLoggedIn()) {
+                utils.switchFragment(new FragCheckout());
+            } else {
+                utils.showAlertDialog("Login Alert", "You Need to Login to Proceed");
+                utils.switchFragment(new FragLogin());
+            }
         } else if (id == R.id.home_tv) {
             recreate();
         } else if (id == R.id.search_icon) {
             startActivityForResult(new Intent(context, SearchActivity.class), SEARCH_REQUEST_CODE);
         } else if (id == R.id.cart_layout) {
-            switchFragment(new FragCartDetail(), new Bundle());
+            utils.switchFragment(new FragCartDetail());
         }
     }
 
@@ -657,32 +603,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
 
         String responseStr = data.getStringExtra("result");
-        Log.e("ResponseIsString", "" + responseStr);
+        utils.printLog("ResponseIsString", "" + responseStr);
 
-        JSONObject response = null;
-        if (!isJSONString(responseStr)) {
-            try {
-                response = new JSONObject(responseStr);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            Bundle bundle = new Bundle();
-            bundle.putString("id", responseStr);
-            bundle.putBoolean("isFromSearch", true);
-            switchFragment(new FragProduct(), bundle);
-            return;
-        }
-
-        if (response != null) {
+        if (responseStr != null) {
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == SEARCH_REQUEST_CODE) {
-                    Log.e("WithinSearchResult", "If Success" + response.toString());
+                    JSONObject response = null;
+                    if (!isJSONString(responseStr)) {
+                        try {
+                            response = new JSONObject(responseStr);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", responseStr);
+                        bundle.putBoolean("isFromSearch", true);
+                        utils.switchFragment(new FragProduct(), bundle);
+                    }
                 }
             } else if (resultCode == FORCED_CANCEL) {
-                Log.e("WithinSearchResult", "If Success False" + response.toString());
+                utils.printLog("WithinSearchResult", "If Success False" + responseStr);
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                Log.e("WithinSearchResult", "Result Cancel" + response.toString());
+                utils.printLog("WithinSearchResult", "Result Cancel" + responseStr);
             }
         }
     }
@@ -694,13 +637,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (JSONException e) {
             return true;
         }
-    }
-
-    private void setupDefaultLanguage() {
-        this.utils = new Utils(this);
-        String language = Preferences.getSharedPreferenceString(appContext,
-                LANGUAGE_KEY, DEFAULT_STRING_VAL);
-        utils.changeLanguage(language);
     }
 
 }

@@ -81,8 +81,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         View groupView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_group_left, parent, false);
 
-        int iconPosition = groupPosition + 1;
-
         TextView lblListHeader = groupView.findViewById(R.id.lblListHeader);
         lblListHeader.setText(menuCategory.getMenuCategoryName());
 //            lblListHeader.setTypeface(null, Typeface.BOLD);
@@ -90,11 +88,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (isRight) {
             imageView.setImageResource(userMenuIcons.get(groupPosition));
         } else {
-            Picasso.with(parent.getContext()).load(menuCategory.getMenuCategoryImage()).into(imageView);
-
-//Picasso.with(parent.getContext()).load(
-//                    "http://www.opencartgulf.com/image/catalog/icons/"
-//                            + iconPosition + ".png").into(imageView);
+            Picasso.with(parent.getContext()).load(menuCategory.getMenuCategoryImage())
+                    .into(imageView);
         }
 
         if (getChildrenCount(groupPosition) > 0) {
@@ -116,7 +111,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListChild = itemView.findViewById(R.id.lblListItem);
         lblListChild.setText(textChild.getMenuSubCategoryName());
-        Log.e("ChildText", textChild.getMenuSubCategoryName());
+        utils.log("ChildText", textChild.getMenuSubCategoryName());
 
         return itemView;
     }

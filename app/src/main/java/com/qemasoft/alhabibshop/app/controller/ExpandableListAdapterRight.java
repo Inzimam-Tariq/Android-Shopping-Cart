@@ -105,13 +105,14 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
                     .inflate(R.layout.list_item, parent, false);
 
             TextView lblListChild = itemView.findViewById(R.id.lblListItem);
-            lblListChild.setText(userSubMenu.getUserSubMenuSymbolLeft() + ""
-                    + userSubMenu.getUserSubMenuSymbolRight() + " "
-                    + userSubMenu.getUserSubMenuTitle());
+            lblListChild.setText(userSubMenu.getUserSubMenuSymbolLeft()
+                    .concat(userSubMenu.getUserSubMenuTitle())
+                    .concat(userSubMenu.getUserSubMenuSymbolRight())
+            );
         } else {
             itemView = new View(parent.getContext());
         }
-        Log.e("ChildText", userSubMenu.getUserSubMenuTitle());
+        utils.log("ChildText", userSubMenu.getUserSubMenuTitle());
 
         return itemView;
     }
