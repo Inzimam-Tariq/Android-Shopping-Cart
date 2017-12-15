@@ -30,18 +30,20 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
 
     public AddressBookAdapter(List<Address> dataList) {
         this.dataList = dataList;
-        utils.printLog("Constructor", "Working");
-        utils.printLog("Constructor", "DataList Size = " + dataList.size());
+//        utils.printLog("Constructor", "Working");
+//        utils.printLog("Constructor", "DataList Size = " + dataList.size());
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_address, parent, false);
-        utils.printLog("LayoutInflated", "Working");
         this.context = parent.getContext();
         this.utils = new Utils(context);
+
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.layout_address, parent, false);
+
+        utils.printLog("LayoutInflated", "Working");
         return new MyViewHolder(itemView);
     }
 

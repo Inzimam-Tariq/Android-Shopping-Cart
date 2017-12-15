@@ -21,6 +21,7 @@ import com.qemasoft.alhabibshop.app.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.GET_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.KEY_FOR_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
@@ -109,24 +110,26 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                         JSONObject settingObject = homeObject.optJSONObject("setting");
                         String logoPath = settingObject.optString("logo");
                         String language = settingObject.optString("language");
+                        String currency = settingObject.optString("currency");
 
                         Preferences.setSharedPreferenceString(appContext,
                                 LOGO_KEY, logoPath);
                         Preferences.setSharedPreferenceString(appContext,
                                 LANGUAGE_KEY, language);
+                        Preferences.setSharedPreferenceString(appContext,
+                                CURRENCY_KEY, currency);
 
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 Intent intent = new Intent(context, MainActivity.class);
-                                intent.putExtra(MainActivity.KEY_EXTRA, "" + response);
+                                intent.putExtra(MainActivity.KEY_EXTRA, response.toString());
                                 startActivity(intent);
                                 setHomeExtra(response.toString());
                             }
                         }, 700);
                     } else {
                         utils.showErrorDialog("Server Response is False!");
-                        utils.printLog("SuccessFalse", "Within getCategories");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -135,7 +138,6 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
                 utils.printLog("RequestCanceled", "Canceled");
-//                utils.showAlertDialog("Invalid Request!", "Either the request is invalid or no relevant record found");
             }
         }
     }

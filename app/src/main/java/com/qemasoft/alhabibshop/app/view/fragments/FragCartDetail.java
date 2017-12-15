@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -37,8 +36,10 @@ import java.util.Map;
 import static com.qemasoft.alhabibshop.app.AppConstants.ADD_TO_CART_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
+import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.optionsList;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -48,7 +49,6 @@ public class FragCartDetail extends MyBaseFragment {
 
     private CheckBox useCoupon;
     private RecyclerView mRecyclerView;
-    private Button checkoutBtn;
     private CartDetailAdapter cartDetailAdapter;
     private Bundle bundle;
 
@@ -65,6 +65,7 @@ public class FragCartDetail extends MyBaseFragment {
         initViews(view);
         initUtils();
 
+
         bundle = getArguments();
         if (bundle != null) {
             String id = getArguments().getString("id");
@@ -80,12 +81,7 @@ public class FragCartDetail extends MyBaseFragment {
                 }
             }
         });
-        this.checkoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                utils.switchFragment(new FragCheckout());
-            }
-        });
+
 
         return view;
     }
@@ -96,23 +92,33 @@ public class FragCartDetail extends MyBaseFragment {
         Map<String, String> map = new HashMap<>();
         map.put("session_id", Preferences.getSharedPreferenceString(appContext
                 , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
-        String self = getArguments().getString("self", "");
-        if (getArguments().containsKey("self")) {
-            map.put("key", id);
-            AppConstants.setMidFixApi("removeCart/");
-        } else if (getArguments().containsKey("addCart")) {
-            AppConstants.setMidFixApi("addCart/");
+        String midFix = getArguments().getString("midFix", "");
+        utils.printLog("MidFix = " + midFix);
+        AppConstants.setMidFixApi(midFix);
+        if (midFix.contains("removeCart")) {
+            map.put("cart_id", id);
+        } else if (midFix.contains("updateCart")) {
+            map.put("cart_id", id);
+            map.put("quantity", bundle.getString("qty"));
+        } else if (midFix.contains("addCart")) {
             map.put("product_id", id);
-        } else {
+            for (int i = 0; i < optionsList.size(); i++) {
+                map.put("option[" + optionsList.get(i).getOptionValueId() + "]",
+                        optionsList.get(i).getName());
+            }
+            utils.printLog("Inside Add Cart Working");
+        } else if (midFix.contains("fragmentCheckout")) {
             AppConstants.setMidFixApi("confirm");
-            map.put("customer_id", Preferences.getSharedPreferenceString(appContext
-                    , CUSTOMER_KEY, DEFAULT_STRING_VAL));
+            map.put("customer_id", Preferences.getSharedPreferenceString(appContext,
+                    CUSTOMER_KEY, DEFAULT_STRING_VAL));
         }
+        utils.printLog("Code Executing...");
         bundle.putBoolean("hasParameters", true);
         bundle.putSerializable("parameters", (Serializable) map);
         Intent intent = new Intent(getContext(), FetchData.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, ADD_TO_CART_REQUEST_CODE);
+        optionsList.clear();
     }
 
     private void createAndShowCustomAlertDialog() {
@@ -148,17 +154,21 @@ public class FragCartDetail extends MyBaseFragment {
     private void initViews(View view) {
         mRecyclerView = view.findViewById(R.id.cart_detail_recycler_view);
         useCoupon = view.findViewById(R.id.use_coupon_cb);
-        checkoutBtn = view.findViewById(R.id.cart_checkout_btn);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_TO_CART_REQUEST_CODE) {
+        if (data != null) {
+            JSONObject response = null;
+            try {
+                response = new JSONObject(data.getStringExtra("result"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            utils.printLog("RespInFragCartDetail", "" + response.toString());
             if (resultCode == Activity.RESULT_OK) {
-                try {
-                    final JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    utils.printLog("RespInFragCartDetail", response.toString());
+                if (requestCode == ADD_TO_CART_REQUEST_CODE) {
                     JSONArray cartProducts = response.optJSONArray("cartProducts");
                     List<MyCartDetail> cartDetailList = new ArrayList<>();
                     if (cartProducts == null || cartProducts.toString().isEmpty()) {
@@ -169,7 +179,7 @@ public class FragCartDetail extends MyBaseFragment {
                         JSONObject objectCP = cartProducts.optJSONObject(i);
                         cartDetailList.add(new MyCartDetail(objectCP.optString("cart_id"),
                                 objectCP.optString("product_id"),
-                                objectCP.optString("thumb"),
+                                objectCP.optString("image"),
                                 objectCP.optString("name"),
                                 objectCP.optString("quantity"),
                                 objectCP.optString("price"),
@@ -182,18 +192,16 @@ public class FragCartDetail extends MyBaseFragment {
                                     , LinearLayoutManager.VERTICAL, false);
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                    utils.printLog("SettingAdapterForItems", "Setting Adapter For Items");
+                    utils.printLog("Setting Adapter For Cart Items");
                     mRecyclerView.setAdapter(cartDetailAdapter);
-                    utils.printLog("AdapterSet", "Adapter Set Success");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    utils.printLog("Adapter Set Success");
                 }
+            } else if (resultCode == FORCED_CANCEL) {
+                utils.showErrorDialog("" + response.optString("message"));
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                utils.showErrorDialog("Error Getting Data From Server!");
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showAlertDialog("Invalid Request!", "Either the request is invalid or no relevant record found");
-            }
+
         }
     }
-
 }

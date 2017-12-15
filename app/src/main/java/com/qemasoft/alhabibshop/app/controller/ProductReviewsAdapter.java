@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.Reviews;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class ProductReviewsAdapter extends RecyclerView.Adapter<ProductReviewsAd
 
     private List<Reviews> dataList;
     private Context context;
+    private Utils utils;
 
     public ProductReviewsAdapter(List<Reviews> dataList) {
         this.dataList = dataList;
@@ -32,17 +34,19 @@ public class ProductReviewsAdapter extends RecyclerView.Adapter<ProductReviewsAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        this.context = parent.getContext();
+        this.utils = new Utils(context);
+
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_pro_author_review, parent, false);
-        utils.log("LayoutInflated", "Working");
-        this.context = parent.getContext();
 
+        utils.printLog("LayoutInflated", "Working");
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        utils.log("OnBIndMethod", "OnBind Working");
+        utils.printLog("OnBIndMethod", "OnBind Working");
         final int pos = holder.getAdapterPosition();
         final Reviews data = dataList.get(pos);
 
@@ -73,7 +77,7 @@ public class ProductReviewsAdapter extends RecyclerView.Adapter<ProductReviewsAd
             revComment = itemView.findViewById(R.id.review_comment_tv);
             authorRating = itemView.findViewById(R.id.author_rating_bar);
 
-            utils.log("FindViewById", "Working");
+            utils.printLog("FindViewById", "Working");
         }
     }
 }

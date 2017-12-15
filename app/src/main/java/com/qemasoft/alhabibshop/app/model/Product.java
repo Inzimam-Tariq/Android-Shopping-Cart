@@ -8,6 +8,7 @@ public class Product {
     private String name;
     private String model;
     private String price;
+    private String spacialPrice;
     private String quantity;
     private String productDescription;
     private String stockStatus;
@@ -32,7 +33,7 @@ public class Product {
         this.name = name;
     }
 
-    public Product(String productId, String name, String model, String price,
+    public Product(String productId, String name, String model, String price, String spacialPrice,
                    String quantity, String productDescription, String stockStatus,
                    String manufacturer, String discount, String discPercent,
                    String dateAdded, String rating, String reviewCount) {
@@ -40,6 +41,7 @@ public class Product {
         this.name = name;
         this.model = model;
         this.price = price;
+        this.spacialPrice = spacialPrice;
         this.quantity = quantity;
         this.productDescription = productDescription;
         this.stockStatus = stockStatus;
@@ -65,6 +67,10 @@ public class Product {
 
     public String getPrice() {
         return price;
+    }
+
+    public String getSpacialPrice() {
+        return spacialPrice;
     }
 
     public String getQuantity() {

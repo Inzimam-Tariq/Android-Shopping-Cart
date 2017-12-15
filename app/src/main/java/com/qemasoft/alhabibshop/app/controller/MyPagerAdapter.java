@@ -60,12 +60,12 @@ public class MyPagerAdapter extends PagerAdapter {
                 String id = slideshow.getId();
                 String type = slideshow.getBannerType();
                 Bundle bundle = new Bundle();
-                if (type.equals("0")){
-                    bundle.putString("id",id);
-                    utils.switchFragment(new FragProduct(),bundle);
-                }else {
-                    bundle.putString("id",id);
-                    utils.switchFragment(new FragProductDetail(),bundle);
+                if (type.equals("0")) {
+                    bundle.putString("id", id);
+                    utils.switchFragment(new FragProduct(), bundle);
+                } else {
+                    bundle.putString("id", id);
+                    utils.switchFragment(new FragProductDetail(), bundle);
                 }
             }
         });

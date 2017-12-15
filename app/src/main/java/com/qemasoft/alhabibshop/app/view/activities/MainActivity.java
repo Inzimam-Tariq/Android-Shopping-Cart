@@ -49,14 +49,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_SYMBOL_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.SEARCH_REQUEST_CODE;
@@ -94,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //   Toolbar stuff;
     private ImageView drawerIconLeft, drawerIconRight, logoIcon, searchIcon;
     private RelativeLayout cartLayout;
-    private TextView counterTV;
+    public TextView counterTV;
 
 
     private Context context;
@@ -257,13 +262,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     bundle.putString("id", userSubMenu.getUserSubMenuCode());
                     utils.switchFragment(new FragShowText(), bundle);
                 } else if (str.contains("اللغة") || str.contains("Language")) {
-                    if (userSubMenu.getUserSubMenuTitle().contains("عربي")
-                            || userSubMenu.getUserSubMenuTitle().contains("Arabic")) {
-                        Preferences.setSharedPreferenceString(appContext, LANGUAGE_KEY, "ar");
-                    } else if ((userSubMenu.getUserSubMenuTitle().contains("English"))) {
-                        Preferences.setSharedPreferenceString(appContext, LANGUAGE_KEY, "en");
-                    }
+
                     recreate();
+                } else if (str.contains("دقة") || str.contains("Currency")) {
+                    AppConstants.setMidFixApi("getCurrencyByCode");
+                    Map<String, String> map = new HashMap<>();
+                    map.put("code", userSubMenu.getUserSubMenuCode());
+                    Bundle bundle = new Bundle();
+
+                    bundle.putBoolean("hasParameters", true);
+                    bundle.putSerializable("parameters", (Serializable) map);
+                    Intent intent = new Intent(context, FetchData.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, CURRENCY_REQUEST_CODE);
                 }
                 utils.printLog("InsideChildClick", "" + userSubMenu.getUserSubMenuCode());
                 drawer.closeDrawer(GravityCompat.END);
@@ -282,9 +293,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            ViewCompat.setLayoutDirection(abBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
 //        }
 
-        Picasso.with(getApplicationContext()).load(Preferences
-                .getSharedPreferenceString(appContext, LOGO_KEY, DEFAULT_STRING_VAL))
-                .into(logoIcon);
+        String imgPath = Preferences
+                .getSharedPreferenceString(appContext, LOGO_KEY, DEFAULT_STRING_VAL);
+        utils.printLog("Product Image = " + imgPath);
+        if (!imgPath.isEmpty()) {
+            Picasso.with(getApplicationContext()).load(imgPath)
+                    .into(logoIcon);
+        }
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         actionbarToggle();
@@ -594,38 +609,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.search_icon) {
             startActivityForResult(new Intent(context, SearchActivity.class), SEARCH_REQUEST_CODE);
         } else if (id == R.id.cart_layout) {
-            utils.switchFragment(new FragCartDetail());
+            Bundle bundle = new Bundle();
+            bundle.putString("midFix", "cartProducts");
+            utils.switchFragment(new FragCartDetail(), bundle);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            String responseStr = data.getStringExtra("result");
+            utils.printLog("ResponseIs = " + responseStr);
 
-        String responseStr = data.getStringExtra("result");
-        utils.printLog("ResponseIsString", "" + responseStr);
-
-        if (responseStr != null) {
-            if (resultCode == Activity.RESULT_OK) {
-                if (requestCode == SEARCH_REQUEST_CODE) {
-                    JSONObject response = null;
+            if (responseStr != null) {
+                if (resultCode == Activity.RESULT_OK) {
+                    JSONObject response;
                     if (!isJSONString(responseStr)) {
                         try {
                             response = new JSONObject(responseStr);
+                            if (requestCode == CURRENCY_REQUEST_CODE) {
+                                JSONObject object = response.optJSONObject("currency");
+                                Preferences.setSharedPreferenceString(appContext
+                                        , CURRENCY_SYMBOL_KEY
+                                        , object.optString("symbol_left")
+                                                + object.optString("symbol_right")
+                                );
+                                recreate();
+                            } else if (requestCode == LANGUAGE_REQUEST_CODE) {
+                                JSONObject object = response.optJSONObject("language");
+                                Preferences.setSharedPreferenceString(appContext
+                                        , LANGUAGE_KEY
+                                        , object.optString("code")
+                                );
+                                recreate();
+                            }
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     } else {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("id", responseStr);
-                        bundle.putBoolean("isFromSearch", true);
-                        utils.switchFragment(new FragProduct(), bundle);
+                        if (requestCode == SEARCH_REQUEST_CODE) {
+                            Bundle bundle = new Bundle();
+                            bundle.putString("id", responseStr);
+                            bundle.putBoolean("isFromSearch", true);
+                            utils.switchFragment(new FragProduct(), bundle);
+                        } else {
+                            utils.showAlertDialog("Alert", responseStr);
+                        }
                     }
+                } else if (resultCode == FORCED_CANCEL) {
+                    utils.printLog("WithinSearchResult", "If Success False" + responseStr);
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    utils.printLog("WithinSearchResult", "Result Cancel" + responseStr);
                 }
-            } else if (resultCode == FORCED_CANCEL) {
-                utils.printLog("WithinSearchResult", "If Success False" + responseStr);
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.printLog("WithinSearchResult", "Result Cancel" + responseStr);
             }
         }
     }

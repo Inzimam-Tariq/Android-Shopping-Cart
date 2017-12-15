@@ -50,8 +50,8 @@ import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 public class FragCheckout extends MyBaseFragment implements View.OnClickListener {
 
-    List<Address> addressList;
-    Bundle bundle;
+    private List<Address> addressList;
+    private Bundle bundle;
     private StateProgressBar stateProgressBar;
     private RadioGroup radioGroupShippingMethod, radioGroupPaymentMethod;
     private Button selectDeliveryAddress, backBtn, nextBtn;
@@ -118,7 +118,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         list = new ArrayList<>();
-        if (addressList.size() > 0) {
+        if (!addressList.isEmpty()) {
             for (int i = 0; i < addressList.size(); i++) {
                 list.add(addressList.get(i).getAddress());
             }
@@ -127,8 +127,8 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         int rgShippingCount = radioGroupPaymentMethod.getChildCount();
         switch (v.getId()) {
             case R.id.select_delivery_address_btn:
-                selectedAddressIndex = utils.showRadioAlertDialog(selectDeliveryAddress
-                        , "Select Address", list, -1);
+                utils.showRadioAlertDialog(selectDeliveryAddress
+                        , "Select Address", list, 0, null);
                 if (selectedAddressIndex < 0) {
                     selectedAddressIndex = 0;
                 }
@@ -285,7 +285,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         );
                         RadioButton radioButton = new RadioButton(getActivity());
                         radioButton.setText(shippingMethodList.get(i).getTitle()
-                                .concat(" - ").concat(shippingMethodList.get(i).getText()));
+                                .concat(" - ").concat(symbol).concat(shippingMethodList.get(i).getCost()));
                         radioButton.setId(i);
                         RadioGroup.LayoutParams rgParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT,
                                 RadioGroup.LayoutParams.WRAP_CONTENT);
@@ -336,7 +336,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         JSONObject objectCP = cartProducts.optJSONObject(i);
                         cartDetailList.add(new MyCartDetail(objectCP.optString("cart_id"),
                                 objectCP.optString("product_id"),
-                                objectCP.optString("thumb"),
+                                objectCP.optString("image"),
                                 objectCP.optString("name"),
                                 objectCP.optString("quantity"),
                                 objectCP.optString("price"),
@@ -350,8 +350,10 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                                     , LinearLayoutManager.VERTICAL, false);
                     mRecyclerView.setLayoutManager(mLayoutManager);
                     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                    utils.printLog("Adapter","Before Cart list Adapter");
-                    mRecyclerView.setAdapter(cartDetailAdapter);
+                    String className = FragCheckout.class.getSimpleName();
+                    utils.printLog(className + "Adapter", "Before Cart list Adapter");
+                    if (cartDetailList.size() > 0)
+                        mRecyclerView.setAdapter(cartDetailAdapter);
 
                 } else if (requestCode == ADD_ORDER_REQUEST_CODE) {
                     System.out.println("I");

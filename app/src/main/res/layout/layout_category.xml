@@ -28,16 +28,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/laptop_1" />
+
         <TextView
             android:id="@+id/cat_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lines="2"
+            android:maxLines="2"
             android:paddingEnd="@dimen/activity_horizontal_margin"
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
-            android:text="Item Title"
-            android:gravity="center"/>
+            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:scrollHorizontally="true"
+            android:text="Item Title" />
 
     </LinearLayout>
 

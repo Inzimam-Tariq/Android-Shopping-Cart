@@ -26,6 +26,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     private List<MyOrder> myOrderList;
     private Context context;
+    private Utils utils;
 
     public OrderAdapter(List<MyOrder> myOrderList) {
         this.myOrderList = myOrderList;
@@ -36,17 +37,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        this.context = parent.getContext();
+        this.utils = new Utils(context);
+
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_order, parent, false);
-        utils.log("LayoutInflated", "Working");
-        this.context = parent.getContext();
 
+        utils.printLog("LayoutInflated", "Working");
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        utils.log("OnBIndMethod", "OnBind Working");
+        utils.printLog("OnBIndMethod", "OnBind Working");
         final int pos = holder.getAdapterPosition();
         final MyOrder data = myOrderList.get(holder.getAdapterPosition());
 
@@ -93,7 +96,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
             orderDate = itemView.findViewById(R.id.order_date);
             viewOrderBtn = itemView.findViewById(R.id.view_order_btn);
 
-            utils.log("FindViewById", "Working");
+            utils.printLog("FindViewById", "Working");
         }
     }
 

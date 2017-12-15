@@ -8,9 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Gravity;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.Utils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -18,10 +18,13 @@ public class SearchActivity extends AppCompatActivity {
 
     private SearchView searchView;
     private Context context;
+    private Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.utils = new Utils(this);
+        utils.changeLanguage("en");
         setContentView(R.layout.activity_search);
         this.context = this;
         initViews();
@@ -35,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        searchView = (SearchView) findViewById(R.id.search_view_);
+        searchView = findViewById(R.id.search_view_);
     }
 
     private void setupSearchView() {
@@ -44,10 +47,10 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("result", query);
+                returnIntent.putExtra("result", "" + query);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
-                Toast.makeText(context, query, Toast.LENGTH_SHORT).show();
+                utils.showToast(query);
                 return false;
             }
 

@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qemasoft.alhabibshop.app.controller.MyPagerAdapter;
+import com.qemasoft.alhabibshop.app.model.ProductOptionValueItem;
 import com.qemasoft.alhabibshop.app.model.Slideshow;
 import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
@@ -44,8 +45,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -71,6 +74,7 @@ public class Utils {
     private Context mContext;
     private ProgressDialog progressBar;
     private int position, currentPage;
+
 
     public Utils(Context mContext) {
         this.mContext = mContext;
@@ -371,21 +375,18 @@ public class Utils {
 
     }
 
-    public int showRadioAlertDialog(final Button button, String title,
-                                    final List<String> list, int selectedIndex) {
-        // setup the alert builder
-
+    public void showRadioAlertDialog(final Button button, String title,
+                                     final List<String> list, int selectedIndex,
+                                     final ClickInterface clickInterface) {
+        this.position = 0;
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(title);
         builder.setCancelable(false);
-
-        position = 0;
-
         builder.setSingleChoiceItems(list.toArray(new String[list.size()]),
                 selectedIndex, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (which > 0) {
+                        if (which > -1) {
                             position = which;
                         }
                     }
@@ -393,16 +394,15 @@ public class Utils {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                printLog("Which", "position =" + which);
-                printLog("Which", "List position =" + list.get(position));
                 button.setHint(list.get(position));
+                if (clickInterface != null)
+                    clickInterface.OnItemClicked(position);
+                printLog("Which", "List position =" + list.get(position));
             }
         });
         builder.setNegativeButton("Cancel", null);
         AlertDialog dialog = builder.create();
         dialog.show();
-
-        return position;
     }
 
     public void showProgress() {
@@ -463,11 +463,11 @@ public class Utils {
     }
 
     public void printLog(String msg) {
-        Log.e("TAG" + mContext.getPackageName(), msg);
+        Log.e("TAG " + mContext.getPackageName(), msg);
     }
 
     public void printLog(String tag, String msg) {
-        Log.e(tag + mContext.getPackageName(), msg);
+        Log.e(mContext.getClass() + " " + tag, msg);
     }
 
     public void setupSlider(final ViewPager mPager, CircleIndicator indicator,
@@ -581,6 +581,22 @@ public class Utils {
         }
         ((MainActivity) mContext).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flFragments, fragment).commit();
+    }
+
+    public void removeDuplicates(List<?> list) {
+
+        Set hs = new HashSet<>(list);
+        list.clear();
+        list.addAll(hs);
+
+        ProductOptionValueItem item = (ProductOptionValueItem) list.get(0);
+        printLog("Parent Id = " + item.getOptionValueId() + " Child Id = " + item.getName()
+                + " List Size = " + list.size());
+
+    }
+
+    public interface ClickInterface {
+        void OnItemClicked(int item_id);
     }
 
 }

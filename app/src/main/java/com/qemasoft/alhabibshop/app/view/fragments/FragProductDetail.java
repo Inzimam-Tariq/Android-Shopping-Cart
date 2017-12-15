@@ -38,6 +38,7 @@ import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
 import static com.qemasoft.alhabibshop.app.AppConstants.PRODUCT_DETAIL_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
@@ -48,18 +49,33 @@ import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
  */
 public class FragProductDetail extends MyBaseFragment implements View.OnClickListener {
 
+    private List<Options> optionsList;
+    ProductOptionsAdapter.ProductOptionsAdapterInterface adapterInterface
+            = new ProductOptionsAdapter.ProductOptionsAdapterInterface() {
+        @Override
+        public void OnItemClicked(int adapterPosition, String val) {
+            utils.printLog("Interface Bridge Working! Id = " + adapterPosition
+                    + "\nItem Value = " + val);
+            AppConstants.optionsList.add(new ProductOptionValueItem(optionsList.get(adapterPosition)
+                    .getProductOptionId(), val));
+            for (int i = 0; i < AppConstants.optionsList.size(); i++) {
+                utils.printLog("Option = " + AppConstants.optionsList.get(i)
+                        .getOptionValueId() + " value = " + AppConstants.optionsList.get(i).getName());
+                utils.printLog(" List Size = " + AppConstants.optionsList.size());
+            }
+            // Do whatever you wants to do with this data that is coming from your adapter
+        }
+    };
     private ViewPager mPager;
     private CircleIndicator indicator;
     private List<Reviews> reviewsList;
     private Product product;
-
     private TextView productTitleTV, productModelTV, manufacturerTV, productDescriptionTV,
-            productPriceTV, discountTV, percentDiscTV, productQtyTV, stockStatusTV,
+            productPriceTV, productSpecialPriceTV, discountTV, percentDiscTV, productQtyTV, stockStatusTV,
             dateAddedTV, optionsTV, writeReviewTV, postReviewTV;
     private Button addToCartBtn, submitReviewBtn;
     private RatingBar ratingBarOverall, ratingBarPost;
     private RecyclerView mRecyclerViewRating, mRecyclerViewOptions;
-
     private EditText yourNameET, reviewCommentET;
     private TabHost tabHost;
     private ScrollView scrollView;
@@ -107,7 +123,6 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         return view;
     }
 
-
     private void initViews(View view) {
 
         scrollView = view.findViewById(R.id.sv);
@@ -121,6 +136,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         manufacturerTV = view.findViewById(R.id.maker_company_tv);
         productDescriptionTV = view.findViewById(R.id.product_desc_val_tv);
         productPriceTV = view.findViewById(R.id.product_price_val_tv);
+        productSpecialPriceTV = view.findViewById(R.id.product_special_price_val_tv);
         discountTV = view.findViewById(R.id.product_disc_val_tv);
         percentDiscTV = view.findViewById(R.id.disc_percent_val_tv);
         ratingBarOverall = view.findViewById(R.id.ratingBar);
@@ -154,19 +170,26 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PRODUCT_DETAIL_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == PRODUCT_DETAIL_REQUEST_CODE) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    utils.printLog("ResponseInFragProDetail",response.toString());
+                    utils.printLog("ResponseInFragProDetail", response.toString());
                     JSONObject proObj = response.optJSONObject("product");
 
                     product = new Product(proObj.optString("id")
-                            , proObj.optString("name"), proObj.optString("model")
-                            , proObj.optString("price"), proObj.optString("quantity")
-                            , proObj.optString("description"), proObj.optString("stock_status")
-                            , proObj.optString("manufacturer"), proObj.optString("disc")
-                            , proObj.optString("disc_percent"), proObj.optString("date_added")
+                            , proObj.optString("name")
+                            , proObj.optString("model")
+                            , proObj.optString("price")
+                            , proObj.optString("special")
+                            , proObj.optString("quantity")
+                            , proObj.optString("description")
+                            , proObj.optString("stock_status")
+                            , proObj.optString("manufacturer")
+                            , proObj.optString("disc")
+                            , proObj.optString("disc_percent")
+                            , proObj.optString("date_added")
                             , proObj.optString("rating")
                             , proObj.optString("review_total")
                     );
@@ -177,9 +200,10 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                     productModelTV.setText(product.getModel());
                     manufacturerTV.setText(product.getManufacturer());
                     productDescriptionTV.setText(product.getProductDescription());
-                    productPriceTV.setText(product.getPrice());
+                    productPriceTV.setText(symbol.concat(product.getPrice()));
+                    productSpecialPriceTV.setText(symbol.concat(product.getSpacialPrice()));
                     if (!product.getDiscPercent().isEmpty()) {
-                        percentDiscTV.setText(product.getDiscPercent());
+                        percentDiscTV.setText(symbol.concat(product.getDiscPercent()));
                     }
                     ratingBarOverall.setRating(Float.parseFloat(product.getRating()));
 
@@ -195,7 +219,8 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                                 , revObject.optString("author")
                                 , revObject.optString("date_added")
                                 , revObject.optString("text")
-                                , revObject.optString("rating")));
+                                , revObject.optString("rating")
+                        ));
                     }
                     RecyclerView.LayoutManager mLayoutManagerReviews =
                             new LinearLayoutManager(getActivity()
@@ -207,7 +232,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                     }
 
                     JSONArray optionsArray = proObj.optJSONArray("options");
-                    List<Options> optionsList = new ArrayList<>();
+                    optionsList = new ArrayList<>();
                     for (int j = 0; j < optionsArray.length(); j++) {
                         JSONObject optionsObj = optionsArray.getJSONObject(j);
                         JSONArray subOptionsArray = optionsObj.optJSONArray("product_option_value");
@@ -229,15 +254,20 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                             new LinearLayoutManager(getActivity()
                                     , LinearLayoutManager.VERTICAL, false);
                     mRecyclerViewOptions.setLayoutManager(mLayoutManagerOptions);
-                    mRecyclerViewOptions.setAdapter(new ProductOptionsAdapter(optionsList));
+                    mRecyclerViewOptions.setAdapter(
+                            new ProductOptionsAdapter(optionsList, adapterInterface));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showAlertDialog("Invalid Request!", "Either the request is invalid or no relevant record found");
-            }
+        } else if (resultCode == FORCED_CANCEL) {
+            utils.showToast("Request Cancelled by User");
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            utils.showErrorDialog("Error Getting Data From Server!");
         }
+
+
     }
 
     @Override
@@ -256,6 +286,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                         Integer.parseInt(itemCountTV.getText().toString()));
                 Bundle bundle = new Bundle();
                 bundle.putString("id", product.getProductId());
+                bundle.putString("midFix", "addCart");
                 utils.switchFragment(new FragCartDetail(), bundle);
 
                 break;

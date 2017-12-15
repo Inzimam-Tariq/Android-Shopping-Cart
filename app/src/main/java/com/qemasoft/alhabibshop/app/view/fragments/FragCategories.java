@@ -61,7 +61,7 @@ public class FragCategories extends MyBaseFragment {
             for (int i = 0; i<categoryArray.length(); i++){
                 JSONObject categoryObj = categoryArray.getJSONObject(i);
                 MyCategory category = new MyCategory(categoryObj.optString("product_id"),
-                        categoryObj.optString("name"),categoryObj.optString("thumb"));
+                        categoryObj.optString("name"),categoryObj.optString("image"));
                 myCategoryList.add(category);
                 categoryAdapter.notifyDataSetChanged();
             }

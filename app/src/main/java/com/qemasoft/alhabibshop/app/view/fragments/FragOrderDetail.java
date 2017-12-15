@@ -150,12 +150,16 @@ public class FragOrderDetail extends MyBaseFragment {
                         totalListValue.add(productObj.optString("text"));
                     }
 
-                    subTotalTV.setText(totalListValue.get(0));
-                    shippingCostTV.setText(totalListValue.get(1));
-                    grandTotalTV.setText(totalListValue.get(2));
-                    subTotalTextTV.setText(totalListText.get(0));
-                    shippingCostTextTV.setText(totalListText.get(1));
-                    grandTotalTextTV.setText(totalListText.get(2));
+                    if (totalListValue.size() > 0) {
+                        subTotalTV.setText(totalListValue.get(0));
+                        shippingCostTV.setText(totalListValue.get(1));
+                        grandTotalTV.setText(totalListValue.get(2));
+                    }
+                    if (totalListText.size() > 0) {
+                        subTotalTextTV.setText(totalListText.get(0));
+                        shippingCostTextTV.setText(totalListText.get(1));
+                        grandTotalTextTV.setText(totalListText.get(2));
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

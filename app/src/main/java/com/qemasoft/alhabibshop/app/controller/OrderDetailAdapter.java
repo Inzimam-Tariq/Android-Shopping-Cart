@@ -1,5 +1,6 @@
 package com.qemasoft.alhabibshop.app.controller;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.Product;
 
 import java.util.List;
@@ -20,6 +22,8 @@ import java.util.List;
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.MyViewHolder> {
 
     private List<Product> productList;
+    private Context context;
+    private Utils utils;
 
     public OrderDetailAdapter(List<Product> myOrderDetailList) {
         this.productList = myOrderDetailList;
@@ -30,16 +34,20 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        this.context = parent.getContext();
+        this.utils = new Utils(context);
+        
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_order_detail, parent, false);
-        utils.log("LayoutInflated", "Working");
+
+        utils.printLog("LayoutInflated", "Working");
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        utils.log("OnBIndMethod", "OnBind Working");
+        utils.printLog("OnBIndMethod", "OnBind Working");
         Product data = productList.get(position);
         holder.productName.setText(data.getName());
         holder.orderQty.setText(data.getQuantity());
@@ -58,12 +66,12 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            productName = itemView.findViewById(R.id.product_name);
+            productName = itemView.findViewById(R.id.product_name_val_tv);
             orderQty = itemView.findViewById(R.id.order_quantity);
             productPrice = itemView.findViewById(R.id.product_price);
             total = itemView.findViewById(R.id.total);
 
-            utils.log("FindViewById", "Working");
+            utils.printLog("FindViewById", "Working");
         }
     }
 }

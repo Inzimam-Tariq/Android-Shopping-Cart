@@ -26,9 +26,13 @@ public class ProductOptionsAdapter extends RecyclerView.Adapter<ProductOptionsAd
     private List<Options> dataList;
     private Context context;
     private Utils utils;
+    private ProductOptionsAdapterInterface adapterInterface;
 
-    public ProductOptionsAdapter(List<Options> dataList) {
+    public ProductOptionsAdapter(List<Options> dataList,
+                                 ProductOptionsAdapterInterface
+                                         adapterInterface) {
         this.dataList = dataList;
+        this.adapterInterface = adapterInterface;
         Log.e("Constructor", "Working");
         Log.e("Constructor", "DataList Size = " + dataList.size());
     }
@@ -36,49 +40,69 @@ public class ProductOptionsAdapter extends RecyclerView.Adapter<ProductOptionsAd
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        this.context = parent.getContext();
+        this.utils = new Utils(context);
+
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_product_option, parent, false);
 
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
-        utils.printLog("LayoutInflated", "Working");
+        utils.printLog("LayoutInflated");
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        utils.printLog("OnBIndMethod", "OnBind Working");
-//        final int pos = holder.getAdapterPosition();
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
+        utils.printLog("OnBind Working");
+
         final Options data = dataList.get(position);
 
-        holder.optionsNameTV.setText(data.getName());
-        final List<String> options = new ArrayList<>();
+        if (data != null) {
+            holder.optionsNameTV.setText(data.getName());
+            final List<String> strOptions = new ArrayList<>();
+            final List<ProductOptionValueItem> optionsList = new ArrayList<>();
 
-        for (int i = 0; i < data.getProductOptionValueItemList().size(); i++) {
-            ProductOptionValueItem item = data.getProductOptionValueItemList().get(i);
-            utils.printLog("Option", " option name = "+ item.getName());
-            options.add(item.getName());
-        }
-
-        final Button btn = holder.optionsBtn;
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                utils.showRadioAlertDialog(btn,  data.getName(), options, 0);
+            for (int i = 0; i < data.getProductOptionValueItemList().size(); i++) {
+                ProductOptionValueItem item = data.getProductOptionValueItemList().get(i);
+                utils.printLog("Option", " option name = " + item.getName());
+                strOptions.add(item.getName());
+                optionsList.add(item);
             }
-        });
 
+            final Button btn = holder.optionsBtn;
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Utils.ClickInterface clickInterface
+                            = new Utils.ClickInterface() {
+                        @Override
+                        public void OnItemClicked(int position) {
+                            utils.printLog("Interface Bridge Working! Clicked at = " + position +
+                                    "\nAdapter Position is = " + holder.getAdapterPosition());
+                            String val = String.valueOf(optionsList.get(position).getOptionValueId());
+                            adapterInterface.OnItemClicked(holder.getAdapterPosition(), val);
+                        }
+                    };
+                    utils.showRadioAlertDialog(btn, data.getName()
+                            , strOptions, 0, clickInterface);
+                }
+            });
+        }
     }
+
 
     @Override
     public int getItemCount() {
         return dataList.size();
     }
 
+    public interface ProductOptionsAdapterInterface {
+        void OnItemClicked(int adapterPosition, String value);
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         public TextView optionsNameTV;
-                Button optionsBtn;
+        Button optionsBtn;
 
 
         public MyViewHolder(View itemView) {

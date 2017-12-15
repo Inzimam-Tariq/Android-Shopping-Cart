@@ -50,7 +50,7 @@ public class MainFrag extends MyBaseFragment {
                         , LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         List<String> keysList = prepareData();
-        if (keysList.size() > 0) {
+        if (keysList.size() > 0 && !keysList.isEmpty()) {
             mRecyclerView.setAdapter(new MainFragmentAdapter(keysList));
         }
 

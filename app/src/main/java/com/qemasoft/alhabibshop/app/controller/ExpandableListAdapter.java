@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MenuCategory;
 import com.qemasoft.alhabibshop.app.model.MenuSubCategory;
 import com.squareup.picasso.Picasso;
@@ -27,6 +28,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private HashMap<MenuCategory, List<MenuSubCategory>> listHashMap;
     private boolean isRight;
     private List<Integer> userMenuIcons;
+    private Utils utils;
 
     public ExpandableListAdapter(List<MenuCategory> dataListHeader,
                                  HashMap<MenuCategory, List<MenuSubCategory>> listHashMap,
@@ -76,6 +78,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
                              ViewGroup parent) {
+        utils = new Utils(parent.getContext());
         MenuCategory menuCategory = (MenuCategory) getGroup(groupPosition);
 
         View groupView = LayoutInflater.from(parent.getContext())
@@ -88,8 +91,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         if (isRight) {
             imageView.setImageResource(userMenuIcons.get(groupPosition));
         } else {
-            Picasso.with(parent.getContext()).load(menuCategory.getMenuCategoryImage())
-                    .into(imageView);
+            String imgPath = menuCategory.getMenuCategoryImage();
+            utils.printLog("Product Image = " + imgPath);
+            if (!imgPath.isEmpty()) {
+                Picasso.with(parent.getContext()).load(menuCategory.getMenuCategoryImage())
+                        .into(imageView);
+            }
         }
 
         if (getChildrenCount(groupPosition) > 0) {
@@ -111,7 +118,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
         TextView lblListChild = itemView.findViewById(R.id.lblListItem);
         lblListChild.setText(textChild.getMenuSubCategoryName());
-        utils.log("ChildText", textChild.getMenuSubCategoryName());
+        Log.e("ChildText", textChild.getMenuSubCategoryName());
 
         return itemView;
     }

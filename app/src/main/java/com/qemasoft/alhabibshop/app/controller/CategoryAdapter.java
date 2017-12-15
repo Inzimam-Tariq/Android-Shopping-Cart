@@ -41,6 +41,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View categoryView;
+        this.context = parent.getContext();
+        this.utils = new Utils(context);
 //        if (isPlainCategory) {
 //            categoryView = LayoutInflater.from(parent.getContext())
 //                    .inflate(R.layout.layout_categories, parent, false);
@@ -49,8 +51,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 .inflate(R.layout.layout_category, parent, false);
 //        }
 //        Log.e("LayoutInflated", "Working");
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+
         return new MyViewHolder(categoryView);
     }
 
@@ -60,7 +61,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         final MyCategory data = dataList.get(position);
         final String id = data.getCategoryId();
         holder.categoryTitle.setText(data.getCategoryTitle());
-        Picasso.with(context).load(data.getCatImage()).into(holder.categoryImage);
+        String imgPath = data.getCatImage();
+        if (!imgPath.isEmpty())
+        Picasso.with(context).load(imgPath).into(holder.categoryImage);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

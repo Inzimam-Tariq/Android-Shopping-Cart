@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public MainFragmentAdapter(List<String> keysList) {
         this.keysStrList = keysList;
         prepareData();
-        utils.printLog("AllItemTypeSize = ", myAllItemsList.size() + "");
+        Log.e("AllItemTypeSize = ", myAllItemsList.size() + "");
     }
 
     @Override
@@ -72,7 +73,10 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        this.context = parent.getContext();
+        utils = new Utils(context);
         RecyclerView.ViewHolder viewHolder;
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         utils.printLog("itemType = ", "ViewTypeOnCreate " + viewType);
         switch (viewType) {
@@ -89,7 +93,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder = new ViewHolder1(v3);
                 break;
         }
-        this.context = parent.getContext();
+
         return viewHolder;
     }
 
@@ -152,22 +156,23 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         List<MyItem> myItemList;
 
         String responseStr = getHomeExtra();
+        Log.e("MAinFragAdapter", "GetHomeObject : " + responseStr);
         try {
             JSONObject responseObject = new JSONObject(responseStr);
-            utils.printLog("JSON_Response", "" + responseObject);
+            Log.e("JSON_Response", "" + responseObject);
             boolean success = responseObject.optBoolean("success");
             if (success) {
                 JSONObject homeObject = responseObject.optJSONObject("home");
                 JSONObject modules = homeObject.optJSONObject("modules");
 
                 for (int a = 0; a < keysStrList.size(); a++) {
-                    utils.printLog("KeyStr = ", keysStrList.get(a));
+                    Log.e("KeyStr = ", keysStrList.get(a));
                     if (keysStrList.get(a).equals("categories")) {
                         JSONArray featuredCategories = modules.optJSONArray(keysStrList.get(a));
                         for (int i = 0; i < featuredCategories.length(); i++) {
                             JSONObject categoryObject = featuredCategories.getJSONObject(i);
                             MyCategory myCategory = new MyCategory(categoryObject.optString("category_id"),
-                                    categoryObject.optString("name"), categoryObject.optString("thumb"));
+                                    categoryObject.optString("name"), categoryObject.optString("image"));
                             myCategoryList.add(myCategory);
                         }
                         myAllItemsList.add(myCategoryList);
@@ -186,18 +191,18 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             JSONObject productObj = featuredProduct.getJSONObject(i);
                             MyItem myItem = new MyItem(productObj.optString("product_id"),
                                     productObj.optString("name"), productObj.optString("dis"),
-                                    productObj.optString("price"), productObj.optString("thumb"));
+                                    productObj.optString("price"), productObj.optString("image"));
                             myItemList.add(myItem);
                         }
                         myAllItemsList.add(myItemList);
                     }
                 }
             } else {
-                utils.printLog("SuccessFalse", "Within getCategories");
+                Log.e("SuccessFalse", "Within getCategories");
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            utils.printLog("JSONEx_CatAdapterTest", responseStr);
+            Log.e("JSONEx_CatAdapterTest", responseStr);
         }
     }
 

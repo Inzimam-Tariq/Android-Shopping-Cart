@@ -11,13 +11,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyCartDetail;
+import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCartDetail;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 
 /**
@@ -41,6 +47,9 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        this.context = parent.getContext();
+        this.utils = new Utils(context);
+
         int layoutId;
         if (isFromCheckout) {
             layoutId = R.layout.layout_confirm_cart;
@@ -50,10 +59,9 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
 
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(layoutId, parent, false);
+
         utils.printLog("LayoutInflated", "Working");
 
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
         return new MyViewHolder(itemView);
     }
 
@@ -62,30 +70,50 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
         utils.printLog("OnBIndMethod", "OnBind Working");
         final MyCartDetail data = myCartDetailList.get(position);
 
-        if (data != null){
+        if (data != null) {
             holder.productName.setText(data.getProductName());
-            holder.productPrice.setText(data.getProductPrice());
-            holder.total.setText(data.getTotal());
+            String symbol = Preferences.getSharedPreferenceString(context
+                    , AppConstants.CURRENCY_SYMBOL_KEY, "$");
+            holder.productPrice.setText(symbol.concat(data.getProductPrice()));
+            holder.total.setText(symbol.concat(data.getTotal()));
             if (isFromCheckout) {
                 holder.productModel.setText(data.getProductModel());
                 holder.productQty.setText(data.getOrderQty());
             } else {
                 String imgPath = data.getProductImage();
+                utils.printLog("Product Image = " + imgPath);
                 if (!imgPath.isEmpty()) {
                     Picasso.with(context).load(imgPath).into(holder.productImage);
                 }
 
-                EditText et = holder.qtyET;
+                final EditText et = holder.qtyET;
                 et.setText(data.getOrderQty());
                 et.setSelection(et.length());
+                final Bundle bundle = new Bundle();
 
                 holder.deleteIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Bundle bundle = new Bundle();
                         bundle.putString("id", data.getCartId());
-                        bundle.putString("self", "");
+                        bundle.putString("midFix", "removeCart");
                         utils.switchFragment(new FragCartDetail(), bundle);
+                        int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
+                        val--;
+                        ((MainActivity) context).counterTV.setText(String.valueOf(val));
+                    }
+                });
+                holder.updateIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String qty = et.getText().toString();
+                        if (qty.isEmpty() || qty.equals("0")) {
+                            utils.setError(et);
+                        } else {
+                            bundle.putString("id", data.getCartId());
+                            bundle.putString("midFix", "updateCart");
+                            bundle.putString("qty", qty);
+                            utils.switchFragment(new FragCartDetail(), bundle);
+                        }
                     }
                 });
             }
@@ -106,7 +134,7 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            productName = itemView.findViewById(R.id.product_name);
+            productName = itemView.findViewById(R.id.product_name_val_tv);
             productPrice = itemView.findViewById(R.id.product_price_val_tv);
             total = itemView.findViewById(R.id.total_val_tv);
             if (isFromCheckout) {

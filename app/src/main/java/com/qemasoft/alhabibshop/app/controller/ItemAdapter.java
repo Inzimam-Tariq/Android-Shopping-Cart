@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyItem;
@@ -39,11 +41,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
+        this.context = parent.getContext();
+        this.utils = new Utils(context);
+
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_item, parent, false);
 //        utils.printLog("LayoutInflated", "Working");
-        this.context = parent.getContext();
-        this.utils = new Utils(context);
+
         return new MyViewHolder(itemView);
     }
 
@@ -52,16 +56,21 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 //        utils.printLog("OnBIndMethod", "OnBind Working");
         final MyItem data = dataList.get(position);
 
-        if (data != null){
+        if (data != null) {
             holder.itemTitle.setText(data.getItemTitle());
-            Picasso.with(context).load(data.getItemImage()).into(holder.img);
-            holder.itemPriceFull.setText(data.getItemPriceFull());
+            String imgPath = data.getItemImage();
+            utils.printLog("ImagePath = " +imgPath);
+            if (!imgPath.isEmpty())
+                Picasso.with(context).load(imgPath).into(holder.img);
+            String symbol = Preferences.getSharedPreferenceString(context
+                    , AppConstants.CURRENCY_SYMBOL_KEY, "$");
+            holder.itemPriceFull.setText(symbol.concat(data.getItemPriceFull()));
 
             TextView tvPrice = holder.itemPriceDisc;
             // set StrikeThrough to textView
             if (!data.getItemPriceDisc().isEmpty()) {
                 tvPrice.setVisibility(View.VISIBLE);
-                tvPrice.setText(data.getItemPriceDisc());
+                tvPrice.setText(symbol.concat(data.getItemPriceDisc()));
                 tvPrice.setPaintFlags(tvPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
 

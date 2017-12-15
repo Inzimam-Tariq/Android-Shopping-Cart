@@ -1,34 +1,35 @@
 package com.qemasoft.alhabibshop.app.model;
 
-public class ProductOptionValueItem{
-	private String optionValueId;
-	private boolean price;
-	private String productOptionValueId;
-	private String name;
-	private String pricePrefix;
+public class ProductOptionValueItem {
 
-	public ProductOptionValueItem(String optionValueId, String name) {
-		this.optionValueId = optionValueId;
-		this.name = name;
-	}
+    private String optionValueId;
+    private boolean price;
+    private String productOptionValueId;
+    private String name;
+    private String pricePrefix;
 
-	public String getOptionValueId(){
-		return optionValueId;
-	}
+    public ProductOptionValueItem(String optionValueId, String name) {
+        this.optionValueId = optionValueId;
+        this.name = name;
+    }
 
-	public boolean isPrice(){
-		return price;
-	}
+    public String getOptionValueId() {
+        return optionValueId;
+    }
 
-	public String getProductOptionValueId(){
-		return productOptionValueId;
-	}
+    public boolean isPrice() {
+        return price;
+    }
 
-	public String getName(){
-		return name;
-	}
+    public String getProductOptionValueId() {
+        return productOptionValueId;
+    }
 
-	public String getPricePrefix(){
-		return pricePrefix;
-	}
+    public String getName() {
+        return name;
+    }
+
+    public String getPricePrefix() {
+        return pricePrefix;
+    }
 }

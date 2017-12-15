@@ -94,20 +94,21 @@
                         android:gravity="end"
                         android:paddingEnd="10dp"
                         android:paddingRight="10dp"
+                        android:paddingStart="10dp"
                         android:text="14300" />
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/cart_checkout_btn"
-                    style="@style/CustomButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:elevation="8dp"
-                    android:text="@string/checkout" />
+                <!--<Button-->
+                    <!--android:id="@+id/cart_checkout_btn"-->
+                    <!--style="@style/CustomButtonStyle"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentBottom="true"-->
+                    <!--android:layout_marginBottom="5dp"-->
+                    <!--android:layout_marginLeft="@dimen/activity_horizontal_margin"-->
+                    <!--android:layout_marginRight="@dimen/activity_horizontal_margin"-->
+                    <!--android:elevation="8dp"-->
+                    <!--android:text="@string/checkout" />-->
 
                 <View
                     android:layout_width="match_parent"

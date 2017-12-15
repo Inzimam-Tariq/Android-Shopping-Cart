@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 
+import com.qemasoft.alhabibshop.app.model.ProductOptionValueItem;
 import com.qemasoft.alhabibshop.app.view.activities.SplashActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Inzimam on 29-Oct-17.
@@ -40,6 +44,8 @@ public class AppConstants {
     public static final int PAYMENT_METHOD_REQUEST_CODE = 24;
     public static final int CONFIRM_CHECKOUT_REQUEST_CODE = 25;
     public static final int ADD_ORDER_REQUEST_CODE = 26;
+    public static final int LANGUAGE_REQUEST_CODE = 27;
+    public static final int CURRENCY_REQUEST_CODE = 28;
     public static final int FORCED_CANCEL = 2;
 
     public static final String DEFAULT_STRING_VAL = "";
@@ -49,14 +55,19 @@ public class AppConstants {
     public static final String KEY_FOR_KEY = "KEY_VALUE";
     public static final String LOGIN_KEY = "LOGIN_KEY";
     public static final String LOGO_KEY = "LOGO_KEY";
+    public static final String CURRENCY_KEY = "DEFAULT_CURRENCY";
+    public static final String CURRENCY_SYMBOL_KEY = "CURRENCY_SYMBOL";
+    public static final String CURRENCY_SYMBOL_RIGHT_KEY = "SYMBOL_RIGHT";
     public static final String LANGUAGE_KEY = "DEFAULT_LANGUAGE";
     public static final String CUSTOMER_KEY = "CUSTOMER_KEY";
     public static final String CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
     public static final String CUSTOMER_NAME = "CUSTOMER_NAME";
     public static final String ITEM_COUNTER = "ITEM_COUNTER";
-    private static final String BASE_URL = "http://www.opencartgulf.com/api/";
-    //    private static final String BASE_URL = "http://www.alhabibshop.com/new/api/";
+    //    private static final String BASE_URL = "http://www.opencartgulf.com/api/";
+    private static final String BASE_URL = "http://www.alhabibshop.com/new/api/";
+//        private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
+    public static List<ProductOptionValueItem> optionsList = new ArrayList<>();
     private static String MID_FIX_API;
     private static String HOME_EXTRA;
     private static String PRODUCT_EXTRA;
@@ -115,4 +126,5 @@ public class AppConstants {
     public static void setSlideshowExtra(String slideshowExtra) {
         SLIDESHOW_EXTRA = slideshowExtra;
     }
+
 }

@@ -97,7 +97,7 @@ public class FragProduct extends MyBaseFragment {
                         JSONObject productObj = products.optJSONObject(i);
                         MyItem item = new MyItem(productObj.optString("product_id")
                                 , productObj.optString("name"), productObj.optString("disc_price")
-                                , productObj.optString("price"), productObj.optString("thumb"));
+                                , productObj.optString("price"), productObj.optString("image"));
                         myItemList.add(item);
                     }
                     itemAdapter = new ItemAdapter(myItemList);
