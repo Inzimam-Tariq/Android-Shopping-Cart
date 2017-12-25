@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
@@ -17,6 +18,7 @@ import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyItem;
 import com.qemasoft.alhabibshop.app.view.fragments.FragProductDetail;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -52,25 +54,45 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 //        utils.printLog("OnBIndMethod", "OnBind Working");
         final MyItem data = dataList.get(position);
 
         if (data != null) {
             holder.itemTitle.setText(data.getItemTitle());
             String imgPath = data.getItemImage();
-            utils.printLog("ImagePath = " +imgPath);
+            utils.printLog("ImagePath = " + imgPath);
             if (!imgPath.isEmpty())
-                Picasso.with(context).load(imgPath).into(holder.img);
+                Picasso.with(context).load(imgPath).into(holder.img, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        holder.progressBar.setVisibility(View.GONE);
+                        holder.img.setImageResource(R.drawable.ic_close_black);
+                    }
+                });
+
+            holder.customLinearLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    holder.img.getLayoutParams().height =
+                            Utils.getScreenWidth(holder.img.getContext()) / 2 - 40;
+                }
+            });
+
             String symbol = Preferences.getSharedPreferenceString(context
                     , AppConstants.CURRENCY_SYMBOL_KEY, "$");
-            holder.itemPriceFull.setText(symbol.concat(data.getItemPriceFull()));
+            holder.itemPriceFull.setText(data.getItemPriceFull().concat(" ").concat(symbol));
 
             TextView tvPrice = holder.itemPriceDisc;
             // set StrikeThrough to textView
             if (!data.getItemPriceDisc().isEmpty()) {
                 tvPrice.setVisibility(View.VISIBLE);
-                tvPrice.setText(symbol.concat(data.getItemPriceDisc()));
+                tvPrice.setText(data.getItemPriceDisc().concat(" ").concat(symbol));
                 tvPrice.setPaintFlags(tvPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             }
 
@@ -97,7 +119,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
         public TextView itemTitle, itemPriceFull, itemPriceDisc;
         public LinearLayout customLinearLayout;
-        ImageView img;
+        private ImageView img;
+        private ProgressBar progressBar;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -105,6 +128,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             itemPriceDisc = itemView.findViewById(R.id.disc_price);
             itemPriceFull = itemView.findViewById(R.id.full_price);
             img = itemView.findViewById(R.id.img);
+            progressBar = itemView.findViewById(R.id.progress_bar);
             customLinearLayout = itemView.findViewById(R.id.custom_item_layout);
             customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(
                     itemView.getContext()) / 2 - 5;

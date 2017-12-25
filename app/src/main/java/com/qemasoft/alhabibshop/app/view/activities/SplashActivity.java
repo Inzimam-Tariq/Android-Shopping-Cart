@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_SYMBOL_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.GET_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.KEY_FOR_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
@@ -108,7 +109,13 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                     if (success) {
                         JSONObject homeObject = response.getJSONObject("home");
                         JSONObject settingObject = homeObject.optJSONObject("setting");
-                        String logoPath = settingObject.optString("logo");
+                        int width = Utils.getScreenWidth(appContext);
+                        String logoPath;
+                        if (width <= 480) {
+                            logoPath = settingObject.optString("logo_small");
+                        } else {
+                            logoPath = settingObject.optString("logo");
+                        }
                         String language = settingObject.optString("language");
                         String currency = settingObject.optString("currency");
 
@@ -118,6 +125,13 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                                 LANGUAGE_KEY, language);
                         Preferences.setSharedPreferenceString(appContext,
                                 CURRENCY_KEY, currency);
+                        String symbol = settingObject.optString("symbol");
+
+                        Preferences.setSharedPreferenceString(appContext,
+                                CURRENCY_SYMBOL_KEY, symbol);
+                        utils.printLog("Symbol", "Symbol = "
+                                +Preferences.getSharedPreferenceString(appContext
+                                ,CURRENCY_SYMBOL_KEY,""));
 
                         new Handler().postDelayed(new Runnable() {
                             @Override

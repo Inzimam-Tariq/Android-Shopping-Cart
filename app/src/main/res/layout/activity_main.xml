@@ -21,7 +21,7 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
-        <include layout="@layout/nav_header_main_left" />
+        <!--<include layout="@layout/nav_header_main_left" />-->
 
         <!-- List menu Left-->
         <ExpandableListView
@@ -46,7 +46,7 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
-        <include layout="@layout/nav_header_main_right" />
+        <!--<include layout="@layout/nav_header_main_right" />-->
 
         <!-- List menu Right-->
         <ExpandableListView

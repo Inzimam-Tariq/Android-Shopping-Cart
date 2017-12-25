@@ -6,7 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">Droid Arabic Kufi</item>
+        <item name="android:textColor">@color/textColorTitle</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -15,6 +16,9 @@
     </style>
 
     <style name="AppTheme.ProgressTheme">
+        <item name="colorAccent">@android:color/holo_red_light</item> <!-- Whatever color you want-->
+    </style>
+    <style name="AppTheme.ProgressThemePrimaryColor">
         <item name="colorAccent">@android:color/holo_red_light</item> <!-- Whatever color you want-->
     </style>
 

@@ -12,21 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
-import android.widget.ScrollView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.ProductOptionsAdapter;
-import com.qemasoft.alhabibshop.app.controller.ProductReviewsAdapter;
 import com.qemasoft.alhabibshop.app.model.Options;
 import com.qemasoft.alhabibshop.app.model.Product;
 import com.qemasoft.alhabibshop.app.model.ProductOptionValueItem;
-import com.qemasoft.alhabibshop.app.model.Reviews;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
 
 import org.json.JSONArray;
@@ -68,17 +64,19 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
     };
     private ViewPager mPager;
     private CircleIndicator indicator;
-    private List<Reviews> reviewsList;
+    private ProgressBar pb;
+    //    private List<Reviews> reviewsList;
     private Product product;
     private TextView productTitleTV, productModelTV, manufacturerTV, productDescriptionTV,
-            productPriceTV, productSpecialPriceTV, discountTV, percentDiscTV, productQtyTV, stockStatusTV,
-            dateAddedTV, optionsTV, writeReviewTV, postReviewTV;
-    private Button addToCartBtn, submitReviewBtn;
-    private RatingBar ratingBarOverall, ratingBarPost;
-    private RecyclerView mRecyclerViewRating, mRecyclerViewOptions;
-    private EditText yourNameET, reviewCommentET;
-    private TabHost tabHost;
-    private ScrollView scrollView;
+            productPriceTV, productSpecialPriceTV, discountTV, percentDiscTV,
+            stockStatusTV, dateAddedTV, optionsTV;
+    //    writeReviewTV, postReviewTV, productQtyTV;
+    private Button addToCartBtn;// submitReviewBtn;
+    private RatingBar ratingBarOverall;//, ratingBarPost;
+    private RecyclerView mRecyclerViewOptions; //mRecyclerViewRating;
+//    private EditText yourNameET, reviewCommentET;
+//    private TabHost tabHost;
+//    private ScrollView scrollView;
 
     public FragProductDetail() {
         // Required empty public constructor
@@ -93,20 +91,6 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         initUtils();
 
 
-        tabHost.setup();
-
-        //Tab 1
-        TabHost.TabSpec spec = tabHost.newTabSpec("Description");
-        spec.setContent(R.id.tab1);
-        spec.setIndicator("Description");
-        tabHost.addTab(spec);
-
-        //Tab 2
-        spec = tabHost.newTabSpec("Reviews");
-        spec.setContent(R.id.tab2);
-        spec.setIndicator("Reviews");
-        tabHost.addTab(spec);
-
         Bundle bundle = getArguments();
         if (bundle != null) {
             String id = getArguments().getString("id");
@@ -115,9 +99,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
             utils.showErrorDialog("No Data to Show");
         }
 
-        writeReviewTV.setOnClickListener(this);
         addToCartBtn.setOnClickListener(this);
-        submitReviewBtn.setOnClickListener(this);
 
 
         return view;
@@ -125,12 +107,13 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
 
     private void initViews(View view) {
 
-        scrollView = view.findViewById(R.id.sv);
+//        scrollView = view.findViewById(R.id.sv);
 
         mPager = view.findViewById(R.id.pager);
         indicator = view.findViewById(R.id.indicator);
+        pb = view.findViewById(R.id.loading);
 
-        tabHost = view.findViewById(R.id.tabHost);
+//        tabHost = view.findViewById(R.id.tabHost);
         productTitleTV = view.findViewById(R.id.product_title_val_tv);
         productModelTV = view.findViewById(R.id.product_model_val_tv);
         manufacturerTV = view.findViewById(R.id.maker_company_tv);
@@ -139,22 +122,22 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         productSpecialPriceTV = view.findViewById(R.id.product_special_price_val_tv);
         discountTV = view.findViewById(R.id.product_disc_val_tv);
         percentDiscTV = view.findViewById(R.id.disc_percent_val_tv);
-        ratingBarOverall = view.findViewById(R.id.ratingBar);
+//        ratingBarOverall = view.findViewById(R.id.ratingBar);
         stockStatusTV = view.findViewById(R.id.stock_status_val_tv);
-        productQtyTV = view.findViewById(R.id.product_qty_tv);
+//        productQtyTV = view.findViewById(R.id.product_qty_tv);
         dateAddedTV = view.findViewById(R.id.added_date_val_tv);
-        writeReviewTV = view.findViewById(R.id.write_review_tv);
+        optionsTV = view.findViewById(R.id.options_available_tv);
 
         addToCartBtn = view.findViewById(R.id.add_to_cart_btn);
 
-        mRecyclerViewRating = view.findViewById(R.id.author_recycler_view);
+//        mRecyclerViewRating = view.findViewById(R.id.author_recycler_view);
         mRecyclerViewOptions = view.findViewById(R.id.product_options_recycler_view);
-        postReviewTV = view.findViewById(R.id.review_comment_tv);
-        yourNameET = view.findViewById(R.id.name_et);
-        reviewCommentET = view.findViewById(R.id.review_comment_et);
-        ratingBarPost = view.findViewById(R.id.post_rating_bar);
-
-        submitReviewBtn = view.findViewById(R.id.submit_btn);
+//        postReviewTV = view.findViewById(R.id.review_comment_tv);
+//        yourNameET = view.findViewById(R.id.name_et);
+//        reviewCommentET = view.findViewById(R.id.review_comment_et);
+//        ratingBarPost = view.findViewById(R.id.post_rating_bar);
+//
+//        submitReviewBtn = view.findViewById(R.id.submit_btn);
     }
 
     private void requestData(String id) {
@@ -195,41 +178,21 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                     );
                     JSONArray slideShow = proObj.optJSONArray("slideshow");
                     AppConstants.setSlideshowExtra(slideShow.toString());
-                    utils.setupSlider(mPager, indicator, false);
+                    utils.setupSlider(mPager, indicator, pb, false, false);
                     productTitleTV.setText(product.getName());
+                    if (!product.getManufacturer().isEmpty())
+                        manufacturerTV.setText(product.getManufacturer());
                     productModelTV.setText(product.getModel());
-                    manufacturerTV.setText(product.getManufacturer());
                     productDescriptionTV.setText(product.getProductDescription());
-                    productPriceTV.setText(symbol.concat(product.getPrice()));
-                    productSpecialPriceTV.setText(symbol.concat(product.getSpacialPrice()));
+                    productPriceTV.setText(product.getPrice().concat(" ").concat(symbol));
+                    productSpecialPriceTV.setText(product.getSpacialPrice().concat(" ").concat(symbol));
                     if (!product.getDiscPercent().isEmpty()) {
-                        percentDiscTV.setText(symbol.concat(product.getDiscPercent()));
+                        percentDiscTV.setText(product.getDiscPercent().concat(" ").concat(symbol));
                     }
-                    ratingBarOverall.setRating(Float.parseFloat(product.getRating()));
 
                     stockStatusTV.setText(product.getStockStatus());
-                    productQtyTV.setText(product.getQuantity());
+//                    productQtyTV.setText(product.getQuantity());
                     dateAddedTV.setText(product.getDateAdded());
-
-                    JSONArray reviews = proObj.optJSONArray("reviews");
-                    reviewsList = new ArrayList<>();
-                    for (int i = 0; i < reviews.length(); i++) {
-                        JSONObject revObject = reviews.optJSONObject(i);
-                        reviewsList.add(new Reviews(revObject.optString("id")
-                                , revObject.optString("author")
-                                , revObject.optString("date_added")
-                                , revObject.optString("text")
-                                , revObject.optString("rating")
-                        ));
-                    }
-                    RecyclerView.LayoutManager mLayoutManagerReviews =
-                            new LinearLayoutManager(getActivity()
-                                    , LinearLayoutManager.VERTICAL, false);
-                    mRecyclerViewRating.setLayoutManager(mLayoutManagerReviews);
-                    mRecyclerViewRating.setAdapter(new ProductReviewsAdapter(reviewsList));
-                    if (!product.getReviewCount().isEmpty()) {
-                        writeReviewTV.setText(product.getReviewCount().concat(" Reviews/ Write Review"));
-                    }
 
                     JSONArray optionsArray = proObj.optJSONArray("options");
                     optionsList = new ArrayList<>();
@@ -249,6 +212,10 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                                 , subOptionsList
                                 , optionsObj.optString("name")
                                 , optionsObj.optString("option_id")));
+                    }
+                    if (optionsList.isEmpty() || optionsList.size()<1) {
+                        optionsTV.setVisibility(View.GONE);
+                        return;
                     }
                     RecyclerView.LayoutManager mLayoutManagerOptions =
                             new LinearLayoutManager(getActivity()
@@ -274,9 +241,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
     public void onClick(View v) {
 
         switch (v.getId()) {
-            case R.id.write_review_tv:
-                tabHost.setCurrentTab(1);
-                break;
+
             case R.id.add_to_cart_btn:
                 TextView itemCountTV = getActivity().findViewById(R.id.actionbar_notification_tv);
                 int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
@@ -286,35 +251,10 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                         Integer.parseInt(itemCountTV.getText().toString()));
                 Bundle bundle = new Bundle();
                 bundle.putString("id", product.getProductId());
+                utils.printLog("ProductId", "ID=" + product.getProductId());
                 bundle.putString("midFix", "addCart");
                 utils.switchFragment(new FragCartDetail(), bundle);
-
                 break;
-            case R.id.submit_btn:
-                String nameVal = yourNameET.getText().toString();
-                String commentVal = reviewCommentET.getText().toString();
-                float rating = ratingBarPost.getRating();
-                if (nameVal.isEmpty()) {
-                    utils.setError(yourNameET);
-                    return;
-                }
-                if (commentVal.isEmpty()) {
-                    utils.setError(reviewCommentET);
-                    return;
-                }
-                reviewsList.add(new Reviews(nameVal, "", commentVal,
-                        String.valueOf(rating)));
-                mRecyclerViewRating.getAdapter().notifyItemInserted(reviewsList.size() - 1);
-                mRecyclerViewRating.getAdapter().notifyDataSetChanged();
-                mRecyclerViewRating.scrollToPosition(reviewsList.size() - 1);
-                scrollView.smoothScrollTo(0, mRecyclerViewRating.getBottom());
-                yourNameET.setText("");
-                reviewCommentET.setText("");
-                utils.showToast("Review submitted successfully");
-
-                break;
-            case R.id.whatsapp_icon:
-                utils.sendAppMsg(v);
         }
     }
 }

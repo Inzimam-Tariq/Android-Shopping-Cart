@@ -1,6 +1,7 @@
 package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +14,9 @@ import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyCategory;
 import com.qemasoft.alhabibshop.app.model.MyItem;
-import com.qemasoft.alhabibshop.app.model.MyPromotion;
+import com.qemasoft.alhabibshop.app.model.Slideshow;
+import com.qemasoft.alhabibshop.app.view.fragments.FragProduct;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,7 +66,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 }
             }
             return ITEM_VIEW;
-        } else if (o instanceof MyPromotion) {
+        } else if (o instanceof Slideshow) {
             return PROMOTION_VIEW;
         } else {
             return ITEM_VIEW;
@@ -143,11 +146,22 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     private void configureViewHolder2(ViewHolder2 vh2, int position) {
-        MyPromotion promotion = (MyPromotion) myAllItemsList.get(position);
+        Slideshow promotion = (Slideshow) myAllItemsList.get(position);
         if (promotion != null) {
-            vh2.getTitle().setText(promotion.getTitle());
-            vh2.getDescription().setText(promotion.getDescription());
+//            vh2.getTitle().setText(promotion.getId());
+            String imgPath = promotion.getImage();
+            utils.printLog("ImagePath", "" + imgPath);
+            if (!(imgPath != null && imgPath.isEmpty()))
+                Picasso.with(context).load(imgPath).into(vh2.getImageView());
         }
+        vh2.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("from", "mainActivity");
+                utils.switchFragment(new FragProduct(), bundle);
+            }
+        });
     }
 
     private void prepareData() {
@@ -176,13 +190,15 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             myCategoryList.add(myCategory);
                         }
                         myAllItemsList.add(myCategoryList);
-                    } else if (keysStrList.get(a).equals("promotion")) {
-                        JSONArray promotionArray = modules.optJSONArray("promotion");
-                        JSONObject promotionObject = promotionArray.optJSONObject(0);
-                        MyPromotion myPromotion = new MyPromotion(promotionObject.optString("id"),
-                                promotionObject.optString("name"),
-                                promotionObject.optString("description"));
-                        myAllItemsList.add(myPromotion);
+                    } else if (keysStrList.get(a).equals("banner")) {
+//                        JSONArray promotionArray = modules.optJSONArray("promotion");
+                        JSONObject promotionObject = modules.optJSONObject("banner");
+//                        utils.printLog("URL", ""+modules.optString("banner"));
+                        Slideshow banner = new Slideshow(
+                                promotionObject.optString("banner")
+                                , promotionObject.optString("id")
+                                , promotionObject.optString("banertype"));
+                        myAllItemsList.add(banner);
 
                     } else {
                         myItemList = new ArrayList<>();

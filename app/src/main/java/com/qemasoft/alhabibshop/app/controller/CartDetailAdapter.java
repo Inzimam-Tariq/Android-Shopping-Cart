@@ -78,7 +78,7 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
             holder.total.setText(symbol.concat(data.getTotal()));
             if (isFromCheckout) {
                 holder.productModel.setText(data.getProductModel());
-                holder.productQty.setText(data.getOrderQty());
+                holder.productQty.setText(data.getOrderQty().concat(" x "));
             } else {
                 String imgPath = data.getProductImage();
                 utils.printLog("Product Image = " + imgPath);

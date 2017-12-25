@@ -2,6 +2,7 @@ package com.qemasoft.alhabibshop.app.controller;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
@@ -13,26 +14,24 @@ import com.qemasoft.alhabibshop.app.R;
 public class ViewHolder2 extends RecyclerView.ViewHolder {
 
     private TextView title, description;
+    private ImageView imageView;
 
     public ViewHolder2(View v) {
         super(v);
-        title = v.findViewById(R.id.title_tv);
-        description = v.findViewById(R.id.description_tv);
+//        title = v.findViewById(R.id.title_tv);
+//        description = v.findViewById(R.id.description_tv);
+        imageView = v.findViewById(R.id.disc_image_view);
     }
 
     public TextView getTitle() {
         return title;
     }
 
-    public void setTitle(TextView title) {
-        this.title = title;
-    }
-
     public TextView getDescription() {
         return description;
     }
 
-    public void setDescription(TextView description) {
-        this.description = description;
+    public ImageView getImageView() {
+        return imageView;
     }
 }

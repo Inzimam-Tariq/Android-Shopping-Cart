@@ -43,7 +43,9 @@ import static com.qemasoft.alhabibshop.app.AppConstants.CONFIRM_CHECKOUT_REQUEST
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
+import static com.qemasoft.alhabibshop.app.AppConstants.LEFT;
 import static com.qemasoft.alhabibshop.app.AppConstants.PAYMENT_METHOD_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.RIGHT;
 import static com.qemasoft.alhabibshop.app.AppConstants.SHIPPING_METHOD_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
@@ -58,7 +60,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     private CheckBox termsCB;
     private LinearLayout step1, step2, step3, step4, step5;
     private List<String> list;
-    private TextView confirmOrderTV;
+    private TextView confirmOrderTV, subTotalValTV, grandTotalValTV;
     private int selectedAddressIndex;
 
     public FragCheckout() {
@@ -81,8 +83,15 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         nextBtn.setOnClickListener(this);
         bundle = new Bundle();
         getAddresses();
+        setDrawables();
 
         return view;
+    }
+
+    private void setDrawables() {
+        utils.setCompoundDrawable(backBtn, LEFT, R.drawable.ic_navigate_back);
+        utils.setCompoundDrawable(nextBtn, RIGHT, R.drawable.ic_navigate_next);
+        utils.setCompoundDrawable(selectDeliveryAddress, RIGHT, R.drawable.ic_menu_more);
     }
 
     private void getAddresses() {
@@ -109,6 +118,8 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         step4 = view.findViewById(R.id.step4);
         step5 = view.findViewById(R.id.step5);
         confirmOrderTV = view.findViewById(R.id.confirm_order_tv);
+        subTotalValTV = view.findViewById(R.id.sub_total_val_tv);
+        grandTotalValTV = view.findViewById(R.id.grand_total_val_tv);
 
         termsCB = view.findViewById(R.id.terms_cb);
         nextBtn = view.findViewById(R.id.next_btn);
@@ -127,10 +138,15 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         int rgShippingCount = radioGroupPaymentMethod.getChildCount();
         switch (v.getId()) {
             case R.id.select_delivery_address_btn:
-                utils.showRadioAlertDialog(selectDeliveryAddress
-                        , "Select Address", list, 0, null);
-                if (selectedAddressIndex < 0) {
-                    selectedAddressIndex = 0;
+                if (addressList.isEmpty()) {
+                    utils.showAlertDialog("Alert!",
+                            "You need to add an address");
+                } else {
+                    utils.showRadioAlertDialog(selectDeliveryAddress
+                            , "Select Address", list, 0, null);
+                    if (selectedAddressIndex < 0) {
+                        selectedAddressIndex = 0;
+                    }
                 }
                 break;
             case R.id.next_btn:
@@ -334,14 +350,22 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     }
                     for (int i = 0; i < cartProducts.length(); i++) {
                         JSONObject objectCP = cartProducts.optJSONObject(i);
-                        cartDetailList.add(new MyCartDetail(objectCP.optString("cart_id"),
-                                objectCP.optString("product_id"),
-                                objectCP.optString("image"),
+                        cartDetailList.add(new MyCartDetail(objectCP.optString("product_id"),
                                 objectCP.optString("name"),
+                                objectCP.optString("model"),
                                 objectCP.optString("quantity"),
                                 objectCP.optString("price"),
                                 objectCP.optString("total")));
                     }
+                    JSONArray cartTotals = response.optJSONArray("carttotals");
+                    List<String> totalsList = new ArrayList<>();
+                    for (int j = 0; j < cartTotals.length(); j++) {
+                        JSONObject object = cartTotals.optJSONObject(j);
+                        totalsList.add(object.optString("value"));
+                    }
+                    subTotalValTV.setText(totalsList.get(0));
+                    grandTotalValTV.setText(totalsList.get(1));
+
 
                     CartDetailAdapter cartDetailAdapter = new CartDetailAdapter(cartDetailList
                             , true);
@@ -352,7 +376,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                     String className = FragCheckout.class.getSimpleName();
                     utils.printLog(className + "Adapter", "Before Cart list Adapter");
-                    if (cartDetailList.size() > 0)
+                    if (!cartDetailList.isEmpty() || cartDetailList.size() > 0)
                         mRecyclerView.setAdapter(cartDetailAdapter);
 
                 } else if (requestCode == ADD_ORDER_REQUEST_CODE) {

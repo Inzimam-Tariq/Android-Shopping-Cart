@@ -69,6 +69,7 @@ public class FragCartDetail extends MyBaseFragment {
         bundle = getArguments();
         if (bundle != null) {
             String id = getArguments().getString("id");
+            utils.printLog("ProductId","ID="+id);
             requestData(id);
         } else {
             utils.showErrorDialog("No Data to Show");
@@ -101,6 +102,7 @@ public class FragCartDetail extends MyBaseFragment {
             map.put("cart_id", id);
             map.put("quantity", bundle.getString("qty"));
         } else if (midFix.contains("addCart")) {
+            utils.printLog("ProductId","Id="+id);
             map.put("product_id", id);
             for (int i = 0; i < optionsList.size(); i++) {
                 map.put("option[" + optionsList.get(i).getOptionValueId() + "]",
@@ -118,7 +120,9 @@ public class FragCartDetail extends MyBaseFragment {
         Intent intent = new Intent(getContext(), FetchData.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, ADD_TO_CART_REQUEST_CODE);
+        utils.printLog("OptionsListSize", "size = "+optionsList.size());
         optionsList.clear();
+        utils.printLog("OptionsListSize", "size = "+optionsList.size());
     }
 
     private void createAndShowCustomAlertDialog() {
@@ -166,6 +170,7 @@ public class FragCartDetail extends MyBaseFragment {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            assert response != null;
             utils.printLog("RespInFragCartDetail", "" + response.toString());
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == ADD_TO_CART_REQUEST_CODE) {

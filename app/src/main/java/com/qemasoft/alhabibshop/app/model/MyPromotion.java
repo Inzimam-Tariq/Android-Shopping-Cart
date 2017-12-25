@@ -8,10 +8,11 @@ public class MyPromotion {
     private String id;
     private String title;
     private String description;
+    private String image;
 
-    public MyPromotion(String id, String title) {
+    public MyPromotion(String id, String image) {
         this.id = id;
-        this.title = title;
+        this.title = image;
     }
 
     public MyPromotion(String id, String title, String description) {
@@ -32,4 +33,7 @@ public class MyPromotion {
         return description;
     }
 
+    public String getImage() {
+        return image;
+    }
 }

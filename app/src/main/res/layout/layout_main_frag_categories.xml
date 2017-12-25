@@ -12,17 +12,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="2dp">
+            android:padding="3dp">
 
             <TextView
                 android:id="@+id/category_title_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingStart="10dp"
                 android:paddingEnd="10dp"
+                android:paddingLeft="10dp"
                 android:paddingRight="10dp"
+                android:paddingStart="10dp"
                 android:text="Category Title"
+                android:textColor="@color/textColorTitle"
                 android:textSize="15sp" />
 
             <android.support.v7.widget.RecyclerView

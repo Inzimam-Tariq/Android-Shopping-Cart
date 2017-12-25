@@ -57,9 +57,12 @@ public class AddressBook extends MyBaseFragment {
 
         String customerId = Preferences.getSharedPreferenceString(appContext, CUSTOMER_KEY, "");
         utils.printLog("CustomerId = ", customerId);
-        utils.showToast("CustomerID = " + customerId);
 
-        requestData();
+        if (customerId.isEmpty()){
+            utils.showAlertDialog("Login Alert", "You need to Login!");
+        }else {
+            requestData();
+        }
         addAddressIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

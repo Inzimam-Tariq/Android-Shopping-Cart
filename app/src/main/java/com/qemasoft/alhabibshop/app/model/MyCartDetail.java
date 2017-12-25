@@ -21,12 +21,14 @@ public class MyCartDetail {
     private String couponDiscount;
     private String grandTotal;
 
-    public MyCartDetail(String productModel, String productName, String orderQty,
-                        String productPrice) {
+    public MyCartDetail(String productId, String productName, String productModel, String orderQty,
+                        String productPrice, String total) {
+        this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
         this.orderQty = orderQty;
         this.productModel = productModel;
+        this.total = total;
     }
 
     public MyCartDetail(String cartId, String productId, String productImage,
@@ -99,5 +101,13 @@ public class MyCartDetail {
 
     public String getGrandTotal() {
         return grandTotal;
+    }
+
+    public void setSubTotal(String subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public void setGrandTotal(String grandTotal) {
+        this.grandTotal = grandTotal;
     }
 }

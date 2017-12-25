@@ -180,6 +180,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+
     <string name="account">Account</string>
     <string name="logout">Logout</string>
     <string name="cart">Cart</string>

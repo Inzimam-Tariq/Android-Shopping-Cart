@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:layout_gravity="bottom"
-    android:background="?attr/colorPrimary"
-    android:orientation="vertical"
+    android:background="@color/off_white"
     app:popupTheme="@style/AppTheme.PopupOverlay">
 
     <View
@@ -18,26 +17,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:id="@+id/ab_bottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/off_white"
+            android:gravity="center"
             android:weightSum="4">
 
             <TextView
                 android:id="@+id/my_account_tv"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="center"
+                android:gravity="center|center_vertical"
                 android:text="@string/account" />
 
             <TextView
                 android:id="@+id/checkout_tv"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/checkout" />
@@ -45,7 +48,7 @@
             <TextView
                 android:id="@+id/disc_tv"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/text_disc" />
@@ -53,12 +56,13 @@
             <TextView
                 android:id="@+id/home_tv"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/title_home" />
 
         </LinearLayout>
+
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

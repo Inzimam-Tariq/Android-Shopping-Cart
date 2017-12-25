@@ -26,10 +26,13 @@ public class MyPagerAdapter extends PagerAdapter {
     private ArrayList<Slideshow> slideshowArrayList;
     private LayoutInflater inflater;
     private Utils utils;
+    private boolean isClickListenerSet;
 
 
-    public MyPagerAdapter(Context context, ArrayList<Slideshow> slideshowArrayList) {
+    public MyPagerAdapter(Context context, ArrayList<Slideshow> slideshowArrayList,
+                          boolean isClickListenerSet) {
         this.slideshowArrayList = slideshowArrayList;
+        this.isClickListenerSet = isClickListenerSet;
         inflater = LayoutInflater.from(context);
     }
 
@@ -51,24 +54,33 @@ public class MyPagerAdapter extends PagerAdapter {
         ImageView myImage = myImageLayout.findViewById(R.id.image);
         final Slideshow slideshow = slideshowArrayList.get(position);
         utils = new Utils(view.getContext());
-        Picasso.with(view.getContext()).load(slideshow.getImage()).into(myImage);
+
+        if (!slideshow.getImage().isEmpty())
+            Picasso.with(view.getContext()).load(slideshow.getImage()).into(myImage);
         view.addView(myImageLayout, 0);
 
-        myImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id = slideshow.getId();
-                String type = slideshow.getBannerType();
-                Bundle bundle = new Bundle();
-                if (type.equals("0")) {
-                    bundle.putString("id", id);
-                    utils.switchFragment(new FragProduct(), bundle);
-                } else {
-                    bundle.putString("id", id);
-                    utils.switchFragment(new FragProductDetail(), bundle);
+        if (isClickListenerSet) {
+
+            myImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String id = slideshow.getId();
+                    String type = slideshow.getBannerType();
+                    Bundle bundle = new Bundle();
+                    if (type.equals("0")) {
+                        bundle.putString("id", id);
+                        utils.switchFragment(new FragProduct(), bundle);
+                    } else if (type.equals("2")) {
+                        bundle.putString("id", id);
+                        bundle.putString("from", "mainActivity");
+                        utils.switchFragment(new FragProductDetail(), bundle);
+                    } else {
+                        bundle.putString("id", id);
+                        utils.switchFragment(new FragProductDetail(), bundle);
+                    }
                 }
-            }
-        });
+            });
+        }
 
         return myImageLayout;
     }

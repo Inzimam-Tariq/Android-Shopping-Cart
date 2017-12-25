@@ -21,39 +21,44 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/border"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/product_name_val_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.3"
+                android:background="@drawable/border"
                 android:text="@string/name_text" />
 
             <TextView
                 android:id="@+id/product_model_val_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
+                android:layout_weight="0.3"
+                android:background="@drawable/border"
+                android:gravity="end"
                 android:text="model" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:gravity="center">
+                android:layout_weight="0.2"
+                android:background="@drawable/border"
+                android:gravity="end">
 
                 <TextView
                     android:id="@+id/product_qty_val_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Q"/>
+                    android:text="Q" />
 
                 <TextView
                     android:id="@+id/product_price_val_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="P"/>
+                    android:text="P" />
 
             </LinearLayout>
 
@@ -61,8 +66,9 @@
                 android:id="@+id/total_val_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.25"
-                android:gravity="center"
+                android:layout_weight="0.2"
+                android:background="@drawable/border"
+                android:gravity="end"
                 android:text="@string/total_text" />
 
         </LinearLayout>

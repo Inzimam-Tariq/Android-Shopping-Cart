@@ -84,7 +84,7 @@ public class FragSlider extends MyBaseFragment {
             utils.printLog("ResponseExSliderFrag", responseStr);
         }
 
-        MyPagerAdapter adapter = new MyPagerAdapter(context, slideshowArrayList);
+        MyPagerAdapter adapter = new MyPagerAdapter(context, slideshowArrayList, false);
         mPager.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

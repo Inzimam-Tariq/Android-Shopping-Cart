@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +75,7 @@ public class Utils {
     private Context mContext;
     private ProgressDialog progressBar;
     private int position, currentPage;
+    private MyCountDownTimer myCountDownTimer;
 
 
     public Utils(Context mContext) {
@@ -440,6 +442,23 @@ public class Utils {
         }
     }
 
+    public void setCompoundDrawable(Button button, String position, int icon) {
+        switch (position) {
+            case "top":
+                button.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0);
+                break;
+            case "right":
+                button.setCompoundDrawablesWithIntrinsicBounds(0, 0, icon, 0);
+                break;
+            case "bottom":
+                button.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, icon);
+                break;
+            default:
+                button.setCompoundDrawablesWithIntrinsicBounds(icon, 0, 0, 0);
+                break;
+        }
+    }
+
     public void changeLanguage(String languageCode) {
         String language = Preferences.getSharedPreferenceString(appContext,
                 LANGUAGE_KEY, "en");
@@ -471,7 +490,8 @@ public class Utils {
     }
 
     public void setupSlider(final ViewPager mPager, CircleIndicator indicator,
-                            boolean isIndicatorSet) {
+                            final ProgressBar pb,
+                            boolean isIndicatorSet, boolean isClickListenerSet) {
 
         currentPage = 0;
         final ArrayList<Slideshow> slideshowArrayList = new ArrayList<>();
@@ -498,29 +518,37 @@ public class Utils {
         } else {
             printLog("ResponseExSliderFrag", responseStr);
         }
-        mPager.setAdapter(new MyPagerAdapter(mContext, slideshowArrayList));
+        mPager.setAdapter(new MyPagerAdapter(mContext, slideshowArrayList, isClickListenerSet));
 
         if (isIndicatorSet)
             indicator.setViewPager(mPager);
         // Auto start of viewpager
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
-            public void run() {
-                if (currentPage == slideshowArrayList.size()) {
-//                    utils.printLog("SlideshowArray", slideshowArrayList.toString());
-                    currentPage = -1;
-                    mPager.setCurrentItem(currentPage++, false);
-                } else
-                    mPager.setCurrentItem(currentPage++, true);
-            }
-        };
-        Timer swipeTimer = new Timer();
-        swipeTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, 3000, 3000);
+
+        if (slideshowArrayList.size() <= 1) {
+            pb.setVisibility(View.GONE);
+            return;
+        }
+            final int time = 4000;
+            final Handler handler = new Handler();
+
+            final Runnable Update = new Runnable() {
+                public void run() {
+                    myCountDownTimer = new MyCountDownTimer(time, 10, pb);
+                    myCountDownTimer.start();
+                    if (currentPage == slideshowArrayList.size()) {
+                        currentPage = 0;
+                        mPager.setCurrentItem(currentPage++, false);
+                    } else
+                        mPager.setCurrentItem(currentPage++, true);
+                }
+            };
+            Timer swipeTimer = new Timer();
+            swipeTimer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    handler.post(Update);
+                }
+            }, time, time);
     }
 
     public void showNumberPickerDialog() {

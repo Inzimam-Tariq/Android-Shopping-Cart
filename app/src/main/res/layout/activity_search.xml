@@ -5,14 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:orientation="horizontal"
+    app:popupTheme="@style/AppTheme.PopupOverlay"
     tools:context="com.qemasoft.alhabibshop.app.view.activities.SearchActivity">
+
+    <ImageView
+        android:id="@+id/exit_activity_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        app:srcCompat="@drawable/ic_arrow_back_black" />
 
     <android.support.v7.widget.SearchView
         android:id="@+id/search_view_"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/white_radius"
         app:iconifiedByDefault="false"
-        app:queryHint="@string/inquiry_hint_">
+        app:queryHint="@string/inquiry_hint_"
+        app:searchIcon="@null">
 
     </android.support.v7.widget.SearchView>
 

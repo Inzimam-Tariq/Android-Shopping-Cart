@@ -29,8 +29,10 @@ import java.util.Map;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 
@@ -108,6 +110,8 @@ public class FragLogin extends MyBaseFragment {
                     Map<String, String> map = new HashMap<>();
                     map.put("email", emailVal);
                     map.put("password", passVal);
+                    map.put("session_id", Preferences.getSharedPreferenceString(appContext
+                            , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("hasParameters", true);
                     bundle.putSerializable("parameters", (Serializable) map);
@@ -146,8 +150,8 @@ public class FragLogin extends MyBaseFragment {
                     String fName = object.optString("firstname");
                     String lName = object.optString("lastname");
 
-                    String userName = "Welcome: " +fName+" "+lName;
-                    utils.printLog("CustomerId = ", customerId+" Username = "+userName);
+                    String userName = "Welcome: " + fName + " " + lName;
+                    utils.printLog("CustomerId = ", customerId + " Username = " + userName);
 
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, customerEmail);
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_KEY, customerId);

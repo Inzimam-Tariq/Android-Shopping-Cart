@@ -73,8 +73,11 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
                              ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
-
-        View groupView = LayoutInflater.from(parent.getContext())
+        View groupView;
+        if (getChildrenCount(groupPosition) == 1) {
+            groupView = new View(parent.getContext());
+        } else {
+        groupView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_group, parent, false);
 
         TextView lblListHeader = groupView.findViewById(R.id.lblListHeader);
@@ -87,6 +90,7 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
                 || groupPosition == userMenuIcons.size() - 1) {
             lblListHeader.setCompoundDrawablesWithIntrinsicBounds(
                     0, 0, isExpanded ? R.drawable.ic_menu_less : R.drawable.ic_menu_more, 0);
+        }
         }
 
         return groupView;

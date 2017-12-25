@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Gravity;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
@@ -16,9 +18,10 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class SearchActivity extends AppCompatActivity {
 
-    private SearchView searchView;
     private Context context;
     private Utils utils;
+    private SearchView searchView;
+    private ImageView exitBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +37,21 @@ public class SearchActivity extends AppCompatActivity {
         lp.width = MATCH_PARENT;
         lp.gravity = Gravity.TOP | Gravity.START;
         setupSearchView();
+        exitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("result", "");
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+        });
 
     }
 
     private void initViews() {
         searchView = findViewById(R.id.search_view_);
+        exitBtn = findViewById(R.id.exit_activity_btn);
     }
 
     private void setupSearchView() {

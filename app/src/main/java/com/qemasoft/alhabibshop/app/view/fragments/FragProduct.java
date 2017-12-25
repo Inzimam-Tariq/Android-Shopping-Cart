@@ -56,7 +56,7 @@ public class FragProduct extends MyBaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             requestData(bundle.getString("id"));
-        }else {
+        } else {
             utils.showErrorDialog("No Data to Show");
         }
 
@@ -64,20 +64,28 @@ public class FragProduct extends MyBaseFragment {
     }
 
     private void requestData(String id) {
-        boolean isFromSearch = getArguments().getBoolean("isFromSearch", false);
+
+        String from = getArguments().getString("from", "");
         Bundle bundle = new Bundle();
         Intent intent = new Intent(getContext(), FetchData.class);
         Map<String, String> map = new HashMap<>();
-        if (isFromSearch){
+        utils.printLog("From = " + from + "\nId = " + id);
+        if (from.contains("fromSearch")) {
             AppConstants.setMidFixApi("searchProduct");
             map.put("search", id);
             bundle.putBoolean("hasParameters", true);
             bundle.putSerializable("parameters", (Serializable) map);
-        }else {
+            utils.printLog("Within Search = " + from);
+        } else if (from.contains("mainActivity")) {
+            AppConstants.setMidFixApi("getSpecialProducts");
+            utils.printLog("Within Special Products = " + from);
+        } else {
+            utils.printLog("Within Else = " + from);
             AppConstants.setMidFixApi("products/category_id/" + id);
         }
         intent.putExtras(bundle);
         startActivityForResult(intent, PRODUCT_REQUEST_CODE);
+        utils.printLog("Execution Completed = " + from);
     }
 
     private void initViews(View view) {
@@ -90,13 +98,14 @@ public class FragProduct extends MyBaseFragment {
         if (requestCode == PRODUCT_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
+                    utils.printLog("Inside Res Frag Products = ");
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
                     JSONArray products = response.optJSONArray("products");
                     utils.printLog("Products", products.toString());
                     for (int i = 0; i < products.length(); i++) {
                         JSONObject productObj = products.optJSONObject(i);
                         MyItem item = new MyItem(productObj.optString("product_id")
-                                , productObj.optString("name"), productObj.optString("disc_price")
+                                , productObj.optString("name"), productObj.optString("special")
                                 , productObj.optString("price"), productObj.optString("image"));
                         myItemList.add(item);
                     }

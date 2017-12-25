@@ -2,16 +2,21 @@ package com.qemasoft.alhabibshop.app.view.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.text.TextUtilsCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -53,8 +58,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_SYMBOL_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
@@ -77,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+    public TextView counterTV;
     ArrayList<Integer> loggedInIconList = new ArrayList<Integer>() {{
         add(R.drawable.ic_dashboard_black);
         add(R.drawable.ic_edit_black);
@@ -99,9 +107,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //   Toolbar stuff;
     private ImageView drawerIconLeft, drawerIconRight, logoIcon, searchIcon;
     private RelativeLayout cartLayout;
-    public TextView counterTV;
-
-
     private Context context;
     private SearchView searchView;
 
@@ -116,12 +121,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private HashMap<String, List<UserSubMenu>> hashMapRight;
     private List<MenuCategory> headerListLeft;
     private HashMap<MenuCategory, List<MenuSubCategory>> hashMapLeft;
-//    private boolean isLoggedIn = false;
 
 
-    private RelativeLayout appbarBottom;
+    private RelativeLayout appbarTop, appbarBottom;
     private LinearLayout abBottom;
     private TextView myAccountTV, checkoutTV, discountTV, homeTV;
+
+    private RecyclerView mRecyclerView;
 
 
     @Override
@@ -156,6 +162,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         enableSingleSelection();
         setExpandableListViewClickListener();
         setExpandableListViewChildClickListener();
+
+//                makeDefaultCurrencyCall("");
+
     }
 
     private void checkForUniqueId() {
@@ -257,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String str = parent.getExpandableListAdapter().getGroup(groupPosition).toString();
                 UserSubMenu userSubMenu = (UserSubMenu) parent.getExpandableListAdapter()
                         .getChild(groupPosition, childPosition);
-                if (str.contains("Information")) {
+                if (str.contains("Information") || str.contains("معلومات")) {
                     Bundle bundle = new Bundle();
                     bundle.putString("id", userSubMenu.getUserSubMenuCode());
                     utils.switchFragment(new FragShowText(), bundle);
@@ -265,16 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     recreate();
                 } else if (str.contains("دقة") || str.contains("Currency")) {
-                    AppConstants.setMidFixApi("getCurrencyByCode");
-                    Map<String, String> map = new HashMap<>();
-                    map.put("code", userSubMenu.getUserSubMenuCode());
-                    Bundle bundle = new Bundle();
-
-                    bundle.putBoolean("hasParameters", true);
-                    bundle.putSerializable("parameters", (Serializable) map);
-                    Intent intent = new Intent(context, FetchData.class);
-                    intent.putExtras(bundle);
-                    startActivityForResult(intent, CURRENCY_REQUEST_CODE);
+                    makeDefaultCurrencyCall(userSubMenu.getUserSubMenuCode());
                 }
                 utils.printLog("InsideChildClick", "" + userSubMenu.getUserSubMenuCode());
                 drawer.closeDrawer(GravityCompat.END);
@@ -284,13 +284,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void makeDefaultCurrencyCall(String code) {
+        AppConstants.setMidFixApi("getCurrencyByCode");
+        Map<String, String> map = new HashMap<>();
+        if (code.isEmpty()) {
+            map.put("code", Preferences.getSharedPreferenceString(appContext
+                    , CURRENCY_KEY, DEFAULT_STRING_VAL));
+        } else {
+            map.put("code", code);
+        }
+        Bundle bundle = new Bundle();
+
+        bundle.putBoolean("hasParameters", true);
+        bundle.putSerializable("parameters", (Serializable) map);
+        Intent intent = new Intent(context, FetchData.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, CURRENCY_REQUEST_CODE);
+    }
+
     private void setupToolbar(Context context) {
 
-//        boolean isRightToLeft = TextUtilsCompat.getLayoutDirectionFromLocale(Locale
-//                .getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
+        boolean isRightToLeft = TextUtilsCompat.getLayoutDirectionFromLocale(Locale
+                .getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
 //        if (!isRightToLeft) {
-//            ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
-//            ViewCompat.setLayoutDirection(abBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
+        ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
+        ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_RTL);
 //        }
 
         String imgPath = Preferences
@@ -300,6 +318,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Picasso.with(getApplicationContext()).load(imgPath)
                     .into(logoIcon);
         }
+        logoIcon.setOnClickListener(this);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         actionbarToggle();
@@ -343,7 +362,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listViewExpRight = findViewById(R.id.expandable_lv_right);
 
         appbarBottom = findViewById(R.id.appbar_bottom);
-        abBottom = findViewById(R.id.ab_bottom);
+        appbarTop = findViewById(R.id.appbar_top);
         myAccountTV = findViewById(R.id.my_account_tv);
         discountTV = findViewById(R.id.disc_tv);
         checkoutTV = findViewById(R.id.checkout_tv);
@@ -593,16 +612,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         int id = v.getId();
 
-        if (id == R.id.my_account_tv) {
+        if (id == R.id.logo_icon) {
+            recreate();
+        } else if (id == R.id.my_account_tv) {
             utils.switchFragment(new Dashboard());
         } else if (id == R.id.disc_tv) {
-//            utils.showNumberPickerDialog();
+            utils.printLog("From = Main Act");
+            Bundle bundle = new Bundle();
+            bundle.putString("from", "mainActivity");
+            utils.switchFragment(new FragProduct(), bundle);
+
         } else if (id == R.id.checkout_tv) {
             if (isLoggedIn()) {
                 utils.switchFragment(new FragCheckout());
             } else {
-                utils.showAlertDialog("Login Alert", "You Need to Login to Proceed");
-                utils.switchFragment(new FragLogin());
+                AlertDialog alertDialog = utils.showAlertDialogReturnDialog("Continue As",
+                        "Select the appropriate option");
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,
+                        "As Guest", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                utils.switchFragment(new FragCheckout());
+                            }
+                        });
+                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+                        "Login", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                utils.switchFragment(new FragLogin());
+                            }
+                        });
+                alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,
+                        "Register", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                utils.switchFragment(new FragRegister());
+                            }
+                        });
+                alertDialog.show();
             }
         } else if (id == R.id.home_tv) {
             recreate();
@@ -618,50 +665,56 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            String responseStr = data.getStringExtra("result");
-            utils.printLog("ResponseIs = " + responseStr);
 
-            if (responseStr != null) {
-                if (resultCode == Activity.RESULT_OK) {
-                    JSONObject response;
-                    if (!isJSONString(responseStr)) {
-                        try {
-                            response = new JSONObject(responseStr);
-                            if (requestCode == CURRENCY_REQUEST_CODE) {
-                                JSONObject object = response.optJSONObject("currency");
-                                Preferences.setSharedPreferenceString(appContext
-                                        , CURRENCY_SYMBOL_KEY
-                                        , object.optString("symbol_left")
-                                                + object.optString("symbol_right")
-                                );
-                                recreate();
-                            } else if (requestCode == LANGUAGE_REQUEST_CODE) {
-                                JSONObject object = response.optJSONObject("language");
-                                Preferences.setSharedPreferenceString(appContext
-                                        , LANGUAGE_KEY
-                                        , object.optString("code")
-                                );
-                                recreate();
+        if (requestCode == SEARCH_REQUEST_CODE || requestCode == CURRENCY_REQUEST_CODE
+                || requestCode == LANGUAGE_REQUEST_CODE) {
+            if (data != null) {
+                String responseStr = data.getStringExtra("result");
+                utils.printLog("ResponseIs = " + responseStr);
+
+                if (responseStr != null) {
+                    if (resultCode == Activity.RESULT_OK) {
+                        JSONObject response;
+                        if (!isJSONString(responseStr)) {
+                            try {
+                                response = new JSONObject(responseStr);
+                                if (requestCode == CURRENCY_REQUEST_CODE) {
+                                    JSONObject object = response.optJSONObject("currency");
+                                    Preferences.setSharedPreferenceString(appContext
+                                            , CURRENCY_SYMBOL_KEY
+                                            , object.optString("symbol_left")
+                                                    + object.optString("symbol_right")
+                                    );
+                                    recreate();
+                                } else if (requestCode == LANGUAGE_REQUEST_CODE) {
+                                    JSONObject object = response.optJSONObject("language");
+                                    Preferences.setSharedPreferenceString(appContext
+                                            , LANGUAGE_KEY
+                                            , object.optString("code")
+                                    );
+                                    recreate();
+                                }
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        if (requestCode == SEARCH_REQUEST_CODE) {
-                            Bundle bundle = new Bundle();
-                            bundle.putString("id", responseStr);
-                            bundle.putBoolean("isFromSearch", true);
-                            utils.switchFragment(new FragProduct(), bundle);
                         } else {
-                            utils.showAlertDialog("Alert", responseStr);
+                            if (requestCode == SEARCH_REQUEST_CODE) {
+                                if (responseStr.isEmpty())
+                                    return;
+                                Bundle bundle = new Bundle();
+                                bundle.putString("id", responseStr);
+                                bundle.putString("from", "fromSearch");
+                                utils.switchFragment(new FragProduct(), bundle);
+                            } else {
+                                utils.showAlertDialog("Alert", responseStr);
+                            }
                         }
+                    } else if (resultCode == FORCED_CANCEL) {
+                        utils.printLog("WithinSearchResult", "If Success False" + responseStr);
+                    } else if (resultCode == Activity.RESULT_CANCELED) {
+                        utils.printLog("WithinSearchResult", "Result Cancel" + responseStr);
                     }
-                } else if (resultCode == FORCED_CANCEL) {
-                    utils.printLog("WithinSearchResult", "If Success False" + responseStr);
-                } else if (resultCode == Activity.RESULT_CANCELED) {
-                    utils.printLog("WithinSearchResult", "Result Cancel" + responseStr);
                 }
             }
         }
