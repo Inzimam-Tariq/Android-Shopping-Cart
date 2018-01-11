@@ -8,16 +8,16 @@ public class MyItem {
     private String itemId;
     private String itemTitle;
     private String itemPriceFull;
-    private String itemPriceDisc;
+    private String itemPriceSpecial;
     private String itemImage;
 
 
-    public MyItem(String itemId, String itemTitle, String itemPriceDisc,
+    public MyItem(String itemId, String itemTitle, String itemPriceSpecial,
                   String itemPriceFull, String itemImage) {
         this.itemId = itemId;
         this.itemTitle = itemTitle;
         this.itemPriceFull = itemPriceFull;
-        this.itemPriceDisc = itemPriceDisc;
+        this.itemPriceSpecial = itemPriceSpecial;
         this.itemImage = itemImage;
     }
 
@@ -29,8 +29,8 @@ public class MyItem {
         return itemTitle;
     }
 
-    public String getItemPriceDisc() {
-        return itemPriceDisc;
+    public String getItemPriceSpecial() {
+        return itemPriceSpecial;
     }
 
     public String getItemPriceFull() {

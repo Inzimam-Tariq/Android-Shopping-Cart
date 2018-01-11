@@ -28,7 +28,7 @@
     <string name="forgot_pass"><u>Forgot Password?</u></string>
     <string name="privacy_policy_text_u"><u>Privacy Policy</u></string>
     <string name="sign_up"><u><i>Sign Up</i></u></string>
-    <string name="do_not_have_account"><i>Don\'t have account?</i></string>
+    <string name="do_not_have_account">Don\'t have account?</string>
     <string name="register"><u>Register</u></string>
     <string name="have_account"><i>If you have an account, </i></string>
     <string name="click_here"> <u>Click here!</u></string>
@@ -65,18 +65,21 @@ The public side or “Storefront” of OpenCart looks very professional and read
 
     <!--Fragment Register -->
     <string name="personal_detail_text">Your Personal Details</string>
+    <string name="as_guest_text">Register As Guest</string>
     <string name="subscribe_text">Subscribe</string>
-    <string name="Yes_text">Yes</string>
-    <string name="No_text">No</string>
+    <string name="Yes_text">Yes </string>
+    <string name="No_text">No </string>
 
     <!--Fragment Edit Address -->
-    <string name="company_text">Company</string>
-    <string name="Address_text">Address</string>
+    <string name="company_text">Your Company Name</string>
+    <string name="address_text">Enter Your Address</string>
+    <string name="add_address_text">Add Address</string>
     <string name="Address2_text">Address2</string>
-    <string name="city_text">City</string>
+    <string name="default_address_text">Default Address</string>
+    <string name="city_text">Enter Your City</string>
     <string name="country_text">Country</string>
     <string name="state_text">State/Region</string>
-    <string name="post_code_text">Postal Code</string>
+    <string name="post_code_text">Enter Postal Code</string>
 
 
     <!--Fragment Categories -->
@@ -103,26 +106,27 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="contact_us_text">Contact Us</string>
     <string name="about_us_text">About Us</string>
     <string name="your_name_text">Your Name</string>
-    <string name="your_name_hint">enter your name</string>
+    <string name="your_name_hint">Enter your name</string>
     <string name="first_name_text">First Name</string>
-    <string name="first_name_hint">enter your first name</string>
+    <string name="first_name_hint">Enter your first name</string>
     <string name="last_name_text">Last Name</string>
-    <string name="last_name_hint">enter your last name</string>
+    <string name="last_name_hint">Enter your last name</string>
     <string name="email_text">E-Mail Address</string>
-    <string name="email_hint">enter your email id</string>
-    <string name="password_text">Password</string>
-    <string name="your_password_text">Your Password</string>
-    <string name="confirm_password_text">Confirm Password</string>
-    <string name="new_password_text">New Password</string>
-    <string name="old_password_text">Current Password</string>
-    <string name="password_hint">enter your password</string>
-    <string name="new_password_hint">confirm new password</string>
+    <string name="email_hint">Enter your email id</string>
+    <string name="password_heading">Your Password</string>
+    <string name="your_password_text">Enter Your Password</string>
+    <string name="confirm_password_text">Confirm Your Password</string>
+    <string name="new_password_text">Enter New Password</string>
+    <string name="old_password_text">Enter Current Password</string>
+    <string name="password_hint">Enter your password</string>
+    <string name="new_password_hint">Confirm new password</string>
     <string name="phone_text">Phone #</string>
-    <string name="phone_hint">enter your phone #</string>
+    <string name="phone_hint">Enter your phone #</string>
     <string name="submit_text">Submit</string>
     <string name="continue_text">Continue</string>
 
     <!--Fragment Order Detail-->
+    <string name="image_text">Image</string>
     <string name="name_text">Name</string>
     <string name="brand_text">Brand</string>
     <string name="model_text">Model</string>
@@ -186,6 +190,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="cart">Cart</string>
     <string name="checkout">Checkout</string>
     <string name="text_disc">Discount</string>
+    <string name="disc">Discount</string>
 
 
 </resources>

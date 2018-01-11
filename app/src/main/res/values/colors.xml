@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#C75405</color>
     <color name="colorAccentPink">#FF4081</color>
     <color name="colorAccent">#EC7625</color>
+    <color name="link_text">#3030ea</color>
 
     <color name="colorAccent1">#C75405</color>
     <color name="textColorPrice">#C8581A</color>

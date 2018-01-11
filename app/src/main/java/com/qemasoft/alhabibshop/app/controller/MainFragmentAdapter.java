@@ -121,7 +121,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case CATEGORY_VIEW:
                 ViewHolder1 vh1 = (ViewHolder1) holder;
                 vh1.getmRecyclerView().setLayoutManager(mLayoutManagerCat);
-                vh1.getTitle().setText(findStringByName(keysStrList.get(position)));
+                vh1.getTitle().setVisibility(View.GONE);
                 vh1.getmRecyclerView().setAdapter(new CategoryAdapter(
                         (List<MyCategory>) myAllItemsList.get(position)));
                 break;

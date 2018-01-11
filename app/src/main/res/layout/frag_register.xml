@@ -25,34 +25,38 @@
                 android:padding="20dp">
 
                 <TextView
-                    style="@style/CustomTVHeadingStyleBlack"
+                    android:id="@+id/frag_title_tv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="@string/action_register_text" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@color/outline"/>
+                    android:background="@color/outline" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
                         android:gravity="center"
+                        android:padding="8dp"
                         android:text="@string/have_account" />
+
                     <TextView
                         android:id="@+id/login_tv_in_register"
+                        style="@style/LinkTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
                         android:gravity="center"
+                        android:padding="8dp"
                         android:text="@string/click_here" />
                 </LinearLayout>
 
@@ -65,76 +69,73 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@color/outline"/>
+                    android:background="@color/outline" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp">
+
+                    <EditText
+                        android:id="@+id/f_name_et"
+                        style="@style/MaterialEditText.PersonName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/first_name_hint"
+                        android:maxLength="32" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp">
+
+                    <EditText
+                        android:id="@+id/l_name_et"
+                        style="@style/MaterialEditText.PersonName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/last_name_hint"
+                        android:maxLength="32" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp">
+
+                    <EditText
+                        android:id="@+id/email_et"
+                        style="@style/MaterialEditText.Email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_hint"
+                        android:maxLength="96" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp">
+
+                    <EditText
+                        android:id="@+id/phone_et"
+                        style="@style/MaterialEditText.Phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/phone_hint"
+                        android:maxLength="14" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/first_name_text" />
-
-                <EditText
-                    android:id="@+id/fNameET"
-                    style="@style/CustomETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:hint="@string/first_name_hint"
-                    android:maxLength="32"
-                    android:textColorHint="@android:color/darker_gray" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/last_name_text" />
-
-                <EditText
-                    android:id="@+id/lName"
-                    style="@style/CustomETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:hint="@string/last_name_hint"
-                    android:maxLength="32"
-                    android:textColorHint="@android:color/darker_gray" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/email_text" />
-
-                <EditText
-                    android:id="@+id/emailET"
-                    style="@style/CustomEmailETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:hint="@string/email_hint"
-                    android:maxLength="96"
-                    android:textColorHint="@android:color/darker_gray" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/phone_text" />
-
-                <EditText
-                    android:id="@+id/contactET"
-                    style="@style/CustomETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:hint="@string/phone_hint"
-                    android:maxLength="32"
-                    android:textColorHint="@android:color/darker_gray" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/your_password_text" />
+                    android:text="@string/password_heading" />
 
                 <View
                     android:layout_width="match_parent"
@@ -142,41 +143,41 @@
                     android:layout_marginBottom="20dp"
                     android:background="@color/outline" />
 
-                <TextView
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/password_text" />
-
-                <EditText
-                    android:id="@+id/passET"
-                    style="@style/CustomPassETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:textAlignment="viewStart"
-                    android:gravity="start|center_vertical"
-                    android:hint="@string/password_hint"
-                    android:maxLength="32"
-                    android:textColorHint="@android:color/darker_gray" />
+                    app:passwordToggleEnabled="true">
 
-                <TextView
+                    <EditText
+                        android:id="@+id/password_et"
+                        style="@style/MaterialEditText.Password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="32"
+                        android:hint="@string/password_hint" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/confirm_password_text" />
-
-                <EditText
-                    android:id="@+id/rePassET"
-                    style="@style/CustomPassETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:hint="@string/confirm_password_text"
-                    android:textAlignment="viewStart"
-                    android:gravity="start|center_vertical"
-                    android:maxLength="32"
-                    android:textColorHint="@android:color/darker_gray" />
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:id="@+id/confirm_password_et"
+                        style="@style/MaterialEditText.Password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLength="32"
+                        android:hint="@string/confirm_password_text" />
+
+
+                </android.support.design.widget.TextInputLayout>
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -227,31 +228,32 @@
                         android:id="@+id/terms_cb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/privacy_policy_statement"
                         android:textSize="10sp"
-                        android:textStyle="normal"
-                        android:text="@string/privacy_policy_statement" />
+                        android:textStyle="normal" />
 
                     <TextView
                         android:id="@+id/privacy_policy_tv"
+                        style="@style/LinkTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginStart="5dp"
-                        android:text="@string/privacy_policy_text_u"
-                        android:textColor="@android:color/holo_blue_dark" />
+                        android:text="@string/privacy_policy_text_u" />
 
                 </LinearLayout>
 
                 <Button
-                    android:id="@+id/registerBtn"
+                    android:id="@+id/register_btn"
                     style="@style/CustomButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:text="@string/action_register_text" />
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"/>
+                    android:layout_height="?attr/actionBarSize" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>

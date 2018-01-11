@@ -9,8 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.UserSubMenu;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
     private List<String> dataListHeader;
     private HashMap<String, List<UserSubMenu>> listHashMap;
     private List<Integer> userMenuIcons;
+    private Utils utils;
 
     public ExpandableListAdapterRight(List<String> dataListHeader,
                                       HashMap<String, List<UserSubMenu>> listHashMap,
@@ -72,25 +75,28 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
                              ViewGroup parent) {
+        utils = new Utils(parent.getContext());
         String headerTitle = (String) getGroup(groupPosition);
         View groupView;
         if (getChildrenCount(groupPosition) == 1) {
             groupView = new View(parent.getContext());
         } else {
-        groupView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_group, parent, false);
+            groupView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_group, parent, false);
 
-        TextView lblListHeader = groupView.findViewById(R.id.lblListHeader);
-        lblListHeader.setText(headerTitle);
-        ImageView imageView = groupView.findViewById(R.id.imageView);
+            TextView lblListHeader = groupView.findViewById(R.id.lblListHeader);
+            lblListHeader.setText(headerTitle);
+            ImageView imageView = groupView.findViewById(R.id.imageView);
+            ImageView expandCollapseImg = groupView.findViewById(R.id.expand_collapse_image);
 
-        imageView.setImageResource(userMenuIcons.get(groupPosition));
+            imageView.setImageResource(userMenuIcons.get(groupPosition));
 
-        if (getChildrenCount(groupPosition) > 1
-                || groupPosition == userMenuIcons.size() - 1) {
-            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(
-                    0, 0, isExpanded ? R.drawable.ic_menu_less : R.drawable.ic_menu_more, 0);
-        }
+            if (getChildrenCount(groupPosition) > 1
+                    || groupPosition == userMenuIcons.size() - 1) {
+                expandCollapseImg.setImageResource(isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black);
+//                lblListHeader.setCompoundDrawablesWithIntrinsicBounds(
+//                        0, 0, isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black, 0);
+            }
         }
 
         return groupView;
@@ -108,12 +114,24 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item, parent, false);
 
+
             TextView lblListChild = itemView.findViewById(R.id.lblListItem);
             lblListChild.setText(userSubMenu.getUserSubMenuSymbolLeft().concat(" ")
                     .concat(userSubMenu.getUserSubMenuSymbolRight()).concat(" ")
                     .concat(userSubMenu.getUserSubMenuTitle())
 
             );
+
+            try {
+                utils.printLog("Bitmap image = " + userSubMenu.getFlagImage());
+                lblListChild.setCompoundDrawables(
+                        Utils.drawableFromUrl(
+                                !userSubMenu.getFlagImage().isEmpty() ? userSubMenu.getFlagImage() : null),
+                        null, null, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+                utils.printLog("Error Loading Bitmap Image");
+            }
         } else {
             itemView = new View(parent.getContext());
         }

@@ -46,13 +46,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/product_model_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_weight="0.4"
                         android:text="@string/model_text" />
 
@@ -60,22 +60,25 @@
                         android:id="@+id/product_model_val_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_weight="0.6"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:text="Nike Air MAG" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/brand_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/product_company_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_weight="0.4"
                         android:text="@string/brand_text" />
 
@@ -83,8 +86,9 @@
                         android:id="@+id/maker_company_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_weight="0.6"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:text="HTC" />
 
                 </LinearLayout>
@@ -93,13 +97,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/product_price_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_weight="0.4"
                         android:text="@string/price_text" />
 
@@ -107,22 +111,25 @@
                         android:id="@+id/product_price_val_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_weight="0.6"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:text="$770.50" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/special_price_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/product_special_price_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_weight="0.4"
                         android:text="@string/special_text" />
 
@@ -130,17 +137,20 @@
                         android:id="@+id/product_special_price_val_tv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:layout_weight="0.6"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:text="$770.50" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/disc_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/product_disc_tv"
@@ -158,6 +168,8 @@
                             android:id="@+id/product_disc_val_tv"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp"
                             android:text="$30.0" />
 
                         <TextView
@@ -187,12 +199,14 @@
                         android:layout_weight="0.4"
                         android:text="@string/stock_status_text" />
 
-                        <TextView
-                            android:id="@+id/stock_status_val_tv"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:text="In Stock"
-                            android:layout_weight="0.6"/>
+                    <TextView
+                        android:id="@+id/stock_status_val_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="In Stock" />
 
                 </LinearLayout>
 
@@ -215,39 +229,47 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.6"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:text="20-sep-2017" />
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/outline" />
-
-                <TextView
-                    android:id="@+id/options_available_tv"
+                <LinearLayout
+                    android:id="@+id/options_available_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/available_option_text"
-                    android:textAppearance="@android:style/TextAppearance.Medium" />
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/product_options_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/outline" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/available_option_text"
+                        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/product_options_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
 
                 <Button
                     android:id="@+id/add_to_cart_btn"
                     style="@style/CustomButtonStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_height="50dp"
                     android:drawableLeft="@drawable/ic_cart_white"
-                    android:drawablePadding="-15dp"
+                    android:drawablePadding="-16dp"
                     android:drawableStart="@drawable/ic_cart_white"
                     android:paddingEnd="@dimen/activity_horizontal_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"

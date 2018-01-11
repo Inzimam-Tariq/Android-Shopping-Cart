@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:padding="5dp">
 
         <TextView
@@ -14,22 +15,23 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
             android:text="Address Book Entries" />
+
         <ImageView
             android:id="@+id/add_address_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_add_box_black"/>
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            app:srcCompat="@drawable/ic_add_box_black" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/addresses_recycler_view"
-        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="1"
         android:scrollbars="vertical" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"/>
+        android:layout_height="?attr/actionBarSize" />
 
 </LinearLayout>

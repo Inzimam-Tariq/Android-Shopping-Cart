@@ -25,7 +25,7 @@
     <string name="privacy_policy_text_u"><u>الخصوصية</u></string>
     <string name="sign_up"><u><i>تسجيل حساب جديد</i></u></string>
     <string name="do_not_have_account"><i>تسجيل جديد</i></string>
-    <string name="register"><u>تسجيل حساب جديد</u></string>
+    <string name="register">تسجيل حساب جديد</string>
     <string name="have_account"><i>تسجيل الدخول</i></string>
     <string name="click_here"><u>انقر هنا!</u></string>
     <string name="privacy_policy_statement"><i>لقد قرأت ووافقت على,</i></string>
@@ -57,13 +57,14 @@
 
     <!--Fragment Register -->
     <string name="personal_detail_text">معلوماتك الشخصية</string>
+    <string name="as_guest_text">Register As Guest</string>
     <string name="subscribe_text">اشترك</string>
-    <string name="Yes_text">نعم</string>
-    <string name="No_text">لا</string>
+    <string name="Yes_text">نعم </string>
+    <string name="No_text">لا </string>
 
     <!--Fragment Edit Address -->
     <string name="company_text">الشركة</string>
-    <string name="Address_text">العنوان الاول</string>
+    <string name="address_text">العنوان الاول</string>
     <string name="Address2_text">العنوان الثاني</string>
     <string name="city_text">المدينة</string>
     <string name="country_text">البلد</string>
@@ -113,6 +114,7 @@
     <string name="continue_text">متابعة</string>
 
     <!--Fragment Order Detail-->
+    <string name="image_text">صورة</string>
     <string name="name_text">الاسم</string>
     <string name="brand_text">علامة تجارية</string>
     <string name="model_text">النوع</string>
@@ -173,7 +175,8 @@
     <string name="account">الحساب</string>
     <string name="logout">خروج</string>
     <string name="cart">معاينة السلة</string>
-    <string name="checkout">إنهاء الطلب</string>
-    <string name="text_disc">السعر بدون ضريبة</string>
+    <string name="checkout">سلة الشراء</string>
+    <string name="text_disc">تخفيضات</string>
+    <string name="disc">خصم</string>
 
 </resources>

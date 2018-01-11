@@ -55,7 +55,7 @@ public class FragOrderHistory extends MyBaseFragment {
         initViews(view);
         this.context = getContext();
 
-        loadDummyData();
+        loadData();
         setupAdaptersAndShowData();
 
         return view;
@@ -80,7 +80,7 @@ public class FragOrderHistory extends MyBaseFragment {
         utils.printLog("Adapter Set Success");
     }
 
-    private void loadDummyData() {
+    private void loadData() {
 
         AppConstants.setMidFixApi("getOrders");
 

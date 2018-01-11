@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:layout_gravity="bottom"
-    android:background="@color/off_white"
+    android:background="#f3f3f3"
+    android:layoutDirection="ltr"
+    android:theme="@style/AppTheme.SmallText"
     app:popupTheme="@style/AppTheme.PopupOverlay">
 
     <View

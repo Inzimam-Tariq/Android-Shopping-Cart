@@ -46,6 +46,7 @@ dependencies {
     compile 'com.android.support:support-vector-drawable:26.1.0'
     compile 'com.google.code.gson:gson:2.8.1'
     compile 'com.kofigyan.stateprogressbar:stateprogressbar:0.0.1'
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
 
     testCompile 'junit:junit:4.12'
 }

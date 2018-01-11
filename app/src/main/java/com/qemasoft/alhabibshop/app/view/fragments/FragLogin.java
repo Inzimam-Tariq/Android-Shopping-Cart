@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +42,7 @@ public class FragLogin extends MyBaseFragment {
 
     private EditText emailET, passET;
     private Button loginBtn;
-    private TextView visibilityIconVisible, registerTV, forgotPassTV;
-    private boolean isVisible = false;
+    private TextView registerTV, forgotPassTV;
 
     public FragLogin() {
         // Required empty public constructor
@@ -58,30 +56,6 @@ public class FragLogin extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_login, container, false);
         initViews(view);
         initUtils();
-
-        visibilityIconVisible.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                R.drawable.ic_visibility_black, 0);
-
-        visibilityIconVisible.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isVisible) {
-//                    passET.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
-                    passET.setTransformationMethod(new PasswordTransformationMethod());
-                    // params in below code are as (left,top,right,bottom)
-                    visibilityIconVisible.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                            R.drawable.ic_visibility_black, 0);
-                    isVisible = false;
-                } else {
-//                    passET.setInputType(123);
-                    passET.setTransformationMethod(null);
-                    isVisible = true;
-                    visibilityIconVisible.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                            R.drawable.ic_visibility_off_black, 0);
-                }
-                passET.setSelection(passET.getText().length());
-            }
-        });
 
         registerTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,12 +102,12 @@ public class FragLogin extends MyBaseFragment {
 
     private void initViews(View view) {
 
-        emailET = view.findViewById(R.id.emailET);
-        passET = view.findViewById(R.id.passwordET);
-        loginBtn = view.findViewById(R.id.loginBtn);
-        visibilityIconVisible = view.findViewById(R.id.visibility_icon);
+        emailET = view.findViewById(R.id.email_et);
+        passET = view.findViewById(R.id.password_et);
+        loginBtn = view.findViewById(R.id.login_btn);
         registerTV = view.findViewById(R.id.reg_tv_in_login);
         forgotPassTV = view.findViewById(R.id.forgot_pass_tv);
+
     }
 
     @Override
@@ -150,7 +124,7 @@ public class FragLogin extends MyBaseFragment {
                     String fName = object.optString("firstname");
                     String lName = object.optString("lastname");
 
-                    String userName = "Welcome: " + fName + " " + lName;
+                    String userName = fName + " " + lName;
                     utils.printLog("CustomerId = ", customerId + " Username = " + userName);
 
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, customerEmail);
@@ -178,7 +152,7 @@ public class FragLogin extends MyBaseFragment {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Maybe your Internet is too slow, try again");
+                utils.showErrorDialog("Error Getting Data From Server Check Your Internet Connection & try again");
             }
 
         }

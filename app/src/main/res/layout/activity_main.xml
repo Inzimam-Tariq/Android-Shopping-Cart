@@ -21,7 +21,7 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
-        <!--<include layout="@layout/nav_header_main_left" />-->
+        <include layout="@layout/nav_header_main_left" />
 
         <!-- List menu Left-->
         <ExpandableListView
@@ -33,6 +33,14 @@
             android:divider="@color/outline"
             android:dividerHeight="1dp"
             android:groupIndicator="@null" />
+
+        <TextView
+            android:id="@+id/disc_category_tv"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:text="@string/text_disc"
+            android:background="#f3f3f3"
+            android:gravity="center"/>
         <!--android:listSelector="#d1d3d4"-->
 
     </LinearLayout>
@@ -46,7 +54,7 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
-        <!--<include layout="@layout/nav_header_main_right" />-->
+        <include layout="@layout/nav_header_main_right" />
 
         <!-- List menu Right-->
         <ExpandableListView

@@ -44,7 +44,7 @@ public class FragContactUs extends MyBaseFragment {
     }
 
     private void initViews(View view) {
-        contactUsBtn = view.findViewById(R.id.submitContactBtn);
+        contactUsBtn = view.findViewById(R.id.submit_contact_btn);
     }
 
 }

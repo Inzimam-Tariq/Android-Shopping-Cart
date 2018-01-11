@@ -48,9 +48,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         utils.printLog("OnBIndMethod", "OnBind Working");
-        final int pos = holder.getAdapterPosition();
         final MyOrder data = myOrderList.get(holder.getAdapterPosition());
 
         String orderId = data.getOrderId();
@@ -64,10 +63,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
         holder.viewOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bundle bundle=new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putString("id", data.getOrderId());
-                Utils utils = new Utils(context);
-                utils.showToast("Clicked & Position is : "+pos);
+//                utils.printLog("Clicked on Position : " + holder.getAdapterPosition());
 
                 utils.switchFragment(new FragOrderDetail(), bundle);
             }
@@ -83,9 +81,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView orderQuantity, orderId, orderTotalPrice, orderStatus, orderDate;
-        public LinearLayout customLinearLayout;
-        Button viewOrderBtn;
+        private TextView orderQuantity, orderId, orderTotalPrice, orderStatus, orderDate;
+        private LinearLayout customLinearLayout;
+        private Button viewOrderBtn;
 
         public MyViewHolder(View itemView) {
             super(itemView);

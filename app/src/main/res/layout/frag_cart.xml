@@ -20,24 +20,103 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/action_shopping_cart"
-                    android:textSize="15sp" />
+                    android:text="@string/action_shopping_cart" />
 
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/cart_detail_recycler_view"
+                <HorizontalScrollView
+                    android:id="@+id/scroll_view_horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:scrollbars="vertical" />
+                    android:layout_height="match_parent">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:padding="7dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="48dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center"
+                                android:text="@string/image_text" />
+
+                            <TextView
+                                android:layout_width="100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center"
+                                android:text="@string/name_text" />
+
+                            <TextView
+                                android:layout_width="132dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center"
+                                android:text="@string/qty_text" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center"
+                                android:text="@string/price_text" />
+
+                            <TextView
+                                android:layout_width="80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:gravity="center"
+                                android:text="@string/total_text" />
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/cart_detail_recycler_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:scrollbars="vertical" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp">
+
+                    <ImageView
+                        android:id="@+id/scroll_left_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:padding="5dp"
+                        app:srcCompat="@drawable/ic_arrow_left_black" />
+
+                    <ImageView
+                        android:id="@+id/scroll_right_iv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:padding="5dp"
+                        app:srcCompat="@drawable/ic_arrow_right_black" />
+
+                </RelativeLayout>
 
                 <CheckBox
                     android:id="@+id/use_coupon_cb"
@@ -46,30 +125,25 @@
                     android:layout_marginTop="15dp"
                     android:text="@string/frag_cart_checkbox_text" />
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.7"
+                        android:layout_weight=".95"
                         android:text="@string/sub_total_text" />
 
                     <TextView
                         android:id="@+id/sub_total_val_tv"
-                        android:layout_width="0dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:gravity="end"
-                        android:paddingEnd="10dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
                         android:text="14300" />
                 </LinearLayout>
 
@@ -77,38 +151,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.7"
+                        android:layout_weight=".95"
                         android:text="@string/grand_total_text" />
 
                     <TextView
                         android:id="@+id/grand_total_val_tv"
-                        android:layout_width="0dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:gravity="end"
-                        android:paddingEnd="10dp"
-                        android:paddingRight="10dp"
-                        android:paddingStart="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:gravity="center"
                         android:text="14300" />
                 </LinearLayout>
 
                 <!--<Button-->
-                    <!--android:id="@+id/cart_checkout_btn"-->
-                    <!--style="@style/CustomButtonStyle"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_alignParentBottom="true"-->
-                    <!--android:layout_marginBottom="5dp"-->
-                    <!--android:layout_marginLeft="@dimen/activity_horizontal_margin"-->
-                    <!--android:layout_marginRight="@dimen/activity_horizontal_margin"-->
-                    <!--android:elevation="8dp"-->
-                    <!--android:text="@string/checkout" />-->
+                <!--android:id="@+id/cart_checkout_btn"-->
+                <!--style="@style/CustomButtonStyle"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:layout_marginLeft="@dimen/activity_horizontal_margin"-->
+                <!--android:layout_marginRight="@dimen/activity_horizontal_margin"-->
+                <!--android:elevation="8dp"-->
+                <!--android:text="@string/checkout" />-->
 
                 <View
                     android:layout_width="match_parent"

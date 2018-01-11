@@ -25,7 +25,6 @@
                 android:padding="20dp">
 
                 <TextView
-                    style="@style/CustomTVHeadingStyleBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -35,62 +34,56 @@
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@color/outline"/>
+                    android:background="@color/outline" />
 
 
-                <TextView
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/old_password_text" />
-
-                <EditText
-                    android:id="@+id/current_pass_et"
-                    style="@style/CustomPassETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:textAlignment="viewStart"
-                    android:gravity="start|center_vertical"
-                    android:hint="@string/old_password_text"
-                    android:maxLength="32"
-                    android:textColorHint="@android:color/darker_gray" />
-                <TextView
+                    app:passwordToggleEnabled="true">
+
+                    <EditText
+                        android:id="@+id/current_pass_et"
+                        style="@style/MaterialEditText.Password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/old_password_text"
+                        android:maxLength="32" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/new_password_text" />
-
-                <EditText
-                    android:id="@+id/pass_et"
-                    style="@style/CustomPassETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:textAlignment="viewStart"
-                    android:gravity="start|center_vertical"
-                    android:hint="@string/new_password_text"
-                    android:maxLength="32"
-                    android:textColorHint="@android:color/darker_gray" />
+                    app:passwordToggleEnabled="true">
 
-                <TextView
+                    <EditText
+                        android:id="@+id/pass_et"
+                        style="@style/MaterialEditText.Password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/new_password_text"
+                        android:maxLength="32" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/confirm_password_text" />
-
-                <EditText
-                    android:id="@+id/new_pass_et"
-                    style="@style/CustomPassETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:textAlignment="viewStart"
-                    android:gravity="start|center_vertical"
-                    android:hint="@string/new_password_hint"
-                    android:maxLength="32"
-                    android:textColorHint="@android:color/darker_gray" />
+                    app:passwordToggleEnabled="true">
 
+                    <EditText
+                        android:id="@+id/new_pass_et"
+                        style="@style/MaterialEditText.Password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/confirm_password_text"
+                        android:maxLength="32" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <Button
                     android:id="@+id/change_pass_btn"

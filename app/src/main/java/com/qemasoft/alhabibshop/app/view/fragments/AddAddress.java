@@ -34,6 +34,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.ADD_ADDRESS_REQUEST_CODE
 import static com.qemasoft.alhabibshop.app.AppConstants.COUNTRIES_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
+import static com.qemasoft.alhabibshop.app.AppConstants.RIGHT;
 import static com.qemasoft.alhabibshop.app.AppConstants.STATES_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
@@ -60,7 +61,8 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.frag_add_address, container, false);
         initUtils();
         initViews(view);
-        utils.showToast("Click and hold to Edit or Delete Address");
+//        Toast.makeText(context,"Click and hold to Edit or Delete Address",
+//                Toast.LENGTH_LONG).show();
 
         radioGroup.check(R.id.rbNo);
         countryBtn.setOnClickListener(this);
@@ -94,7 +96,7 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
         fNameET = view.findViewById(R.id.f_name_et);
         lNameET = view.findViewById(R.id.l_name_et);
         companyNameET = view.findViewById(R.id.company_et);
-        addressET = view.findViewById(R.id.address1_et);
+        addressET = view.findViewById(R.id.address_et);
         cityET = view.findViewById(R.id.city_et);
         postalCodeET = view.findViewById(R.id.post_code_et);
         countryBtn = view.findViewById(R.id.country_btn);
@@ -104,6 +106,9 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
         rbNo = view.findViewById(R.id.rbNo);
 
         continueBtn = view.findViewById(R.id.continue_btn);
+
+        utils.setCompoundDrawable(stateBtn, RIGHT, R.drawable.ic_expand_more_black);
+        utils.setCompoundDrawable(countryBtn, RIGHT, R.drawable.ic_expand_more_black);
     }
 
     @Override
@@ -176,7 +181,8 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                                 getStates(countryIdList.get(which));
                                 countryId = countryIdList.get(which);
                                 dialog.dismiss();
-                                countryBtn.setHintTextColor(getResources().getColor(R.color.text_color));
+                                countryBtn.setHintTextColor(getResources()
+                                        .getColor(R.color.text_color));
                             }
                         });
                 dialog = builder.create();
@@ -213,7 +219,8 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                 } else if (lNameVal.isEmpty()) {
                     utils.setError(lNameET);
                 } else if (addressVal.isEmpty()) {
-                    utils.setError(addressET);;
+                    utils.setError(addressET);
+                    ;
                 } else if (cityVal.isEmpty()) {
                     utils.setError(cityET);
                 } else if (countryVal.isEmpty() || countryVal.contains("select")) {

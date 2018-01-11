@@ -75,6 +75,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                         holder.img.setImageResource(R.drawable.ic_close_black);
                     }
                 });
+//            Picasso.with(context).setIndicatorsEnabled(true);
 
             holder.customLinearLayout.post(new Runnable() {
                 @Override
@@ -86,14 +87,20 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
             String symbol = Preferences.getSharedPreferenceString(context
                     , AppConstants.CURRENCY_SYMBOL_KEY, "$");
-            holder.itemPriceFull.setText(data.getItemPriceFull().concat(" ").concat(symbol));
 
-            TextView tvPrice = holder.itemPriceDisc;
-            // set StrikeThrough to textView
-            if (!data.getItemPriceDisc().isEmpty()) {
-                tvPrice.setVisibility(View.VISIBLE);
-                tvPrice.setText(data.getItemPriceDisc().concat(" ").concat(symbol));
-                tvPrice.setPaintFlags(tvPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+            TextView itemPriceTV = holder.itemPriceFull;
+            TextView itemPriceSpecialTV = holder.itemPriceSpecial;
+
+            if (!data.getItemPriceSpecial().isEmpty()) {
+                itemPriceSpecialTV.setVisibility(View.VISIBLE);
+                itemPriceSpecialTV.setText(data.getItemPriceFull().concat(" ").concat(symbol));
+                itemPriceTV.setText(data.getItemPriceSpecial().concat(" ").concat(symbol));
+                // set StrikeThrough to textView
+                itemPriceSpecialTV.setPaintFlags(itemPriceSpecialTV.getPaintFlags()
+                        | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                itemPriceTV.setText(data.getItemPriceFull().concat(" ").concat(symbol));
             }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +124,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView itemTitle, itemPriceFull, itemPriceDisc;
+        public TextView itemTitle, itemPriceFull, itemPriceSpecial;
         public LinearLayout customLinearLayout;
         private ImageView img;
         private ProgressBar progressBar;
@@ -125,7 +132,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         public MyViewHolder(View itemView) {
             super(itemView);
             itemTitle = itemView.findViewById(R.id.item_title);
-            itemPriceDisc = itemView.findViewById(R.id.disc_price);
+            itemPriceSpecial = itemView.findViewById(R.id.disc_price);
             itemPriceFull = itemView.findViewById(R.id.full_price);
             img = itemView.findViewById(R.id.img);
             progressBar = itemView.findViewById(R.id.progress_bar);

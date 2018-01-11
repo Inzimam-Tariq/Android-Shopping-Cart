@@ -38,8 +38,8 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
         initUtils();
         setupIcons();
 
-        userNameTV.setText(Preferences.getSharedPreferenceString(appContext,
-                CUSTOMER_NAME, DEFAULT_STRING_VAL));
+        userNameTV.setText("Welcome: ".concat(Preferences.getSharedPreferenceString(appContext,
+                CUSTOMER_NAME, DEFAULT_STRING_VAL)));
         editAccountTV.setOnClickListener(this);
         changePasswordTV.setOnClickListener(this);
         addressBookTV.setOnClickListener(this);

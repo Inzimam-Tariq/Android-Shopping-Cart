@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +27,7 @@ import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CHANGE_PASS_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
+import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 /**
@@ -111,30 +111,45 @@ public class FragChangePassword extends MyBaseFragment {
         if (requestCode == CHANGE_PASS_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
 
-                AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                        "Confirmation Message!", "Password Changed Successfully!");
-                dialog.setButton(BUTTON_POSITIVE, "OK",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                new Handler().postDelayed(new Runnable() {
+                try {
+                    JSONObject response = new JSONObject(data.getStringExtra("result"));
+
+                    String message = response.optString("message");
+                    if (message.length() > 0) {
+                        AlertDialog dialog = utils.showAlertDialogReturnDialog(
+                                "Confirmation Message!", message);
+                        dialog.setButton(BUTTON_POSITIVE, "OK",
+                                new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void run() {
-                                        getActivity().recreate();
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                        utils.switchFragment(new Dashboard());
                                     }
-                                }, 10);
-                            }
-                        });
-                dialog.show();
+                                });
+                        dialog.show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (resultCode == FORCED_CANCEL){
+                try {
+                    JSONObject response = new JSONObject(data.getStringExtra("result"));
+                    String error = response.optString("message");
+                    if (!error.isEmpty()) {
+                        utils.showErrorDialog(error);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    String error = response.optString("message");
-                    if (error.length() > 0) {
+                    String message = response.optString("message");
+                    if (message.length() > 0) {
                         AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                                "Error Message!", error);
+                                "Error Message!", message);
                         dialog.setButton(BUTTON_POSITIVE, "OK",
                                 new DialogInterface.OnClickListener() {
                                     @Override
@@ -145,7 +160,7 @@ public class FragChangePassword extends MyBaseFragment {
                         dialog.show();
                     } else {
                         utils.showAlertDialog("Invalid Request!",
-                                "Either the request is invalid or no relevant record found");
+                                "Error Getting Data From Server");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

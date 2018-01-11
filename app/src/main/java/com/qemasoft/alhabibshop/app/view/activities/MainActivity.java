@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.ExpandableListView;
@@ -112,6 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private DrawerLayout drawer;
     private ActionBarDrawerToggle mDrawerToggle;
+    private ImageView closeRightDrawerIV, closeLeftDrawerIV;
+
     private Utils utils;
 
     private ExpandableListView listViewExpLeft, listViewExpRight;
@@ -124,10 +125,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private RelativeLayout appbarTop, appbarBottom;
-    private LinearLayout abBottom;
-    private TextView myAccountTV, checkoutTV, discountTV, homeTV;
-
-    private RecyclerView mRecyclerView;
+    private LinearLayout leftDrawer, rightDrawer;
+    private TextView myAccountTV, checkoutTV, discountTV, homeTV, discountedCategoryTV;
 
 
     @Override
@@ -182,14 +181,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         homeTV.setOnClickListener(this);
         searchIcon.setOnClickListener(this);
         cartLayout.setOnClickListener(this);
+        closeRightDrawerIV.setOnClickListener(this);
+        closeLeftDrawerIV.setOnClickListener(this);
+        discountedCategoryTV.setOnClickListener(this);
     }
 
     public boolean isLoggedIn() {
+
         boolean isLoggedIn = Preferences.getSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
         utils.printLog("IsLoggedIn = ", "" + isLoggedIn);
         int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
         counterTV.setText(String.valueOf(val));
-
 
         return isLoggedIn;
     }
@@ -211,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } else if (groupPosition == 2) {
                             utils.switchFragment(new FragContactUs());
                         } else {
-                            recreate();
+                            utils.switchFragment(new MainFrag());
                         }
                         drawer.closeDrawer(GravityCompat.END);
                     }
@@ -311,6 +313,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_RTL);
 //        }
 
+
+        int width = getResources().getDisplayMetrics().widthPixels / 2 + 100;
+        DrawerLayout.LayoutParams paramsLeft = (android.support.v4.widget.DrawerLayout.LayoutParams) leftDrawer.getLayoutParams();
+        paramsLeft.width = width;
+        leftDrawer.setLayoutParams(paramsLeft);
+        DrawerLayout.LayoutParams paramsRight = (android.support.v4.widget.DrawerLayout.LayoutParams) rightDrawer.getLayoutParams();
+        paramsRight.width = width;
+        rightDrawer.setLayoutParams(paramsRight);
+
         String imgPath = Preferences
                 .getSharedPreferenceString(appContext, LOGO_KEY, DEFAULT_STRING_VAL);
         utils.printLog("Product Image = " + imgPath);
@@ -361,12 +372,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listViewExpLeft = findViewById(R.id.expandable_lv_left);
         listViewExpRight = findViewById(R.id.expandable_lv_right);
 
+        leftDrawer = findViewById(R.id.menu_left);
+        rightDrawer = findViewById(R.id.menu_right);
+        closeLeftDrawerIV = findViewById(R.id.close_left_drawer_iv);
+        closeRightDrawerIV = findViewById(R.id.close_right_drawer_iv);
+
         appbarBottom = findViewById(R.id.appbar_bottom);
         appbarTop = findViewById(R.id.appbar_top);
         myAccountTV = findViewById(R.id.my_account_tv);
         discountTV = findViewById(R.id.disc_tv);
         checkoutTV = findViewById(R.id.checkout_tv);
         homeTV = findViewById(R.id.home_tv);
+
+        discountedCategoryTV = findViewById(R.id.disc_category_tv);
 
         searchView = findViewById(R.id.search_view);
     }
@@ -469,8 +487,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             for (int y = 0; y < childArray.length(); y++) {
                                 JSONObject obj = childArray.optJSONObject(y);
                                 userSubMenuList.add(new UserSubMenu(obj.optString("code"),
-                                        obj.optString("title"), obj.optString("symbol_left"),
-                                        obj.optString("symbol_right")));
+                                        obj.optString("title"),
+                                        obj.optString("symbol_left"),
+                                        obj.optString("symbol_right"),
+                                        obj.optString("image")));
                             }
                             hashMapRight.put(headerListRight.get(headerListRight.size() - 1), userSubMenuList);
                             utils.printLog("AfterHashMap", "" + hashMapRight.size());
@@ -613,7 +633,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = v.getId();
 
         if (id == R.id.logo_icon) {
+            utils.switchFragment(new MainFrag());
             recreate();
+        } else if (id == R.id.close_right_drawer_iv) {
+            drawer.closeDrawer(GravityCompat.END);
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (id == R.id.close_left_drawer_iv) {
+            drawer.closeDrawer(GravityCompat.END);
+            drawer.closeDrawer(GravityCompat.START);
+        } else if (id == R.id.disc_category_tv) {
+            Bundle bundle = new Bundle();
+            bundle.putString("from", "mainActivity");
+            utils.switchFragment(new FragProduct(), bundle);
         } else if (id == R.id.my_account_tv) {
             utils.switchFragment(new Dashboard());
         } else if (id == R.id.disc_tv) {
@@ -632,7 +663,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         "As Guest", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                utils.switchFragment(new FragCheckout());
+                                Bundle bundle = new Bundle();
+                                bundle.putBoolean("asGuest", true);
+                                utils.switchFragment(new FragRegister(), bundle);
                             }
                         });
                 alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
@@ -652,7 +685,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 alertDialog.show();
             }
         } else if (id == R.id.home_tv) {
+            utils.switchFragment(new MainFrag());
             recreate();
+            //            utils.switchFragment(new LoginMaterial());
         } else if (id == R.id.search_icon) {
             startActivityForResult(new Intent(context, SearchActivity.class), SEARCH_REQUEST_CODE);
         } else if (id == R.id.cart_layout) {

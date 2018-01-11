@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.DialogInterface.BUTTON_POSITIVE;
-import static com.qemasoft.alhabibshop.app.AppConstants.CHANGE_PASS_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.EDIT_ACCOUNT_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
@@ -95,10 +94,10 @@ public class FragEditAccount extends MyBaseFragment {
 
     private void initViews(View view) {
         editAccountBtn = view.findViewById(R.id.edit_account_btn);
-        fName = view.findViewById(R.id.fNameET);
-        lName = view.findViewById(R.id.lName);
-        email = view.findViewById(R.id.emailET);
-        contact = view.findViewById(R.id.contactET);
+        fName = view.findViewById(R.id.f_name_et);
+        lName = view.findViewById(R.id.l_name_et);
+        email = view.findViewById(R.id.email_et);
+        contact = view.findViewById(R.id.phone_et);
     }
 
     @Override
@@ -106,25 +105,24 @@ public class FragEditAccount extends MyBaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if (requestCode == CHANGE_PASS_REQUEST_CODE) {
+        if (requestCode == EDIT_ACCOUNT_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
+                    String fName = response.optString("firstname");
+                    String lName = response.optString("lastname");
+
+                    String userName = fName + " " + lName;
+                    utils.printLog("CustomerId = ", " Username = " + userName);
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, userName);
                     AlertDialog dialog = utils.showAlertDialogReturnDialog(
                             "Confirmation Message!", response.optString("message"));
-                    dialog.setButton(BUTTON_POSITIVE, "OK",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    new Handler().postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            getActivity().recreate();
-                                        }
-                                    }, 10);
-                                }
-                            });
+                    dialog.setButton(BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            utils.switchFragment(new Dashboard());
+                        }
+                    });
                     dialog.show();
                 } catch (JSONException e) {
                     utils.showErrorDialog("Invalid JSON");
@@ -133,7 +131,7 @@ public class FragEditAccount extends MyBaseFragment {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 utils.showAlertDialog("Invalid Request!",
-                        "Either the request is invalid or no relevant record found");
+                        "Error Getting Data From Server");
             }
         }
     }

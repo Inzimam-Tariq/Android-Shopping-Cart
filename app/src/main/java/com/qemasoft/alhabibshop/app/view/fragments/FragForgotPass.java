@@ -48,7 +48,7 @@ public class FragForgotPass extends MyBaseFragment {
 
     private void initViews(View view) {
         passResetBtn = view.findViewById(R.id.passResetBtn);
-        email = view.findViewById(R.id.emailET);
+        email = view.findViewById(R.id.email_et);
     }
 
 }

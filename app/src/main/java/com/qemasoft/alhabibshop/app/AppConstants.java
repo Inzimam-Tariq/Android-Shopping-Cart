@@ -42,7 +42,7 @@ public class AppConstants {
     public static final int SHIPPING_METHOD_REQUEST_CODE = 23;
     public static final int PAYMENT_METHOD_REQUEST_CODE = 24;
     public static final int CONFIRM_CHECKOUT_REQUEST_CODE = 25;
-    public static final int ADD_ORDER_REQUEST_CODE = 26;
+    public static final int PLACE_ORDER_REQUEST_CODE = 26;
     public static final int LANGUAGE_REQUEST_CODE = 27;
     public static final int CURRENCY_REQUEST_CODE = 28;
     public static final int FORCED_CANCEL = 2;
@@ -54,7 +54,6 @@ public class AppConstants {
     public static final String KEY_FOR_KEY = "KEY_VALUE";
     public static final String LOGIN_KEY = "LOGIN_KEY";
     public static final String LOGO_KEY = "LOGO_KEY";
-    public static final String LOGO_KEY_SMALL = "LOGO_KEY_SMALL";
     public static final String CURRENCY_KEY = "DEFAULT_CURRENCY";
     public static final String CURRENCY_SYMBOL_KEY = "CURRENCY_SYMBOL";
     public static final String LANGUAGE_KEY = "DEFAULT_LANGUAGE";
@@ -62,14 +61,14 @@ public class AppConstants {
     public static final String CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
     public static final String CUSTOMER_NAME = "CUSTOMER_NAME";
     public static final String ITEM_COUNTER = "ITEM_COUNTER";
-//        private static final String BASE_URL = "http://www.opencartgulf.com/api/";
-    private static final String BASE_URL = "https://www.alhabibshop.com/api/";
-//        private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
-    public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     public static final String RIGHT = "right";
     public static final String LEFT = "left";
     public static final String TOP = "top";
     public static final String BOTTOM = "bottom";
+    //        private static final String BASE_URL = "http://www.opencartgulf.com/api/";
+    private static final String BASE_URL = "https://www.alhabibshop.com/api/";
+    //        private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
+    public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     public static List<ProductOptionValueItem> optionsList = new ArrayList<>();
     private static String MID_FIX_API;
     private static String HOME_EXTRA;

@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">Droid Arabic Kufi</item>
         <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -15,16 +16,25 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.ProgressTheme">
-        <item name="colorAccent">@android:color/holo_red_light</item> <!-- Whatever color you want-->
+    <style name="AppTheme.SmallText">
+        <item name="android:textSize">15sp</item>
     </style>
-    <style name="AppTheme.ProgressThemePrimaryColor">
-        <item name="colorAccent">@android:color/holo_red_light</item> <!-- Whatever color you want-->
+
+    <style name="NavigationDrawerStyle">
+        <item name="android:textSize">20sp</item><!-- text size in menu-->
+        <!--<item name="android:listPreferredItemHeightSmall">40dp</item>&lt;!&ndash; item size in menu&ndash;&gt;-->
+        <!--<item name="listPreferredItemHeightSmall">40dp</item>&lt;!&ndash; item size in menu&ndash;&gt;-->
+    </style>
+
+    <style name="AppTheme.ProgressTheme">
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
     </style>
 
     <style name="CustomProgressActivityTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="windowActionBar">false</item>
-        <item name="colorAccent">@android:color/holo_red_light</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorControlActivated">@color/colorPrimaryDark</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -64,7 +74,17 @@
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textSize">13sp</item>
         <item name="android:inputType">text</item>
-        <item name="android:typeface">serif</item>
+        <item name="android:typeface">monospace</item>
+
+    </style>
+
+    <style name="MaterialEditText" parent="@android:style/Widget.EditText">
+        <!-- Customize your theme here. -->
+        <item name="android:paddingLeft">13dp</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:typeface">monospace</item>
 
     </style>
 
@@ -77,8 +97,24 @@
         <item name="android:inputType">textPassword</item>
     </style>
 
+    <style name="MaterialEditText.Password">
+        <item name="android:inputType">textPassword</item>
+    </style>
+
     <style name="CustomEmailETStyle" parent="CustomETStyle">
         <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <style name="MaterialEditText.Email">
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <style name="MaterialEditText.Phone">
+        <item name="android:inputType">phone</item>
+    </style>
+
+    <style name="MaterialEditText.PersonName">
+        <item name="android:inputType">textPersonName</item>
     </style>
 
     <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
@@ -86,6 +122,9 @@
         <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="CustomTVStyle" parent="Widget.AppCompat.TextView.SpinnerItem">
@@ -98,6 +137,10 @@
         <!-- Customize your theme here. -->
         <!--<item name="android:paddingLeft">0dp</item>-->
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="LinkTextView" parent="@android:style/Widget.TextView">
+        <item name="android:textColor">@color/link_text</item>
     </style>
 
     <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">

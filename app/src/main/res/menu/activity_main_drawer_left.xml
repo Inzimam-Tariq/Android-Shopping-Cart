@@ -21,7 +21,7 @@
             android:title="Sports &amp; Fitness" />
         <item
             android:id="@+id/nav_electronics"
-            android:icon="@drawable/ic_devices_black"
+            android:icon="@drawable/ic_more_vert_black"
             android:title="Electronics" />
         <item
             android:id="@+id/nav_gifts"

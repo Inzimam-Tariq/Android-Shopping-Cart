@@ -26,8 +26,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/order_detail_text"
-                    android:textSize="15sp" />
+                    android:text="@string/order_detail_text"/>
 
                 <View
                     android:layout_width="match_parent"

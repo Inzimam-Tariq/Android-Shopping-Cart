@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -74,8 +75,8 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
             holder.productName.setText(data.getProductName());
             String symbol = Preferences.getSharedPreferenceString(context
                     , AppConstants.CURRENCY_SYMBOL_KEY, "$");
-            holder.productPrice.setText(symbol.concat(data.getProductPrice()));
-            holder.total.setText(symbol.concat(data.getTotal()));
+            holder.productPrice.setText(data.getProductPrice().concat(" ").concat(symbol));
+            holder.total.setText(data.getTotal().concat(" ").concat(symbol));
             if (isFromCheckout) {
                 holder.productModel.setText(data.getProductModel());
                 holder.productQty.setText(data.getOrderQty().concat(" x "));
@@ -130,7 +131,8 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
 
         TextView productName, productModel, productQty, productPrice, total;
         EditText qtyET;
-        ImageView productImage, updateIcon, deleteIcon;
+        ImageView productImage;
+        ImageButton updateIcon, deleteIcon;
 
         public MyViewHolder(View itemView) {
             super(itemView);

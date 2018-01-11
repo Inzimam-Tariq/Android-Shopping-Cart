@@ -23,8 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:layout_marginStart="4dp"
-                android:text="@string/browse_by_category_text"
-                android:textSize="15sp" />
+                android:text="@string/browse_by_category_text" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/cat_recycler_view"

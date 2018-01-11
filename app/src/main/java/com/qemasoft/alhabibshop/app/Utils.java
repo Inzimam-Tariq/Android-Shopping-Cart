@@ -9,6 +9,8 @@ import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
@@ -29,6 +31,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +48,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -62,8 +68,10 @@ import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
+import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 /**
@@ -154,11 +162,36 @@ public class Utils {
         return screenWidth;
     }
 
+    public static Drawable drawableFromUrl(String url) throws IOException {
+        Bitmap x;
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.connect();
+        InputStream input = connection.getInputStream();
+
+        x = BitmapFactory.decodeStream(input);
+        return new BitmapDrawable(x);
+    }
+
+    public static double round1(double value, int scale) {
+        return Math.round(value * Math.pow(10, scale)) / Math.pow(10, scale);
+    }
+
+    public static float round2(float number, int scale) {
+        int pow = 10;
+        for (int i = 1; i < scale; i++)
+            pow *= 10;
+        float tmp = number * pow;
+        return ((float) ((int) ((tmp - (int) tmp) >= 0.5f ? tmp + 1 : tmp))) / pow;
+    }
+
     public int getScreenSize() {
 
         return mContext.getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK;
     }
+
+    //Cache functions
 
     public void startNewActivity(Class activityToStart, Bundle extras, boolean isFinish) {
         Intent intent = new Intent(mContext, activityToStart);
@@ -194,8 +227,6 @@ public class Utils {
 
         return null;
     }
-
-    //Cache functions
 
     public File convertBitmapToFile(Bitmap bitmap, String filename) {
         //create a file to write bitmap data
@@ -368,7 +399,8 @@ public class Utils {
                 .setNegativeButton("Settings", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ((AppCompatActivity) mContext).startActivityForResult(new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
+                        ((AppCompatActivity) mContext).startActivityForResult(
+                                new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
                     }
                 });
         // Create the AlertDialog object and return it
@@ -471,14 +503,18 @@ public class Utils {
     }
 
     public void clearSession() {
+
         Preferences.setSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
         Preferences.setSharedPreferenceString(appContext, CUSTOMER_KEY, DEFAULT_STRING_VAL);
         Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, DEFAULT_STRING_VAL);
         Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, DEFAULT_STRING_VAL);
+        Preferences.setSharedPreferenceString(appContext, UNIQUE_ID_KEY, DEFAULT_STRING_VAL);
+        Preferences.setSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
+
     }
 
     public void showToast(String msg) {
-        Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, "" + msg, Toast.LENGTH_SHORT).show();
     }
 
     public void printLog(String msg) {
@@ -528,27 +564,27 @@ public class Utils {
             pb.setVisibility(View.GONE);
             return;
         }
-            final int time = 4000;
-            final Handler handler = new Handler();
+        final int time = 4000;
+        final Handler handler = new Handler();
 
-            final Runnable Update = new Runnable() {
-                public void run() {
-                    myCountDownTimer = new MyCountDownTimer(time, 10, pb);
-                    myCountDownTimer.start();
-                    if (currentPage == slideshowArrayList.size()) {
-                        currentPage = 0;
-                        mPager.setCurrentItem(currentPage++, false);
-                    } else
-                        mPager.setCurrentItem(currentPage++, true);
-                }
-            };
-            Timer swipeTimer = new Timer();
-            swipeTimer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    handler.post(Update);
-                }
-            }, time, time);
+        final Runnable Update = new Runnable() {
+            public void run() {
+                myCountDownTimer = new MyCountDownTimer(time, 10, pb);
+                myCountDownTimer.start();
+                if (currentPage == slideshowArrayList.size()) {
+                    currentPage = 0;
+                    mPager.setCurrentItem(currentPage++, false);
+                } else
+                    mPager.setCurrentItem(currentPage++, true);
+            }
+        };
+        Timer swipeTimer = new Timer();
+        swipeTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(Update);
+            }
+        }, time, time);
     }
 
     public void showNumberPickerDialog() {
@@ -621,6 +657,10 @@ public class Utils {
         printLog("Parent Id = " + item.getOptionValueId() + " Child Id = " + item.getName()
                 + " List Size = " + list.size());
 
+    }
+
+    public int getSelectedRadioIndex(RadioGroup radioGroup) {
+        return radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
     }
 
     public interface ClickInterface {

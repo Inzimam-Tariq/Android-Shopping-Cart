@@ -7,5 +7,19 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:titleTextAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="android:alertDialogTheme">@style/Theme.AlertDialog</item>
+
     </style>
+
+    <style name="Theme.AlertDialog" parent="Theme.AppCompat.Light.Dialog">
+
+        <!--app abar color in Activties Task manager -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--copy/paste colors -->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!--status bar color -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+    </style>
+
 </resources>

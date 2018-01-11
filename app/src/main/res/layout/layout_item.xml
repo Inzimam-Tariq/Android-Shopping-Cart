@@ -13,7 +13,6 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -25,7 +24,7 @@
 
                 <ImageView
                     android:id="@+id/img"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/image_height"
                     android:scaleType="fitXY"
                     android:src="@drawable/laptop_1" />
@@ -34,7 +33,7 @@
                     android:id="@+id/progress_bar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"/>
+                    android:layout_centerInParent="true" />
 
             </RelativeLayout>
 
@@ -51,14 +50,6 @@
                 android:textColor="@color/textColorTitle" />
 
             <TextView
-                android:id="@+id/full_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="$895.55"
-                android:textColor="@color/textColorPrice" />
-
-            <TextView
                 android:id="@+id/disc_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,6 +57,15 @@
                 android:text="$1012"
                 android:textColor="@color/textColorStrike"
                 android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/full_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="$895.55"
+                android:textColor="@color/textColorPrice" />
+
 
         </LinearLayout>
 

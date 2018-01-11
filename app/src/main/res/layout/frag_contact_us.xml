@@ -25,7 +25,6 @@
                 android:padding="20dp">
 
                 <TextView
-                    style="@style/CustomTVHeadingStyleBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -37,74 +36,74 @@
                     android:layout_marginBottom="20dp"
                     android:background="@color/outline" />
 
-                <TextView
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/your_name_text" />
+                    android:layout_marginBottom="20dp">
 
-                <EditText
-                    android:id="@+id/nameET"
-                    style="@style/CustomETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:hint="@string/your_name_hint"
-                    android:textColorHint="@android:color/darker_gray" />
+                    <EditText
+                        android:id="@+id/name_et"
+                        style="@style/MaterialEditText.PersonName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/your_name_hint"
+                        android:maxLength="32" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/email_text" />
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/emailET"
-                    style="@style/CustomEmailETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:hint="@string/email_hint"
-                    android:textColorHint="@android:color/darker_gray" />
-
-                <TextView
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/phone_text" />
+                    android:layout_marginBottom="20dp">
 
-                <EditText
-                    android:id="@+id/contactET"
-                    style="@style/CustomETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:hint="@string/phone_hint"
-                    android:textColorHint="@android:color/darker_gray" />
+                    <EditText
+                        android:id="@+id/email_et"
+                        style="@style/MaterialEditText.Email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_hint"
+                        android:maxLength="96" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/inquiry_text" />
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/inquiryET"
-                    style="@style/CustomETStyle"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="top"
-                    android:hint="@string/inquiry_hint_"
-                    android:inputType="textMultiLine"
-                    android:lines="8"
-                    android:maxLines="10"
-                    android:minLines="6"
-                    android:scrollbars="vertical"
-                    android:textColorHint="@android:color/darker_gray" />
+                    android:layout_marginBottom="20dp">
+
+                    <EditText
+                        android:id="@+id/phone_et"
+                        style="@style/MaterialEditText.Phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/phone_hint"
+                        android:maxLength="14" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp">
+
+                    <EditText
+                        android:id="@+id/inquiry_et"
+                        style="@style/MaterialEditText.Phone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:hint="@string/inquiry_hint_"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
+                        android:maxLines="10"
+                        android:minLines="2"
+                        android:scrollbars="vertical" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <Button
-                    android:id="@+id/submitContactBtn"
+                    android:id="@+id/submit_contact_btn"
                     style="@style/CustomButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"

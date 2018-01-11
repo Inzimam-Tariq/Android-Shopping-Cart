@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -23,6 +24,7 @@ import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.CartDetailAdapter;
 import com.qemasoft.alhabibshop.app.model.Address;
 import com.qemasoft.alhabibshop.app.model.MyCartDetail;
+import com.qemasoft.alhabibshop.app.model.PaymentMethod;
 import com.qemasoft.alhabibshop.app.model.ShippingMethod;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
 
@@ -38,13 +40,13 @@ import java.util.List;
 import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.ADDRESS_BOOK_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.ADD_ORDER_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CONFIRM_CHECKOUT_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.LEFT;
 import static com.qemasoft.alhabibshop.app.AppConstants.PAYMENT_METHOD_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.PLACE_ORDER_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.RIGHT;
 import static com.qemasoft.alhabibshop.app.AppConstants.SHIPPING_METHOD_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
@@ -62,6 +64,9 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     private List<String> list;
     private TextView confirmOrderTV, subTotalValTV, grandTotalValTV;
     private int selectedAddressIndex;
+    private EditText commentET;
+    private List<ShippingMethod> shippingMethodList;
+    private List<PaymentMethod> paymentMethodList;
 
     public FragCheckout() {
         // Required empty public constructor
@@ -91,7 +96,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     private void setDrawables() {
         utils.setCompoundDrawable(backBtn, LEFT, R.drawable.ic_navigate_back);
         utils.setCompoundDrawable(nextBtn, RIGHT, R.drawable.ic_navigate_next);
-        utils.setCompoundDrawable(selectDeliveryAddress, RIGHT, R.drawable.ic_menu_more);
+        utils.setCompoundDrawable(selectDeliveryAddress, RIGHT, R.drawable.ic_expand_more_black);
     }
 
     private void getAddresses() {
@@ -115,6 +120,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         radioGroupShippingMethod = view.findViewById(R.id.rg_shipping_method);
         step3 = view.findViewById(R.id.step3);
         radioGroupPaymentMethod = view.findViewById(R.id.rg_payment_method);
+        commentET = view.findViewById(R.id.order_comment_et);
         step4 = view.findViewById(R.id.step4);
         step5 = view.findViewById(R.id.step5);
         confirmOrderTV = view.findViewById(R.id.confirm_order_tv);
@@ -165,6 +171,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     step2.setVisibility(View.VISIBLE);
                     backBtn.setVisibility(View.VISIBLE);
                     stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
+                    if (rgShippingCount > 0) radioGroupShippingMethod.check(-1);
                     if (rgShippingCount > 0) radioGroupShippingMethod.check(0);
                 } else if (step2.getVisibility() == View.VISIBLE) {
                     AppConstants.setMidFixApi("paymentMethod");
@@ -182,6 +189,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     step2.setVisibility(View.GONE);
                     step3.setVisibility(View.VISIBLE);
                     stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                    if (rgPaymentCount > 0) radioGroupPaymentMethod.check(-1);
                     if (rgPaymentCount > 0) radioGroupPaymentMethod.check(0);
                 } else if (step3.getVisibility() == View.VISIBLE) {
                     AppConstants.setMidFixApi("confirm");
@@ -209,10 +217,36 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     nextBtn.setText(R.string.view_order_history_text);
                     step4.setVisibility(View.INVISIBLE);
                     step5.setVisibility(View.VISIBLE);
+                    nextBtn.setText(R.string.continue_text);
                     stateProgressBar.setAllStatesCompleted(true);
-                    confirmOrderTV.setText(String.valueOf("You have placed your order successfully." +
-                            "You can view your order history with the below button OR go to" +
-                            "My Account => Order History"));
+                    AppConstants.setMidFixApi("addOrder");
+                    Map<String, String> map = new HashMap<>();
+                    map.put("customer_id", Preferences.getSharedPreferenceString(appContext
+                            , CUSTOMER_KEY, DEFAULT_STRING_VAL));
+                    map.put("address_id", addressList.get(selectedAddressIndex).getId());
+                    map.put("session_id", Preferences.getSharedPreferenceString(appContext
+                            , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
+
+                    int index = utils.getSelectedRadioIndex(radioGroupShippingMethod);
+                    String shippingCode = shippingMethodList.get(index).getCode();
+                    String shippingMethod = shippingMethodList.get(index).getTitle();
+                    index = utils.getSelectedRadioIndex(radioGroupPaymentMethod);
+                    String paymentCode = paymentMethodList.get(index).getCode();
+                    String paymentMethod = paymentMethodList.get(index).getTitle();
+                    utils.printLog("shippingCode = " + shippingCode
+                            + "\npaymentCode = " + paymentCode);
+                    map.put("shipping_method", shippingMethod);
+                    map.put("shipping_code", shippingCode);
+                    map.put("payment_method", paymentMethod);
+                    map.put("payment_code", paymentCode);
+                    map.put("comment", "" + commentET.getText().toString());
+                    bundle.putBoolean("hasParameters", true);
+                    bundle.putSerializable("parameters", (Serializable) map);
+                    Intent intent = new Intent(getContext(), FetchData.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, PLACE_ORDER_REQUEST_CODE);
+                } else if (step5.getVisibility() == View.VISIBLE) {
+                    utils.switchFragment(new MainFrag());
                 }
                 break;
 
@@ -276,7 +310,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     }
                 } else if (requestCode == SHIPPING_METHOD_REQUEST_CODE) {
                     JSONArray shippingMethods = response.optJSONArray("shippingMethods");
-                    List<ShippingMethod> shippingMethodList = new ArrayList<>();
+                    shippingMethodList = new ArrayList<>();
                     List<String> keysList = new ArrayList<>();
                     radioGroupShippingMethod.removeAllViews();
                     if (shippingMethods == null || shippingMethods.toString().isEmpty()) {
@@ -310,7 +344,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     radioGroupShippingMethod.check(0);
                 } else if (requestCode == PAYMENT_METHOD_REQUEST_CODE) {
                     JSONArray paymentMethods = response.optJSONArray("paymentMethods");
-                    List<ShippingMethod> paymentMethodList = new ArrayList<>();
+                    paymentMethodList = new ArrayList<>();
                     List<String> keysList = new ArrayList<>();
                     radioGroupPaymentMethod.removeAllViews();
                     if (paymentMethods == null || paymentMethods.toString().isEmpty()) {
@@ -328,7 +362,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         }
                         utils.printLog("KeyStr", "Size = " + keysList.size());
                         JSONObject paymentMethod = paymentObj.optJSONObject(keysList.get(i));
-                        paymentMethodList.add(new ShippingMethod(paymentMethod.optString("code")
+                        paymentMethodList.add(new PaymentMethod(paymentMethod.optString("code")
                                 , paymentMethod.optString("title")
                                 , paymentMethod.optString("terms"))
                         );
@@ -357,15 +391,6 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                                 objectCP.optString("price"),
                                 objectCP.optString("total")));
                     }
-                    JSONArray cartTotals = response.optJSONArray("carttotals");
-                    List<String> totalsList = new ArrayList<>();
-                    for (int j = 0; j < cartTotals.length(); j++) {
-                        JSONObject object = cartTotals.optJSONObject(j);
-                        totalsList.add(object.optString("value"));
-                    }
-                    subTotalValTV.setText(totalsList.get(0));
-                    grandTotalValTV.setText(totalsList.get(1));
-
 
                     CartDetailAdapter cartDetailAdapter = new CartDetailAdapter(cartDetailList
                             , true);
@@ -379,8 +404,20 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     if (!cartDetailList.isEmpty() || cartDetailList.size() > 0)
                         mRecyclerView.setAdapter(cartDetailAdapter);
 
-                } else if (requestCode == ADD_ORDER_REQUEST_CODE) {
-                    System.out.println("I");
+                    JSONArray cartTotals = response.optJSONArray("totals");
+                    List<String> totalsList = new ArrayList<>();
+                    for (int j = 0; j < cartTotals.length(); j++) {
+                        JSONObject object = cartTotals.optJSONObject(j);
+                        totalsList.add(object.optString("text"));
+                    }
+                    subTotalValTV.setText(totalsList.get(0));
+                    grandTotalValTV.setText(totalsList.get(1));
+
+                } else if (requestCode == PLACE_ORDER_REQUEST_CODE) {
+                    String message = response.optString("message");
+                    if (!message.isEmpty()) {
+                        confirmOrderTV.setText(message);
+                    }
                 }
             } else if (resultCode == FORCED_CANCEL) {
                 String message = response.optString("message");

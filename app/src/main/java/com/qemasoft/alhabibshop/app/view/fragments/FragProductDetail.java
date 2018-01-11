@@ -3,6 +3,7 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
 import static com.qemasoft.alhabibshop.app.AppConstants.PRODUCT_DETAIL_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 
 /**
@@ -74,6 +77,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
     private Button addToCartBtn;// submitReviewBtn;
     private RatingBar ratingBarOverall;//, ratingBarPost;
     private RecyclerView mRecyclerViewOptions; //mRecyclerViewRating;
+    private LinearLayout brandLayout, specialPriceLayout, discountLayout, availableOptionsLayout;
 //    private EditText yourNameET, reviewCommentET;
 //    private TabHost tabHost;
 //    private ScrollView scrollView;
@@ -113,6 +117,10 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         indicator = view.findViewById(R.id.indicator);
         pb = view.findViewById(R.id.loading);
 
+        brandLayout = view.findViewById(R.id.brand_layout);
+        specialPriceLayout = view.findViewById(R.id.special_price_layout);
+        discountLayout = view.findViewById(R.id.disc_layout);
+
 //        tabHost = view.findViewById(R.id.tabHost);
         productTitleTV = view.findViewById(R.id.product_title_val_tv);
         productModelTV = view.findViewById(R.id.product_model_val_tv);
@@ -126,7 +134,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         stockStatusTV = view.findViewById(R.id.stock_status_val_tv);
 //        productQtyTV = view.findViewById(R.id.product_qty_tv);
         dateAddedTV = view.findViewById(R.id.added_date_val_tv);
-        optionsTV = view.findViewById(R.id.options_available_tv);
+        availableOptionsLayout = view.findViewById(R.id.options_available_layout);
 
         addToCartBtn = view.findViewById(R.id.add_to_cart_btn);
 
@@ -180,12 +188,28 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                     AppConstants.setSlideshowExtra(slideShow.toString());
                     utils.setupSlider(mPager, indicator, pb, false, false);
                     productTitleTV.setText(product.getName());
-                    if (!product.getManufacturer().isEmpty())
+                    if (!product.getManufacturer().isEmpty()) {
+                        brandLayout.setVisibility(View.VISIBLE);
                         manufacturerTV.setText(product.getManufacturer());
+                    }
                     productModelTV.setText(product.getModel());
                     productDescriptionTV.setText(product.getProductDescription());
                     productPriceTV.setText(product.getPrice().concat(" ").concat(symbol));
                     productSpecialPriceTV.setText(product.getSpacialPrice().concat(" ").concat(symbol));
+                    if (!product.getSpacialPrice().isEmpty()) {
+                        specialPriceLayout.setVisibility(View.VISIBLE);
+                        discountLayout.setVisibility(View.VISIBLE);
+                        productPriceTV.setPaintFlags(productPriceTV.getPaintFlags()
+                                | Paint.STRIKE_THRU_TEXT_FLAG);
+                        float disc = Float.parseFloat(product.getPrice())
+                                - Float.parseFloat(product.getSpacialPrice());
+                        discountTV.setText(String.valueOf(disc).concat(symbol));
+                        float discPercent = (1 - Float.parseFloat(product.getSpacialPrice())
+                                / Float.parseFloat(product.getPrice())) * 100;
+                        int val = Math.round(discPercent);
+                        percentDiscTV.setText(String.valueOf(val).concat("%")
+                                .concat(findStringByName("disc")));
+                    }
                     if (!product.getDiscPercent().isEmpty()) {
                         percentDiscTV.setText(product.getDiscPercent().concat(" ").concat(symbol));
                     }
@@ -213,16 +237,16 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                                 , optionsObj.optString("name")
                                 , optionsObj.optString("option_id")));
                     }
-                    if (optionsList.isEmpty() || optionsList.size()<1) {
-                        optionsTV.setVisibility(View.GONE);
-                        return;
+                    if (!optionsList.isEmpty() || optionsList.size() > 0) {
+                        availableOptionsLayout.setVisibility(View.VISIBLE);
+                        RecyclerView.LayoutManager mLayoutManagerOptions =
+                                new LinearLayoutManager(getActivity()
+                                        , LinearLayoutManager.VERTICAL, false);
+                        mRecyclerViewOptions.setLayoutManager(mLayoutManagerOptions);
+                        mRecyclerViewOptions.setAdapter(
+                                new ProductOptionsAdapter(optionsList, adapterInterface));
                     }
-                    RecyclerView.LayoutManager mLayoutManagerOptions =
-                            new LinearLayoutManager(getActivity()
-                                    , LinearLayoutManager.VERTICAL, false);
-                    mRecyclerViewOptions.setLayoutManager(mLayoutManagerOptions);
-                    mRecyclerViewOptions.setAdapter(
-                            new ProductOptionsAdapter(optionsList, adapterInterface));
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

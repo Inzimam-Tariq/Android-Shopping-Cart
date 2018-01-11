@@ -38,7 +38,8 @@ public class FragRegister extends MyBaseFragment {
     private EditText fName, lName, email, contact, pass, confirmPass;
     private CheckBox termsCB;
     private Button registerBtn;
-    private TextView privacyPolicyTV, clickLoginTV;
+    private TextView titleTV, privacyPolicyTV, clickLoginTV;
+    private boolean asGuest;
 
     public FragRegister() {
         // Required empty public constructor
@@ -52,6 +53,7 @@ public class FragRegister extends MyBaseFragment {
         initUtils();
         initViews(view);
 
+        guestCheck();
         rgNewsletter.check(R.id.rbNo);
         privacyPolicyTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,24 +167,35 @@ public class FragRegister extends MyBaseFragment {
         return view;
     }
 
+    private void guestCheck() {
+        if (getArguments() != null)
+            asGuest = getArguments().getBoolean("asGuest", false);
+        if (asGuest) {
+            titleTV.setText(R.string.as_guest_text);
+        }
+    }
+
     private boolean privacyPolicyCheck() {
         return termsCB.isChecked();
     }
 
     private void initViews(View view) {
+
+        titleTV = view.findViewById(R.id.frag_title_tv);
         rgNewsletter = view.findViewById(R.id.newsletterRadioGroup);
         privacyPolicyTV = view.findViewById(R.id.privacy_policy_tv);
         clickLoginTV = view.findViewById(R.id.login_tv_in_register);
-        fName = view.findViewById(R.id.fNameET);
-        lName = view.findViewById(R.id.lName);
-        email = view.findViewById(R.id.emailET);
-        contact = view.findViewById(R.id.contactET);
-        pass = view.findViewById(R.id.passET);
-        confirmPass = view.findViewById(R.id.rePassET);
+        fName = view.findViewById(R.id.f_name_et);
+        lName = view.findViewById(R.id.l_name_et);
+        email = view.findViewById(R.id.email_et);
+        contact = view.findViewById(R.id.phone_et);
+        pass = view.findViewById(R.id.password_et);
+        confirmPass = view.findViewById(R.id.confirm_password_et);
         rbYes = view.findViewById(R.id.rbYes);
         rbNo = view.findViewById(R.id.rbNo);
         termsCB = view.findViewById(R.id.terms_cb);
-        registerBtn = view.findViewById(R.id.registerBtn);
+        registerBtn = view.findViewById(R.id.register_btn);
+
     }
 
 }

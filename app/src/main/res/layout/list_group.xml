@@ -3,20 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layoutDirection="ltr"
     android:padding="10dp">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="24dp"
+        android:layout_height="24dp" />
 
     <TextView
         android:id="@+id/lblListHeader"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:gravity="start"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:padding="4dp"
+        android:textSize="21sp" />
+
+    <ImageView
+        android:id="@+id/expand_collapse_image"
+        android:layout_width="24dp"
+        android:layout_height="24dp" />
 
 </LinearLayout>

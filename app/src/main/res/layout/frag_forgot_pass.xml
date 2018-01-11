@@ -25,31 +25,32 @@
                 android:padding="20dp">
 
                 <TextView
-                    style="@style/CustomTVHeadingStyleBlack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="@string/forgot_pass_text" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@color/outline"/>
+                    android:background="@color/outline" />
 
-                <TextView
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/email_text" />
+                    android:layout_marginBottom="20dp">
 
-                <EditText
-                    android:id="@+id/email_et"
-                    style="@style/CustomEmailETStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginBottom="20dp"
-                    android:hint="@string/email_hint"
-                    android:textColorHint="@android:color/darker_gray" />
+                    <EditText
+                        android:id="@+id/email_et"
+                        style="@style/MaterialEditText.Email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email_hint"
+                        android:maxLength="96" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <Button
                     android:id="@+id/passResetBtn"

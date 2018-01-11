@@ -23,8 +23,7 @@
                 android:paddingRight="10dp"
                 android:paddingStart="10dp"
                 android:text="Category Title"
-                android:textColor="@color/textColorTitle"
-                android:textSize="15sp" />
+                android:textColor="@color/textColorTitle" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/main_cat_recycler_view"

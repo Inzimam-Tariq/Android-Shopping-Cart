@@ -88,6 +88,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(menuCategory.getMenuCategoryName());
 //            lblListHeader.setTypeface(null, Typeface.BOLD);
         ImageView imageView = groupView.findViewById(R.id.imageView);
+        ImageView expandCollapseImg = groupView.findViewById(R.id.expand_collapse_image);
         if (isRight) {
             imageView.setImageResource(userMenuIcons.get(groupPosition));
         } else {
@@ -100,8 +101,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
 
         if (getChildrenCount(groupPosition) > 0) {
-            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(
-                    0, 0, isExpanded ? R.drawable.ic_menu_less : R.drawable.ic_menu_more, 0);
+            expandCollapseImg.setImageResource(isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black);
+//            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(
+//                    0, 0, isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black, 0);
         }
 
         return groupView;
