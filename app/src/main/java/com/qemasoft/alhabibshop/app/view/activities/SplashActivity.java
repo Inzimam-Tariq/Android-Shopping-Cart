@@ -34,6 +34,10 @@ import static com.qemasoft.alhabibshop.app.AppConstants.SPLASH_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.setHomeExtra;
 
+/**
+ * Created by Inzimam Tariq on 18/10/2017.
+ */
+
 public class SplashActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static Context context;
@@ -41,11 +45,13 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     private int clicks = 0;
 
     public static Context getAppContext() {
+
         return context;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         context = getApplicationContext();
@@ -64,6 +70,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                     .getAsJSONObject(new JSONObjectRequestListener() {
                         @Override
                         public void onResponse(JSONObject response) {
+
                             boolean success = response.optBoolean("success");
                             if (success) {
                                 AppConstants.setMidFixApi("home");
@@ -80,6 +87,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                                 Intent intent = new Intent(SplashActivity.this, FetchData.class);
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent, SPLASH_REQUEST_CODE);
+
                             } else {
                                 utils.printLog("Splash", "Success False");
                                 utils.showAlertDialog("Invalid Request!", "No Relevant Record Found");
@@ -88,6 +96,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
 
                         @Override
                         public void onError(ANError anError) {
+
                             anError.printStackTrace();
                             utils.showErrorDialog("Error Getting Data From Server");
                             utils.showToast("ErrorGettingDataFromServer");
@@ -130,16 +139,18 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                         Preferences.setSharedPreferenceString(appContext,
                                 CURRENCY_SYMBOL_KEY, symbol);
                         utils.printLog("Symbol", "Symbol = "
-                                +Preferences.getSharedPreferenceString(appContext
-                                ,CURRENCY_SYMBOL_KEY,""));
+                                + Preferences.getSharedPreferenceString(appContext
+                                , CURRENCY_SYMBOL_KEY, ""));
 
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
+
                                 Intent intent = new Intent(context, MainActivity.class);
                                 intent.putExtra(MainActivity.KEY_EXTRA, response.toString());
                                 startActivity(intent);
                                 setHomeExtra(response.toString());
+                                finish();
                             }
                         }, 700);
                     } else {
@@ -158,6 +169,7 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+
         clicks++;
         if (clicks % 2 == 0) {
             recreate();

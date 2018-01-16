@@ -68,6 +68,7 @@ public class FragOrderDetail extends MyBaseFragment {
     }
 
     private void initViews(View view) {
+
         mRecyclerView = view.findViewById(R.id.order_detail_recycler_view);
         orderIdTV = view.findViewById(R.id.order_id_value);
         orderDateTV = view.findViewById(R.id.order_date);
@@ -77,6 +78,10 @@ public class FragOrderDetail extends MyBaseFragment {
         subTotalTV = view.findViewById(R.id.sub_total_val_tv);
         shippingCostTV = view.findViewById(R.id.shipping_cost_val_tv);
         grandTotalTV = view.findViewById(R.id.grand_total_val_tv);
+        subTotalTextTV = view.findViewById(R.id.sub_total_txt_tv);
+        shippingCostTextTV = view.findViewById(R.id.shipping_cost_txt_tv);
+        grandTotalTextTV = view.findViewById(R.id.grand_total_txt_tv);
+
     }
 
 

@@ -1,7 +1,10 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
+import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,22 +16,25 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
+import com.qemasoft.alhabibshop.app.view.activities.FetchData;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
+import static com.qemasoft.alhabibshop.app.AppConstants.REGISTER_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
 
 /**
- * Created by Inzimam on 24-Oct-17.
+ * Created by Inzimam Tariq on 24-Oct-17.
  */
 
 public class FragRegister extends MyBaseFragment {
@@ -58,14 +64,15 @@ public class FragRegister extends MyBaseFragment {
         privacyPolicyTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).changeFragment(1);
-//                utils.showAlertDialog("Privacy Policy", "Privacy Policy text here");
+
+                utils.switchFragment(new FragShowText());
             }
         });
         clickLoginTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((MainActivity) getActivity()).changeFragment(101);
+
+                utils.switchFragment(new FragLogin());
             }
         });
         registerBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +89,7 @@ public class FragRegister extends MyBaseFragment {
                 if (rbYes.isChecked()) {
                     isNewsLetterSubscribed = 1;
                 }
-                utils.showToast("Radio Value " + isNewsLetterSubscribed);
+//                utils.showToast("Radio Value " + isNewsLetterSubscribed);
                 boolean hasReadPrivacyPolicy = privacyPolicyCheck();
                 if (!passVal.equals(rePassVal)) {
                     utils.showErrorDialog("Password Mis-match.");
@@ -94,66 +101,28 @@ public class FragRegister extends MyBaseFragment {
                     return;
                 }
 
-                if (fNameVal.length() > 0 && lNameVal.length() > 0 && emailVal.length() > 0
-                        && contactVal.length() > 0 && passVal.length() > 0
-                        && rePassVal.length() > 0) {
+                if (!fNameVal.isEmpty() && !lNameVal.isEmpty() && !emailVal.isEmpty()
+                        && !contactVal.isEmpty() && !passVal.isEmpty()
+                        && !rePassVal.isEmpty()) {
                     utils.printLog("InsideLoginClicked = ", "Inside if");
                     if (utils.isNetworkConnected()) {
                         utils.printLog("InsideLoginClicked = ", "isNetwork");
                         AppConstants.setMidFixApi("register");
                         utils.printLog("RegisterUrl = ", getApiCallUrl());
-                        AndroidNetworking.post(getApiCallUrl())
-                                .addBodyParameter("firstname", fNameVal)
-                                .addBodyParameter("lastname", lNameVal)
-                                .addBodyParameter("email", emailVal)
-                                .addBodyParameter("telephone", contactVal)
-                                .addBodyParameter("password", passVal)
-                                .addBodyParameter("newsletter", String.valueOf(isNewsLetterSubscribed))
-                                .setPriority(Priority.HIGH)
-                                .build()
-                                .getAsJSONObject(new JSONObjectRequestListener() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        boolean success = response.optBoolean("success");
-                                        if (success) {
-                                            String userData = response.optString("userdata");
-                                            if (userData.contains("Email Alredy Exist")) {
-                                                utils.showAlertDialog(userData, "There is already an account with this email." +
-                                                        "Please Login or use different email");
-                                            } else {
-                                                AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                                                        "Registration Successful!", "Account Created Successfully" +
-                                                                "Please Login to Place an Order"
-                                                );
-                                                dialog.setButton(BUTTON_POSITIVE, "OK",
-                                                        new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog,
-                                                                                int which) {
-                                                                ((MainActivity) getActivity()).changeFragment(101);
-                                                            }
-                                                        });
-                                                dialog.setButton(BUTTON_NEGATIVE, "Cancel",
-                                                        new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
+                        Map<String, String> map = new HashMap<>();
+                        map.put("firstname", fNameVal);
+                        map.put("lastname", lNameVal);
+                        map.put("email", emailVal);
+                        map.put("telephone", contactVal);
+                        map.put("password", passVal);
+                        map.put("newsletter", String.valueOf(isNewsLetterSubscribed));
+                        Bundle bundle = new Bundle();
+                        bundle.putBoolean("hasParameters", true);
+                        bundle.putSerializable("parameters", (Serializable) map);
+                        Intent intent = new Intent(getContext(), FetchData.class);
+                        intent.putExtras(bundle);
+                        startActivityForResult(intent, REGISTER_REQUEST_CODE);
 
-                                                            }
-                                                        });
-                                                dialog.show();
-                                            }
-                                        } else {
-                                            utils.showErrorDialog("Error Getting Data From Server");
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onError(ANError anError) {
-                                        anError.printStackTrace();
-                                        utils.showErrorDialog("Error Getting Data From Server");
-                                        utils.showToast("ErrorGettingDataFromServer");
-                                    }
-                                });
                     } else {
                         utils.showInternetErrorDialog();
                     }
@@ -168,6 +137,7 @@ public class FragRegister extends MyBaseFragment {
     }
 
     private void guestCheck() {
+
         if (getArguments() != null)
             asGuest = getArguments().getBoolean("asGuest", false);
         if (asGuest) {
@@ -176,6 +146,7 @@ public class FragRegister extends MyBaseFragment {
     }
 
     private boolean privacyPolicyCheck() {
+
         return termsCB.isChecked();
     }
 
@@ -198,4 +169,60 @@ public class FragRegister extends MyBaseFragment {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REGISTER_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                try {
+                    final JSONObject response = new JSONObject(data.getStringExtra("result"));
+                    final String userData = response.optString("userdata");
+                    if (!userData.isEmpty()) {
+                        if (userData.contains("email_exist")) {
+                            utils.showAlertDialog(userData, "There is already an account with this email." +
+                                    "Please Login or use different email");
+                        } else {
+                            AlertDialog dialog = utils.showAlertDialogReturnDialog(
+                                    "Registration Successful!", "Account Created Successfully!"
+                            );
+                            dialog.setButton(BUTTON_POSITIVE, findStringByName("continue_text"), (DialogInterface.OnClickListener) null);
+                            dialog.setButton(BUTTON_NEGATIVE, findStringByName("login_text"),
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+
+                                            utils.switchFragment(new FragLogin());
+                                        }
+                                    });
+                            dialog.show();
+                            handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+
+                                    getActivity().recreate();
+                                }
+                            }, 100);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (resultCode == AppConstants.FORCED_CANCEL) {
+                try {
+                    JSONObject response = new JSONObject(data.getStringExtra("result"));
+                    String error = response.optString("message");
+                    if (!error.isEmpty()) {
+                        utils.showErrorDialog(error);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                utils.showErrorDialog("Error Getting Data From Server!");
+            }
+
+        }
+    }
 }

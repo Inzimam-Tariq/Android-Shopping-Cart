@@ -35,6 +35,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     private Utils utils;
 
     public ItemAdapter(List<MyItem> dataList) {
+
         this.dataList = dataList;
 //        Log.e("Constructor", "Working");
 //        Log.e("Constructor", "DataList Size = " + dataList.size());
@@ -63,23 +64,31 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             String imgPath = data.getItemImage();
             utils.printLog("ImagePath = " + imgPath);
             if (!imgPath.isEmpty())
-                Picasso.with(context).load(imgPath).into(holder.img, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holder.progressBar.setVisibility(View.GONE);
-                    }
+                Picasso.with(context)
+                        .load(imgPath)
+                        .noFade()
+                        .resize(250, 250)
+                        .into(holder.img, new Callback() {
+                            @Override
+                            public void onSuccess() {
 
-                    @Override
-                    public void onError() {
-                        holder.progressBar.setVisibility(View.GONE);
-                        holder.img.setImageResource(R.drawable.ic_close_black);
-                    }
-                });
+                                holder.progressBar.setVisibility(View.GONE);
+
+                            }
+
+                            @Override
+                            public void onError() {
+
+                                holder.progressBar.setVisibility(View.GONE);
+                                holder.img.setImageResource(R.drawable.ic_close_black);
+                            }
+                        });
 //            Picasso.with(context).setIndicatorsEnabled(true);
 
             holder.customLinearLayout.post(new Runnable() {
                 @Override
                 public void run() {
+
                     holder.img.getLayoutParams().height =
                             Utils.getScreenWidth(holder.img.getContext()) / 2 - 40;
                 }
@@ -107,6 +116,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
                 @Override
                 public void onClick(View v) {
+
                     Bundle bundle = new Bundle();
                     bundle.putString("id", data.getItemId());
                     utils.printLog("itemId", data.getItemId());
@@ -119,6 +129,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
+
         return dataList.size();
     }
 
@@ -130,6 +141,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         private ProgressBar progressBar;
 
         public MyViewHolder(View itemView) {
+
             super(itemView);
             itemTitle = itemView.findViewById(R.id.item_title);
             itemPriceSpecial = itemView.findViewById(R.id.disc_price);

@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.Slideshow;
 import com.qemasoft.alhabibshop.app.view.fragments.FragProduct;
 import com.qemasoft.alhabibshop.app.view.fragments.FragProductDetail;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class MyPagerAdapter extends PagerAdapter {
 
     public MyPagerAdapter(Context context, ArrayList<Slideshow> slideshowArrayList,
                           boolean isClickListenerSet) {
+
         this.slideshowArrayList = slideshowArrayList;
         this.isClickListenerSet = isClickListenerSet;
         inflater = LayoutInflater.from(context);
@@ -38,11 +41,14 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
+
         container.removeView((View) object);
+        utils.printLog("Destroying MPagerView");
     }
 
     @Override
     public int getCount() {
+
         return slideshowArrayList.size();
     }
 
@@ -51,12 +57,30 @@ public class MyPagerAdapter extends PagerAdapter {
 
         View myImageLayout = inflater.inflate(R.layout.slide, view, false);
 
-        ImageView myImage = myImageLayout.findViewById(R.id.image);
+        final ImageView myImage = myImageLayout.findViewById(R.id.image);
+        final ProgressBar progressBar = myImageLayout.findViewById(R.id.progress_bar);
+
         final Slideshow slideshow = slideshowArrayList.get(position);
         utils = new Utils(view.getContext());
 
         if (!slideshow.getImage().isEmpty())
-            Picasso.with(view.getContext()).load(slideshow.getImage()).into(myImage);
+            Picasso.with(view.getContext())
+                    .load(slideshow.getImage())
+                    .resize(400, 200)
+                    .into(myImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError() {
+
+                            progressBar.setVisibility(View.GONE);
+                            myImage.setImageResource(R.drawable.ic_close_black);
+                        }
+                    });
         view.addView(myImageLayout, 0);
 
         if (isClickListenerSet) {
@@ -64,6 +88,7 @@ public class MyPagerAdapter extends PagerAdapter {
             myImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     String id = slideshow.getId();
                     String type = slideshow.getBannerType();
                     Bundle bundle = new Bundle();
@@ -94,6 +119,7 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
+
         return view.equals(object);
     }
 }

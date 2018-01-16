@@ -16,6 +16,7 @@ import com.qemasoft.alhabibshop.app.model.MyCategory;
 import com.qemasoft.alhabibshop.app.model.MyItem;
 import com.qemasoft.alhabibshop.app.model.Slideshow;
 import com.qemasoft.alhabibshop.app.view.fragments.FragProduct;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -145,14 +146,32 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
 
-    private void configureViewHolder2(ViewHolder2 vh2, int position) {
+    private void configureViewHolder2(final ViewHolder2 vh2, int position) {
         Slideshow promotion = (Slideshow) myAllItemsList.get(position);
         if (promotion != null) {
 //            vh2.getTitle().setText(promotion.getId());
             String imgPath = promotion.getImage();
             utils.printLog("ImagePath", "" + imgPath);
             if (!(imgPath != null && imgPath.isEmpty()))
-                Picasso.with(context).load(imgPath).into(vh2.getImageView());
+//                Picasso.with(context).load(imgPath).into(vh2.getImageView());
+            Picasso.with(context)
+                    .load(imgPath)
+                    .noFade()
+                    .into(vh2.getImageView(), new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                            vh2.getProgressBar().setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onError() {
+
+                            vh2.getProgressBar().setVisibility(View.GONE);
+                            vh2.getImageView().setImageResource(R.drawable.ic_close_black);
+                        }
+                    });
         }
         vh2.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

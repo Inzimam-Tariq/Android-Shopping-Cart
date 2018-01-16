@@ -1,6 +1,7 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ public class MyBaseFragment extends Fragment {
     public Utils utils;
     public RecyclerView mRecyclerView;
     public String symbol;
+    public Handler handler;
 
     public MyBaseFragment() {
 

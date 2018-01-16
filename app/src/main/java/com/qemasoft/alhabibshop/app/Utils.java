@@ -75,7 +75,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 /**
- * Created by Inzimam on 18/10/2017.
+ * Created by Inzimam Tariq on 18/10/2017.
  */
 
 public class Utils {
@@ -87,6 +87,7 @@ public class Utils {
 
 
     public Utils(Context mContext) {
+
         this.mContext = mContext;
     }
 
@@ -112,15 +113,18 @@ public class Utils {
     }
 
     public static File getVideoCacheDir(Context context) {
+
         return new File(context.getExternalCacheDir(), "video-cache");
     }
 
     public static void cleanVideoCacheDir(Context context) throws IOException {
+
         File videoCacheDir = getVideoCacheDir(context);
         cleanDirectory(videoCacheDir);
     }
 
     private static void cleanDirectory(File file) throws IOException {
+
         if (!file.exists()) {
             return;
         }
@@ -133,6 +137,7 @@ public class Utils {
     }
 
     private static void delete(File file) throws IOException {
+
         if (file.isFile() && file.exists()) {
             deleteOrThrow(file);
         } else {
@@ -142,6 +147,7 @@ public class Utils {
     }
 
     private static void deleteOrThrow(File file) throws IOException {
+
         if (file.exists()) {
             boolean isDeleted = file.delete();
             if (!isDeleted) {
@@ -151,6 +157,7 @@ public class Utils {
     }
 
     public static int getScreenWidth(Context context) {
+
         int screenWidth = 0;
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -163,6 +170,7 @@ public class Utils {
     }
 
     public static Drawable drawableFromUrl(String url) throws IOException {
+
         Bitmap x;
 
         HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -174,10 +182,12 @@ public class Utils {
     }
 
     public static double round1(double value, int scale) {
+
         return Math.round(value * Math.pow(10, scale)) / Math.pow(10, scale);
     }
 
     public static float round2(float number, int scale) {
+
         int pow = 10;
         for (int i = 1; i < scale; i++)
             pow *= 10;
@@ -194,6 +204,7 @@ public class Utils {
     //Cache functions
 
     public void startNewActivity(Class activityToStart, Bundle extras, boolean isFinish) {
+
         Intent intent = new Intent(mContext, activityToStart);
         if (extras != null)
             intent.putExtras(extras);
@@ -204,6 +215,7 @@ public class Utils {
     }
 
     public void hideKeyboard(View view) {
+
         InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
@@ -253,6 +265,7 @@ public class Utils {
     }
 
     public boolean validName(String s) {
+
         String validNumber = "(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{6,15})$";
         Pattern pattern = Pattern.compile(validNumber);
         Matcher matcher = pattern.matcher(s);
@@ -268,6 +281,7 @@ public class Utils {
     }
 
     public boolean validNumber(String s) {
+
         String validNumber = "^((\\+92)|(0092))-{0,1}\\d{3}-{0,1}\\d{7}$|^\\d{11}$|^\\d{4}-\\d{7}$";
         Pattern pattern = Pattern.compile(validNumber);
         Matcher matcher = pattern.matcher(s);
@@ -275,6 +289,7 @@ public class Utils {
     }
 
     public boolean validEmail(String email) {
+
         String emailPattern = "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)$";
         Pattern pattern = Pattern.compile(emailPattern);
         Matcher matcher = pattern.matcher(email);
@@ -282,6 +297,7 @@ public class Utils {
     }
 
     public boolean validCNIC(String s) {
+
         String validNumber = "^\\d{5}[- .]?\\d{7}[- .]?\\d{1}$";
         Pattern pattern = Pattern.compile(validNumber);
         Matcher matcher = pattern.matcher(s);
@@ -289,6 +305,7 @@ public class Utils {
     }
 
     public String milliSecondsToTimer(long milliseconds) {
+
         String finalTimerString = "";
         String secondsString = "";
 
@@ -315,6 +332,7 @@ public class Utils {
     }
 
     public boolean isNetworkConnected() {
+
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null) && netInfo.isConnected();
@@ -327,6 +345,7 @@ public class Utils {
                 .setMessage("No Internet Connection")
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
                         dialog.cancel();
                     }
                 });
@@ -343,6 +362,7 @@ public class Utils {
                 .setMessage(errorMsg)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
                         dialog.cancel();
                     }
                 });
@@ -359,6 +379,7 @@ public class Utils {
                 .setMessage(msg)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+
                         dialog.cancel();
                     }
                 });
@@ -399,6 +420,7 @@ public class Utils {
                 .setNegativeButton("Settings", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         ((AppCompatActivity) mContext).startActivityForResult(
                                 new Intent(android.provider.Settings.ACTION_SETTINGS), 0);
                     }
@@ -412,6 +434,7 @@ public class Utils {
     public void showRadioAlertDialog(final Button button, String title,
                                      final List<String> list, int selectedIndex,
                                      final ClickInterface clickInterface) {
+
         this.position = 0;
         final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(title);
@@ -420,6 +443,7 @@ public class Utils {
                 selectedIndex, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         if (which > -1) {
                             position = which;
                         }
@@ -428,6 +452,7 @@ public class Utils {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 button.setHint(list.get(position));
                 if (clickInterface != null)
                     clickInterface.OnItemClicked(position);
@@ -440,12 +465,14 @@ public class Utils {
     }
 
     public void showProgress() {
+
         String title = AppConstants.findStringByName("progress_dialog_title");
         String text = AppConstants.findStringByName("progress_dialog_text");
         progressBar = ProgressDialog.show(mContext, title, text);
     }
 
     public void hideProgress() {
+
         if (progressBar.isShowing()) {
             progressBar.dismiss();
         }
@@ -458,6 +485,7 @@ public class Utils {
     }
 
     public void setCompoundDrawable(TextView textView, String position, int icon) {
+
         switch (position) {
             case "top":
                 textView.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0);
@@ -475,6 +503,7 @@ public class Utils {
     }
 
     public void setCompoundDrawable(Button button, String position, int icon) {
+
         switch (position) {
             case "top":
                 button.setCompoundDrawablesWithIntrinsicBounds(0, icon, 0, 0);
@@ -492,13 +521,17 @@ public class Utils {
     }
 
     public void changeLanguage(String languageCode) {
+
         String language = Preferences.getSharedPreferenceString(appContext,
                 LANGUAGE_KEY, "en");
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
-        appContext.getResources().updateConfiguration(config, appContext.getResources().getDisplayMetrics());
+        appContext.getResources().updateConfiguration(config,
+                appContext.getResources().getDisplayMetrics());
+
+//        showToast(" Locale Country = " + locale.getDisplayLanguage());
 
     }
 
@@ -514,14 +547,17 @@ public class Utils {
     }
 
     public void showToast(String msg) {
+
         Toast.makeText(mContext, "" + msg, Toast.LENGTH_SHORT).show();
     }
 
     public void printLog(String msg) {
+
         Log.e("TAG " + mContext.getPackageName(), msg);
     }
 
     public void printLog(String tag, String msg) {
+
         Log.e(mContext.getClass() + " " + tag, msg);
     }
 
@@ -569,6 +605,7 @@ public class Utils {
 
         final Runnable Update = new Runnable() {
             public void run() {
+
                 myCountDownTimer = new MyCountDownTimer(time, 10, pb);
                 myCountDownTimer.start();
                 if (currentPage == slideshowArrayList.size()) {
@@ -582,6 +619,7 @@ public class Utils {
         swipeTimer.schedule(new TimerTask() {
             @Override
             public void run() {
+
                 handler.post(Update);
             }
         }, time, time);
@@ -614,6 +652,7 @@ public class Utils {
     }
 
     public String getUniqueId() {
+
         String uniqueId = UUID.randomUUID().toString();
         String subStrId = uniqueId.substring(0, 24);
         printLog("UniqueId", subStrId);
@@ -621,6 +660,7 @@ public class Utils {
     }
 
     public void sendAppMsg(View view) {
+
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
@@ -630,16 +670,19 @@ public class Utils {
     }
 
     public void setError(EditText editText) {
+
         editText.setError("Required!");
         editText.requestFocus();
     }
 
     public void switchFragment(Fragment fragment) {
+
         ((MainActivity) mContext).getSupportFragmentManager().beginTransaction()
                 .replace(R.id.flFragments, fragment).commit();
     }
 
     public void switchFragment(Fragment fragment, Bundle bundle) {
+
         if (bundle != null) {
             fragment.setArguments(bundle);
         }
@@ -660,10 +703,12 @@ public class Utils {
     }
 
     public int getSelectedRadioIndex(RadioGroup radioGroup) {
+
         return radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
     }
 
     public interface ClickInterface {
+
         void OnItemClicked(int item_id);
     }
 

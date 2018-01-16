@@ -2,9 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:gravity="center"
+    android:orientation="horizontal"
     android:padding="10dp">
-
+    
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/image_text"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:paddingStart="?android:attr/expandableListPreferredChildPaddingLeft" />
+    
     <TextView
         android:id="@+id/lblListItem"
         android:layout_width="match_parent"
@@ -12,7 +21,6 @@
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
         android:gravity="start"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:textSize="18sp" />
 
 </LinearLayout>

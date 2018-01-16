@@ -28,7 +28,7 @@
     <string name="register">تسجيل حساب جديد</string>
     <string name="have_account"><i>تسجيل الدخول</i></string>
     <string name="click_here"><u>انقر هنا!</u></string>
-    <string name="privacy_policy_statement"><i>لقد قرأت ووافقت على,</i></string>
+    <string name="privacy_policy_statement"><i>لقد قرأت ووافقت على, شروط الاستخدام</i></string>
     <string name="your_string_here">هذا <u>تسطير</u>.</string>
     <string name="action_search">بحث</string>
     <string name="forgot_pass_text">نسيت كلمة المرور</string>

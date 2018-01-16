@@ -75,8 +75,12 @@ import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
+/**
+ * Created by Inzimam Tariq on 18/10/2017.
+ */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
     public static final String KEY_EXTRA = "com.qemasoft.alhabibshop.app" + "getMainScreenExtra";
 
     static {
@@ -107,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ImageView drawerIconLeft, drawerIconRight, logoIcon, searchIcon;
     private RelativeLayout cartLayout;
     private Context context;
-    private SearchView searchView;
 
     private DrawerLayout drawer;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -131,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         this.utils = new Utils(this);
         utils.changeLanguage("en");
         super.onCreate(savedInstanceState);
@@ -167,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void checkForUniqueId() {
+
         String uniqueId = Preferences.getSharedPreferenceString(appContext,
                 UNIQUE_ID_KEY, DEFAULT_STRING_VAL);
         if (uniqueId.isEmpty() || uniqueId.equals("")) {
@@ -175,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setOnClickListener() {
+
         myAccountTV.setOnClickListener(this);
         checkoutTV.setOnClickListener(this);
         discountTV.setOnClickListener(this);
@@ -184,6 +190,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         closeRightDrawerIV.setOnClickListener(this);
         closeLeftDrawerIV.setOnClickListener(this);
         discountedCategoryTV.setOnClickListener(this);
+    }
+
+    private void deSetOnClickListener() {
+
+        myAccountTV.setOnClickListener(null);
+        checkoutTV.setOnClickListener(null);
+        discountTV.setOnClickListener(null);
+        homeTV.setOnClickListener(null);
+        searchIcon.setOnClickListener(null);
+        cartLayout.setOnClickListener(null);
+        closeRightDrawerIV.setOnClickListener(null);
+        closeLeftDrawerIV.setOnClickListener(null);
+        discountedCategoryTV.setOnClickListener(null);
+        logoIcon.setOnClickListener(null);
+        drawerIconLeft.setOnClickListener(null);
+        drawerIconRight.setOnClickListener(null);
+        listViewExpLeft.setOnClickListener(null);
+        listViewExpRight.setOnClickListener(null);
+
     }
 
     public boolean isLoggedIn() {
@@ -197,6 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setExpandableListViewClickListener() {
+
         listViewExpRight.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition,
@@ -248,6 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setExpandableListViewChildClickListener() {
+
         listViewExpLeft.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition,
@@ -265,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listViewExpRight.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+
                 String str = parent.getExpandableListAdapter().getGroup(groupPosition).toString();
                 UserSubMenu userSubMenu = (UserSubMenu) parent.getExpandableListAdapter()
                         .getChild(groupPosition, childPosition);
@@ -273,7 +301,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     bundle.putString("id", userSubMenu.getUserSubMenuCode());
                     utils.switchFragment(new FragShowText(), bundle);
                 } else if (str.contains("اللغة") || str.contains("Language")) {
-
+                    Preferences.setSharedPreferenceString(appContext,
+                            LANGUAGE_KEY, userSubMenu.getUserSubMenuCode());
                     recreate();
                 } else if (str.contains("دقة") || str.contains("Currency")) {
                     makeDefaultCurrencyCall(userSubMenu.getUserSubMenuCode());
@@ -287,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void makeDefaultCurrencyCall(String code) {
+
         AppConstants.setMidFixApi("getCurrencyByCode");
         Map<String, String> map = new HashMap<>();
         if (code.isEmpty()) {
@@ -308,10 +338,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         boolean isRightToLeft = TextUtilsCompat.getLayoutDirectionFromLocale(Locale
                 .getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
-//        if (!isRightToLeft) {
-        ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
-        ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_RTL);
-//        }
+        if (!isRightToLeft) {
+            ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
+            ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_RTL);
+        }
 
 
         int width = getResources().getDisplayMetrics().widthPixels / 2 + 100;
@@ -338,6 +368,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerIconLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
                     drawer.closeDrawer(GravityCompat.START);
                 } else {
@@ -350,6 +381,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerIconRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (drawer.isDrawerOpen(GravityCompat.END)) {
                     drawer.closeDrawer(GravityCompat.END);
                 } else {
@@ -386,7 +418,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         discountedCategoryTV = findViewById(R.id.disc_category_tv);
 
-        searchView = findViewById(R.id.search_view);
     }
 
     @Override
@@ -402,6 +433,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void changeFragment(int position) {
+
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         Fragment fragment = new Fragment();
@@ -440,6 +472,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initRightMenuData() {
+
         headerListRight = new ArrayList<>();
         hashMapRight = new HashMap<>();
 
@@ -515,11 +548,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void enableSingleSelection() {
+
         listViewExpLeft.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             int previousGroup = -1;
 
             @Override
             public void onGroupExpand(int groupPosition) {
+
                 if (groupPosition != previousGroup)
                     listViewExpLeft.collapseGroup(previousGroup);
                 previousGroup = groupPosition;
@@ -530,6 +565,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public void onGroupExpand(int groupPosition) {
+
                 if (groupPosition != previousGroup)
                     listViewExpRight.collapseGroup(previousGroup);
                 previousGroup = groupPosition;
@@ -538,6 +574,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initLeftMenuData() {
+
         headerListLeft = new ArrayList<>();
         hashMapLeft = new HashMap<>();
 
@@ -593,11 +630,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void actionbarToggle() {
+
         mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, drawer,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
+
                 super.onDrawerClosed(view);
                 drawerIconLeft.setImageResource(R.drawable.ic_list_black);
                 drawerIconLeft.setScaleX(-1);
@@ -605,6 +644,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
+
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -621,6 +661,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void setCompoundDrawable() {
+
         utils.setCompoundDrawable(myAccountTV, "top", R.drawable.ic_person_black);
         utils.setCompoundDrawable(checkoutTV, "top", R.drawable.ic_shopping_cart_black);
         utils.setCompoundDrawable(discountTV, "top", R.drawable.ic_tag_black);
@@ -630,6 +671,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+
         int id = v.getId();
 
         if (id == R.id.logo_icon) {
@@ -645,6 +687,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Bundle bundle = new Bundle();
             bundle.putString("from", "mainActivity");
             utils.switchFragment(new FragProduct(), bundle);
+            drawer.closeDrawer(GravityCompat.START);
+            drawer.closeDrawer(GravityCompat.END);
         } else if (id == R.id.my_account_tv) {
             utils.switchFragment(new Dashboard());
         } else if (id == R.id.disc_tv) {
@@ -663,6 +707,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         "As Guest", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
                                 Bundle bundle = new Bundle();
                                 bundle.putBoolean("asGuest", true);
                                 utils.switchFragment(new FragRegister(), bundle);
@@ -672,6 +717,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         "Login", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
                                 utils.switchFragment(new FragLogin());
                             }
                         });
@@ -679,6 +725,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         "Register", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+
                                 utils.switchFragment(new FragRegister());
                             }
                         });
@@ -699,6 +746,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == SEARCH_REQUEST_CODE || requestCode == CURRENCY_REQUEST_CODE
@@ -718,8 +766,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     Preferences.setSharedPreferenceString(appContext
                                             , CURRENCY_SYMBOL_KEY
                                             , object.optString("symbol_left")
-                                                    + object.optString("symbol_right")
-                                    );
+                                                    + object.optString("symbol_right"));
                                     recreate();
                                 } else if (requestCode == LANGUAGE_REQUEST_CODE) {
                                     JSONObject object = response.optJSONObject("language");
@@ -756,6 +803,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private boolean isJSONString(String data) {
+
         try {
             Object json = new JSONTokener(data).nextValue();
             return !(json instanceof JSONObject);
@@ -764,4 +812,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
+//        deSetOnClickListener();
+    }
 }

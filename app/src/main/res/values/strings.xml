@@ -32,7 +32,7 @@
     <string name="register"><u>Register</u></string>
     <string name="have_account"><i>If you have an account, </i></string>
     <string name="click_here"> <u>Click here!</u></string>
-    <string name="privacy_policy_statement"><i>I have read and agree to the,</i></string>
+    <string name="privacy_policy_statement"><i>I have read and agree to the, Terms and Conditions</i></string>
     <string name="your_string_here">This is an &lt;u>underline&lt;/u>.</string>
 
     <string name="action_search">Search</string>
@@ -124,6 +124,8 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="phone_hint">Enter your phone #</string>
     <string name="submit_text">Submit</string>
     <string name="continue_text">Continue</string>
+    
+    <string name="logo">Logo</string>
 
     <!--Fragment Order Detail-->
     <string name="image_text">Image</string>

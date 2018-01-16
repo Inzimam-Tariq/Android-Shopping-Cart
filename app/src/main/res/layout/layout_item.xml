@@ -27,7 +27,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/image_height"
                     android:scaleType="fitXY"
-                    android:src="@drawable/laptop_1" />
+                    android:src="@drawable/laptop_1"
+                    android:contentDescription="@string/image_text" />
 
                 <ProgressBar
                     android:id="@+id/progress_bar"

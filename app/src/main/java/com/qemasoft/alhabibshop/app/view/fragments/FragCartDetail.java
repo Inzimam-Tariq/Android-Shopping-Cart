@@ -84,6 +84,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
         useCoupon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
                 if (isChecked) {
                     createAndShowCustomAlertDialog();
                 }
@@ -104,7 +105,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
         AppConstants.setMidFixApi(midFix);
         String custId = Preferences.getSharedPreferenceString(appContext,
                 CUSTOMER_KEY, DEFAULT_STRING_VAL);
-            map.put("customer_id", custId);
+        map.put("customer_id", custId);
         if (midFix.contains("removeCart")) {
             map.put("cart_id", id);
         } else if (midFix.contains("updateCart")) {
@@ -122,7 +123,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
 //            if (!customerId.isEmpty())
 //                map.put("customer_id", customerId);
             utils.printLog("Inside Add Cart Working");
-        } else if (midFix.contains("cartProducts")){
+        } else if (midFix.contains("cartProducts")) {
             utils.printLog("Inside Show Cart Products, Working");
         }
         utils.printLog("Code Executing...");
@@ -137,6 +138,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
     }
 
     private void createAndShowCustomAlertDialog() {
+
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
 
         builder.setTitle("Apply Coupon");
@@ -153,7 +155,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
         builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                utils.showToast("" + input.getText());
+//                utils.showToast("" + input.getText());
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -167,6 +169,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
     }
 
     private void initViews(View view) {
+
         mRecyclerView = view.findViewById(R.id.cart_detail_recycler_view);
         scrollView = view.findViewById(R.id.scroll_view_horizontal);
         scrollLeftIV = view.findViewById(R.id.scroll_left_iv);
@@ -178,6 +181,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             JSONObject response = null;
@@ -185,7 +189,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
                 response = new JSONObject(data.getStringExtra("result"));
             } catch (JSONException e) {
                 e.printStackTrace();
-                utils.printLog("REsponseIs = "+ response.toString());
+                utils.printLog("REsponseIs = " + response.toString());
             }
             assert response != null;
             utils.printLog("RespInFragCartDetail", "" + response.toString());
@@ -202,7 +206,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
                         cartDetailList.add(new MyCartDetail(objectCP.optString("cart_id"),
                                 objectCP.optString("product_id"),
                                 objectCP.optString("image"),
-                                objectCP.optString("name") + " This is test text",
+                                objectCP.optString("name"),
                                 objectCP.optString("quantity"),
                                 objectCP.optString("price"),
                                 objectCP.optString("total")));
@@ -239,6 +243,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.scroll_left_iv:
                 scrollView.smoothScrollTo(0, mRecyclerView.getTop());

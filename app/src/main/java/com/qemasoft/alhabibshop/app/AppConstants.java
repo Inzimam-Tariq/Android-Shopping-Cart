@@ -65,7 +65,7 @@ public class AppConstants {
     public static final String LEFT = "left";
     public static final String TOP = "top";
     public static final String BOTTOM = "bottom";
-    //        private static final String BASE_URL = "http://www.opencartgulf.com/api/";
+//            private static final String BASE_URL = "http://www.opencartgulf.com/api/";
     private static final String BASE_URL = "https://www.alhabibshop.com/api/";
     //        private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";

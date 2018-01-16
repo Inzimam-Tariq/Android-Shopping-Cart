@@ -4,72 +4,77 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
+    
     <!--<android.support.v7.widget.CardView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:cardCornerRadius="0dp"-->
-        <!--app:cardElevation="0dp"-->
-        <!--app:cardUseCompatPadding="true">-->
-
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--app:cardCornerRadius="0dp"-->
+    <!--app:cardElevation="0dp"-->
+    <!--app:cardUseCompatPadding="true">-->
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/box_outline"
+        android:orientation="horizontal">
+        
+        <TextView
+            android:id="@+id/product_name_val_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:background="@drawable/box_outline"
+            android:lines="2"
+            android:padding="2dp"
+            android:text="@string/name_text" />
+        
+        <TextView
+            android:id="@+id/product_model_val_tv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:background="@drawable/box_outline"
+            android:lines="2"
+            android:padding="2dp"
+            android:text="model" />
+        
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/border"
-            android:orientation="horizontal">
-
+            android:layout_weight="0.2"
+            android:background="@drawable/box_outline"
+            android:gravity="center"
+            android:padding="2dp">
+            
             <TextView
-                android:id="@+id/product_name_val_tv"
-                android:layout_width="0dp"
+                android:id="@+id/product_qty_val_tv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:background="@drawable/box_outline"
-                android:padding="2dp"
-                android:text="@string/name_text" />
-
+                android:lines="2"
+                android:text="Q" />
+            
             <TextView
-                android:id="@+id/product_model_val_tv"
-                android:layout_width="0dp"
+                android:id="@+id/product_price_val_tv"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:background="@drawable/box_outline"
-                android:padding="2dp"
-                android:text="model" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:background="@drawable/box_outline"
-                android:gravity="center"
-                android:padding="2dp">
-
-                <TextView
-                    android:id="@+id/product_qty_val_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Q" />
-
-                <TextView
-                    android:id="@+id/product_price_val_tv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="P" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/total_val_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:background="@drawable/box_outline"
-                android:gravity="center"
-                android:padding="2dp"
-                android:text="@string/total_text" />
-
+                android:lines="2"
+                android:text="P" />
+        
         </LinearLayout>
-
+        
+        <TextView
+            android:id="@+id/total_val_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:background="@drawable/box_outline"
+            android:gravity="center"
+            android:lines="2"
+            android:padding="2dp"
+            android:text="@string/total_text" />
+    
+    </LinearLayout>
+    
     <!--</android.support.v7.widget.CardView>-->
 
 </LinearLayout>
