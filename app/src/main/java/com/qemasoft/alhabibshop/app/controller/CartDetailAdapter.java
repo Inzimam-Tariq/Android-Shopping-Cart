@@ -75,11 +75,11 @@ public class CartDetailAdapter extends RecyclerView.Adapter<CartDetailAdapter.My
             holder.productName.setText(data.getProductName());
             String symbol = Preferences.getSharedPreferenceString(context
                     , AppConstants.CURRENCY_SYMBOL_KEY, "$");
-            holder.productPrice.setText(data.getProductPrice().concat(" ").concat(symbol));
-            holder.total.setText(data.getTotal().concat(" ").concat(symbol));
+            holder.productPrice.setText(data.getProductPrice().concat("").concat(symbol));
+            holder.total.setText(data.getTotal().concat("").concat(symbol));
             if (isFromCheckout) {
                 holder.productModel.setText(data.getProductModel());
-                holder.productQty.setText(data.getOrderQty().concat(" x "));
+                holder.productQty.setText(data.getOrderQty().concat("x"));
             } else {
                 String imgPath = data.getProductImage();
                 utils.printLog("Product Image = " + imgPath);

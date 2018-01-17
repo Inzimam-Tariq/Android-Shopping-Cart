@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class SearchActivity extends AppCompatActivity {
@@ -22,6 +24,12 @@ public class SearchActivity extends AppCompatActivity {
     private Utils utils;
     private SearchView searchView;
     private ImageView exitBtn;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

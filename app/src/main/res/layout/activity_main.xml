@@ -54,7 +54,7 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
-        <include layout="@layout/nav_header_main_right" />
+        <include layout="@layout/nav_header_user" />
 
         <!-- List menu Right-->
         <ExpandableListView

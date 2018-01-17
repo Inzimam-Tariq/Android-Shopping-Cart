@@ -74,6 +74,15 @@ public class AppConstants {
     private static String HOME_EXTRA;
     private static String PRODUCT_EXTRA;
     private static String SLIDESHOW_EXTRA;
+    private static int clickCount;
+
+    public static int getClickCount() {
+        return clickCount;
+    }
+
+    public static void setClickCount(int clickCount) {
+        AppConstants.clickCount = clickCount;
+    }
 
     public static String findStringByName(String name) {
         Resources res = appContext.getResources();

@@ -87,18 +87,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView lblListHeader = groupView.findViewById(R.id.lblListHeader);
         lblListHeader.setText(menuCategory.getMenuCategoryName());
 //            lblListHeader.setTypeface(null, Typeface.BOLD);
-        ImageView imageView = groupView.findViewById(R.id.imageView);
+//        ImageView imageView = groupView.findViewById(R.id.imageView);
         ImageView expandCollapseImg = groupView.findViewById(R.id.expand_collapse_image);
-        if (isRight) {
-            imageView.setImageResource(userMenuIcons.get(groupPosition));
-        } else {
-            String imgPath = menuCategory.getMenuCategoryImage();
-            utils.printLog("Product Image = " + imgPath);
-            if (!imgPath.isEmpty()) {
-                Picasso.with(parent.getContext()).load(menuCategory.getMenuCategoryImage())
-                        .into(imageView);
-            }
-        }
+//        if (isRight) {
+//            imageView.setImageResource(userMenuIcons.get(groupPosition));
+//        } else {
+//            String imgPath = menuCategory.getMenuCategoryImage();
+//            utils.printLog("Product Image = " + imgPath);
+//            if (!imgPath.isEmpty()) {
+//                Picasso.with(parent.getContext()).load(menuCategory.getMenuCategoryImage())
+//                        .into(imageView);
+//            }
+//        }
 
         if (getChildrenCount(groupPosition) > 0) {
             expandCollapseImg.setImageResource(isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black);

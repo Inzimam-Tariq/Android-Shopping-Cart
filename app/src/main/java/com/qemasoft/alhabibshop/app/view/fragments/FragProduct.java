@@ -10,8 +10,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.R;
@@ -29,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.LEFT;
 import static com.qemasoft.alhabibshop.app.AppConstants.PRODUCT_REQUEST_CODE;
 
 
@@ -39,6 +42,7 @@ public class FragProduct extends MyBaseFragment {
 
     private ItemAdapter itemAdapter;
     private List<MyItem> myItemList;
+    private TextView filterTV, sortTV;
 
     public FragProduct() {
         // Required empty public constructor
@@ -60,12 +64,18 @@ public class FragProduct extends MyBaseFragment {
             utils.showErrorDialog("No Data to Show");
         }
 
+        utils.setCompoundDrawable(filterTV, LEFT, R.drawable.ic_filter_black);
+        utils.setCompoundDrawable(sortTV, LEFT, R.drawable.ic_sort_black);
+
         return view;
     }
 
     private void requestData(String id) {
 
-        String from = getArguments().getString("from", "");
+        String from;
+        if (getArguments() != null)
+            from = getArguments().getString("from", "");
+        else from = "";
         Bundle bundle = new Bundle();
         Intent intent = new Intent(getContext(), FetchData.class);
         Map<String, String> map = new HashMap<>();
@@ -89,7 +99,10 @@ public class FragProduct extends MyBaseFragment {
     }
 
     private void initViews(View view) {
-        mRecyclerView = view.findViewById(R.id.product_recycler_view);
+        mRecyclerView = view.findViewById(R.id.product_img_recycler_view);
+        filterTV = view.findViewById(R.id.filter_tv);
+        sortTV = view.findViewById(R.id.sort_tv);
+
     }
 
     @Override

@@ -103,13 +103,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
             if (!data.getItemPriceSpecial().isEmpty()) {
                 itemPriceSpecialTV.setVisibility(View.VISIBLE);
-                itemPriceSpecialTV.setText(data.getItemPriceFull().concat(" ").concat(symbol));
-                itemPriceTV.setText(data.getItemPriceSpecial().concat(" ").concat(symbol));
+                itemPriceSpecialTV.setText(data.getItemPriceFull().concat("").concat(symbol));
+                itemPriceTV.setText(data.getItemPriceSpecial().concat("").concat(symbol));
                 // set StrikeThrough to textView
                 itemPriceSpecialTV.setPaintFlags(itemPriceSpecialTV.getPaintFlags()
                         | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
-                itemPriceTV.setText(data.getItemPriceFull().concat(" ").concat(symbol));
+                itemPriceTV.setText(data.getItemPriceFull().concat("").concat(symbol));
             }
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {

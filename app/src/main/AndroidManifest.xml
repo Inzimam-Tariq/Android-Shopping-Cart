@@ -11,8 +11,9 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:largeHeap="true"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:name=".MyApp"
         android:roundIcon="@drawable/logo_trans"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -39,9 +40,10 @@
             android:name=".view.activities.FetchData"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomProgressActivityTheme"/>
-        <activity android:name=".view.activities.SearchActivity"
-            android:theme="@style/SearchBarTheme"/>
+            android:theme="@style/CustomProgressActivityTheme" />
+        <activity
+            android:name=".view.activities.SearchActivity"
+            android:theme="@style/SearchBarTheme" />
     </application>
 
 </manifest>

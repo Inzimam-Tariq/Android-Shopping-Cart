@@ -161,6 +161,7 @@
                                     android:layout_weight="0.3"
                                     android:background="@drawable/border"
                                     android:lines="2"
+                                    android:gravity="center"
                                     android:padding="1dp"
                                     android:text="@string/name_text" />
                                 
@@ -170,6 +171,7 @@
                                     android:layout_weight="0.3"
                                     android:background="@drawable/border"
                                     android:lines="2"
+                                    android:gravity="center"
                                     android:padding="2dp"
                                     android:text="@string/model_text" />
                                 

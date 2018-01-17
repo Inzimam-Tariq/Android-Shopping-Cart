@@ -6,21 +6,21 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
+import com.qemasoft.alhabibshop.app.controller.ProductImagePreviewAdapter;
 import com.qemasoft.alhabibshop.app.controller.ProductOptionsAdapter;
 import com.qemasoft.alhabibshop.app.model.Options;
 import com.qemasoft.alhabibshop.app.model.Product;
@@ -33,8 +33,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import me.relex.circleindicator.CircleIndicator;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
@@ -65,22 +63,19 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
             // Do whatever you wants to do with this data that is coming from your adapter
         }
     };
-    private ViewPager mPager;
-    private CircleIndicator indicator;
+
     private ProgressBar pb;
-    //    private List<Reviews> reviewsList;
+    private ImageView previewIV;
+
     private Product product;
     private TextView productTitleTV, productModelTV, manufacturerTV, productDescriptionTV,
             productPriceTV, productSpecialPriceTV, discountTV, percentDiscTV,
-            stockStatusTV, dateAddedTV, optionsTV;
-    //    writeReviewTV, postReviewTV, productQtyTV;
-    private Button addToCartBtn;// submitReviewBtn;
-    private RatingBar ratingBarOverall;//, ratingBarPost;
-    private RecyclerView mRecyclerViewOptions; //mRecyclerViewRating;
+            stockStatusTV, dateAddedTV, productDescTV;
+
+    private Button addToCartBtn;
+
+    private RecyclerView mRecyclerViewOptions;
     private LinearLayout brandLayout, specialPriceLayout, discountLayout, availableOptionsLayout;
-//    private EditText yourNameET, reviewCommentET;
-//    private TabHost tabHost;
-//    private ScrollView scrollView;
 
     public FragProductDetail() {
         // Required empty public constructor
@@ -111,41 +106,33 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
 
     private void initViews(View view) {
 
-//        scrollView = view.findViewById(R.id.sv);
+        pb = view.findViewById(R.id.progress_bar);
+        previewIV = view.findViewById(R.id.image_view);
 
-        mPager = view.findViewById(R.id.pager);
-        indicator = view.findViewById(R.id.indicator);
-        pb = view.findViewById(R.id.loading);
-
-        brandLayout = view.findViewById(R.id.brand_layout);
+//        brandLayout = view.findViewById(R.id.brand_layout);
         specialPriceLayout = view.findViewById(R.id.special_price_layout);
         discountLayout = view.findViewById(R.id.disc_layout);
 
-//        tabHost = view.findViewById(R.id.tabHost);
         productTitleTV = view.findViewById(R.id.product_title_val_tv);
         productModelTV = view.findViewById(R.id.product_model_val_tv);
-        manufacturerTV = view.findViewById(R.id.maker_company_tv);
+//        manufacturerTV = view.findViewById(R.id.maker_company_tv);
+        percentDiscTV = view.findViewById(R.id.product_disc_tv);
         productDescriptionTV = view.findViewById(R.id.product_desc_val_tv);
         productPriceTV = view.findViewById(R.id.product_price_val_tv);
         productSpecialPriceTV = view.findViewById(R.id.product_special_price_val_tv);
         discountTV = view.findViewById(R.id.product_disc_val_tv);
         percentDiscTV = view.findViewById(R.id.disc_percent_val_tv);
-//        ratingBarOverall = view.findViewById(R.id.ratingBar);
+
         stockStatusTV = view.findViewById(R.id.stock_status_val_tv);
-//        productQtyTV = view.findViewById(R.id.product_qty_tv);
+
         dateAddedTV = view.findViewById(R.id.added_date_val_tv);
         availableOptionsLayout = view.findViewById(R.id.options_available_layout);
 
         addToCartBtn = view.findViewById(R.id.add_to_cart_btn);
 
-//        mRecyclerViewRating = view.findViewById(R.id.author_recycler_view);
+        mRecyclerView = view.findViewById(R.id.product_img_recycler_view);
         mRecyclerViewOptions = view.findViewById(R.id.product_options_recycler_view);
-//        postReviewTV = view.findViewById(R.id.review_comment_tv);
-//        yourNameET = view.findViewById(R.id.name_et);
-//        reviewCommentET = view.findViewById(R.id.review_comment_et);
-//        ratingBarPost = view.findViewById(R.id.post_rating_bar);
-//
-//        submitReviewBtn = view.findViewById(R.id.submit_btn);
+
     }
 
     private void requestData(String id) {
@@ -185,17 +172,34 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                             , proObj.optString("review_total")
                     );
                     JSONArray slideShow = proObj.optJSONArray("slideshow");
-                    AppConstants.setSlideshowExtra(slideShow.toString());
-                    utils.setupSlider(mPager, indicator, pb, false, false);
-                    productTitleTV.setText(product.getName());
-                    if (!product.getManufacturer().isEmpty()) {
-                        brandLayout.setVisibility(View.VISIBLE);
-                        manufacturerTV.setText(product.getManufacturer());
+                    List<String> productImageSlides = new ArrayList<>();
+                    for (int j = 0; j < slideShow.length(); j++) {
+                        JSONObject img = slideShow.getJSONObject(j);
+
+                        productImageSlides.add(img.optString("image"));
                     }
-                    productModelTV.setText(product.getModel());
+                    if (!productImageSlides.isEmpty() && productImageSlides.size() > 0) {
+
+                        RecyclerView.LayoutManager mLayoutManager =
+                                new LinearLayoutManager(getActivity()
+                                        , LinearLayoutManager.HORIZONTAL, false);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setAdapter(
+                                new ProductImagePreviewAdapter(previewIV, pb, productImageSlides));
+                    }
+                    /// end
+
+                    productTitleTV.setText(product.getName());
+//                    if (!product.getManufacturer().isEmpty()) {
+//                        brandLayout.setVisibility(View.VISIBLE);
+//                        manufacturerTV.setText(product.getManufacturer());
+//                    }
+//                    productModelTV.setText(product.getModel());
+                    if (!product.getProductDescription().isEmpty())
+                        percentDiscTV.setVisibility(View.VISIBLE);
                     productDescriptionTV.setText(product.getProductDescription());
-                    productPriceTV.setText(product.getPrice().concat(" ").concat(symbol));
-                    productSpecialPriceTV.setText(product.getSpacialPrice().concat(" ").concat(symbol));
+                    productPriceTV.setText(product.getPrice().concat("").concat(symbol));
+                    productSpecialPriceTV.setText(product.getSpacialPrice().concat("").concat(symbol));
                     if (!product.getSpacialPrice().isEmpty()) {
                         specialPriceLayout.setVisibility(View.VISIBLE);
                         discountLayout.setVisibility(View.VISIBLE);
@@ -211,7 +215,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                                 .concat(findStringByName("disc")));
                     }
                     if (!product.getDiscPercent().isEmpty()) {
-                        percentDiscTV.setText(product.getDiscPercent().concat(" ").concat(symbol));
+                        percentDiscTV.setText(product.getDiscPercent().concat("").concat(symbol));
                     }
 
                     stockStatusTV.setText(product.getStockStatus());

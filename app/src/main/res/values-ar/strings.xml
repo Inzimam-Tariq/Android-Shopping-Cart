@@ -23,12 +23,12 @@
     <string name="nav_head_small_text">الحصول على كل شيء بأسعار مخفضة</string>
     <string name="forgot_pass"><u>هل نسيت كلمة المرور ؟</u></string>
     <string name="privacy_policy_text_u"><u>الخصوصية</u></string>
-    <string name="sign_up"><u><i>تسجيل حساب جديد</i></u></string>
+    <string name="sign_up"><u>تسجيل حساب جديد</u></string>
     <string name="do_not_have_account"><i>تسجيل جديد</i></string>
     <string name="register">تسجيل حساب جديد</string>
-    <string name="have_account"><i>تسجيل الدخول</i></string>
+    <string name="have_account">تسجيل الدخول</string>
     <string name="click_here"><u>انقر هنا!</u></string>
-    <string name="privacy_policy_statement"><i>لقد قرأت ووافقت على, شروط الاستخدام</i></string>
+    <string name="privacy_policy_statement">لقد قرأت ووافقت على, شروط الاستخدام</string>
     <string name="your_string_here">هذا <u>تسطير</u>.</string>
     <string name="action_search">بحث</string>
     <string name="forgot_pass_text">نسيت كلمة المرور</string>

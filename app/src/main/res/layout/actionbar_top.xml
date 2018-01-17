@@ -4,7 +4,7 @@
     android:id="@+id/appbar_top"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="?attr/colorPrimary"
+    android:background="?attr/colorPrimaryDark"
     android:orientation="vertical"
     android:theme="@style/AppTheme.SmallText"
     app:popupTheme="@style/AppTheme.PopupOverlay">
@@ -28,12 +28,19 @@
                 android:scaleX="-1"
                 app:srcCompat="@drawable/ic_list_black" />
 
-            <ImageView
-                android:id="@+id/logo_icon"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:contentDescription="@string/logo" />
+                android:layout_height="wrap_content"
+                android:text="@string/app_name"
+                android:textSize="18dp"
+                android:layout_centerInParent="true"/>
+
+            <!--<ImageView-->
+                <!--android:id="@+id/logo_icon"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:contentDescription="@string/logo" />-->
 
             <ImageView
                 android:id="@+id/drawer_icon_right"

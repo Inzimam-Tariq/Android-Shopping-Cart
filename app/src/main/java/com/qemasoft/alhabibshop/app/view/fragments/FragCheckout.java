@@ -410,8 +410,8 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         JSONObject object = cartTotals.optJSONObject(j);
                         totalsList.add(object.optString("text"));
                     }
-                    subTotalValTV.setText(totalsList.get(0));
-                    grandTotalValTV.setText(totalsList.get(1));
+                    subTotalValTV.setText(totalsList.get(0).concat("").concat(symbol));
+                    grandTotalValTV.setText(totalsList.get(1).concat("").concat(symbol));
 
                 } else if (requestCode == PLACE_ORDER_REQUEST_CODE) {
                     String message = response.optString("message");

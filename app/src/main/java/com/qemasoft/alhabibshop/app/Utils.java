@@ -63,6 +63,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import me.relex.circleindicator.CircleIndicator;
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
@@ -705,6 +706,20 @@ public class Utils {
     public int getSelectedRadioIndex(RadioGroup radioGroup) {
 
         return radioGroup.indexOfChild(radioGroup.findViewById(radioGroup.getCheckedRadioButtonId()));
+    }
+
+    public void ChangeFont(String type) {
+        if (type.equals("bold"))
+            CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                    .setDefaultFontPath("fonts/DroidKufi-Bold.ttf")
+                    .setFontAttrId(R.attr.fontPath)
+                    .build()
+            );
+        else CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/DroidKufi-Regular.ttf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        );
     }
 
     public interface ClickInterface {

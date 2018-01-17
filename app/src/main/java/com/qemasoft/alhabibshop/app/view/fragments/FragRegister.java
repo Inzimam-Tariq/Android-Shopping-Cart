@@ -45,7 +45,7 @@ public class FragRegister extends MyBaseFragment {
     private CheckBox termsCB;
     private Button registerBtn;
     private TextView titleTV, privacyPolicyTV, clickLoginTV;
-    private boolean asGuest;
+//    private boolean asGuest;
 
     public FragRegister() {
         // Required empty public constructor
@@ -59,7 +59,7 @@ public class FragRegister extends MyBaseFragment {
         initUtils();
         initViews(view);
 
-        guestCheck();
+//        guestCheck();
         rgNewsletter.check(R.id.rbNo);
         privacyPolicyTV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,14 +136,14 @@ public class FragRegister extends MyBaseFragment {
         return view;
     }
 
-    private void guestCheck() {
-
-        if (getArguments() != null)
-            asGuest = getArguments().getBoolean("asGuest", false);
-        if (asGuest) {
-            titleTV.setText(R.string.as_guest_text);
-        }
-    }
+//    private void guestCheck() {
+//
+//        if (getArguments() != null)
+//            asGuest = getArguments().getBoolean("asGuest", false);
+//        if (asGuest) {
+//            titleTV.setText(R.string.as_guest_text);
+//        }
+//    }
 
     private boolean privacyPolicyCheck() {
 

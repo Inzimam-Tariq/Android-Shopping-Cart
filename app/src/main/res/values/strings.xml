@@ -124,7 +124,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="phone_hint">Enter your phone #</string>
     <string name="submit_text">Submit</string>
     <string name="continue_text">Continue</string>
-    
+
     <string name="logo">Logo</string>
 
     <!--Fragment Order Detail-->
@@ -193,6 +193,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="checkout">Checkout</string>
     <string name="text_disc">Discount</string>
     <string name="disc">Discount</string>
+    <string name="title_activity_abc">AbcActivity</string>
 
 
 </resources>

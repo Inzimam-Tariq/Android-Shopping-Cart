@@ -60,6 +60,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
+
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_SYMBOL_KEY;
@@ -74,6 +76,8 @@ import static com.qemasoft.alhabibshop.app.AppConstants.SEARCH_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
+import static com.qemasoft.alhabibshop.app.AppConstants.getClickCount;
+import static com.qemasoft.alhabibshop.app.AppConstants.setClickCount;
 
 /**
  * Created by Inzimam Tariq on 18/10/2017.
@@ -108,13 +112,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         add(R.drawable.ic_info_outline_black);
     }};
     //   Toolbar stuff;
-    private ImageView drawerIconLeft, drawerIconRight, logoIcon, searchIcon;
+    private ImageView drawerIconLeft, drawerIconRight, searchIcon; // logoIcon;
     private RelativeLayout cartLayout;
     private Context context;
 
     private DrawerLayout drawer;
     private ActionBarDrawerToggle mDrawerToggle;
-    private ImageView closeRightDrawerIV, closeLeftDrawerIV;
+//    private ImageView closeRightDrawerIV, closeLeftDrawerIV;
 
     private Utils utils;
 
@@ -131,11 +135,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout leftDrawer, rightDrawer;
     private TextView myAccountTV, checkoutTV, discountTV, homeTV, discountedCategoryTV;
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         this.utils = new Utils(this);
+//        if (getClickCount() % 2 == 0)
+//            utils.ChangeFont("bold");
+//        else utils.ChangeFont("regular");
         utils.changeLanguage("en");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -187,8 +198,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         homeTV.setOnClickListener(this);
         searchIcon.setOnClickListener(this);
         cartLayout.setOnClickListener(this);
-        closeRightDrawerIV.setOnClickListener(this);
-        closeLeftDrawerIV.setOnClickListener(this);
+//        closeRightDrawerIV.setOnClickListener(this);
+//        closeLeftDrawerIV.setOnClickListener(this);
         discountedCategoryTV.setOnClickListener(this);
     }
 
@@ -200,10 +211,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         homeTV.setOnClickListener(null);
         searchIcon.setOnClickListener(null);
         cartLayout.setOnClickListener(null);
-        closeRightDrawerIV.setOnClickListener(null);
-        closeLeftDrawerIV.setOnClickListener(null);
+//        closeRightDrawerIV.setOnClickListener(null);
+//        closeLeftDrawerIV.setOnClickListener(null);
         discountedCategoryTV.setOnClickListener(null);
-        logoIcon.setOnClickListener(null);
+//        logoIcon.setOnClickListener(null);
         drawerIconLeft.setOnClickListener(null);
         drawerIconRight.setOnClickListener(null);
         listViewExpLeft.setOnClickListener(null);
@@ -344,22 +355,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
 
-        int width = getResources().getDisplayMetrics().widthPixels / 2 + 100;
-        DrawerLayout.LayoutParams paramsLeft = (android.support.v4.widget.DrawerLayout.LayoutParams) leftDrawer.getLayoutParams();
-        paramsLeft.width = width;
-        leftDrawer.setLayoutParams(paramsLeft);
-        DrawerLayout.LayoutParams paramsRight = (android.support.v4.widget.DrawerLayout.LayoutParams) rightDrawer.getLayoutParams();
-        paramsRight.width = width;
-        rightDrawer.setLayoutParams(paramsRight);
+//        int width = getResources().getDisplayMetrics().widthPixels / 2 + 100;
+//        DrawerLayout.LayoutParams paramsLeft = (android.support.v4.widget.DrawerLayout.LayoutParams) leftDrawer.getLayoutParams();
+//        paramsLeft.width = width;
+//        leftDrawer.setLayoutParams(paramsLeft);
+//        DrawerLayout.LayoutParams paramsRight = (android.support.v4.widget.DrawerLayout.LayoutParams) rightDrawer.getLayoutParams();
+//        paramsRight.width = width;
+//        rightDrawer.setLayoutParams(paramsRight);
 
         String imgPath = Preferences
                 .getSharedPreferenceString(appContext, LOGO_KEY, DEFAULT_STRING_VAL);
         utils.printLog("Product Image = " + imgPath);
-        if (!imgPath.isEmpty()) {
-            Picasso.with(getApplicationContext()).load(imgPath)
-                    .into(logoIcon);
-        }
-        logoIcon.setOnClickListener(this);
+//        if (!imgPath.isEmpty()) {
+//            Picasso.with(getApplicationContext()).load(imgPath)
+//                    .into(logoIcon);
+//        }
+//        logoIcon.setOnClickListener(this);
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         actionbarToggle();
@@ -395,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        toolbar = (Toolbar) findViewById(toolbar);
         drawerIconLeft = findViewById(R.id.drawer_icon_left);
         drawerIconRight = findViewById(R.id.drawer_icon_right);
-        logoIcon = findViewById(R.id.logo_icon);
+//        logoIcon = findViewById(R.id.logo_icon);
         searchIcon = findViewById(R.id.search_icon);
         cartLayout = findViewById(R.id.cart_layout);
         counterTV = findViewById(R.id.actionbar_notification_tv);
@@ -406,8 +417,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         leftDrawer = findViewById(R.id.menu_left);
         rightDrawer = findViewById(R.id.menu_right);
-        closeLeftDrawerIV = findViewById(R.id.close_left_drawer_iv);
-        closeRightDrawerIV = findViewById(R.id.close_right_drawer_iv);
+//        closeLeftDrawerIV = findViewById(R.id.close_left_drawer_iv);
+//        closeRightDrawerIV = findViewById(R.id.close_right_drawer_iv);
 
         appbarBottom = findViewById(R.id.appbar_bottom);
         appbarTop = findViewById(R.id.appbar_top);
@@ -674,15 +685,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         int id = v.getId();
 
-        if (id == R.id.logo_icon) {
-            utils.switchFragment(new MainFrag());
-            recreate();
-        } else if (id == R.id.close_right_drawer_iv) {
+//        if (id == R.id.logo_icon) {
+//            utils.switchFragment(new MainFrag());
+//            recreate();
+//        } else
+        if (id == R.id.close_right_drawer_iv) {
             drawer.closeDrawer(GravityCompat.END);
             drawer.closeDrawer(GravityCompat.START);
-        } else if (id == R.id.close_left_drawer_iv) {
-            drawer.closeDrawer(GravityCompat.END);
-            drawer.closeDrawer(GravityCompat.START);
+//        } else if (id == R.id.close_left_drawer_iv) {
+//            drawer.closeDrawer(GravityCompat.END);
+//            drawer.closeDrawer(GravityCompat.START);
         } else if (id == R.id.disc_category_tv) {
             Bundle bundle = new Bundle();
             bundle.putString("from", "mainActivity");
@@ -703,16 +715,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 AlertDialog alertDialog = utils.showAlertDialogReturnDialog("Continue As",
                         "Select the appropriate option");
-                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,
-                        "As Guest", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                Bundle bundle = new Bundle();
-                                bundle.putBoolean("asGuest", true);
-                                utils.switchFragment(new FragRegister(), bundle);
-                            }
-                        });
+//                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,
+//                        "As Guest", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//
+//                                Bundle bundle = new Bundle();
+//                                bundle.putBoolean("asGuest", true);
+//                                utils.switchFragment(new FragRegister(), bundle);
+//                            }
+//                        });
                 alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
                         "Login", new DialogInterface.OnClickListener() {
                             @Override
@@ -733,6 +745,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         } else if (id == R.id.home_tv) {
             utils.switchFragment(new MainFrag());
+            setClickCount(getClickCount() + 1);
             recreate();
             //            utils.switchFragment(new LoginMaterial());
         } else if (id == R.id.search_icon) {
