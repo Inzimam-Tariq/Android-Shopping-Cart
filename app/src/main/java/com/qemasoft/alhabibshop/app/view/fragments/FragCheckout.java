@@ -51,6 +51,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.RIGHT;
 import static com.qemasoft.alhabibshop.app.AppConstants.SHIPPING_METHOD_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 public class FragCheckout extends MyBaseFragment implements View.OnClickListener {
 
@@ -81,7 +82,10 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         initViews(view);
         initUtils();
 
-        String[] descriptionData = {"Delivery", "Shipping", "Payment", "Confirm"};
+        String[] descriptionData = {findStringByName("delivery_text"),
+                findStringByName("shipping_text"),
+                findStringByName("payment_text"),
+                findStringByName("confirm_text")};
         stateProgressBar.setStateDescriptionData(descriptionData);
         backBtn.setOnClickListener(this);
         selectDeliveryAddress.setOnClickListener(this);

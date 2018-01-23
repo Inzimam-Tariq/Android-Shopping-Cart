@@ -1,5 +1,7 @@
 package com.qemasoft.alhabibshop.app.model;
 
+import java.util.List;
+
 /**
  * Created by Inzimam on 17-Oct-17.
  */
@@ -21,6 +23,8 @@ public class MyCartDetail {
     private String couponDiscount;
     private String grandTotal;
 
+    private List<Options> optionsList;
+
     public MyCartDetail(String productId, String productName, String productModel, String orderQty,
                         String productPrice, String total) {
         this.productId = productId;
@@ -29,11 +33,12 @@ public class MyCartDetail {
         this.orderQty = orderQty;
         this.productModel = productModel;
         this.total = total;
+
     }
 
     public MyCartDetail(String cartId, String productId, String productImage,
                         String productName, String orderQty,
-                        String productPrice, String total) {
+                        String productPrice, String total, List<Options> optionsList) {
         this.cartId = cartId;
         this.productId = productId;
         this.productImage = productImage;
@@ -41,6 +46,7 @@ public class MyCartDetail {
         this.orderQty = orderQty;
         this.productPrice = productPrice;
         this.total = total;
+        this.optionsList = optionsList;
     }
 
     public String getCartId() {
@@ -109,5 +115,9 @@ public class MyCartDetail {
 
     public void setGrandTotal(String grandTotal) {
         this.grandTotal = grandTotal;
+    }
+
+    public List<Options> getOptionsList() {
+        return optionsList;
     }
 }

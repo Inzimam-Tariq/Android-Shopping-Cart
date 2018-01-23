@@ -12,6 +12,10 @@ public class Options {
     private String value;
     private String required;
 
+    public Options(String value) {
+        this.value = value;
+    }
+
     public Options(String productOptionId, List<ProductOptionValueItem> productOptionValueItemList,
                    String name, String optionId) {
         this.productOptionId = productOptionId;

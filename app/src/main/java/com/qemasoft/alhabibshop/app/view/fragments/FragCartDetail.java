@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.CartDetailAdapter;
 import com.qemasoft.alhabibshop.app.model.MyCartDetail;
+import com.qemasoft.alhabibshop.app.model.Options;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
 
 import org.json.JSONArray;
@@ -45,16 +47,14 @@ import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.optionsList;
 
 /**
- * Created by Inzimam on 24-Oct-17.
+ * Created by Inzimam Tariq on 24-Oct-17.
  */
 
-public class FragCartDetail extends MyBaseFragment implements View.OnClickListener {
+public class FragCartDetail extends MyBaseFragment {
 
     private CheckBox useCoupon;
     private CartDetailAdapter cartDetailAdapter;
     private Bundle bundle;
-    private ImageView scrollLeftIV, scrollRightIV;
-    private HorizontalScrollView scrollView;
     private TextView subTotalVal, grandTotalVal;
 
     public FragCartDetail() {
@@ -63,7 +63,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_cart, container, false);
@@ -79,8 +79,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
         } else {
             utils.showErrorDialog("No Data to Show");
         }
-        scrollLeftIV.setOnClickListener(this);
-        scrollRightIV.setOnClickListener(this);
+
         useCoupon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -103,9 +102,9 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
         String midFix = getArguments().getString("midFix", "");
         utils.printLog("MidFix = " + midFix);
         AppConstants.setMidFixApi(midFix);
-        String custId = Preferences.getSharedPreferenceString(appContext,
+        String customerId = Preferences.getSharedPreferenceString(appContext,
                 CUSTOMER_KEY, DEFAULT_STRING_VAL);
-        map.put("customer_id", custId);
+        map.put("customer_id", customerId);
         if (midFix.contains("removeCart")) {
             map.put("cart_id", id);
         } else if (midFix.contains("updateCart")) {
@@ -114,14 +113,11 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
         } else if (midFix.contains("addCart")) {
             utils.printLog("ProductId", "Id=" + id);
             map.put("product_id", id);
+            map.put("quantity", "1");
             for (int i = 0; i < optionsList.size(); i++) {
                 map.put("option[" + optionsList.get(i).getOptionValueId() + "]",
                         optionsList.get(i).getName());
             }
-//            String customerId = Preferences.getSharedPreferenceString(appContext,
-//                    CUSTOMER_KEY, DEFAULT_STRING_VAL);
-//            if (!customerId.isEmpty())
-//                map.put("customer_id", customerId);
             utils.printLog("Inside Add Cart Working");
         } else if (midFix.contains("cartProducts")) {
             utils.printLog("Inside Show Cart Products, Working");
@@ -171,9 +167,7 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
     private void initViews(View view) {
 
         mRecyclerView = view.findViewById(R.id.cart_detail_recycler_view);
-        scrollView = view.findViewById(R.id.scroll_view_horizontal);
-        scrollLeftIV = view.findViewById(R.id.scroll_left_iv);
-        scrollRightIV = view.findViewById(R.id.scroll_right_iv);
+
         useCoupon = view.findViewById(R.id.use_coupon_cb);
         subTotalVal = view.findViewById(R.id.sub_total_val_tv);
         grandTotalVal = view.findViewById(R.id.grand_total_val_tv);
@@ -189,9 +183,11 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
                 response = new JSONObject(data.getStringExtra("result"));
             } catch (JSONException e) {
                 e.printStackTrace();
-                utils.printLog("REsponseIs = " + response.toString());
+
+                utils.showErrorDialog(String.format("ResponseIs = %s", response.toString()));
+                utils.printLog("ResponseIs = " + response.toString());
             }
-            assert response != null;
+
             utils.printLog("RespInFragCartDetail", "" + response.toString());
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == ADD_TO_CART_REQUEST_CODE) {
@@ -202,14 +198,29 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
                         return;
                     }
                     for (int i = 0; i < cartProducts.length(); i++) {
+
                         JSONObject objectCP = cartProducts.optJSONObject(i);
+
+                        JSONArray selectedOptions = objectCP.optJSONArray("option");
+                        utils.printLog("ProductOptions = " + selectedOptions);
+                        List<Options> optionsList = new ArrayList<>();
+
+                        if (selectedOptions != null && selectedOptions.length() > 0)
+                            for (int j = 0; j < selectedOptions.length(); j++) {
+                                JSONObject objOptions = cartProducts.optJSONObject(j);
+                                optionsList.add(new Options(objOptions.optString("value")));
+                            }
+                        utils.printLog("OptionListInFrag = " + optionsList);
+
+
                         cartDetailList.add(new MyCartDetail(objectCP.optString("cart_id"),
                                 objectCP.optString("product_id"),
                                 objectCP.optString("image"),
                                 objectCP.optString("name"),
                                 objectCP.optString("quantity"),
                                 objectCP.optString("price"),
-                                objectCP.optString("total")));
+                                objectCP.optString("total")
+                                , optionsList));
                     }
 
                     cartDetailAdapter = new CartDetailAdapter(cartDetailList, false);
@@ -228,8 +239,8 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
                         JSONObject object0 = totals.optJSONObject(0);
                         JSONObject object1 = totals.optJSONObject(1);
 
-                        subTotalVal.setText(object0.optString("text"));
-                        grandTotalVal.setText(object1.optString("text"));
+                        subTotalVal.setText(object0.optString("text").concat("").concat(symbol));
+                        grandTotalVal.setText(object1.optString("text").concat("").concat(symbol));
                     }
 
                 }
@@ -241,16 +252,4 @@ public class FragCartDetail extends MyBaseFragment implements View.OnClickListen
         }
     }
 
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.scroll_left_iv:
-                scrollView.smoothScrollTo(0, mRecyclerView.getTop());
-                break;
-            case R.id.scroll_right_iv:
-                scrollView.smoothScrollTo(mRecyclerView.getRight(), mRecyclerView.getBottom());
-                break;
-        }
-    }
 }

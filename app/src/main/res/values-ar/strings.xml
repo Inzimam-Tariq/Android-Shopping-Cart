@@ -51,6 +51,11 @@
     <string name="next_text">متابعة</string>
     <string name="back_text">رجوع</string>
     <string name="confirm_text">تأكيد الطلب</string>
+
+    <string name="delivery_text">التوصيل</string>
+    <string name="shipping_text">الشحن</string>
+    <string name="payment_text">الدفع</string>
+
     <!--Fragment Categories -->
     <string name="browse_by_category_text">تسوق جميع الأقسام</string>
     <string name="user_menu_text">قائمة المستخدم</string>
@@ -112,6 +117,8 @@
     <string name="phone_hint">أدخل هاتفك</string>
     <string name="submit_text">أرسل</string>
     <string name="continue_text">متابعة</string>
+
+    <string name="description_text">وصف</string>
 
     <!--Fragment Order Detail-->
     <string name="image_text">صورة</string>
