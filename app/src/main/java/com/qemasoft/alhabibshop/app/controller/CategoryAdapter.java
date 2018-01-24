@@ -35,9 +35,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
 
     public CategoryAdapter(List<MyCategory> dataList) {
         this.dataList = dataList;
-//        this.isPlainCategory = isPlainCategory;
-//        Log.e("Constructor", "Working");
-//        Log.e("Constructor", "DataList Size = " + dataList.size());
     }
 
     @Override
@@ -111,9 +108,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             int screenWidth = Utils.getScreenWidth(context);
             if (screenWidth <= 250) {
                 itemToShow = 1;
-            } else if (screenWidth > 480 && screenWidth <= 900) {
+            } else if (screenWidth > 480 && screenWidth <= 1000) {
                 itemToShow = 3;
-            } else if (screenWidth > 900) {
+            } else if (screenWidth > 1000) {
                 itemToShow = 4;
             }
             customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(

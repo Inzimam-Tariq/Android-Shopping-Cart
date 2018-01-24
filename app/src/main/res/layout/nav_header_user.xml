@@ -10,10 +10,10 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/profile_pic" />
+    <!--<de.hdodenhof.circleimageview.CircleImageView-->
+        <!--android:layout_width="100dp"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:src="@drawable/profile_pic" />-->
 
     <LinearLayout
         android:layout_width="0dp"
@@ -28,14 +28,14 @@
             android:layout_height="wrap_content"
             android:text="Inzimam Tariq"
             android:textColor="@color/colorPrimary"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-        <TextView
-            android:id="@+id/email_et"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:text="inzi769@gmail.com" />
+        <!--<TextView-->
+            <!--android:id="@+id/email_et"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textColor="@color/colorPrimary"-->
+            <!--android:text="inzi769@gmail.com" />-->
 
     </LinearLayout>
 

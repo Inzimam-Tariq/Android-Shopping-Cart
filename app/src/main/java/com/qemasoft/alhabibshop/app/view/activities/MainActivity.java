@@ -133,7 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private RelativeLayout appbarTop, appbarBottom;
     private LinearLayout leftDrawer, rightDrawer;
-    private TextView myAccountTV, checkoutTV, discountTV, homeTV, discountedCategoryTV;
+    private ImageView myAccountTV, checkoutTV, discountTV, homeTV;
+    private TextView discountedCategoryTV;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -155,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupToolbar(this);
         checkForUniqueId();
         utils.switchFragment(new MainFrag());
-        setCompoundDrawable();
+//        setCompoundDrawable();
         setOnClickListener();
 
         initRightMenuData();
@@ -671,14 +672,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawer.closeDrawer(GravityCompat.END);
     }
 
-    private void setCompoundDrawable() {
-
-        utils.setCompoundDrawable(myAccountTV, "top", R.drawable.ic_person_black);
-        utils.setCompoundDrawable(checkoutTV, "top", R.drawable.ic_shopping_cart_black);
-        utils.setCompoundDrawable(discountTV, "top", R.drawable.ic_tag_black);
-        utils.setCompoundDrawable(homeTV, "top", R.drawable.ic_home_black);
-
-    }
+//    private void setCompoundDrawable() {
+//
+//        utils.setCompoundDrawable(myAccountTV, "top", R.drawable.ic_person_black);
+//        utils.setCompoundDrawable(checkoutTV, "top", R.drawable.ic_shopping_cart_black);
+//        utils.setCompoundDrawable(discountTV, "top", R.drawable.ic_tag_black);
+//        utils.setCompoundDrawable(homeTV, "top", R.drawable.ic_home_black);
+//
+//    }
 
     @Override
     public void onClick(View v) {

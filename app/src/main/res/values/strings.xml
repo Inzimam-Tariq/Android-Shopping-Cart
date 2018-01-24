@@ -107,6 +107,10 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="review_counter_text">0 Reviews / Write a Review</string>
     <string name="rating_text">Rating</string>
 
+
+    <string name="filter_text">Filter</string>
+    <string name="sort_text">Sort</string>
+
     <!--Misc...-->
     <string name="contact_us_text">Contact Us</string>
     <string name="about_us_text">About Us</string>

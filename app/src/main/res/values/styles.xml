@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:typeface"></item>-->
         <item name="android:textColor">@color/textColorTitle</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -17,7 +17,7 @@
     </style>
 
     <style name="AppTheme.SmallText">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <style name="NavigationDrawerStyle">
@@ -84,7 +84,6 @@
         <item name="android:maxLines">1</item>
         <item name="android:textSize">16sp</item>
         <item name="android:inputType">text</item>
-        <item name="android:typeface">monospace</item>
 
     </style>
 
@@ -123,7 +122,7 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginBottom">10dp</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 

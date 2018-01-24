@@ -13,7 +13,7 @@
             android:title="Men" />
         <item
             android:id="@+id/nav_child"
-            android:icon="@drawable/ic_child_black"
+            android:icon="@drawable/ic_delete_forever"
             android:title="Baby &amp; Kids" />
         <item
             android:id="@+id/nav_sports"

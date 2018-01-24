@@ -51,17 +51,17 @@ import static com.qemasoft.alhabibshop.app.AppConstants.optionsList;
  */
 
 public class FragCartDetail extends MyBaseFragment {
-
+    
     private CheckBox useCoupon;
     private CartDetailAdapter cartDetailAdapter;
     private Bundle bundle;
     private TextView subTotalVal, grandTotalVal;
-
+    
     public FragCartDetail() {
         // Required empty public constructor
     }
-
-
+    
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,8 +69,8 @@ public class FragCartDetail extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_cart, container, false);
         initViews(view);
         initUtils();
-
-
+        
+        
         bundle = getArguments();
         if (bundle != null) {
             String id = getArguments().getString("id");
@@ -79,23 +79,23 @@ public class FragCartDetail extends MyBaseFragment {
         } else {
             utils.showErrorDialog("No Data to Show");
         }
-
+        
         useCoupon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                
                 if (isChecked) {
                     createAndShowCustomAlertDialog();
                 }
             }
         });
-
-
+        
+        
         return view;
     }
-
+    
     private void requestData(String id) {
-
+        
         Map<String, String> map = new HashMap<>();
         map.put("session_id", Preferences.getSharedPreferenceString(appContext
                 , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
@@ -113,14 +113,13 @@ public class FragCartDetail extends MyBaseFragment {
         } else if (midFix.contains("addCart")) {
             utils.printLog("ProductId", "Id=" + id);
             map.put("product_id", id);
-            map.put("quantity", "1");
             for (int i = 0; i < optionsList.size(); i++) {
                 map.put("option[" + optionsList.get(i).getOptionValueId() + "]",
                         optionsList.get(i).getName());
             }
             utils.printLog("Inside Add Cart Working");
         } else if (midFix.contains("cartProducts")) {
-            utils.printLog("Inside Show Cart Products, Working");
+            utils.printLog("Inside Show Cart Products, Working Do Nothing Extra!");
         }
         utils.printLog("Code Executing...");
         bundle.putBoolean("hasParameters", true);
@@ -132,11 +131,11 @@ public class FragCartDetail extends MyBaseFragment {
         optionsList.clear();
         utils.printLog("OptionsListSize", "size = " + optionsList.size());
     }
-
+    
     private void createAndShowCustomAlertDialog() {
-
+        
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
-
+        
         builder.setTitle("Apply Coupon");
         builder.setCancelable(true);
         final EditText input = new EditText(getContext());
@@ -157,25 +156,25 @@ public class FragCartDetail extends MyBaseFragment {
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+            
             }
         });
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
+    
     private void initViews(View view) {
-
+        
         mRecyclerView = view.findViewById(R.id.cart_detail_recycler_view);
-
+        
         useCoupon = view.findViewById(R.id.use_coupon_cb);
         subTotalVal = view.findViewById(R.id.sub_total_val_tv);
         grandTotalVal = view.findViewById(R.id.grand_total_val_tv);
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             JSONObject response = null;
@@ -183,14 +182,19 @@ public class FragCartDetail extends MyBaseFragment {
                 response = new JSONObject(data.getStringExtra("result"));
             } catch (JSONException e) {
                 e.printStackTrace();
-
+                
                 utils.showErrorDialog(String.format("ResponseIs = %s", response.toString()));
                 utils.printLog("ResponseIs = " + response.toString());
             }
-
-            utils.printLog("RespInFragCartDetail", "" + response.toString());
+            
+            utils.printLog("ResponseStep1!", "" + response.toString());
+            utils.printLog("RespInFragCD", "" + response.toString());
+            utils.printLog("ResponseStep2!" + response.toString());
             if (resultCode == Activity.RESULT_OK) {
+                utils.printLog("ResponseStep3!" + response.toString());
                 if (requestCode == ADD_TO_CART_REQUEST_CODE) {
+                    utils.printLog("ResponseStep4!", response.toString());
+                    utils.showAlertDialog("ResponseResultOK!", response.toString());
                     JSONArray cartProducts = response.optJSONArray("cartProducts");
                     List<MyCartDetail> cartDetailList = new ArrayList<>();
                     if (cartProducts == null || cartProducts.toString().isEmpty()) {
@@ -198,21 +202,21 @@ public class FragCartDetail extends MyBaseFragment {
                         return;
                     }
                     for (int i = 0; i < cartProducts.length(); i++) {
-
+                        
                         JSONObject objectCP = cartProducts.optJSONObject(i);
-
+                        
                         JSONArray selectedOptions = objectCP.optJSONArray("option");
                         utils.printLog("ProductOptions = " + selectedOptions);
                         List<Options> optionsList = new ArrayList<>();
-
+                        
                         if (selectedOptions != null && selectedOptions.length() > 0)
                             for (int j = 0; j < selectedOptions.length(); j++) {
                                 JSONObject objOptions = cartProducts.optJSONObject(j);
                                 optionsList.add(new Options(objOptions.optString("value")));
                             }
                         utils.printLog("OptionListInFrag = " + optionsList);
-
-
+                        
+                        
                         cartDetailList.add(new MyCartDetail(objectCP.optString("cart_id"),
                                 objectCP.optString("product_id"),
                                 objectCP.optString("image"),
@@ -222,7 +226,7 @@ public class FragCartDetail extends MyBaseFragment {
                                 objectCP.optString("total")
                                 , optionsList));
                     }
-
+                    
                     cartDetailAdapter = new CartDetailAdapter(cartDetailList, false);
                     RecyclerView.LayoutManager mLayoutManager =
                             new LinearLayoutManager(context
@@ -232,24 +236,27 @@ public class FragCartDetail extends MyBaseFragment {
                     utils.printLog("Setting Adapter For Cart Items");
                     mRecyclerView.setAdapter(cartDetailAdapter);
                     utils.printLog("Adapter Set Success");
-
+                    
                     JSONArray totals = response.optJSONArray("totals");
-
+                    
                     if (totals != null && !totals.toString().isEmpty()) {
                         JSONObject object0 = totals.optJSONObject(0);
                         JSONObject object1 = totals.optJSONObject(1);
-
+                        
                         subTotalVal.setText(object0.optString("text").concat("").concat(symbol));
                         grandTotalVal.setText(object1.optString("text").concat("").concat(symbol));
                     }
-
+                    
+                } else {
+                    utils.showAlertDialog("ResponseOtherCode!", response.toString());
                 }
             } else if (resultCode == FORCED_CANCEL) {
-                utils.showErrorDialog("" + response.optString("message"));
+                utils.showErrorDialog("Response!"
+                        + response.optString("message"));
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 utils.showErrorDialog("Error Getting Data From Server!");
             }
         }
     }
-
+    
 }

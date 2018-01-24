@@ -152,26 +152,23 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //            vh2.getTitle().setText(promotion.getId());
             String imgPath = promotion.getImage();
             utils.printLog("ImagePath", "" + imgPath);
-            if (!(imgPath != null && imgPath.isEmpty()))
+            if (imgPath != null && imgPath.isEmpty())
 //                Picasso.with(context).load(imgPath).into(vh2.getImageView());
-            Picasso.with(context)
-                    .load(imgPath)
-                    .noFade()
-                    .into(vh2.getImageView(), new Callback() {
-                        @Override
-                        public void onSuccess() {
+                Picasso.with(context)
+                        .load(imgPath)
+                        .noFade()
+                        .into(vh2.getImageView(), new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                vh2.getProgressBar().setVisibility(View.GONE);
+                            }
 
-                            vh2.getProgressBar().setVisibility(View.GONE);
-
-                        }
-
-                        @Override
-                        public void onError() {
-
-                            vh2.getProgressBar().setVisibility(View.GONE);
-                            vh2.getImageView().setImageResource(R.drawable.ic_close_black);
-                        }
-                    });
+                            @Override
+                            public void onError() {
+                                vh2.getProgressBar().setVisibility(View.GONE);
+                                vh2.getImageView().setImageResource(R.drawable.ic_close_black);
+                            }
+                        });
         }
         vh2.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

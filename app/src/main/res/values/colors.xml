@@ -8,7 +8,7 @@
 
     <color name="colorAccent1">#C75405</color>
     <color name="textColorPrice">#C8581A</color>
-    <color name="colorAccent2">#949390</color>
+    <color name="iconColor">#949390</color>
     <color name="textColorStrike">#999999</color>
     <color name="colorAccent3">#565757</color>
 
