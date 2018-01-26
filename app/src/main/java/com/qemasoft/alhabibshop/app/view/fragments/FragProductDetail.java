@@ -26,6 +26,8 @@ import com.qemasoft.alhabibshop.app.model.Options;
 import com.qemasoft.alhabibshop.app.model.Product;
 import com.qemasoft.alhabibshop.app.model.ProductOptionValueItem;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +47,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
  * A simple {@link Fragment} subclass.
  */
 public class FragProductDetail extends MyBaseFragment implements View.OnClickListener {
-
+    
     private List<Options> optionsList;
     ProductOptionsAdapter.ProductOptionsAdapterInterface adapterInterface
             = new ProductOptionsAdapter.ProductOptionsAdapterInterface() {
@@ -63,24 +65,24 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
             // Do whatever you wants to do with this data that is coming from your adapter
         }
     };
-
+    
     private ProgressBar pb;
     private ImageView previewIV;
-
+    
     private Product product;
     private TextView productTitleTV, productModelTV, manufacturerTV, productDescriptionTV,
             productPriceTV, productSpecialPriceTV, discountTV, percentDiscTV,
             stockStatusTV, dateAddedTV, productDescTV;
-
+    
     private Button addToCartBtn;
-
+    
     private RecyclerView mRecyclerViewOptions;
     private LinearLayout brandLayout, specialPriceLayout, discountLayout, availableOptionsLayout;
-
+    
     public FragProductDetail() {
         // Required empty public constructor
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,8 +90,8 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         View view = inflater.inflate(R.layout.frag_product_detail, container, false);
         initViews(view);
         initUtils();
-
-
+        
+        
         Bundle bundle = getArguments();
         if (bundle != null) {
             String id = getArguments().getString("id");
@@ -97,24 +99,24 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         } else {
             utils.showErrorDialog("No Data to Show");
         }
-
+        
         addToCartBtn.setOnClickListener(this);
-
-
+        
+        
         return view;
     }
-
+    
     private void initViews(View view) {
-
+        
         pb = view.findViewById(R.id.progress_bar);
         previewIV = view.findViewById(R.id.image_view);
 
 //        brandLayout = view.findViewById(R.id.brand_layout);
         specialPriceLayout = view.findViewById(R.id.special_price_layout);
         discountLayout = view.findViewById(R.id.disc_layout);
-
+        
         productTitleTV = view.findViewById(R.id.product_title_val_tv);
-        productModelTV = view.findViewById(R.id.product_model_val_tv);
+//        productModelTV = view.findViewById(R.id.product_model_val_tv);
 //        manufacturerTV = view.findViewById(R.id.maker_company_tv);
         percentDiscTV = view.findViewById(R.id.product_disc_tv);
         productDescriptionTV = view.findViewById(R.id.product_desc_val_tv);
@@ -122,40 +124,40 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         productSpecialPriceTV = view.findViewById(R.id.product_special_price_val_tv);
         discountTV = view.findViewById(R.id.product_disc_val_tv);
         percentDiscTV = view.findViewById(R.id.disc_percent_val_tv);
-
+        
         stockStatusTV = view.findViewById(R.id.stock_status_val_tv);
-
+        
         dateAddedTV = view.findViewById(R.id.added_date_val_tv);
         availableOptionsLayout = view.findViewById(R.id.options_available_layout);
-
+        
         addToCartBtn = view.findViewById(R.id.add_to_cart_btn);
-
+        
         mRecyclerView = view.findViewById(R.id.product_img_recycler_view);
         mRecyclerViewOptions = view.findViewById(R.id.product_options_recycler_view);
-
+        
     }
-
+    
     private void requestData(String id) {
-
+        
         AppConstants.setMidFixApi("getProduct/product_id/" + id);
-
+        
         Bundle bundle = new Bundle();
         Intent intent = new Intent(getContext(), FetchData.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, PRODUCT_DETAIL_REQUEST_CODE);
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == PRODUCT_DETAIL_REQUEST_CODE) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
                     utils.printLog("ResponseInFragProDetail", response.toString());
                     JSONObject proObj = response.optJSONObject("product");
-
+                    
                     product = new Product(proObj.optString("id")
                             , proObj.optString("name")
                             , proObj.optString("model")
@@ -171,30 +173,45 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                             , proObj.optString("rating")
                             , proObj.optString("review_total")
                     );
-                    JSONArray slideShow = proObj.optJSONArray("slideshow");
-                    List<String> productImageSlides = new ArrayList<>();
-                    for (int j = 0; j < slideShow.length(); j++) {
-                        JSONObject img = slideShow.getJSONObject(j);
-
-                        productImageSlides.add(img.optString("image"));
-                    }
-                    if (!productImageSlides.isEmpty() && productImageSlides.size() > 0) {
-
+                    
+                    JSONArray images = proObj.optJSONArray("images");
+                    List<String> productImages = new ArrayList<>();
+                    if (images != null)
+                        for (int j = 0; j < images.length(); j++) {
+                            JSONObject img = images.getJSONObject(j);
+                            productImages.add(img.optString("image"));
+                        }
+                    if (!productImages.isEmpty() && productImages.size() > 1) {
+                        
                         RecyclerView.LayoutManager mLayoutManager =
                                 new LinearLayoutManager(getActivity()
                                         , LinearLayoutManager.HORIZONTAL, false);
                         mRecyclerView.setLayoutManager(mLayoutManager);
                         mRecyclerView.setAdapter(
-                                new ProductImagePreviewAdapter(previewIV, pb, productImageSlides));
+                                new ProductImagePreviewAdapter(previewIV, pb, productImages));
+                    } else {
+                        mRecyclerView.setVisibility(View.GONE);
+                        String imgPath = proObj.optString("image");
+                        if (!imgPath.isEmpty())
+                            Picasso.with(context)
+                                    .load(imgPath)
+                                    .noFade()
+                                    .into(previewIV, new Callback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            pb.setVisibility(View.GONE);
+                                        }
+                                        
+                                        @Override
+                                        public void onError() {
+                                            pb.setVisibility(View.GONE);
+                                            previewIV.setImageResource(R.drawable.ic_close_black);
+                                        }
+                                    });
                     }
                     /// end
-
+                    
                     productTitleTV.setText(product.getName());
-//                    if (!product.getManufacturer().isEmpty()) {
-//                        brandLayout.setVisibility(View.VISIBLE);
-//                        manufacturerTV.setText(product.getManufacturer());
-//                    }
-//                    productModelTV.setText(product.getModel());
                     if (!product.getProductDescription().isEmpty())
                         percentDiscTV.setVisibility(View.VISIBLE);
                     productDescriptionTV.setText(product.getProductDescription());
@@ -217,11 +234,11 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                     if (!product.getDiscPercent().isEmpty()) {
                         percentDiscTV.setText(product.getDiscPercent().concat("").concat(symbol));
                     }
-
+                    
                     stockStatusTV.setText(product.getStockStatus());
 //                    productQtyTV.setText(product.getQuantity());
                     dateAddedTV.setText(product.getDateAdded());
-
+                    
                     JSONArray optionsArray = proObj.optJSONArray("options");
                     optionsList = new ArrayList<>();
                     for (int j = 0; j < optionsArray.length(); j++) {
@@ -250,26 +267,26 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                         mRecyclerViewOptions.setAdapter(
                                 new ProductOptionsAdapter(optionsList, adapterInterface));
                     }
-
+                    
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+                
             }
         } else if (resultCode == FORCED_CANCEL) {
             utils.showToast("Request Cancelled by User");
         } else if (resultCode == Activity.RESULT_CANCELED) {
             utils.showErrorDialog("Error Getting Data From Server!");
         }
-
-
+        
+        
     }
-
+    
     @Override
     public void onClick(View v) {
-
+        
         switch (v.getId()) {
-
+            
             case R.id.add_to_cart_btn:
                 TextView itemCountTV = getActivity().findViewById(R.id.actionbar_notification_tv);
                 int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);

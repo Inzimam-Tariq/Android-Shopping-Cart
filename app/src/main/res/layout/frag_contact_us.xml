@@ -25,6 +25,7 @@
                 android:padding="20dp">
 
                 <TextView
+                    style="@style/HeadingStyleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -43,7 +44,7 @@
 
                     <EditText
                         android:id="@+id/name_et"
-                        style="@style/MaterialEditText.PersonName"
+                        style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/your_name_hint"
@@ -59,7 +60,7 @@
 
                     <EditText
                         android:id="@+id/email_et"
-                        style="@style/MaterialEditText.Email"
+                        style="@style/AppTheme.MaterialEditText.Email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email_hint"
@@ -74,7 +75,7 @@
 
                     <EditText
                         android:id="@+id/phone_et"
-                        style="@style/MaterialEditText.Phone"
+                        style="@style/AppTheme.MaterialEditText.Phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/phone_hint"
@@ -89,7 +90,7 @@
 
                     <EditText
                         android:id="@+id/inquiry_et"
-                        style="@style/MaterialEditText.Phone"
+                        style="@style/AppTheme.MaterialEditText.Phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"

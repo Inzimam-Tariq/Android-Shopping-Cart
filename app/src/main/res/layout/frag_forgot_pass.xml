@@ -25,6 +25,7 @@
                 android:padding="20dp">
 
                 <TextView
+                    style="@style/HeadingStyleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -44,7 +45,7 @@
 
                     <EditText
                         android:id="@+id/email_et"
-                        style="@style/MaterialEditText.Email"
+                        style="@style/AppTheme.MaterialEditText.Email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email_hint"

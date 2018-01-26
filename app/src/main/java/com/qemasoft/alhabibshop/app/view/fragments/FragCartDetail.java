@@ -188,13 +188,13 @@ public class FragCartDetail extends MyBaseFragment {
             }
             
             utils.printLog("ResponseStep1!", "" + response.toString());
-            utils.printLog("RespInFragCD", "" + response.toString());
+            utils.printLog("RespInFragCDabcd", "" + response.toString());
             utils.printLog("ResponseStep2!" + response.toString());
             if (resultCode == Activity.RESULT_OK) {
                 utils.printLog("ResponseStep3!" + response.toString());
                 if (requestCode == ADD_TO_CART_REQUEST_CODE) {
                     utils.printLog("ResponseStep4!", response.toString());
-                    utils.showAlertDialog("ResponseResultOK!", response.toString());
+//                    utils.showAlertDialog("ResponseResultOK!", response.toString());
                     JSONArray cartProducts = response.optJSONArray("cartProducts");
                     List<MyCartDetail> cartDetailList = new ArrayList<>();
                     if (cartProducts == null || cartProducts.toString().isEmpty()) {
@@ -206,15 +206,15 @@ public class FragCartDetail extends MyBaseFragment {
                         JSONObject objectCP = cartProducts.optJSONObject(i);
                         
                         JSONArray selectedOptions = objectCP.optJSONArray("option");
-                        utils.printLog("ProductOptions = " + selectedOptions);
+                        utils.printLog("ProductOptionsRaw = " + selectedOptions);
                         List<Options> optionsList = new ArrayList<>();
                         
                         if (selectedOptions != null && selectedOptions.length() > 0)
                             for (int j = 0; j < selectedOptions.length(); j++) {
-                                JSONObject objOptions = cartProducts.optJSONObject(j);
+                                JSONObject objOptions = selectedOptions.optJSONObject(j);
                                 optionsList.add(new Options(objOptions.optString("value")));
                             }
-                        utils.printLog("OptionListInFrag = " + optionsList);
+                        utils.printLog("OptionListInFragCart = " + optionsList.toString());
                         
                         
                         cartDetailList.add(new MyCartDetail(objectCP.optString("cart_id"),

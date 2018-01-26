@@ -6,16 +6,16 @@
     android:orientation="vertical"
     android:padding="10dp"
     tools:context="com.qemasoft.alhabibshop.app.view.fragments.FragCheckout">
-    
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            
+
             <com.kofigyan.stateprogressbar.StateProgressBar
                 android:id="@+id/state_progress_bar"
                 android:layout_width="match_parent"
@@ -32,18 +32,18 @@
                 app:spb_stateForegroundColor="@color/colorAccent"
                 app:spb_stateNumberBackgroundColor="#808080"
                 app:spb_stateNumberForegroundColor="#eeeeee" />
-            
+
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_horizontal_margin">
-                
+
                 <LinearLayout
                     android:id="@+id/step1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="visible">
-                    
+
                     <Button
                         android:id="@+id/select_delivery_address_btn"
                         style="@style/CustomDropDownStyle"
@@ -52,52 +52,52 @@
                         android:drawableRight="@drawable/ic_menu_more"
                         android:hint="@string/please_select_text" />
                 </LinearLayout>
-                
+
                 <LinearLayout
                     android:id="@+id/step2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
-                    
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/preferred_shipping_method_text" />
-                    
+
                     <RadioGroup
                         android:id="@+id/rg_shipping_method"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-                
+
                 </LinearLayout>
-                
+
                 <LinearLayout
                     android:id="@+id/step3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
-                    
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/preferred_payment_method_text" />
-                    
+
                     <RadioGroup
                         android:id="@+id/rg_payment_method"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
-                    
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/activity_horizontal_margin"
                         android:text="@string/comment_about_order_text" />
-                    
+
                     <EditText
                         android:id="@+id/order_comment_et"
-                        style="@style/CustomETStyle"
+                        style="@style/AppTheme.MaterialEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -108,115 +108,81 @@
                         android:maxLines="10"
                         android:minLines="6"
                         android:scrollbars="vertical" />
-                    
-                    <TextView
+
+                    <com.google.android.flexbox.FlexboxLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/terms_text"
-                        android:textColor="@android:color/holo_blue_dark" />
-                    
-                    <CheckBox
-                        android:id="@+id/terms_cb"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/privacy_policy_statement" />
+                        app:flexWrap="wrap">
+
+                        <CheckBox
+                            android:id="@+id/terms_cb"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/privacy_policy_statement"
+                            android:textStyle="normal" />
+
+                        <TextView
+                            android:id="@+id/terms_tv"
+                            style="@style/LinkTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginStart="5dp"
+                            android:gravity="center"
+                            android:text="@string/terms_text" />
+
+
+                    </com.google.android.flexbox.FlexboxLayout>
+
                 </LinearLayout>
-                
+
                 <LinearLayout
                     android:id="@+id/step4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone">
-                    
+
                     <android.support.v7.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:cardCornerRadius="0dp"
                         app:cardElevation="1dp"
                         app:cardUseCompatPadding="true">
-                        
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:orientation="vertical"
                             android:padding="3dp">
-                            
+
                             <TextView
+                                style="@style/HeadingStyleTextView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
                                 android:text="@string/confirm_order_text" />
-                            
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/border"
-                                android:orientation="horizontal">
-                                
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="0.3"
-                                    android:background="@drawable/border"
-                                    android:lines="2"
-                                    android:gravity="center"
-                                    android:padding="1dp"
-                                    android:text="@string/name_text" />
-                                
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="0.3"
-                                    android:background="@drawable/border"
-                                    android:lines="2"
-                                    android:gravity="center"
-                                    android:padding="2dp"
-                                    android:text="@string/model_text" />
-                                
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="0.2"
-                                    android:background="@drawable/border"
-                                    android:gravity="center"
-                                    android:lines="2"
-                                    android:padding="2dp"
-                                    android:text="Q x P" />
-                                
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="0.2"
-                                    android:background="@drawable/border"
-                                    android:gravity="center"
-                                    android:lines="2"
-                                    android:padding="2dp"
-                                    android:text="@string/total_text" />
-                            
-                            </LinearLayout>
-                            
+
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/cart_detail_recycler_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:scrollbars="vertical" />
-                            
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:orientation="horizontal">
-                                
+
                                 <TextView
                                     android:id="@+id/sub_total"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="0.7"
                                     android:text="@string/sub_total_text" />
-                                
+
                                 <TextView
                                     android:id="@+id/sub_total_val_tv"
                                     android:layout_width="0dp"
@@ -229,19 +195,19 @@
                                     android:paddingStart="10dp"
                                     android:text="0" />
                             </LinearLayout>
-                            
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="15dp"
                                 android:orientation="horizontal">
-                                
+
                                 <TextView
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="0.7"
                                     android:text="@string/grand_total_text" />
-                                
+
                                 <TextView
                                     android:id="@+id/grand_total_val_tv"
                                     android:layout_width="0dp"
@@ -254,35 +220,37 @@
                                     android:paddingStart="10dp"
                                     android:text="0" />
                             </LinearLayout>
-                        
+
                         </LinearLayout>
-                    
+
                     </android.support.v7.widget.CardView>
-                
+
                 </LinearLayout>
-                
+
                 <LinearLayout
                     android:id="@+id/step5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
-                    
+
                     <TextView
                         android:id="@+id/confirm_order_tv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:lines="10"
+                        android:maxLines="15" />
                 </LinearLayout>
-            
-            
+
+
             </FrameLayout>
-            
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal">
-                
+
                 <Button
                     android:id="@+id/back_btn"
                     style="@style/CustomButtonStyle"
@@ -292,7 +260,7 @@
                     android:layout_weight="0.5"
                     android:text="@string/back_text"
                     android:visibility="gone" />
-                
+
                 <Button
                     android:id="@+id/next_btn"
                     style="@style/CustomButtonStyle"
@@ -301,9 +269,9 @@
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
                     android:text="@string/next_text" />
-            
+
             </LinearLayout>
-            
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />

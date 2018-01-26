@@ -25,6 +25,7 @@
                 android:padding="20dp">
 
                 <TextView
+                    style="@style/HeadingStyleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -44,7 +45,7 @@
 
                     <EditText
                         android:id="@+id/f_name_et"
-                        style="@style/MaterialEditText.PersonName"
+                        style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/first_name_hint"
@@ -59,7 +60,7 @@
 
                     <EditText
                         android:id="@+id/l_name_et"
-                        style="@style/MaterialEditText.PersonName"
+                        style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/last_name_hint"
@@ -75,7 +76,7 @@
 
                     <EditText
                         android:id="@+id/company_et"
-                        style="@style/MaterialEditText.PersonName"
+                        style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/company_text"
@@ -90,7 +91,7 @@
 
                     <EditText
                         android:id="@+id/address_et"
-                        style="@style/MaterialEditText.PersonName"
+                        style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/address_text"
@@ -105,7 +106,7 @@
 
                     <EditText
                         android:id="@+id/city_et"
-                        style="@style/MaterialEditText.PersonName"
+                        style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/city_text"
@@ -120,7 +121,7 @@
 
                     <EditText
                         android:id="@+id/post_code_et"
-                        style="@style/MaterialEditText.PersonName"
+                        style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/post_code_text"

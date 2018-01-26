@@ -24,7 +24,7 @@ public class MyCountDownTimer extends CountDownTimer {
 
     @Override
     public void onTick(long millisUntilFinished) {
-        int progress = (int) (millisUntilFinished / 40);
+        int progress = (int) (millisUntilFinished / 60);
         pb.setProgress(progress);
     }
 

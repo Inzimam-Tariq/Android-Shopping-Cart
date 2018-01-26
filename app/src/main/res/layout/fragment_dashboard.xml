@@ -10,28 +10,30 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:text="Welcome: Inzimam Tariq"/>
+        android:text="Welcome: Inzimam Tariq" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginBottom="20dp"
-        android:background="@color/outline"/>
+        android:background="@color/outline" />
 
     <TextView
-        style="@style/CustomTVStyle"
+        style="@style/HeadingStyleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
         android:layout_marginBottom="5dp"
-        android:text="My Account" />
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:text="@string/my_account" />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginBottom="20dp"
-        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:background="@color/outline"/>
+        android:layout_marginStart="10dp"
+        android:background="@color/outline" />
 
 
     <LinearLayout
@@ -124,33 +126,33 @@
     </LinearLayout>
 
     <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="15dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:weightSum="2">-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="15dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:weightSum="2">-->
 
-        <!--<TextView-->
-            <!--android:id="@+id/reward_points_tv"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:drawablePadding="10dp"-->
-            <!--android:drawableTop="@drawable/ic_card_giftcard_black"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="10dp"-->
-            <!--android:text="@string/reward_points_text" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/reward_points_tv"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:drawablePadding="10dp"-->
+    <!--android:drawableTop="@drawable/ic_card_giftcard_black"-->
+    <!--android:gravity="center"-->
+    <!--android:padding="10dp"-->
+    <!--android:text="@string/reward_points_text" />-->
 
-        <!--<TextView-->
-            <!--android:id="@+id/newsletter_tv"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="1"-->
-            <!--android:drawablePadding="10dp"-->
-            <!--android:drawableTop="@drawable/ic_chat_black"-->
-            <!--android:gravity="center"-->
-            <!--android:padding="10dp"-->
-            <!--android:text="@string/newsletter_text" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/newsletter_tv"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:drawablePadding="10dp"-->
+    <!--android:drawableTop="@drawable/ic_chat_black"-->
+    <!--android:gravity="center"-->
+    <!--android:padding="10dp"-->
+    <!--android:text="@string/newsletter_text" />-->
 
     <!--</LinearLayout>-->
 </LinearLayout>

@@ -17,11 +17,11 @@
 
             <TextView
                 android:id="@+id/product_title_val_tv"
+                style="@style/HeadingStyleTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="Nike Air MAG"
-                android:textAppearance="@android:style/TextAppearance.Large"
                 android:textStyle="bold" />
 
             <FrameLayout
@@ -199,7 +199,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Description:" />
+                    android:text="@string/description_text" />
 
                 <TextView
                     android:id="@+id/product_desc_val_tv"
@@ -336,6 +336,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize" />

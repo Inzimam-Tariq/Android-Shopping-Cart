@@ -14,21 +14,22 @@ import com.qemasoft.alhabibshop.app.R;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class Dashboard extends MyBaseFragment implements View.OnClickListener {
-
+    
     private TextView userNameTV, editAccountTV, changePasswordTV, addressBookTV, orderHistoryTV,
             transactionsTV, newsletterTV, rewardPointsTV, returnHistoryTV;
-
+    
     public Dashboard() {
         // Required empty public constructor
     }
-
-
+    
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,9 +38,10 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
         initViews(view);
         initUtils();
         setupIcons();
-
-        userNameTV.setText("Welcome: ".concat(Preferences.getSharedPreferenceString(appContext,
-                CUSTOMER_NAME, DEFAULT_STRING_VAL)));
+        
+        userNameTV.setText(findStringByName("welcome_text")
+                .concat(Preferences.getSharedPreferenceString(appContext,
+                        CUSTOMER_NAME, DEFAULT_STRING_VAL)));
         editAccountTV.setOnClickListener(this);
         changePasswordTV.setOnClickListener(this);
         addressBookTV.setOnClickListener(this);
@@ -48,11 +50,11 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
 //        newsletter.setOnClickListener(this);
 //        rewardPoints.setOnClickListener(this);
         returnHistoryTV.setOnClickListener(this);
-
-
+        
+        
         return view;
     }
-
+    
     private void setupIcons() {
         utils.setCompoundDrawable(editAccountTV, "top", R.drawable.ic_edit_black);
         utils.setCompoundDrawable(changePasswordTV, "top", R.drawable.ic_vpn_key_black);
@@ -61,7 +63,7 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
         utils.setCompoundDrawable(transactionsTV, "top", R.drawable.ic_account_balance_black);
         utils.setCompoundDrawable(returnHistoryTV, "top", R.drawable.ic_remove_shopping_cart_black);
     }
-
+    
     private void initViews(View view) {
         userNameTV = view.findViewById(R.id.user_name_tv);
         editAccountTV = view.findViewById(R.id.edit_account_tv);
@@ -73,7 +75,7 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
 //        rewardPoints = view.findViewById(R.id.reward_points_tv);
         returnHistoryTV = view.findViewById(R.id.return_history_tv);
     }
-
+    
     @Override
     public void onClick(View v) {
         int id = v.getId();

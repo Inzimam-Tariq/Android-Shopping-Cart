@@ -8,7 +8,6 @@
     android:orientation="horizontal"
     android:padding="5dp">
 
-
     <LinearLayout
         android:id="@+id/cat_layout"
         android:layout_width="wrap_content"
@@ -45,10 +44,8 @@
             android:gravity="center"
             android:lines="2"
             android:maxLines="2"
-            android:paddingEnd="@dimen/activity_horizontal_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingStart="@dimen/activity_horizontal_margin"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:scrollHorizontally="true"
             android:text="Item Title"
             android:textColor="@color/textColorTitle" />

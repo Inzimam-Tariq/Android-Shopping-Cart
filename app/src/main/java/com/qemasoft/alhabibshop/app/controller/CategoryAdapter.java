@@ -27,16 +27,16 @@ import java.util.List;
  */
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyViewHolder> {
-
+    
     private List<MyCategory> dataList;
     private Context context;
     private Utils utils;
 //    private boolean isPlainCategory;
-
+    
     public CategoryAdapter(List<MyCategory> dataList) {
         this.dataList = dataList;
     }
-
+    
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View categoryView;
@@ -50,10 +50,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 .inflate(R.layout.layout_category, parent, false);
 //        }
 //        Log.e("LayoutInflated", "Working");
-
+        
         return new MyViewHolder(categoryView);
     }
-
+    
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 //        Log.e("OnBIndMethod", "OnBind Working");
@@ -67,7 +67,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
                 public void onSuccess() {
                     holder.progressBar.setVisibility(View.GONE);
                 }
-
+                
                 @Override
                 public void onError() {
                     holder.progressBar.setVisibility(View.GONE);
@@ -77,7 +77,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
                 Bundle bundle = new Bundle();
                 bundle.putString("id", id);
                 Log.e("itemId", id);
@@ -85,19 +85,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             }
         });
     }
-
+    
     @Override
     public int getItemCount() {
         return dataList.size();
     }
-
+    
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
+        
         private TextView categoryId, categoryTitle;
         private ImageView categoryImage;
         private LinearLayout customLinearLayout;
         private ProgressBar progressBar;
-
+        
         public MyViewHolder(View itemView) {
             super(itemView);
             categoryImage = itemView.findViewById(R.id.cat_img);
@@ -108,13 +108,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.MyView
             int screenWidth = Utils.getScreenWidth(context);
             if (screenWidth <= 250) {
                 itemToShow = 1;
-            } else if (screenWidth > 480 && screenWidth <= 1000) {
+            } else if (screenWidth > 480 && screenWidth <= 1280) {
                 itemToShow = 3;
-            } else if (screenWidth > 1000) {
+            } else if (screenWidth > 1280) {
                 itemToShow = 4;
             }
             customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(
-                    itemView.getContext()) / itemToShow - 20;
+                    itemView.getContext()) / itemToShow - 30;
 //            customLinearLayout.getLayoutParams().height = Utils.getScreenWidth(itemView.getContext()) / 2;
 //            Log.e("FindViewById", "Working");
         }

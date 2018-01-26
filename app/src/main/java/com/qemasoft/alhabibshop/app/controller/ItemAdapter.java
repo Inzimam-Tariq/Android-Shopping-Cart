@@ -29,36 +29,36 @@ import java.util.List;
  */
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
-
+    
     private List<MyItem> dataList;
     private Context context;
     private Utils utils;
-
+    
     public ItemAdapter(List<MyItem> dataList) {
-
+        
         this.dataList = dataList;
 //        Log.e("Constructor", "Working");
 //        Log.e("Constructor", "DataList Size = " + dataList.size());
     }
-
+    
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        
         this.context = parent.getContext();
         this.utils = new Utils(context);
-
+        
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_item, parent, false);
 //        utils.printLog("LayoutInflated", "Working");
-
+        
         return new MyViewHolder(itemView);
     }
-
+    
     @Override
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
 //        utils.printLog("OnBIndMethod", "OnBind Working");
         final MyItem data = dataList.get(position);
-
+        
         if (data != null) {
             holder.itemTitle.setText(data.getItemTitle());
             String imgPath = data.getItemImage();
@@ -71,36 +71,36 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                         .into(holder.img, new Callback() {
                             @Override
                             public void onSuccess() {
-
+                                
                                 holder.progressBar.setVisibility(View.GONE);
-
+                                
                             }
-
+                            
                             @Override
                             public void onError() {
-
+                                
                                 holder.progressBar.setVisibility(View.GONE);
                                 holder.img.setImageResource(R.drawable.ic_close_black);
                             }
                         });
 //            Picasso.with(context).setIndicatorsEnabled(true);
-
+            
             holder.customLinearLayout.post(new Runnable() {
                 @Override
                 public void run() {
-
+                    
                     holder.img.getLayoutParams().height =
-                            Utils.getScreenWidth(holder.img.getContext()) / 2 - 40;
+                            Utils.getScreenWidth(holder.img.getContext()) / 2 - 50;
                 }
             });
-
+            
             String symbol = Preferences.getSharedPreferenceString(context
                     , AppConstants.CURRENCY_SYMBOL_KEY, "$");
-
-
+            
+            
             TextView itemPriceTV = holder.itemPriceFull;
             TextView itemPriceSpecialTV = holder.itemPriceSpecial;
-
+            
             if (!data.getItemPriceSpecial().isEmpty()) {
                 itemPriceSpecialTV.setVisibility(View.VISIBLE);
                 itemPriceSpecialTV.setText(data.getItemPriceFull().concat("").concat(symbol));
@@ -111,37 +111,37 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             } else {
                 itemPriceTV.setText(data.getItemPriceFull().concat("").concat(symbol));
             }
-
+            
             holder.itemView.setOnClickListener(new View.OnClickListener() {
-
+                
                 @Override
                 public void onClick(View v) {
-
+                    
                     Bundle bundle = new Bundle();
                     bundle.putString("id", data.getItemId());
                     utils.printLog("itemId", data.getItemId());
-
+                    
                     utils.switchFragment(new FragProductDetail(), bundle);
                 }
             });
         }
     }
-
+    
     @Override
     public int getItemCount() {
-
+        
         return dataList.size();
     }
-
+    
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
+        
         public TextView itemTitle, itemPriceFull, itemPriceSpecial;
         public LinearLayout customLinearLayout;
         private ImageView img;
         private ProgressBar progressBar;
-
+        
         public MyViewHolder(View itemView) {
-
+            
             super(itemView);
             itemTitle = itemView.findViewById(R.id.item_title);
             itemPriceSpecial = itemView.findViewById(R.id.disc_price);
@@ -150,7 +150,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             progressBar = itemView.findViewById(R.id.progress_bar);
             customLinearLayout = itemView.findViewById(R.id.custom_item_layout);
             customLinearLayout.getLayoutParams().width = Utils.getScreenWidth(
-                    itemView.getContext()) / 2 - 5;
+                    itemView.getContext()) / 2 - 10;
         }
     }
 }

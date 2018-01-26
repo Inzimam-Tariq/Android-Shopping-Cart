@@ -3,8 +3,10 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,19 +40,20 @@ import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
  */
 
 public class FragRegister extends MyBaseFragment {
-
+    
     private RadioGroup rgNewsletter;
     private RadioButton rbYes, rbNo;
     private EditText fName, lName, email, contact, pass, confirmPass;
     private CheckBox termsCB;
     private Button registerBtn;
     private TextView titleTV, privacyPolicyTV, clickLoginTV;
+    private TextInputLayout inputLayoutPassword, confirmPassLayout;
 //    private boolean asGuest;
-
+    
     public FragRegister() {
         // Required empty public constructor
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -60,25 +63,30 @@ public class FragRegister extends MyBaseFragment {
         initViews(view);
 
 //        guestCheck();
+        
+        inputLayoutPassword.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                "fonts/DroidKufi-Regular.ttf"));
+        confirmPassLayout.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                "fonts/DroidKufi-Regular.ttf"));
         rgNewsletter.check(R.id.rbNo);
         privacyPolicyTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
                 utils.switchFragment(new FragShowText());
             }
         });
         clickLoginTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
                 utils.switchFragment(new FragLogin());
             }
         });
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
                 String fNameVal = fName.getText().toString().trim();
                 String lNameVal = lName.getText().toString().trim();
                 String emailVal = email.getText().toString().trim();
@@ -100,7 +108,7 @@ public class FragRegister extends MyBaseFragment {
                             "You Must Read the Privacy Policy to Register");
                     return;
                 }
-
+                
                 if (!fNameVal.isEmpty() && !lNameVal.isEmpty() && !emailVal.isEmpty()
                         && !contactVal.isEmpty() && !passVal.isEmpty()
                         && !rePassVal.isEmpty()) {
@@ -122,7 +130,7 @@ public class FragRegister extends MyBaseFragment {
                         Intent intent = new Intent(getContext(), FetchData.class);
                         intent.putExtras(bundle);
                         startActivityForResult(intent, REGISTER_REQUEST_CODE);
-
+                        
                     } else {
                         utils.showInternetErrorDialog();
                     }
@@ -132,7 +140,7 @@ public class FragRegister extends MyBaseFragment {
                 }
             }
         });
-
+        
         return view;
     }
 
@@ -144,14 +152,17 @@ public class FragRegister extends MyBaseFragment {
 //            titleTV.setText(R.string.as_guest_text);
 //        }
 //    }
-
+    
     private boolean privacyPolicyCheck() {
-
+        
         return termsCB.isChecked();
     }
-
+    
     private void initViews(View view) {
-
+        
+        inputLayoutPassword = view.findViewById(R.id.input_layout_password);
+        confirmPassLayout = view.findViewById(R.id.confirm_password_layout);
+        
         titleTV = view.findViewById(R.id.frag_title_tv);
         rgNewsletter = view.findViewById(R.id.newsletterRadioGroup);
         privacyPolicyTV = view.findViewById(R.id.privacy_policy_tv);
@@ -166,12 +177,12 @@ public class FragRegister extends MyBaseFragment {
         rbNo = view.findViewById(R.id.rbNo);
         termsCB = view.findViewById(R.id.terms_cb);
         registerBtn = view.findViewById(R.id.register_btn);
-
+        
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REGISTER_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
@@ -191,7 +202,7 @@ public class FragRegister extends MyBaseFragment {
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-
+                                            
                                             utils.switchFragment(new FragLogin());
                                         }
                                     });
@@ -200,7 +211,7 @@ public class FragRegister extends MyBaseFragment {
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-
+                                    
                                     getActivity().recreate();
                                 }
                             }, 100);
@@ -222,7 +233,7 @@ public class FragRegister extends MyBaseFragment {
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 utils.showErrorDialog("Error Getting Data From Server!");
             }
-
+            
         }
     }
 }

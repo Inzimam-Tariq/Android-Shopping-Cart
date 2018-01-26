@@ -3,8 +3,10 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,16 +41,18 @@ import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
  * A simple {@link Fragment} subclass.
  */
 public class FragLogin extends MyBaseFragment {
-
+    
     private EditText emailET, passET;
     private Button loginBtn;
     private TextView registerTV, forgotPassTV;
-
+    
+    private TextInputLayout inputLayoutPassword;
+    
     public FragLogin() {
         // Required empty public constructor
     }
-
-
+    
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +60,10 @@ public class FragLogin extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_login, container, false);
         initViews(view);
         initUtils();
-
+        
+        inputLayoutPassword.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                "fonts/DroidKufi-Regular.ttf"));
+        
         registerTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,7 +79,7 @@ public class FragLogin extends MyBaseFragment {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
                 String emailVal = emailET.getText().toString().trim();
                 String passVal = passET.getText().toString().trim();
                 AppConstants.setMidFixApi("login");
@@ -95,21 +102,22 @@ public class FragLogin extends MyBaseFragment {
                 }
             }
         });
-
-
+        
+        
         return view;
     }
-
+    
     private void initViews(View view) {
-
+        
+        inputLayoutPassword = view.findViewById(R.id.input_layout_password);
         emailET = view.findViewById(R.id.email_et);
         passET = view.findViewById(R.id.password_et);
         loginBtn = view.findViewById(R.id.login_btn);
         registerTV = view.findViewById(R.id.reg_tv_in_login);
         forgotPassTV = view.findViewById(R.id.forgot_pass_tv);
-
+        
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -117,21 +125,21 @@ public class FragLogin extends MyBaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
-
+                    
                     JSONObject object = response.optJSONObject("data");
                     String customerId = object.optString("customer_id");
                     String customerEmail = object.optString("email");
                     String fName = object.optString("firstname");
                     String lName = object.optString("lastname");
-
+                    
                     String userName = fName + " " + lName;
                     utils.printLog("CustomerId = ", customerId + " Username = " + userName);
-
+                    
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, customerEmail);
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_KEY, customerId);
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, userName);
                     Preferences.setSharedPreferenceBoolean(appContext, LOGIN_KEY, true);
-
+                    
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -154,7 +162,7 @@ public class FragLogin extends MyBaseFragment {
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 utils.showErrorDialog("Error Getting Data From Server Check Your Internet Connection & try again");
             }
-
+            
         }
     }
 }

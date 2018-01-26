@@ -38,9 +38,9 @@
             android:id="@+id/disc_category_tv"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:text="@string/text_disc"
-            android:background="#f3f3f3"
-            android:gravity="center"/>
+            android:background="#ffffff"
+            android:gravity="center"
+            android:text="@string/text_disc" />
         <!--android:listSelector="#d1d3d4"-->
 
     </LinearLayout>

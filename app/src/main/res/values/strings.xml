@@ -32,7 +32,7 @@
     <string name="register"><u>Register</u></string>
     <string name="have_account"><i>If you have an account, </i></string>
     <string name="click_here"> <u>Click here!</u></string>
-    <string name="privacy_policy_statement"><i>I have read and agree to the, Terms and Conditions</i></string>
+    <string name="privacy_policy_statement"><i>I have read and agree to the, </i></string>
     <string name="your_string_here">This is an &lt;u>underline&lt;/u>.</string>
 
     <string name="action_search">Search</string>
@@ -134,7 +134,8 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="submit_text">Submit</string>
     <string name="continue_text">Continue</string>
 
-    <string name="description_text">Description</string>
+    <string name="description_text">Description:</string>
+    <string name="welcome_text">Welcome</string>
 
     <string name="logo">Logo</string>
 
@@ -197,6 +198,8 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
+
+    <string name="my_account">My Account</string>
 
     <string name="account">Account</string>
     <string name="logout">Logout</string>

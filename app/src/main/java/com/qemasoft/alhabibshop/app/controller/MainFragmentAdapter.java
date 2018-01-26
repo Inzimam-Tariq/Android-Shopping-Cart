@@ -35,29 +35,29 @@ import static com.qemasoft.alhabibshop.app.AppConstants.getHomeExtra;
  */
 
 public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    
     private final static int CATEGORY_VIEW = 0;
     private final static int PROMOTION_VIEW = 1;
     private final static int ITEM_VIEW = 2;
-
+    
     private List<String> keysStrList;
-
+    
     private List<Object> myAllItemsList = new ArrayList<>();
-
-
+    
+    
     private Context context;
     private Utils utils;
-
-
+    
+    
     public MainFragmentAdapter(List<String> keysList) {
         this.keysStrList = keysList;
         prepareData();
         Log.e("AllItemTypeSize = ", myAllItemsList.size() + "");
     }
-
+    
     @Override
     public int getItemViewType(int position) {
-
+        
         Object o = myAllItemsList.get(position);
         if (o instanceof List) {
             for (Object obj : (List) o) {
@@ -73,14 +73,14 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             return ITEM_VIEW;
         }
     }
-
+    
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        
         this.context = parent.getContext();
         utils = new Utils(context);
         RecyclerView.ViewHolder viewHolder;
-
+        
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         utils.printLog("itemType = ", "ViewTypeOnCreate " + viewType);
         switch (viewType) {
@@ -97,10 +97,10 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 viewHolder = new ViewHolder1(v3);
                 break;
         }
-
+        
         return viewHolder;
     }
-
+    
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int itemType = holder.getItemViewType();
@@ -109,7 +109,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView.LayoutManager mLayoutManagerCat = null;
         if (o instanceof List) {
             List<Object> list = (List<Object>) myAllItemsList.get(position);
-
+            
             int layoutColumns = 2;
             if (list.size() < 4) {
                 layoutColumns = 1;
@@ -122,7 +122,6 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case CATEGORY_VIEW:
                 ViewHolder1 vh1 = (ViewHolder1) holder;
                 vh1.getmRecyclerView().setLayoutManager(mLayoutManagerCat);
-                vh1.getTitle().setVisibility(View.GONE);
                 vh1.getmRecyclerView().setAdapter(new CategoryAdapter(
                         (List<MyCategory>) myAllItemsList.get(position)));
                 break;
@@ -133,42 +132,42 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             default:
                 ViewHolder1 vh3 = (ViewHolder1) holder;
                 vh3.getmRecyclerView().setLayoutManager(mLayoutManagerCat);
-                vh3.getTitle().setText(findStringByName(keysStrList.get(position)));
                 vh3.getmRecyclerView().setAdapter(new ItemAdapter(
                         (List<MyItem>) myAllItemsList.get(position)));
                 break;
         }
     }
-
+    
     @Override
     public int getItemCount() {
         return keysStrList.size();
     }
-
-
+    
+    
     private void configureViewHolder2(final ViewHolder2 vh2, int position) {
         Slideshow promotion = (Slideshow) myAllItemsList.get(position);
         if (promotion != null) {
 //            vh2.getTitle().setText(promotion.getId());
             String imgPath = promotion.getImage();
-            utils.printLog("ImagePath", "" + imgPath);
-            if (imgPath != null && imgPath.isEmpty())
+            utils.printLog("bannerPath", "" + imgPath);
+            if (imgPath != null && !imgPath.isEmpty()) {
+                utils.printLog("bannerPathInsideTrue", "" + imgPath);
 //                Picasso.with(context).load(imgPath).into(vh2.getImageView());
                 Picasso.with(context)
                         .load(imgPath)
-                        .noFade()
                         .into(vh2.getImageView(), new Callback() {
                             @Override
                             public void onSuccess() {
                                 vh2.getProgressBar().setVisibility(View.GONE);
                             }
-
+                            
                             @Override
                             public void onError() {
                                 vh2.getProgressBar().setVisibility(View.GONE);
                                 vh2.getImageView().setImageResource(R.drawable.ic_close_black);
                             }
                         });
+            }
         }
         vh2.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,12 +178,12 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             }
         });
     }
-
+    
     private void prepareData() {
-
+        
         List<MyCategory> myCategoryList = new ArrayList<>();
         List<MyItem> myItemList;
-
+        
         String responseStr = getHomeExtra();
         Log.e("MAinFragAdapter", "GetHomeObject : " + responseStr);
         try {
@@ -194,7 +193,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (success) {
                 JSONObject homeObject = responseObject.optJSONObject("home");
                 JSONObject modules = homeObject.optJSONObject("modules");
-
+                
                 for (int a = 0; a < keysStrList.size(); a++) {
                     Log.e("KeyStr = ", keysStrList.get(a));
                     if (keysStrList.get(a).equals("categories")) {
@@ -215,7 +214,7 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                                 , promotionObject.optString("id")
                                 , promotionObject.optString("banertype"));
                         myAllItemsList.add(banner);
-
+                        
                     } else {
                         myItemList = new ArrayList<>();
                         JSONArray featuredProduct = modules.optJSONArray(keysStrList.get(a));
@@ -237,5 +236,5 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             Log.e("JSONEx_CatAdapterTest", responseStr);
         }
     }
-
+    
 }

@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class AppConstants {
-
+    
     public static final int SPLASH_REQUEST_CODE = 1;
     public static final int SEARCH_REQUEST_CODE = 769;
     public static final int LOGIN_REQUEST_CODE = 2;
@@ -46,7 +46,7 @@ public class AppConstants {
     public static final int LANGUAGE_REQUEST_CODE = 27;
     public static final int CURRENCY_REQUEST_CODE = 28;
     public static final int FORCED_CANCEL = 2;
-
+    
     public static final String DEFAULT_STRING_VAL = "";
     public static final String UNIQUE_ID_KEY = "UNIQUE_ID_KEY";
     public static final Context appContext = SplashActivity.getAppContext();
@@ -65,8 +65,8 @@ public class AppConstants {
     public static final String LEFT = "left";
     public static final String TOP = "top";
     public static final String BOTTOM = "bottom";
-            private static final String BASE_URL = "http://www.opencartgulf.com/api/";
-//    private static final String BASE_URL = "https://www.alhabibshop.com/api/";
+    private static final String BASE_URL = "http://www.opencartgulf.com/api/";
+//        private static final String BASE_URL = "https://www.alhabibshop.com/api/";
     //        private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     public static List<ProductOptionValueItem> optionsList = new ArrayList<>();
@@ -75,67 +75,67 @@ public class AppConstants {
     private static String PRODUCT_EXTRA;
     private static String SLIDESHOW_EXTRA;
     private static int clickCount;
-
+    
     public static int getClickCount() {
         return clickCount;
     }
-
+    
     public static void setClickCount(int clickCount) {
         AppConstants.clickCount = clickCount;
     }
-
+    
     public static String findStringByName(String name) {
         Resources res = appContext.getResources();
         return res.getString(res.getIdentifier(name, "string", appContext.getPackageName()));
     }
-
+    
     public static String getApiCallUrl() {
         return BASE_URL + getMidFixApi() + "/" + GET_KEY(appContext, KEY_FOR_KEY);
     }
-
+    
     private static String getMidFixApi() {
         return MID_FIX_API;
     }
-
+    
     public static void setMidFixApi(String midFixApi) {
         MID_FIX_API = midFixApi;
     }
-
+    
     public static String GET_KEY(Context context, String key) {
         SharedPreferences sharedPref = context.getSharedPreferences(SECRET_KEY_FILE, 0);
-
+        
         return sharedPref.getString(key, "");
     }
-
+    
     public static void SET_KEY(String secretKey, String secretKeyVal) {
         SharedPreferences settings = appContext.getSharedPreferences(SECRET_KEY_FILE, 0);
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(secretKey, secretKeyVal);
         editor.apply();
     }
-
+    
     public static String getHomeExtra() {
         return HOME_EXTRA;
     }
-
+    
     public static void setHomeExtra(String homeExtra) {
         HOME_EXTRA = homeExtra;
     }
-
+    
     public static String getProductExtra() {
         return PRODUCT_EXTRA;
     }
-
+    
     public static void setProductExtra(String productExtra) {
         PRODUCT_EXTRA = productExtra;
     }
-
+    
     public static String getSlideshowExtra() {
         return SLIDESHOW_EXTRA;
     }
-
+    
     public static void setSlideshowExtra(String slideshowExtra) {
         SLIDESHOW_EXTRA = slideshowExtra;
     }
-
+    
 }

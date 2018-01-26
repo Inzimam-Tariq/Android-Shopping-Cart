@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +22,6 @@ import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCartDetail;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
@@ -79,20 +77,20 @@ public class CartDetailAdapter
             holder.productTitle.setText(data.getProductName());
             
             List<Options> optionsList = data.getOptionsList();
-            utils.printLog("OptionListInAdapt = " + optionsList);
-//            if (optionsList != null && optionsList.size() > 0) {
-            
-            for (int i = 0; i < 5; i++) {
-                TextView textView = new TextView(context);
-                textView.setLayoutParams(
-                        new LinearLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
-                textView.setText("\tValue " + i);
-                holder.productOptionsLayout.addView(textView);
+            if (optionsList != null && optionsList.size() > 0) {
+                for (int i = 0; i < optionsList.size(); i++) {
+                    utils.printLog("Option " + i + " = " + optionsList.get(i).getValue());
+                    
+                    TextView textView = new TextView(context);
+                    textView.setLayoutParams(
+                            new LinearLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.WRAP_CONTENT));
+                    textView.setText(optionsList.get(i).getValue());
+                    holder.productOptionsLayout.addView(textView);
+                }
+                
             }
-
-//            }
             
             
             String symbol = Preferences.getSharedPreferenceString(context
@@ -104,7 +102,7 @@ public class CartDetailAdapter
             
             String imgPath = data.getProductImage();
             utils.printLog("Product Image = " + imgPath);
-            if (!imgPath.isEmpty()) {
+            if (imgPath != null && !imgPath.isEmpty()) {
                 Picasso.with(context).load(imgPath).into(holder.productImage);
             }
             

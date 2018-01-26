@@ -3,7 +3,9 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,14 +37,15 @@ import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
  */
 
 public class FragChangePassword extends MyBaseFragment {
-
-    private EditText currentPass, pass, confirmPass;
+    
+    private EditText currentPass, newPass, confirmPass;
     private Button changePassBtn;
-
+    private TextInputLayout inputLayoutPassword, newPassLayout, confirmPassLayout;
+    
     public FragChangePassword() {
         // Required empty public constructor
     }
-
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -50,15 +53,22 @@ public class FragChangePassword extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_change_pass, container, false);
         initViews(view);
         initUtils();
-
+        
+        inputLayoutPassword.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                "fonts/DroidKufi-Regular.ttf"));
+        newPassLayout.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                "fonts/DroidKufi-Regular.ttf"));
+        confirmPassLayout.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                "fonts/DroidKufi-Regular.ttf"));
+        
         changePassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
                 String currentPassVal = currentPass.getText().toString().trim();
-                String newPassVal = pass.getText().toString().trim();
+                String newPassVal = newPass.getText().toString().trim();
                 String confirmPassVal = confirmPass.getText().toString().trim();
-
+                
                 if (!newPassVal.equals(confirmPassVal)) {
                     utils.showErrorDialog("Password Mis-match");
                     return;
@@ -70,13 +80,13 @@ public class FragChangePassword extends MyBaseFragment {
                 if (currentPassVal.length() < 1) {
                     utils.setError(currentPass);
                 } else if (newPassVal.length() < 1) {
-                    utils.setError(pass);
+                    utils.setError(newPass);
                 } else if (confirmPassVal.length() < 1) {
                     utils.setError(confirmPass);
                 } else {
-
+                    
                     AppConstants.setMidFixApi("editPassword");
-
+                    
                     Map<String, String> map = new HashMap<>();
                     map.put("email", Preferences.getSharedPreferenceString(appContext,
                             CUSTOMER_EMAIL, DEFAULT_STRING_VAL));
@@ -89,31 +99,35 @@ public class FragChangePassword extends MyBaseFragment {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, CHANGE_PASS_REQUEST_CODE);
                 }
-
+                
             }
         });
-
+        
         return view;
     }
-
-
+    
+    
     private void initViews(View view) {
-
+        
+        inputLayoutPassword = view.findViewById(R.id.input_layout_password);
+        newPassLayout = view.findViewById(R.id.new_pass_layout);
+        confirmPassLayout = view.findViewById(R.id.confirm_password_layout);
+        
         currentPass = view.findViewById(R.id.current_pass_et);
-        pass = view.findViewById(R.id.pass_et);
+        newPass = view.findViewById(R.id.pass_et);
         confirmPass = view.findViewById(R.id.new_pass_et);
         changePassBtn = view.findViewById(R.id.change_pass_btn);
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CHANGE_PASS_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-
+                
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
-
+                    
                     String message = response.optString("message");
                     if (message.length() > 0) {
                         AlertDialog dialog = utils.showAlertDialogReturnDialog(
@@ -132,7 +146,7 @@ public class FragChangePassword extends MyBaseFragment {
                     e.printStackTrace();
                 }
             }
-            if (resultCode == FORCED_CANCEL){
+            if (resultCode == FORCED_CANCEL) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
                     String error = response.optString("message");
@@ -166,8 +180,8 @@ public class FragChangePassword extends MyBaseFragment {
                     e.printStackTrace();
                 }
             }
-
+            
         }
     }
-
+    
 }

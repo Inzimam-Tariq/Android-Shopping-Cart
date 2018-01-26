@@ -24,9 +24,10 @@
                 android:padding="5dp">
 
                 <TextView
+                    style="@style/HeadingStyleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/order_detail_text"/>
+                    android:text="@string/order_detail_text" />
 
                 <View
                     android:layout_width="match_parent"

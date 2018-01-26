@@ -13,22 +13,13 @@ import com.qemasoft.alhabibshop.app.R;
 
 public class ViewHolder1 extends RecyclerView.ViewHolder {
 
-    private TextView title;
+//    private TextView title;
     private RecyclerView mRecyclerView;
 
     public ViewHolder1(View v) {
         super(v);
-        title = v.findViewById(R.id.category_title_tv);
         mRecyclerView = v.findViewById(R.id.main_cat_recycler_view);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-    }
-
-    public TextView getTitle() {
-        return title;
-    }
-
-    public void setTitle(TextView title) {
-        this.title = title;
     }
 
     public RecyclerView getmRecyclerView() {

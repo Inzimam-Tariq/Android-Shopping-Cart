@@ -601,7 +601,7 @@ public class Utils {
             pb.setVisibility(View.GONE);
             return;
         }
-        final int time = 4000;
+        final int time = 6000;
         final Handler handler = new Handler();
 
         final Runnable Update = new Runnable() {

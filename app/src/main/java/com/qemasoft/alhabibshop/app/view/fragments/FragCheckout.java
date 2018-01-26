@@ -2,10 +2,12 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +56,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 public class FragCheckout extends MyBaseFragment implements View.OnClickListener {
-
+    
     private List<Address> addressList;
     private Bundle bundle;
     private StateProgressBar stateProgressBar;
@@ -68,12 +70,12 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     private EditText commentET;
     private List<ShippingMethod> shippingMethodList;
     private List<PaymentMethod> paymentMethodList;
-
+    
     public FragCheckout() {
         // Required empty public constructor
     }
-
-
+    
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.frag_checkout, container, false);
         initViews(view);
         initUtils();
-
+        
         String[] descriptionData = {findStringByName("delivery_text"),
                 findStringByName("shipping_text"),
                 findStringByName("payment_text"),
@@ -93,16 +95,16 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         bundle = new Bundle();
         getAddresses();
         setDrawables();
-
+        
         return view;
     }
-
+    
     private void setDrawables() {
         utils.setCompoundDrawable(backBtn, LEFT, R.drawable.ic_navigate_back);
         utils.setCompoundDrawable(nextBtn, RIGHT, R.drawable.ic_navigate_next);
         utils.setCompoundDrawable(selectDeliveryAddress, RIGHT, R.drawable.ic_expand_more_black);
     }
-
+    
     private void getAddresses() {
         AppConstants.setMidFixApi("getAddresses");
         Map<String, String> map = new HashMap<>();
@@ -114,7 +116,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         intent.putExtras(bundle);
         startActivityForResult(intent, ADDRESS_BOOK_REQUEST_CODE);
     }
-
+    
     private void initViews(View view) {
         stateProgressBar = view.findViewById(R.id.state_progress_bar);
         backBtn = view.findViewById(R.id.back_btn);
@@ -130,12 +132,12 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         confirmOrderTV = view.findViewById(R.id.confirm_order_tv);
         subTotalValTV = view.findViewById(R.id.sub_total_val_tv);
         grandTotalValTV = view.findViewById(R.id.grand_total_val_tv);
-
+        
         termsCB = view.findViewById(R.id.terms_cb);
         nextBtn = view.findViewById(R.id.next_btn);
         mRecyclerView = view.findViewById(R.id.cart_detail_recycler_view);
     }
-
+    
     @Override
     public void onClick(View v) {
         list = new ArrayList<>();
@@ -230,7 +232,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     map.put("address_id", addressList.get(selectedAddressIndex).getId());
                     map.put("session_id", Preferences.getSharedPreferenceString(appContext
                             , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
-
+                    
                     int index = utils.getSelectedRadioIndex(radioGroupShippingMethod);
                     String shippingCode = shippingMethodList.get(index).getCode();
                     String shippingMethod = shippingMethodList.get(index).getTitle();
@@ -253,7 +255,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     utils.switchFragment(new MainFrag());
                 }
                 break;
-
+            
             case R.id.back_btn:
                 if (step4.getVisibility() == View.VISIBLE) {
                     step4.setVisibility(View.GONE);
@@ -272,14 +274,14 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.ONE);
                 }
                 break;
-
+            
         }
     }
-
+    
     private boolean isTermsCBChecked() {
         return termsCB.isChecked();
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -324,7 +326,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     for (int i = 0; i < shippingMethods.length(); i++) {
                         JSONObject shippingObj = shippingMethods.optJSONObject(i);
                         Iterator<?> keys = shippingObj.keys();
-
+                        
                         while (keys.hasNext()) {
                             String key = (String) keys.next();
                             keysList.add(key);
@@ -358,7 +360,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     for (int i = 0; i < paymentMethods.length(); i++) {
                         JSONObject paymentObj = paymentMethods.optJSONObject(i);
                         Iterator<?> keys = paymentObj.keys();
-
+                        
                         while (keys.hasNext()) {
                             String key = (String) keys.next();
                             keysList.add(key);
@@ -379,7 +381,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     }
                     radioGroupPaymentMethod.check(0);
                 } else if (requestCode == CONFIRM_CHECKOUT_REQUEST_CODE) {
-
+                    
                     JSONArray cartProducts = response.optJSONArray("cartProducts");
                     List<MyCartDetail> cartDetailList = new ArrayList<>();
                     if (cartProducts == null || cartProducts.toString().isEmpty()) {
@@ -395,7 +397,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                                 objectCP.optString("price"),
                                 objectCP.optString("total")));
                     }
-
+                    
                     CartDetailAdapter cartDetailAdapter = new CartDetailAdapter(cartDetailList
                             , true);
                     RecyclerView.LayoutManager mLayoutManager =
@@ -407,7 +409,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     utils.printLog(className + "Adapter", "Before Cart list Adapter");
                     if (!cartDetailList.isEmpty() || cartDetailList.size() > 0)
                         mRecyclerView.setAdapter(cartDetailAdapter);
-
+                    
                     JSONArray cartTotals = response.optJSONArray("totals");
                     List<String> totalsList = new ArrayList<>();
                     for (int j = 0; j < cartTotals.length(); j++) {
@@ -416,15 +418,20 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     }
                     subTotalValTV.setText(totalsList.get(0).concat("").concat(symbol));
                     grandTotalValTV.setText(totalsList.get(1).concat("").concat(symbol));
-
+                    
                 } else if (requestCode == PLACE_ORDER_REQUEST_CODE) {
+                    stateProgressBar.setVisibility(View.GONE);
                     String message = response.optString("message");
+                    message = message.trim();
                     if (!message.isEmpty()) {
-                        confirmOrderTV.setText(message);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                            confirmOrderTV.setText(Html.fromHtml(message, Html.FROM_HTML_MODE_COMPACT));
+                        else confirmOrderTV.setText(Html.fromHtml(message));
                     }
                 }
             } else if (resultCode == FORCED_CANCEL) {
                 String message = response.optString("message");
+                message = message.trim();
                 if (!message.isEmpty()) {
                     utils.showAlertDialog("Message", message);
                 }

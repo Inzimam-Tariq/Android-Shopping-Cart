@@ -25,6 +25,7 @@
                 android:padding="20dp">
 
                 <TextView
+                    style="@style/HeadingStyleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -44,7 +45,7 @@
 
                     <EditText
                         android:id="@+id/email_et"
-                        style="@style/MaterialEditText.Email"
+                        style="@style/AppTheme.MaterialEditText.Email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email_hint"
@@ -54,6 +55,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/input_layout_password"
+                    fontPath="fonts/DroidKufi-Bold.ttf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -61,11 +63,11 @@
 
                     <EditText
                         android:id="@+id/password_et"
-                        style="@style/MaterialEditText.Password"
+                        style="@style/AppTheme.MaterialEditText.Password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:maxLength="32"
-                        android:hint="@string/password_hint" />
+                        android:hint="@string/password_hint"
+                        android:maxLength="32" />
 
 
                 </android.support.design.widget.TextInputLayout>
@@ -76,6 +78,7 @@
 
                     <TextView
                         android:id="@+id/forgot_pass_tv"
+                        style="@style/LinkTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_alignParentEnd="true"
@@ -96,15 +99,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:columnCount="2">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="end"
                         android:gravity="center"
                         android:paddingEnd="15dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
                         android:paddingStart="15dp"
-                        android:layout_gravity="end"
                         android:text="@string/do_not_have_account" />
 
                     <TextView
@@ -120,29 +124,29 @@
                 </GridLayout>
 
                 <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="20dp"-->
-                    <!--android:gravity="center">-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:gravity="center">-->
 
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:gravity="center"-->
-                        <!--android:paddingEnd="15dp"-->
-                        <!--android:paddingLeft="15dp"-->
-                        <!--android:paddingRight="15dp"-->
-                        <!--android:paddingStart="15dp"-->
-                        <!--android:text="@string/do_not_have_account" />-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingEnd="15dp"-->
+                <!--android:paddingLeft="15dp"-->
+                <!--android:paddingRight="15dp"-->
+                <!--android:paddingStart="15dp"-->
+                <!--android:text="@string/do_not_have_account" />-->
 
-                    <!--<TextView-->
-                        <!--android:id="@+id/reg_tv_in_login"-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="30dp"-->
-                        <!--android:layout_marginLeft="10dp"-->
-                        <!--android:layout_marginStart="10dp"-->
-                        <!--android:gravity="center"-->
-                        <!--android:text="@string/action_register_text" />-->
+                <!--<TextView-->
+                <!--android:id="@+id/reg_tv_in_login"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_marginStart="10dp"-->
+                <!--android:gravity="center"-->
+                <!--android:text="@string/action_register_text" />-->
                 <!--</LinearLayout>-->
 
             </LinearLayout>

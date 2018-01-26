@@ -25,15 +25,17 @@
                 android:padding="20dp">
 
                 <TextView
+                    style="@style/HeadingStyleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:text="@string/edit_account_text" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@color/outline"/>
+                    android:background="@color/outline" />
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -42,7 +44,7 @@
 
                     <EditText
                         android:id="@+id/f_name_et"
-                        style="@style/MaterialEditText.PersonName"
+                        style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/first_name_hint"
@@ -57,7 +59,7 @@
 
                     <EditText
                         android:id="@+id/l_name_et"
-                        style="@style/MaterialEditText.PersonName"
+                        style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/last_name_hint"
@@ -73,7 +75,7 @@
 
                     <EditText
                         android:id="@+id/email_et"
-                        style="@style/MaterialEditText.Email"
+                        style="@style/AppTheme.MaterialEditText.Email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/email_hint"
@@ -88,7 +90,7 @@
 
                     <EditText
                         android:id="@+id/phone_et"
-                        style="@style/MaterialEditText.Phone"
+                        style="@style/AppTheme.MaterialEditText.Phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/phone_hint"
@@ -103,9 +105,10 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:text="@string/continue_text" />
+
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"/>
+                    android:layout_height="?attr/actionBarSize" />
 
             </LinearLayout>
 

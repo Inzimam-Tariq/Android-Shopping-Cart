@@ -70,13 +70,11 @@ public class MyPagerAdapter extends PagerAdapter {
                     .into(myImage, new Callback() {
                         @Override
                         public void onSuccess() {
-
                             progressBar.setVisibility(View.GONE);
                         }
 
                         @Override
                         public void onError() {
-
                             progressBar.setVisibility(View.GONE);
                             myImage.setImageResource(R.drawable.ic_close_black);
                         }

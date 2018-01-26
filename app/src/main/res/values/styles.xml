@@ -6,9 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <!--<item name="android:typeface"></item>-->
         <item name="android:textColor">@color/textColorTitle</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -17,7 +16,7 @@
     </style>
 
     <style name="AppTheme.SmallText">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="NavigationDrawerStyle">
@@ -78,11 +77,10 @@
 
     </style>
 
-    <style name="MaterialEditText" parent="@android:style/Widget.EditText">
+    <style name="AppTheme.MaterialEditText">
         <!-- Customize your theme here. -->
         <item name="android:paddingLeft">13dp</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textSize">16sp</item>
         <item name="android:inputType">text</item>
 
     </style>
@@ -96,7 +94,8 @@
         <item name="android:inputType">textPassword</item>
     </style>
 
-    <style name="MaterialEditText.Password">
+    <style name="AppTheme.MaterialEditText.Password">
+        <item name="fontPath">fonts/DroidKufi-Regular.ttf</item>
         <item name="android:inputType">textPassword</item>
     </style>
 
@@ -104,15 +103,15 @@
         <item name="android:inputType">textEmailAddress</item>
     </style>
 
-    <style name="MaterialEditText.Email">
+    <style name="AppTheme.MaterialEditText.Email">
         <item name="android:inputType">textEmailAddress</item>
     </style>
 
-    <style name="MaterialEditText.Phone">
+    <style name="AppTheme.MaterialEditText.Phone">
         <item name="android:inputType">phone</item>
     </style>
 
-    <style name="MaterialEditText.PersonName">
+    <style name="AppTheme.MaterialEditText.PersonName">
         <item name="android:inputType">textPersonName</item>
     </style>
 
@@ -135,6 +134,14 @@
     <style name="CustomTVHeadingStyleBlack" parent="@android:style/Widget.TextView">
         <!-- Customize your theme here. -->
         <!--<item name="android:paddingLeft">0dp</item>-->
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="BoldTextViewStyle" parent="@android:style/Widget.TextView">
+        <item name="fontPath">fonts/DroidKufi-Bold.ttf</item>
+    </style>
+    <style name="HeadingStyleTextView" parent="@android:style/Widget.TextView">
+        <item name="fontPath">fonts/DroidKufi-Bold.ttf</item>
         <item name="android:textSize">14sp</item>
     </style>
 
