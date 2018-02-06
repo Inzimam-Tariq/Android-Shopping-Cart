@@ -33,6 +33,7 @@
             android:divider="@color/outline"
             android:dividerHeight="1dp"
             android:groupIndicator="@null" />
+        <!--android:childDivider="@color/colorAccent3"-->
 
         <TextView
             android:id="@+id/disc_category_tv"
@@ -62,9 +63,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:childDivider="@color/outline"
             android:choiceMode="singleChoice"
-            android:divider="@color/outline"
-            android:dividerHeight="1dp"
+            android:divider="@null"
             android:groupIndicator="@null" />
 
     </LinearLayout>

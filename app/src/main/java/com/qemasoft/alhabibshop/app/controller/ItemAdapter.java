@@ -71,28 +71,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                         .into(holder.img, new Callback() {
                             @Override
                             public void onSuccess() {
-                                
                                 holder.progressBar.setVisibility(View.GONE);
-                                
                             }
                             
                             @Override
                             public void onError() {
-                                
                                 holder.progressBar.setVisibility(View.GONE);
                                 holder.img.setImageResource(R.drawable.ic_close_black);
                             }
                         });
 //            Picasso.with(context).setIndicatorsEnabled(true);
             
-            holder.customLinearLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    
-                    holder.img.getLayoutParams().height =
-                            Utils.getScreenWidth(holder.img.getContext()) / 2 - 50;
-                }
-            });
+            holder.img.getLayoutParams().height =
+                    Utils.getScreenWidth(holder.img.getContext()) / 2 - 50;
             
             String symbol = Preferences.getSharedPreferenceString(context
                     , AppConstants.CURRENCY_SYMBOL_KEY, "$");

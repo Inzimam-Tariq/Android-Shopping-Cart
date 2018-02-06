@@ -12,11 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -27,6 +26,7 @@ import com.qemasoft.alhabibshop.app.controller.CartDetailAdapter;
 import com.qemasoft.alhabibshop.app.model.MyCartDetail;
 import com.qemasoft.alhabibshop.app.model.Options;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
+import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,9 +42,12 @@ import static com.qemasoft.alhabibshop.app.AppConstants.ADD_TO_CART_REQUEST_CODE
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
+import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.getCounterState;
 import static com.qemasoft.alhabibshop.app.AppConstants.optionsList;
+import static com.qemasoft.alhabibshop.app.AppConstants.setCounterState;
 
 /**
  * Created by Inzimam Tariq on 24-Oct-17.
@@ -56,6 +59,8 @@ public class FragCartDetail extends MyBaseFragment {
     private CartDetailAdapter cartDetailAdapter;
     private Bundle bundle;
     private TextView subTotalVal, grandTotalVal;
+    private Button checkoutBtn;
+    private LinearLayout totalContainer, innerLayout;
     
     public FragCartDetail() {
         // Required empty public constructor
@@ -73,7 +78,7 @@ public class FragCartDetail extends MyBaseFragment {
         
         bundle = getArguments();
         if (bundle != null) {
-            String id = getArguments().getString("id");
+            String id = bundle.getString("id");
             utils.printLog("ProductId", "ID=" + id);
             requestData(id);
         } else {
@@ -83,10 +88,15 @@ public class FragCartDetail extends MyBaseFragment {
         useCoupon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                
                 if (isChecked) {
                     createAndShowCustomAlertDialog();
                 }
+            }
+        });
+        checkoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                utils.switchFragment(new FragCheckout());
             }
         });
         
@@ -99,7 +109,7 @@ public class FragCartDetail extends MyBaseFragment {
         Map<String, String> map = new HashMap<>();
         map.put("session_id", Preferences.getSharedPreferenceString(appContext
                 , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
-        String midFix = getArguments().getString("midFix", "");
+        String midFix = bundle.getString("midFix", "");
         utils.printLog("MidFix = " + midFix);
         AppConstants.setMidFixApi(midFix);
         String customerId = Preferences.getSharedPreferenceString(appContext,
@@ -150,7 +160,10 @@ public class FragCartDetail extends MyBaseFragment {
         builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                utils.showToast("" + input.getText());
+                String couponCode = input.getText().toString().trim();
+                if (couponCode.isEmpty())
+                    utils.showAlertDialog("AlertDialog", "No Coupon Code Entered");
+                else utils.applyCoupon(couponCode);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -170,92 +183,126 @@ public class FragCartDetail extends MyBaseFragment {
         useCoupon = view.findViewById(R.id.use_coupon_cb);
         subTotalVal = view.findViewById(R.id.sub_total_val_tv);
         grandTotalVal = view.findViewById(R.id.grand_total_val_tv);
+        
+        checkoutBtn = view.findViewById(R.id.cart_checkout_btn);
+        totalContainer = view.findViewById(R.id.total_container);
     }
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         
         super.onActivityResult(requestCode, resultCode, data);
+        
         if (data != null) {
-            JSONObject response = null;
-            try {
-                response = new JSONObject(data.getStringExtra("result"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-                
-                utils.showErrorDialog(String.format("ResponseIs = %s", response.toString()));
-                utils.printLog("ResponseIs = " + response.toString());
-            }
             
-            utils.printLog("ResponseStep1!", "" + response.toString());
-            utils.printLog("RespInFragCDabcd", "" + response.toString());
-            utils.printLog("ResponseStep2!" + response.toString());
             if (resultCode == Activity.RESULT_OK) {
-                utils.printLog("ResponseStep3!" + response.toString());
                 if (requestCode == ADD_TO_CART_REQUEST_CODE) {
-                    utils.printLog("ResponseStep4!", response.toString());
-//                    utils.showAlertDialog("ResponseResultOK!", response.toString());
-                    JSONArray cartProducts = response.optJSONArray("cartProducts");
-                    List<MyCartDetail> cartDetailList = new ArrayList<>();
-                    if (cartProducts == null || cartProducts.toString().isEmpty()) {
-                        utils.showErrorDialog("You have no products in cart");
-                        return;
-                    }
-                    for (int i = 0; i < cartProducts.length(); i++) {
+                    JSONObject response = null;
+                    try {
+                        response = new JSONObject(data.getStringExtra("result"));
                         
-                        JSONObject objectCP = cartProducts.optJSONObject(i);
+                        updateItemCounter();
+                        setCounterState(0);
                         
-                        JSONArray selectedOptions = objectCP.optJSONArray("option");
-                        utils.printLog("ProductOptionsRaw = " + selectedOptions);
-                        List<Options> optionsList = new ArrayList<>();
+                        JSONArray cartProducts = response.optJSONArray("cartProducts");
+                        List<MyCartDetail> cartDetailList = new ArrayList<>();
+                        if (cartProducts == null || cartProducts.toString().isEmpty()) {
+                            utils.showErrorDialog("You have no products in cart");
+                            return;
+                        }
+                        for (int i = 0; i < cartProducts.length(); i++) {
+                            
+                            JSONObject objectCP = cartProducts.optJSONObject(i);
+                            
+                            JSONArray selectedOptions = objectCP.optJSONArray("option");
+                            utils.printLog("ProductOptionsRaw = " + selectedOptions);
+                            List<Options> optionsList = new ArrayList<>();
+                            
+                            if (selectedOptions != null && selectedOptions.length() > 0)
+                                for (int j = 0; j < selectedOptions.length(); j++) {
+                                    JSONObject objOptions = selectedOptions.optJSONObject(j);
+                                    optionsList.add(new Options(objOptions.optString("value")));
+                                }
+                            utils.printLog("OptionListInFragCart = " + optionsList.toString());
+                            
+                            
+                            cartDetailList.add(new MyCartDetail(objectCP.optString("cart_id"),
+                                    objectCP.optString("product_id"),
+                                    objectCP.optString("image"),
+                                    objectCP.optString("name"),
+                                    objectCP.optString("quantity"),
+                                    objectCP.optString("price"),
+                                    objectCP.optString("total")
+                                    , optionsList));
+                        }
                         
-                        if (selectedOptions != null && selectedOptions.length() > 0)
-                            for (int j = 0; j < selectedOptions.length(); j++) {
-                                JSONObject objOptions = selectedOptions.optJSONObject(j);
-                                optionsList.add(new Options(objOptions.optString("value")));
+                        cartDetailAdapter = new CartDetailAdapter(cartDetailList, false);
+                        RecyclerView.LayoutManager mLayoutManager =
+                                new LinearLayoutManager(context
+                                        , LinearLayoutManager.VERTICAL, false);
+                        mRecyclerView.setLayoutManager(mLayoutManager);
+                        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                        utils.printLog("Setting Adapter For Cart Items");
+                        mRecyclerView.setAdapter(cartDetailAdapter);
+                        utils.printLog("Adapter Set Success");
+                        
+                        LayoutInflater inflater = LayoutInflater.from(context);
+                        totalContainer.removeAllViews();
+                        
+                        JSONArray totals = response.optJSONArray("totals");
+                        
+                        if (totals != null && !totals.toString().isEmpty()) {
+                            for (int i = 0; i < totals.length(); i++) {
+                                JSONObject totalsObj = totals.optJSONObject(i);
+                                utils.printLog("" + totalsObj);
+                                View layout = inflater.inflate(R.layout.layout_totals, null);
+                                TextView textTV = layout.findViewById(R.id.text_holder);
+                                TextView valTV = layout.findViewById(R.id.val_holder);
+                                
+                                textTV.setId(i);
+                                valTV.setId(i + 10);
+                                utils.printLog("Title = " + totalsObj.optString("title"
+                                        + "Value = " + totalsObj.optString("text")));
+                                textTV.setText(totalsObj.optString("title")
+                                        .concat(" ").concat(symbol));
+                                valTV.setText(totalsObj.optString("text")
+                                        .concat(" ").concat(symbol));
+                                
+                                totalContainer.addView(layout);
                             }
-                        utils.printLog("OptionListInFragCart = " + optionsList.toString());
+                            
+                        }
                         
-                        
-                        cartDetailList.add(new MyCartDetail(objectCP.optString("cart_id"),
-                                objectCP.optString("product_id"),
-                                objectCP.optString("image"),
-                                objectCP.optString("name"),
-                                objectCP.optString("quantity"),
-                                objectCP.optString("price"),
-                                objectCP.optString("total")
-                                , optionsList));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    
-                    cartDetailAdapter = new CartDetailAdapter(cartDetailList, false);
-                    RecyclerView.LayoutManager mLayoutManager =
-                            new LinearLayoutManager(context
-                                    , LinearLayoutManager.VERTICAL, false);
-                    mRecyclerView.setLayoutManager(mLayoutManager);
-                    mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-                    utils.printLog("Setting Adapter For Cart Items");
-                    mRecyclerView.setAdapter(cartDetailAdapter);
-                    utils.printLog("Adapter Set Success");
-                    
-                    JSONArray totals = response.optJSONArray("totals");
-                    
-                    if (totals != null && !totals.toString().isEmpty()) {
-                        JSONObject object0 = totals.optJSONObject(0);
-                        JSONObject object1 = totals.optJSONObject(1);
-                        
-                        subTotalVal.setText(object0.optString("text").concat("").concat(symbol));
-                        grandTotalVal.setText(object1.optString("text").concat("").concat(symbol));
-                    }
-                    
-                } else {
-                    utils.showAlertDialog("ResponseOtherCode!", response.toString());
                 }
             } else if (resultCode == FORCED_CANCEL) {
-                utils.showErrorDialog("Response!"
-                        + response.optString("message"));
+                try {
+                    JSONObject response = new JSONObject(data.getStringExtra("result"));
+                    utils.showErrorDialog("Response!"
+                            + response.optString("message"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 utils.showErrorDialog("Error Getting Data From Server!");
             }
+        }
+    }
+    
+    private void updateItemCounter() {
+        
+        TextView itemCountTV = ((MainActivity) context).counterTV;
+        int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
+        if (getCounterState() == 1) {
+            itemCountTV.setText(String.valueOf(++val));
+            Preferences.setSharedPreferenceInt(appContext, ITEM_COUNTER,
+                    Integer.parseInt(itemCountTV.getText().toString()));
+        } else if (getCounterState() == -1) {
+            itemCountTV.setText(String.valueOf(--val));
+            Preferences.setSharedPreferenceInt(appContext, ITEM_COUNTER,
+                    Integer.parseInt(itemCountTV.getText().toString()));
         }
     }
     

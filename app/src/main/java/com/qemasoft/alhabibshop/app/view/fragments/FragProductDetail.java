@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +19,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
-import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.ProductImagePreviewAdapter;
 import com.qemasoft.alhabibshop.app.controller.ProductOptionsAdapter;
@@ -37,10 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
-import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
 import static com.qemasoft.alhabibshop.app.AppConstants.PRODUCT_DETAIL_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
+import static com.qemasoft.alhabibshop.app.AppConstants.setCounterState;
 
 
 /**
@@ -84,7 +83,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
     }
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_product_detail, container, false);
@@ -288,12 +287,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         switch (v.getId()) {
             
             case R.id.add_to_cart_btn:
-                TextView itemCountTV = getActivity().findViewById(R.id.actionbar_notification_tv);
-                int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
-                val++;
-                itemCountTV.setText(String.valueOf(val));
-                Preferences.setSharedPreferenceInt(appContext, ITEM_COUNTER,
-                        Integer.parseInt(itemCountTV.getText().toString()));
+                setCounterState(1);
                 Bundle bundle = new Bundle();
                 bundle.putString("id", product.getProductId());
                 utils.printLog("ProductId", "ID=" + product.getProductId());

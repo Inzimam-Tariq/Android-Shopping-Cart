@@ -21,37 +21,37 @@ import java.util.Map;
 import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
 
 public class FetchData extends AppCompatActivity {
-
-
+    
+    
     private Bundle bundle;
     private Utils utils;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        
         setContentView(R.layout.activity_fetch_data);
         this.setFinishOnTouchOutside(false);
         this.utils = new Utils(this);
-
+        
         boolean hasParameters = getIntent().getBooleanExtra("hasParameters", false);
         utils.printLog("Inside FetchData", "Has Extra = " + hasParameters);
-
+        
         if (hasParameters) {
             doParametrisedRequest();
         } else {
             doSimpleRequest();
         }
     }
-
+    
     private void doParametrisedRequest() {
         final ANRequest.PostRequestBuilder request = AndroidNetworking.post(getApiCallUrl());
         utils.printLog("Url = ", getApiCallUrl());
         bundle = getIntent().getExtras();
-
+        
         if (bundle != null) {
             Map<String, String> parameterMap = (Map<String, String>) bundle.getSerializable("parameters");
-
+            
             request.addBodyParameter(parameterMap);
             request.setPriority(Priority.HIGH);
             request.build().getAsJSONObject(new JSONObjectRequestListener() {
@@ -75,11 +75,14 @@ public class FetchData extends AppCompatActivity {
                         utils.printLog("ForceCanceled", response.toString());
                     }
                 }
-
+                
                 @Override
                 public void onError(ANError anError) {
                     utils.printLog("doParametrizedRequest", "If anError");
                     anError.printStackTrace();
+                    utils.printLog("onError errorCode : " + anError.getErrorCode());
+                    utils.printLog("onError errorBody : " + anError.getErrorBody());
+                    utils.printLog("onError errorDetail : " + anError.getErrorDetail());
                     Intent returnIntent = new Intent();
                     setResult(Activity.RESULT_CANCELED, returnIntent);
                     finish();
@@ -87,7 +90,7 @@ public class FetchData extends AppCompatActivity {
             });
         }
     }
-
+    
     private void doSimpleRequest() {
         utils.printLog("Url = ", getApiCallUrl());
         AndroidNetworking.post(getApiCallUrl())
@@ -113,11 +116,14 @@ public class FetchData extends AppCompatActivity {
                             utils.printLog("doSimpleRequest", response.toString());
                         }
                     }
-
+                    
                     @Override
                     public void onError(ANError anError) {
                         utils.printLog("doSimpleRequest", "If anError");
                         anError.printStackTrace();
+                        utils.printLog("onError errorCode : " + anError.getErrorCode());
+                        utils.printLog("onError errorBody : " + anError.getErrorBody());
+                        utils.printLog("onError errorDetail : " + anError.getErrorDetail());
                         Intent returnIntent = new Intent();
                         setResult(Activity.RESULT_CANCELED, returnIntent);
                         finish();

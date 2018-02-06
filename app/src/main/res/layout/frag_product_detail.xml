@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:focusableInTouchMode="true">
 
     <ScrollView
@@ -38,8 +39,10 @@
                 <ImageView
                     android:id="@+id/image_view"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:contentDescription="@string/image_text" />
+                    android:layout_height="200dp"
+                    android:contentDescription="@string/image_text"
+                    android:scaleType="fitXY" />
+
             </FrameLayout>
 
             <android.support.v7.widget.RecyclerView

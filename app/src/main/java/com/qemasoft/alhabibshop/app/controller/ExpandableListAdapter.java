@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,7 +13,6 @@ import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MenuCategory;
 import com.qemasoft.alhabibshop.app.model.MenuSubCategory;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,18 +26,17 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     
     private List<MenuCategory> dataListHeader;
     private HashMap<MenuCategory, List<MenuSubCategory>> listHashMap;
-    private boolean isRight;
-    private List<Integer> userMenuIcons;
+    private boolean isFilter;
     private Utils utils;
     
     public ExpandableListAdapter(List<MenuCategory> dataListHeader,
                                  HashMap<MenuCategory, List<MenuSubCategory>> listHashMap,
-                                 boolean isRight, List<Integer> userMenuIcons) {
+                                 boolean isFilter) {
         
         this.dataListHeader = dataListHeader;
         this.listHashMap = listHashMap;
-        this.isRight = isRight;
-        this.userMenuIcons = userMenuIcons;
+        this.isFilter = isFilter;
+        
     }
     
     @Override
@@ -88,7 +87,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         lblListHeader.setText(menuCategory.getMenuCategoryName());
 //            lblListHeader.setTypeface(null, Typeface.BOLD);
 //        ImageView imageView = groupView.findViewById(R.id.imageView);
-        ImageView expandCollapseImg = groupView.findViewById(R.id.expand_collapse_image);
+        ImageView expandCollapseIV = groupView.findViewById(R.id.expand_collapse_image);
 //        if (isRight) {
 //            imageView.setImageResource(userMenuIcons.get(groupPosition));
 //        } else {
@@ -101,26 +100,50 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 //        }
         
         if (getChildrenCount(groupPosition) > 0) {
-            expandCollapseImg.setImageResource(isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black);
-//            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(
-//                    0, 0, isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black, 0);
+            expandCollapseIV.setImageResource(isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black);
         }
+        
+        if (isFilter) {
+            groupView.setClickable(false);
+        }
+        
         
         return groupView;
     }
     
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
-                             View convertView, ViewGroup parent) {
+                             View convertView, final ViewGroup parent) {
         
-        MenuSubCategory textChild = (MenuSubCategory) getChild(groupPosition, childPosition);
-        
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
-        
-        TextView lblListChild = itemView.findViewById(R.id.lblListItem);
-        lblListChild.setText(textChild.getMenuSubCategoryName());
-        Log.e("ChildText", textChild.getMenuSubCategoryName());
+        final MenuSubCategory child = (MenuSubCategory) getChild(groupPosition, childPosition);
+        View itemView;
+        if (!isFilter) {
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.list_item_left, parent, false);
+            
+            TextView lblListChild = itemView.findViewById(R.id.lblListItem);
+            lblListChild.setText(child.getMenuSubCategoryName());
+            Log.e("ChildText", child.getMenuSubCategoryName());
+        } else {
+            
+            itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_chechbox, parent, false);
+            itemView.setClickable(false);
+            CheckBox checkBox = itemView.findViewById(R.id.item_option);
+            checkBox.setText(child.getMenuSubCategoryName());
+//            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    utils.printLog("IsChecked=" + isChecked);
+//                    if (isChecked) {
+//                        utils.printLog("CheckedId=" + child.getMenuSubCategoryId());
+//                        selectedFilters.add(child.getMenuSubCategoryId());
+//                    } else {
+//                        utils.printLog("Un-CheckedId=" + child.getMenuSubCategoryId());
+//                    }
+//                }
+//            });
+        }
         
         return itemView;
     }

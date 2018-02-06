@@ -85,27 +85,29 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
         
         utils = new Utils(parent.getContext());
         String headerTitle = (String) getGroup(groupPosition);
-        View groupView;
+        View groupView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_group, parent, false);
+        TextView lblListHeader = groupView.findViewById(R.id.lblListHeader);
+        lblListHeader.setText(headerTitle);
+        ImageView imageView = groupView.findViewById(R.id.imageView);
+        ImageView expandCollapseImg = groupView.findViewById(R.id.expand_collapse_image);
+        View divider = groupView.findViewById(R.id.header_divider);
+        
         if (getChildrenCount(groupPosition) == 1) {
             groupView = new View(parent.getContext());
+//            ExpandableListView v = (ExpandableListView) parent;
+//            v.setDivider(null);
+            divider.setVisibility(View.GONE);
         } else {
-            groupView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_group, parent, false);
-            
-            TextView lblListHeader = groupView.findViewById(R.id.lblListHeader);
-            lblListHeader.setText(headerTitle);
-            ImageView imageView = groupView.findViewById(R.id.imageView);
-            ImageView expandCollapseImg = groupView.findViewById(R.id.expand_collapse_image);
             
             imageView.setImageResource(userMenuIcons.get(groupPosition));
             
             if (getChildrenCount(groupPosition) > 1
                     || groupPosition == userMenuIcons.size() - 1) {
                 expandCollapseImg.setImageResource(isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black);
-//                lblListHeader.setCompoundDrawablesWithIntrinsicBounds(
-//                        0, 0, isExpanded ? R.drawable.ic_expand_less_black : R.drawable.ic_expand_more_black, 0);
             }
         }
+        
         
         return groupView;
     }
@@ -121,7 +123,7 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
                 || groupPosition == userMenuIcons.size() - 1) {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item, parent, false);
-    
+            
             TextView lblListChild = itemView.findViewById(R.id.lblListItem);
             
             

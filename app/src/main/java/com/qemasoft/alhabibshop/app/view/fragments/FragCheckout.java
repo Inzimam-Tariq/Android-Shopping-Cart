@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,9 +64,10 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     private RadioGroup radioGroupShippingMethod, radioGroupPaymentMethod;
     private Button selectDeliveryAddress, backBtn, nextBtn;
     private CheckBox termsCB;
-    private LinearLayout step1, step2, step3, step4, step5;
+    private LinearLayout step1, step2, step3, step4, totalContainer, step5;
     private List<String> list;
-    private TextView confirmOrderTV, subTotalValTV, grandTotalValTV;
+    private TextView confirmOrderTV, subTotalValTV, grandTotalValTV,
+            bankHeadingTV, bankInstructionsTV;
     private int selectedAddressIndex;
     private EditText commentET;
     private List<ShippingMethod> shippingMethodList;
@@ -77,7 +79,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_checkout, container, false);
@@ -100,9 +102,9 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     }
     
     private void setDrawables() {
-        utils.setCompoundDrawable(backBtn, LEFT, R.drawable.ic_navigate_back);
-        utils.setCompoundDrawable(nextBtn, RIGHT, R.drawable.ic_navigate_next);
-        utils.setCompoundDrawable(selectDeliveryAddress, RIGHT, R.drawable.ic_expand_more_black);
+        utils.setCompoundDrawable(backBtn, RIGHT, R.drawable.ic_navigate_next);
+        utils.setCompoundDrawable(nextBtn, LEFT, R.drawable.ic_navigate_back);
+        utils.setCompoundDrawable(selectDeliveryAddress, LEFT, R.drawable.ic_expand_more_black);
     }
     
     private void getAddresses() {
@@ -128,10 +130,13 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         radioGroupPaymentMethod = view.findViewById(R.id.rg_payment_method);
         commentET = view.findViewById(R.id.order_comment_et);
         step4 = view.findViewById(R.id.step4);
+        totalContainer = view.findViewById(R.id.total_container);
         step5 = view.findViewById(R.id.step5);
         confirmOrderTV = view.findViewById(R.id.confirm_order_tv);
         subTotalValTV = view.findViewById(R.id.sub_total_val_tv);
         grandTotalValTV = view.findViewById(R.id.grand_total_val_tv);
+        bankHeadingTV = view.findViewById(R.id.bank_heading_tv);
+        bankInstructionsTV = view.findViewById(R.id.bank_instructions_tv);
         
         termsCB = view.findViewById(R.id.terms_cb);
         nextBtn = view.findViewById(R.id.next_btn);
@@ -141,7 +146,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         list = new ArrayList<>();
-        if (!addressList.isEmpty()) {
+        if (addressList != null && !addressList.isEmpty()) {
             for (int i = 0; i < addressList.size(); i++) {
                 list.add(addressList.get(i).getAddress());
             }
@@ -150,7 +155,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         int rgShippingCount = radioGroupPaymentMethod.getChildCount();
         switch (v.getId()) {
             case R.id.select_delivery_address_btn:
-                if (addressList.isEmpty()) {
+                if (addressList == null || addressList.isEmpty()) {
                     utils.showAlertDialog("Alert!",
                             "You need to add an address");
                 } else {
@@ -202,9 +207,13 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     Map<String, String> map = new HashMap<>();
                     map.put("customer_id", Preferences.getSharedPreferenceString(appContext
                             , CUSTOMER_KEY, DEFAULT_STRING_VAL));
-                    map.put("address_id", addressList.get(selectedAddressIndex).getId());
+//                    map.put("address_id", addressList.get(selectedAddressIndex).getId());
                     map.put("session_id", Preferences.getSharedPreferenceString(appContext
                             , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
+                    int index = utils.getSelectedRadioIndex(radioGroupPaymentMethod);
+                    String paymentCode = paymentMethodList.get(index).getCode();
+                    utils.printLog("payment_code = " + paymentCode);
+                    map.put("payment_code", paymentCode);
                     bundle.putBoolean("hasParameters", true);
                     bundle.putSerializable("parameters", (Serializable) map);
                     Intent intent = new Intent(getContext(), FetchData.class);
@@ -286,13 +295,13 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         JSONObject response = null;
-        try {
-            response = new JSONObject(data.getStringExtra("result"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if (response != null) {
-            if (resultCode == Activity.RESULT_OK) {
+        if (data != null && resultCode == Activity.RESULT_OK) {
+            try {
+                response = new JSONObject(data.getStringExtra("result"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            if (response != null) {
                 if (requestCode == ADDRESS_BOOK_REQUEST_CODE) {
                     JSONArray addresses = response.optJSONArray("addresses");
                     addressList = new ArrayList<>();
@@ -386,12 +395,14 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     List<MyCartDetail> cartDetailList = new ArrayList<>();
                     if (cartProducts == null || cartProducts.toString().isEmpty()) {
                         utils.showErrorDialog("You have no products in cart");
+                        nextBtn.setEnabled(false);
                         return;
                     }
                     for (int i = 0; i < cartProducts.length(); i++) {
                         JSONObject objectCP = cartProducts.optJSONObject(i);
                         cartDetailList.add(new MyCartDetail(objectCP.optString("product_id"),
                                 objectCP.optString("name"),
+                                objectCP.optString("image"),
                                 objectCP.optString("model"),
                                 objectCP.optString("quantity"),
                                 objectCP.optString("price"),
@@ -410,14 +421,35 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     if (!cartDetailList.isEmpty() || cartDetailList.size() > 0)
                         mRecyclerView.setAdapter(cartDetailAdapter);
                     
-                    JSONArray cartTotals = response.optJSONArray("totals");
-                    List<String> totalsList = new ArrayList<>();
-                    for (int j = 0; j < cartTotals.length(); j++) {
-                        JSONObject object = cartTotals.optJSONObject(j);
-                        totalsList.add(object.optString("text"));
+                    LayoutInflater inflater = LayoutInflater.from(context);
+                    totalContainer.removeAllViews();
+                    
+                    JSONArray totals = response.optJSONArray("totals");
+                    
+                    if (totals != null && !totals.toString().isEmpty()) {
+                        for (int i = 0; i < totals.length(); i++) {
+                            JSONObject totalsObj = totals.optJSONObject(i);
+                            utils.printLog("" + totalsObj);
+                            View layout = inflater.inflate(R.layout.layout_totals, null);
+                            TextView textTV = layout.findViewById(R.id.text_holder);
+                            TextView valTV = layout.findViewById(R.id.val_holder);
+                            
+                            textTV.setId(i);
+                            valTV.setId(i + 10);
+                            utils.printLog("Title = " + totalsObj.optString("title"
+                                    + "Value = " + totalsObj.optString("text")));
+                            textTV.setText(totalsObj.optString("title")
+                                    .concat(" ").concat(symbol));
+                            valTV.setText(totalsObj.optString("text")
+                                    .concat(" ").concat(symbol));
+                            
+                            totalContainer.addView(layout);
+                        }
+                        
                     }
-                    subTotalValTV.setText(totalsList.get(0).concat("").concat(symbol));
-                    grandTotalValTV.setText(totalsList.get(1).concat("").concat(symbol));
+                    
+                    bankHeadingTV.setText(response.optString("instruction"));
+                    bankInstructionsTV.setText(response.optString("bank_transfer"));
                     
                 } else if (requestCode == PLACE_ORDER_REQUEST_CODE) {
                     stateProgressBar.setVisibility(View.GONE);
@@ -429,15 +461,21 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         else confirmOrderTV.setText(Html.fromHtml(message));
                     }
                 }
-            } else if (resultCode == FORCED_CANCEL) {
+            } else utils.showErrorDialog("Response is null");
+        } else if (resultCode == FORCED_CANCEL) {
+            try {
+                assert data != null;
+                response = new JSONObject(data.getStringExtra("result"));
                 String message = response.optString("message");
                 message = message.trim();
                 if (!message.isEmpty()) {
                     utils.showAlertDialog("Message", message);
                 }
-            } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Unable to Get Data From Server");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } else utils.showErrorDialog("Response is null");
+        } else if (resultCode == Activity.RESULT_CANCELED) {
+            utils.showErrorDialog(findStringByName("error_fetching_data"));
+        }
     }
 }

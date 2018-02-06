@@ -95,33 +95,30 @@
                     android:layout_gravity="center"
                     android:text="@string/login_text" />
 
-                <GridLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:columnCount="2">
+                    android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
                         android:gravity="center"
-                        android:paddingEnd="15dp"
                         android:paddingLeft="15dp"
                         android:paddingRight="15dp"
-                        android:paddingStart="15dp"
                         android:text="@string/do_not_have_account" />
 
                     <TextView
                         android:id="@+id/reg_tv_in_login"
                         style="@style/LinkTextView"
                         android:layout_width="wrap_content"
-                        android:layout_height="30dp"
+                        android:layout_height="36dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center"
                         android:text="@string/register" />
 
-                </GridLayout>
+                </LinearLayout>
 
                 <!--<LinearLayout-->
                 <!--android:layout_width="match_parent"-->

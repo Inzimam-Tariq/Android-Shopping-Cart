@@ -65,8 +65,8 @@ public class AppConstants {
     public static final String LEFT = "left";
     public static final String TOP = "top";
     public static final String BOTTOM = "bottom";
-    private static final String BASE_URL = "http://www.opencartgulf.com/api/";
-//        private static final String BASE_URL = "https://www.alhabibshop.com/api/";
+//    private static final String BASE_URL = "http://www.opencartgulf.com/api/";
+            private static final String BASE_URL = "https://www.alhabibshop.com/api/";
     //        private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     public static List<ProductOptionValueItem> optionsList = new ArrayList<>();
@@ -75,6 +75,15 @@ public class AppConstants {
     private static String PRODUCT_EXTRA;
     private static String SLIDESHOW_EXTRA;
     private static int clickCount;
+    private static int counterState = 0;
+    
+    public static void setCounterState(int counterState) {
+        AppConstants.counterState = counterState;
+    }
+    
+    public static int getCounterState() {
+        return counterState;
+    }
     
     public static int getClickCount() {
         return clickCount;

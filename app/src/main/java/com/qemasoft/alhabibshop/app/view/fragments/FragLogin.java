@@ -67,12 +67,14 @@ public class FragLogin extends MyBaseFragment {
         registerTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                utils.printLog("RegisterClicked");
                 utils.switchFragment(new FragRegister());
             }
         });
         forgotPassTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                utils.printLog("ForgetClicked");
                 utils.switchFragment(new FragForgotPass());
             }
         });
@@ -83,11 +85,13 @@ public class FragLogin extends MyBaseFragment {
                 String emailVal = emailET.getText().toString().trim();
                 String passVal = passET.getText().toString().trim();
                 AppConstants.setMidFixApi("login");
-                if (emailVal.length() < 1) {
+                if (emailVal.isEmpty() || emailVal.length() < 1) {
                     utils.setError(emailET);
-                } else if (passVal.length() < 1) {
+                } else if (passVal.isEmpty() || passVal.length() < 1) {
                     utils.setError(passET);
                 } else {
+                    utils.printLog("LoginClicked Email = " + emailVal
+                            + "\tPassword = " + passVal);
                     Map<String, String> map = new HashMap<>();
                     map.put("email", emailVal);
                     map.put("password", passVal);

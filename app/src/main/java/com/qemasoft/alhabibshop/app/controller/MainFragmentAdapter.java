@@ -26,12 +26,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.getHomeExtra;
 
 
 /**
- * Created by Inzimam on 17-Oct-17.
+ * Created by Inzimam Tariq on 17-Oct-17.
  */
 
 public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -107,19 +106,31 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         utils.printLog("itemType = ", itemType + "");
         Object o = myAllItemsList.get(position);
         RecyclerView.LayoutManager mLayoutManagerCat = null;
+        int layoutColumnsCat = 2;
+        int layoutColumnsItem = 2;
         if (o instanceof List) {
             List<Object> list = (List<Object>) myAllItemsList.get(position);
             
-            int layoutColumns = 2;
+            
             if (list.size() < 4) {
-                layoutColumns = 1;
+                layoutColumnsCat = 1;
+                layoutColumnsItem = 1;
             }
-            mLayoutManagerCat =
-                    new GridLayoutManager(context, layoutColumns,
-                            LinearLayoutManager.HORIZONTAL, false);
+            int screenWidth = Utils.getScreenWidth(context);
+            if (screenWidth > 480 && list.size() < 5) {
+                layoutColumnsCat = 1;
+            }
+            if (screenWidth > 1000 && list.size() < 7) {
+                layoutColumnsCat = 1;
+            }
+            
+            
         }
         switch (itemType) {
             case CATEGORY_VIEW:
+                mLayoutManagerCat =
+                        new GridLayoutManager(context, layoutColumnsCat,
+                                LinearLayoutManager.HORIZONTAL, false);
                 ViewHolder1 vh1 = (ViewHolder1) holder;
                 vh1.getmRecyclerView().setLayoutManager(mLayoutManagerCat);
                 vh1.getmRecyclerView().setAdapter(new CategoryAdapter(
@@ -130,6 +141,9 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 configureViewHolder2(vh2, position);
                 break;
             default:
+                mLayoutManagerCat =
+                        new GridLayoutManager(context, layoutColumnsItem,
+                                LinearLayoutManager.HORIZONTAL, false);
                 ViewHolder1 vh3 = (ViewHolder1) holder;
                 vh3.getmRecyclerView().setLayoutManager(mLayoutManagerCat);
                 vh3.getmRecyclerView().setAdapter(new ItemAdapter(

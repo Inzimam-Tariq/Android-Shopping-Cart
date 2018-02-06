@@ -25,7 +25,7 @@
     <string name="privacy_policy_text_u"><u>الخصوصية</u></string>
     <string name="sign_up"><u>تسجيل حساب جديد</u></string>
     <string name="do_not_have_account">تسجيل جديد</string>
-    <string name="register">تسجيل حساب جديد</string>
+    <string name="register"><u>تسجيل حساب جديد</u></string>
     <string name="have_account">تسجيل الدخول</string>
     <string name="click_here"><u>انقر هنا!</u></string>
     <string name="privacy_policy_statement">لقد قرأت ووافقت على, </string>
@@ -37,7 +37,7 @@
     <string name="dummy_text">عربة التسوق هو وسيلة سهلة الاستخدام، قوية، مفتوحة المصدر برنامج إدارة متجر على الانترنت التي يمكن إدارة المخازن على الانترنت متعددة من واحد الخلفية. المنطقة الإدارية ببساطة عن طريق ملء النماذج والنقر على "حفظ". هناك العديد من ملحقات مكتوبة مهنيا المتاحة لتخصيص مخزن لاحتياجاتك
 يمكن أن يكون متجر سلة التسوق جاهزا لأخذ الطلبات بعد التثبيت مباشرة. كل ما عليك القيام به هو أن يكون مثبتا لك (أي المضيفين على شبكة الإنترنت تفعل ذلك مجانا)، حدد قالب تشكل العديد من المواقع قالب الحرة أو منخفضة التكلفة، وأوصاف المنتج والصور، انقر فوق عدد قليل من الإعدادات، وكنت على استعداد لبدء قبول أوامر. لدينا مجانا تركيب  أمب؛ فصول البداية السريعة تظهر لك كيف.
 الجانب العام أو "واجهة المتجر" من أوبينكارت تبدو المهنية للغاية وعلى استعداد لبيع تقريبا بمجرد تثبيته.</string>
-    <string name="title_activity_main2">النشاط الرئيسي</string>    
+    <string name="title_activity_main2">النشاط الرئيسي</string>
     <!--Fragment Cart -->
     <string name="frag_cart_checkbox_text">استخدم قسيمة التخفيض</string>
     <string name="enter_coupon_text">استخدم قسيمة التخفيض</string>
@@ -45,7 +45,7 @@
     <string name="preferred_shipping_method_text">الرجاء اختيار طريقة الشحن المفضلة لهذا الطلب.</string>
     <string name="preferred_payment_method_text">الرجاء اختيار طريقة الدفع المفضلة لهذا الطلب.</string>
     <string name="comment_about_order_text">كتابة ملاحظات مع الطلب.</string>
-    <string name="terms_text">شروط الاستخدام</string>
+    <string name="terms_text"><u>شروط الاستخدام</u></string>
     <string name="confirm_order_text">تأكيد الطلب</string>
     <string name="please_select_text"> --- الرجاء الاختيار --- </string>
     <string name="next_text">متابعة</string>
@@ -122,6 +122,9 @@
     <string name="submit_text">أرسل</string>
     <string name="continue_text">متابعة</string>
 
+    <string name="cancel_text">إلغ</string>
+    <string name="show_text">تبين</string>
+
     <string name="description_text">وصف:</string>
     <string name="welcome_text">أهلا بك</string>
 
@@ -143,7 +146,7 @@
     <string name="view_order_history_text">مشاهدة الطلب</string>
 
     <!--Fragment Privacy Policy-->
-    <string name="privacy_policy_text">الخصوصية</string>
+    <string name="privacy_policy_text"><u>الخصوصية</u></string>
 
     <!--Fragment Address Book-->
     <string name="address_book_text">دفتر العناوين</string>
@@ -192,5 +195,23 @@
     <string name="checkout">سلة الشراء</string>
     <string name="text_disc">تخفيضات</string>
     <string name="disc">خصم</string>
+
+    <string name="error_fetching_data">Error Fetching Data!…</string>
+    <string name="no_data">No Data to Show</string>
+    <string name="an_error">An Error Occurred!</string>
+
+    <string name="soft_by">الفرز بواسطة:</string>
+
+    <string-array name="filter_array">
+
+        <item>الافتراضي</item>
+        <item>الإسم من أ - ي</item>
+        <item>الإسم من ي - أ</item>
+        <item>حسب السعر (منخفض - مرتفع)</item>
+        <item>حسب السعر (مرتفع - منخفض)</item>
+        <item>النوع (أ - ي)</item>
+        <item>النوع (ي - أ)</item>
+
+    </string-array>
 
 </resources>

@@ -53,7 +53,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="preferred_shipping_method_text">Please select the preferred shipping method to use on this order</string>
     <string name="preferred_payment_method_text">Please select the preferred Payment method to use on this order</string>
     <string name="comment_about_order_text">Add Comments About Your Order</string>
-    <string name="terms_text">Terms and Conditions</string>
+    <string name="terms_text"><u>Terms and Conditions</u></string>
     <string name="confirm_order_text">Confirm Order</string>
     <string name="please_select_text">--Please Select--</string>
     <string name="next_text">Next</string>
@@ -134,6 +134,10 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="submit_text">Submit</string>
     <string name="continue_text">Continue</string>
 
+
+    <string name="cancel_text">Cancel</string>
+    <string name="show_text">Show</string>
+
     <string name="description_text">Description:</string>
     <string name="welcome_text">Welcome</string>
 
@@ -157,7 +161,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="view_order_history_text">View Order History</string>
 
     <!--Fragment Privacy Policy-->
-    <string name="privacy_policy_text">Privacy Policy</string>
+    <string name="privacy_policy_text"><u>Privacy Policy</u></string>
 
     <!--Fragment Address Book-->
     <string name="address_book_text">Address Book</string>
@@ -208,6 +212,33 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="text_disc">Discount</string>
     <string name="disc">Discount</string>
     <string name="title_activity_abc">AbcActivity</string>
+
+    <string name="error_fetching_data">Error Fetching Data!…</string>
+    <string name="no_data">No Data to Show</string>
+    <string name="an_error">An Error Occurred!</string>
+
+
+    <string name="soft_by">Sort By:</string>
+
+    <string-array name="sort_array">
+
+        <item>Default</item>
+        <item>Name (A - Z)</item>
+        <item>Name (Z - A)</item>
+        <item>Price (Low to High)</item>
+        <item>Price (High to Low)</item>
+        <item>Model (A - Z)</item>
+        <item>Model (Z - A)</item>
+
+    </string-array>
+
+
+    <array name="colors_array">
+        <item>@color/colorPrimaryDark</item>
+        <item>@color/text_color</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/textColorStrike</item>
+    </array>
 
 
 </resources>

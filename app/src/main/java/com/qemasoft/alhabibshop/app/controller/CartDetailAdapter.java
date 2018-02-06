@@ -1,6 +1,7 @@
 package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,14 +19,12 @@ import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.MyCartDetail;
 import com.qemasoft.alhabibshop.app.model.Options;
-import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCartDetail;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
-import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.setCounterState;
 
 
 /**
@@ -87,6 +86,8 @@ public class CartDetailAdapter
                                     ViewGroup.LayoutParams.MATCH_PARENT,
                                     ViewGroup.LayoutParams.WRAP_CONTENT));
                     textView.setText(optionsList.get(i).getValue());
+                    textView.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                            "fonts/DroidKufi-Regular.ttf"));
                     holder.productOptionsLayout.addView(textView);
                 }
                 
@@ -171,23 +172,26 @@ public class CartDetailAdapter
             final Bundle bundle = new Bundle();
             int id = v.getId();
             TextView qtyTV = holder.productQty;
+            
             if (id == R.id.remove_cart_iv) {
+                setCounterState(-1);
                 bundle.putString("id", cartId);
                 bundle.putString("midFix", "removeCart");
                 utils.switchFragment(new FragCartDetail(), bundle);
-                int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
                 
-                ((MainActivity) context).counterTV.setText(String.valueOf(val - 1));
             } else {
                 int quantity = Integer.parseInt(qtyTV.getText().toString());
                 if (id == R.id.update_cart_ibtn_plus) {
+                    setCounterState(1);
                     ++quantity;
                 } else if (id == R.id.update_cart_ibtn_minus) {
+                    
                     if (quantity <= 1) {
                         utils.showAlertDialog("Information",
                                 "Quantity Can't be 0 or Negative");
                         return;
                     } else {
+                        setCounterState(-1);
                         --quantity;
                     }
                 }
@@ -196,7 +200,6 @@ public class CartDetailAdapter
                 bundle.putString("midFix", "updateCart");
                 bundle.putString("qty", "" + quantity);
                 utils.switchFragment(new FragCartDetail(), bundle);
-                
                 
             }
             
