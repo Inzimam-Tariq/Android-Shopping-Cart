@@ -35,7 +35,6 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.utils = new Utils(this);
-        utils.changeLanguage("en");
         setContentView(R.layout.activity_search);
         this.context = this;
         initViews();

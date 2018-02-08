@@ -3,6 +3,7 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +48,7 @@ public class FragOrderHistory extends MyBaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_order_history, container, false);
@@ -120,8 +121,7 @@ public class FragOrderHistory extends MyBaseFragment {
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showAlertDialog("Invalid Request!",
-                        "Either the request is invalid or no relevant record found");
+                utils.showErrorDialog("error_fetching_data");
             }
         }
     }

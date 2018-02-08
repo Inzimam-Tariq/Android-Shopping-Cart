@@ -22,32 +22,30 @@
     <string name="nav_head_normal_text">طلب الأشياء اليومية الخاصة بك هنا!</string>
     <string name="nav_head_small_text">الحصول على كل شيء بأسعار مخفضة</string>
     <string name="forgot_pass"><u>هل نسيت كلمة المرور ؟</u></string>
-    <string name="privacy_policy_text_u"><u>الخصوصية</u></string>
-    <string name="sign_up"><u>تسجيل حساب جديد</u></string>
+    <string name="privacy_policy_text"><u>الخصوصية</u></string>
+    <string name="privacy_policy_statement">لقد قرأت ووافقت على, </string>
+    <string name="read_privacy_policy">يجب الموافقة على سياسة الخصوصية</string>
+
     <string name="do_not_have_account">تسجيل جديد</string>
     <string name="register"><u>تسجيل حساب جديد</u></string>
     <string name="have_account">تسجيل الدخول</string>
     <string name="click_here"><u>انقر هنا!</u></string>
-    <string name="privacy_policy_statement">لقد قرأت ووافقت على, </string>
     <string name="your_string_here">هذا <u>تسطير</u>.</string>
     <string name="action_search">بحث</string>
     <string name="forgot_pass_text">نسيت كلمة المرور</string>
-    <string name="title_activity_recycler_view_test">اختبار ريسيكليرفيو</string>
-    <string name="title_activity_json_viewer">نشاط عارض جسون</string>
-    <string name="dummy_text">عربة التسوق هو وسيلة سهلة الاستخدام، قوية، مفتوحة المصدر برنامج إدارة متجر على الانترنت التي يمكن إدارة المخازن على الانترنت متعددة من واحد الخلفية. المنطقة الإدارية ببساطة عن طريق ملء النماذج والنقر على "حفظ". هناك العديد من ملحقات مكتوبة مهنيا المتاحة لتخصيص مخزن لاحتياجاتك
-يمكن أن يكون متجر سلة التسوق جاهزا لأخذ الطلبات بعد التثبيت مباشرة. كل ما عليك القيام به هو أن يكون مثبتا لك (أي المضيفين على شبكة الإنترنت تفعل ذلك مجانا)، حدد قالب تشكل العديد من المواقع قالب الحرة أو منخفضة التكلفة، وأوصاف المنتج والصور، انقر فوق عدد قليل من الإعدادات، وكنت على استعداد لبدء قبول أوامر. لدينا مجانا تركيب  أمب؛ فصول البداية السريعة تظهر لك كيف.
-الجانب العام أو "واجهة المتجر" من أوبينكارت تبدو المهنية للغاية وعلى استعداد لبيع تقريبا بمجرد تثبيته.</string>
-    <string name="title_activity_main2">النشاط الرئيسي</string>
+
     <!--Fragment Cart -->
-    <string name="frag_cart_checkbox_text">استخدم قسيمة التخفيض</string>
-    <string name="enter_coupon_text">استخدم قسيمة التخفيض</string>
+
+    <string name="use_coupon_text">استخدم قسيمة التخفيض</string>
     <string name="frag_cart_btn_text">إنهاء الطلب</string>
     <string name="preferred_shipping_method_text">الرجاء اختيار طريقة الشحن المفضلة لهذا الطلب.</string>
     <string name="preferred_payment_method_text">الرجاء اختيار طريقة الدفع المفضلة لهذا الطلب.</string>
     <string name="comment_about_order_text">كتابة ملاحظات مع الطلب.</string>
     <string name="terms_text"><u>شروط الاستخدام</u></string>
+    <string name="accept_terms_statement">لديك لقبول الشروط والشرط للمتابعة</string>
     <string name="confirm_order_text">تأكيد الطلب</string>
     <string name="please_select_text"> --- الرجاء الاختيار --- </string>
+    <string name="please_select"> الرجاء الاختيار </string>
     <string name="next_text">متابعة</string>
     <string name="back_text">رجوع</string>
     <string name="confirm_text">تأكيد الطلب</string>
@@ -97,6 +95,7 @@
 
 
     <string name="filter_text">تصفية</string>
+    <string name="no_filter">لا يتوفر فلتر</string>
     <string name="sort_text">ترتيب</string>
 
     <!--Misc...-->
@@ -122,6 +121,23 @@
     <string name="submit_text">أرسل</string>
     <string name="continue_text">متابعة</string>
 
+    <string name="required">مطلوب!</string>
+    <string name="information_text">معلومات</string>
+    <string name="exit_app_text">انقر مرة أخرى لخروج التطبيق</string>
+    <string name="empty_cart_text">لا توجد منتجات في سلة الشراء الخاصة بك !</string>
+    <string name="enter_coupon_code">تحذير: الرجاء ادخال رمز قسيمة التخفيض</string>
+    <string name="apply">تطبيق</string>
+    <string name="ok">حسنا</string>
+    <string name="pass_mis_match">لم تتطابق كلمة المرور مع تأكيد كلمة المرور</string>
+    <string name="login_or_register">يجب عليك  تسجيل الدخول  أو إنشاء حساب  متابعة</string>
+    <string name="no_address_msg">يجب أن تضع عنوان واحد على الأقل</string>
+
+    <string name="no_shipping_method">طريقة الشحن غير متوفرة حالياً</string>
+    <string name="no_payment_method">طريقة الدفع غير متوفرة حالياً</string>
+    <string name="empty_fields">بعض الحقول فارغة</string>
+    <string name="quantity_info">يجب أن تكون الكمية أكبر من 0</string>
+    <string name="address_book_title">إدخالات دفتر العناوين</string>
+
     <string name="cancel_text">إلغ</string>
     <string name="show_text">تبين</string>
 
@@ -144,9 +160,6 @@
     <!--Fragment Order History-->
     <string name="order_history_text">تـفـاصـيـل الـطـلب</string>
     <string name="view_order_history_text">مشاهدة الطلب</string>
-
-    <!--Fragment Privacy Policy-->
-    <string name="privacy_policy_text"><u>الخصوصية</u></string>
 
     <!--Fragment Address Book-->
     <string name="address_book_text">دفتر العناوين</string>
@@ -196,9 +209,9 @@
     <string name="text_disc">تخفيضات</string>
     <string name="disc">خصم</string>
 
-    <string name="error_fetching_data">Error Fetching Data!…</string>
-    <string name="no_data">No Data to Show</string>
-    <string name="an_error">An Error Occurred!</string>
+    <string name="error_fetching_data">خطأ في جلب البيانات من الخادم</string>
+    <string name="no_data">لا توجد بيانات للعرض</string>
+    <string name="an_error">حدث خطأ</string>
 
     <string name="soft_by">الفرز بواسطة:</string>
 

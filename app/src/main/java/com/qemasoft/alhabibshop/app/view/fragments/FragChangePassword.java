@@ -32,6 +32,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -71,11 +72,11 @@ public class FragChangePassword extends MyBaseFragment {
                 String confirmPassVal = confirmPass.getText().toString().trim();
                 
                 if (!newPassVal.equals(confirmPassVal)) {
-                    utils.showErrorDialog("Password Mis-match");
+                    utils.showErrorDialog(findStringByName("pass_mis_match"));
                     return;
                 }
                 if (!newPassVal.equals(confirmPassVal)) {
-                    confirmPass.setError("Password Mis_match");
+                    confirmPass.setError(findStringByName("pass_mis_match"));
                     return;
                 }
                 if (currentPassVal.length() < 1) {
@@ -132,8 +133,8 @@ public class FragChangePassword extends MyBaseFragment {
                     String message = response.optString("message");
                     if (message.length() > 0) {
                         AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                                "Confirmation Message!", message);
-                        dialog.setButton(BUTTON_POSITIVE, "OK",
+                                findStringByName("information_text"), message);
+                        dialog.setButton(BUTTON_POSITIVE, findStringByName("ok"),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog,
@@ -164,8 +165,8 @@ public class FragChangePassword extends MyBaseFragment {
                     String message = response.optString("message");
                     if (message.length() > 0) {
                         AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                                "Error Message!", message);
-                        dialog.setButton(BUTTON_POSITIVE, "OK",
+                                findStringByName("an_error"), message);
+                        dialog.setButton(BUTTON_POSITIVE, findStringByName("ok"),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog,
@@ -174,8 +175,8 @@ public class FragChangePassword extends MyBaseFragment {
                                 });
                         dialog.show();
                     } else {
-                        utils.showAlertDialog("Invalid Request!",
-                                "Error Getting Data From Server");
+                        utils.showAlertDialog(findStringByName("information_text"),
+                                findStringByName("error_fetching_data"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

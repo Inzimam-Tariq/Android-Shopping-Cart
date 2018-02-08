@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical"
     android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp"
     tools:context="com.qemasoft.alhabibshop.app.view.activities.SplashActivity">
 
     <ImageView
@@ -14,14 +15,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:src="@drawable/splash" />
+        android:src="@drawable/splash"
+        android:contentDescription="@string/image_text" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_marginBottom="10dp"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal"
+        android:indeterminateBehavior="repeat" />
+
+    <!--android:indeterminateDrawable="@drawable/ract"/>-->
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
         android:gravity="center"
         android:text="www.alhabibshop.com"
-        android:textColor="@color/colorAccent1"
-        android:layout_marginTop="-10dp"
-        android:textAppearance="@android:style/TextAppearance.Medium" />
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:textColor="@color/colorAccent1" />
+
 </LinearLayout>

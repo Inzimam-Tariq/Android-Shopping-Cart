@@ -13,24 +13,25 @@
         android:layout_height="match_parent" />
 
     <LinearLayout
-        android:id="@+id/menu_left"
+        android:id="@+id/category_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:layout_marginTop="?attr/actionBarSize"
         android:background="@android:color/white"
+        android:layoutDirection="rtl"
         android:orientation="vertical">
 
         <include layout="@layout/nav_header_main_left" />
 
         <!-- List menu Left-->
         <ExpandableListView
-            android:id="@+id/expandable_lv_left"
+            android:id="@+id/category_menu_expandable_lv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:choiceMode="singleChoice"
-            android:divider="@color/outline"
+            android:divider="@null"
             android:dividerHeight="1dp"
             android:groupIndicator="@null" />
         <!--android:childDivider="@color/colorAccent3"-->
@@ -47,23 +48,23 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/menu_right"
+        android:id="@+id/user_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:layout_marginTop="?attr/actionBarSize"
         android:background="@android:color/white"
+        android:layoutDirection="rtl"
         android:orientation="vertical">
 
         <include layout="@layout/nav_header_user" />
 
         <!-- List menu Right-->
         <ExpandableListView
-            android:id="@+id/expandable_lv_right"
+            android:id="@+id/user_menu_expandable_lv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:childDivider="@color/outline"
             android:choiceMode="singleChoice"
             android:divider="@null"
             android:groupIndicator="@null" />

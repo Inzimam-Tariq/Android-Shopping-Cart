@@ -3,6 +3,7 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,6 +30,7 @@ import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ORDER_DETAIL_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -49,7 +51,7 @@ public class FragOrderDetail extends MyBaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_order_detail, container, false);
@@ -171,7 +173,7 @@ public class FragOrderDetail extends MyBaseFragment {
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showAlertDialog("Invalid Request!", "Either the request is invalid or no relevant record found");
+                utils.showErrorDialog(findStringByName("error_fetching_data"));
             }
         }
     }

@@ -39,7 +39,6 @@ import java.util.List;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.PRODUCT_DETAIL_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
-import static com.qemasoft.alhabibshop.app.AppConstants.setCounterState;
 
 
 /**
@@ -96,7 +95,8 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
             String id = getArguments().getString("id");
             requestData(id);
         } else {
-            utils.showErrorDialog("No Data to Show");
+            utils.showAlertDialog(findStringByName("information_text"),
+                    findStringByName("no_data"));
         }
         
         addToCartBtn.setOnClickListener(this);
@@ -273,9 +273,9 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                 
             }
         } else if (resultCode == FORCED_CANCEL) {
-            utils.showToast("Request Cancelled by User");
+            utils.showToast(findStringByName("no_data"));
         } else if (resultCode == Activity.RESULT_CANCELED) {
-            utils.showErrorDialog("Error Getting Data From Server!");
+            utils.showErrorDialog(findStringByName("error_fetching_data"));
         }
         
         
@@ -287,7 +287,6 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         switch (v.getId()) {
             
             case R.id.add_to_cart_btn:
-                setCounterState(1);
                 Bundle bundle = new Bundle();
                 bundle.putString("id", product.getProductId());
                 utils.printLog("ProductId", "ID=" + product.getProductId());

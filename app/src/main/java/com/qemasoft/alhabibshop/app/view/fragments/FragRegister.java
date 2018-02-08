@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
+import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,12 +102,12 @@ public class FragRegister extends MyBaseFragment {
 //                utils.showToast("Radio Value " + isNewsLetterSubscribed);
                 boolean hasReadPrivacyPolicy = privacyPolicyCheck();
                 if (!passVal.equals(rePassVal)) {
-                    utils.showErrorDialog("Password Mis-match.");
+                    utils.showErrorDialog(findStringByName("pass_mis_match"));
                     return;
                 }
                 if (!hasReadPrivacyPolicy) {
-                    utils.showAlertDialog("Please Check Privacy Policy Checkbox",
-                            "You Must Read the Privacy Policy to Register");
+                    utils.showAlertDialog(findStringByName("information_text"),
+                            findStringByName("read_privacy_policy"));
                     return;
                 }
                 
@@ -137,22 +138,14 @@ public class FragRegister extends MyBaseFragment {
                     }
                 } else {
                     // set empty field error message
-                    utils.showErrorDialog("Some Fields are Empty");
+                    utils.showErrorDialog(findStringByName("empty_fields"));
                 }
             }
         });
         
         return view;
     }
-
-//    private void guestCheck() {
-//
-//        if (getArguments() != null)
-//            asGuest = getArguments().getBoolean("asGuest", false);
-//        if (asGuest) {
-//            titleTV.setText(R.string.as_guest_text);
-//        }
-//    }
+    
     
     private boolean privacyPolicyCheck() {
         
@@ -190,16 +183,19 @@ public class FragRegister extends MyBaseFragment {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
                     final String userData = response.optString("userdata");
-                    if (!userData.isEmpty()) {
+                    if (userData != null && !userData.isEmpty()) {
                         if (userData.contains("email_exist")) {
-                            utils.showAlertDialog(userData, "There is already an account with this email." +
-                                    "Please Login or use different email");
+                            utils.showAlertDialog(findStringByName("information_text"),
+                                    userData);
                         } else {
                             AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                                    "Registration Successful!", "Account Created Successfully!"
-                            );
-                            dialog.setButton(BUTTON_POSITIVE, findStringByName("continue_text"), (DialogInterface.OnClickListener) null);
-                            dialog.setButton(BUTTON_NEGATIVE, findStringByName("login_text"),
+                                    findStringByName("information_text"),
+                                    userData);
+                            dialog.setButton(BUTTON_POSITIVE,
+                                    findStringByName("continue_text"),
+                                    (DialogInterface.OnClickListener) null);
+                            dialog.setButton(BUTTON_NEGATIVE,
+                                    findStringByName("login_text"),
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -213,7 +209,7 @@ public class FragRegister extends MyBaseFragment {
                                 @Override
                                 public void run() {
                                     
-                                    getActivity().recreate();
+                                    ((MainActivity) context).recreate();
                                 }
                             }, 100);
                         }
@@ -232,7 +228,7 @@ public class FragRegister extends MyBaseFragment {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Error Getting Data From Server!");
+                utils.showErrorDialog(findStringByName("error_fetching_data"));
             }
             
         }

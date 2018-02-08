@@ -15,7 +15,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.9"
-            android:text="Address Book Entries" />
+            android:text="@string/address_book_title" />
 
         <ImageView
             android:id="@+id/add_address_icon"

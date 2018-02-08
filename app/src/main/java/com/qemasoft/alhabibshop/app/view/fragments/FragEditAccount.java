@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.EDIT_ACCOUNT_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -45,7 +47,7 @@ public class FragEditAccount extends MyBaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_edit_account, container, false);
@@ -116,8 +118,10 @@ public class FragEditAccount extends MyBaseFragment {
                     utils.printLog("CustomerId = ", " Username = " + userName);
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, userName);
                     AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                            "Confirmation Message!", response.optString("message"));
-                    dialog.setButton(BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                            findStringByName("information_text"),
+                            response.optString("message"));
+                    dialog.setButton(BUTTON_POSITIVE, findStringByName("ok"),
+                            new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             utils.switchFragment(new Dashboard());
@@ -125,13 +129,12 @@ public class FragEditAccount extends MyBaseFragment {
                     });
                     dialog.show();
                 } catch (JSONException e) {
-                    utils.showErrorDialog("Invalid JSON");
+//                    utils.showErrorDialog("Invalid JSON");
                     e.printStackTrace();
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showAlertDialog("Invalid Request!",
-                        "Error Getting Data From Server");
+                utils.showErrorDialog(findStringByName("error_fetching_data"));
             }
         }
     }

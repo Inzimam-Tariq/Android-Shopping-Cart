@@ -22,7 +22,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Nike Air MAG"
                 android:textStyle="bold" />
 
             <FrameLayout
@@ -242,99 +241,6 @@
 
 
             </LinearLayout>
-
-            <!--<LinearLayout-->
-            <!--android:id="@+id/tab2"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/author_recycler_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_weight="1" />-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="20dp"-->
-            <!--android:text="@string/write_review_text"-->
-            <!--android:textAppearance="@android:style/TextAppearance.Medium" />-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:text="@string/your_name_text" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/name_et"-->
-            <!--style="@style/CustomETStyle"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:hint="@string/your_name_hint"-->
-            <!--android:textColorHint="@android:color/darker_gray" />-->
-
-            <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:text="@string/review_text" />-->
-
-            <!--<EditText-->
-            <!--android:id="@+id/review_comment_et"-->
-            <!--style="@style/CustomETStyle"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:gravity="top"-->
-            <!--android:hint="@string/write_review_text"-->
-            <!--android:inputType="textMultiLine"-->
-            <!--android:lines="8"-->
-            <!--android:maxLines="10"-->
-            <!--android:minLines="6"-->
-            <!--android:scrollbars="vertical"-->
-            <!--android:textColorHint="@android:color/darker_gray" />-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center_vertical"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/rate_us_text" />-->
-
-            <!--<RatingBar-->
-            <!--android:id="@+id/post_rating_bar"-->
-            <!--style="@style/Base.Widget.AppCompat.RatingBar.Indicator"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:layout_marginStart="10dp"-->
-            <!--android:isIndicator="false"-->
-            <!--android:stepSize="0.5" />-->
-            <!--</LinearLayout>-->
-
-            <!--<Button-->
-            <!--android:id="@+id/submit_btn"-->
-            <!--style="@style/CustomButtonStyle"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="40dp"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:text="@string/submit_text" />-->
-
-            <!--</LinearLayout>-->
-
-            <!--</FrameLayout>-->
-            <!--</LinearLayout>-->
-            <!--</TabHost>-->
 
             <View
                 android:layout_width="match_parent"

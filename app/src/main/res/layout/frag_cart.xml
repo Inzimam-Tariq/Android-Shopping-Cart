@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:text="@string/frag_cart_checkbox_text" />
+                android:text="@string/use_coupon_text" />
 
             <LinearLayout
                 android:id="@+id/total_container"

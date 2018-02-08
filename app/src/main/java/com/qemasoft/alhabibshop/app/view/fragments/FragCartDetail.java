@@ -26,7 +26,6 @@ import com.qemasoft.alhabibshop.app.controller.CartDetailAdapter;
 import com.qemasoft.alhabibshop.app.model.MyCartDetail;
 import com.qemasoft.alhabibshop.app.model.Options;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
-import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,12 +41,10 @@ import static com.qemasoft.alhabibshop.app.AppConstants.ADD_TO_CART_REQUEST_CODE
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
-import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.getCounterState;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.optionsList;
-import static com.qemasoft.alhabibshop.app.AppConstants.setCounterState;
 
 /**
  * Created by Inzimam Tariq on 24-Oct-17.
@@ -68,7 +65,7 @@ public class FragCartDetail extends MyBaseFragment {
     
     
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_cart, container, false);
@@ -81,8 +78,6 @@ public class FragCartDetail extends MyBaseFragment {
             String id = bundle.getString("id");
             utils.printLog("ProductId", "ID=" + id);
             requestData(id);
-        } else {
-            utils.showErrorDialog("No Data to Show");
         }
         
         useCoupon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -96,7 +91,32 @@ public class FragCartDetail extends MyBaseFragment {
         checkoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                utils.switchFragment(new FragCheckout());
+                
+                if (utils.isLoggedIn()) {
+                    utils.switchFragment(new FragCheckout());
+                } else {
+                    AlertDialog alertDialog = utils.showAlertDialogReturnDialog(
+                            findStringByName("continue_text"),
+                            findStringByName("please_select"));
+                    
+                    alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
+                            findStringByName("login_text"), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    
+                                    utils.switchFragment(new FragLogin());
+                                }
+                            });
+                    alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,
+                            findStringByName("action_register_text"), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    
+                                    utils.switchFragment(new FragRegister());
+                                }
+                            });
+                    alertDialog.show();
+                }
             }
         });
         
@@ -112,6 +132,10 @@ public class FragCartDetail extends MyBaseFragment {
         String midFix = bundle.getString("midFix", "");
         utils.printLog("MidFix = " + midFix);
         AppConstants.setMidFixApi(midFix);
+        String couponCode = Preferences.getSharedPreferenceString(appContext,
+                "couponCode", "");
+        if (!couponCode.isEmpty()) map.put("coupon", couponCode);
+        
         String customerId = Preferences.getSharedPreferenceString(appContext,
                 CUSTOMER_KEY, DEFAULT_STRING_VAL);
         map.put("customer_id", customerId);
@@ -146,7 +170,7 @@ public class FragCartDetail extends MyBaseFragment {
         
         final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
         
-        builder.setTitle("Apply Coupon");
+        builder.setTitle(R.string.use_coupon_text);
         builder.setCancelable(true);
         final EditText input = new EditText(getContext());
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -154,19 +178,20 @@ public class FragCartDetail extends MyBaseFragment {
                 LinearLayout.LayoutParams.MATCH_PARENT);
         lp.setMargins(30, 0, 30, 0);
         input.setLayoutParams(lp);
-        input.setHint(AppConstants.findStringByName("enter_coupon_text"));
+        input.setHint(R.string.enter_coupon_code);
         builder.setView(input);
 //        builder.setIcon(R.drawable.galleryalart);
-        builder.setPositiveButton("Apply", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(findStringByName("apply"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                utils.printLog("CoouponCode = " + input.getText().toString());
                 String couponCode = input.getText().toString().trim();
                 if (couponCode.isEmpty())
-                    utils.showAlertDialog("AlertDialog", "No Coupon Code Entered");
+                    utils.showAlertDialog(findStringByName("information_text"), findStringByName("enter_coupon_code"));
                 else utils.applyCoupon(couponCode);
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(findStringByName("cancel_text"), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             
@@ -201,13 +226,13 @@ public class FragCartDetail extends MyBaseFragment {
                     try {
                         response = new JSONObject(data.getStringExtra("result"));
                         
-                        updateItemCounter();
-                        setCounterState(0);
+                        utils.setItemCount();
                         
                         JSONArray cartProducts = response.optJSONArray("cartProducts");
                         List<MyCartDetail> cartDetailList = new ArrayList<>();
                         if (cartProducts == null || cartProducts.toString().isEmpty()) {
-                            utils.showErrorDialog("You have no products in cart");
+                            utils.showAlertDialog(findStringByName("information_text"),
+                                    findStringByName("empty_cart_text"));
                             return;
                         }
                         for (int i = 0; i < cartProducts.length(); i++) {
@@ -263,8 +288,7 @@ public class FragCartDetail extends MyBaseFragment {
                                 valTV.setId(i + 10);
                                 utils.printLog("Title = " + totalsObj.optString("title"
                                         + "Value = " + totalsObj.optString("text")));
-                                textTV.setText(totalsObj.optString("title")
-                                        .concat(" ").concat(symbol));
+                                textTV.setText(totalsObj.optString("title"));
                                 valTV.setText(totalsObj.optString("text")
                                         .concat(" ").concat(symbol));
                                 
@@ -286,23 +310,8 @@ public class FragCartDetail extends MyBaseFragment {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Error Getting Data From Server!");
+                utils.showErrorDialog(findStringByName("error_fetching_data"));
             }
-        }
-    }
-    
-    private void updateItemCounter() {
-        
-        TextView itemCountTV = ((MainActivity) context).counterTV;
-        int val = Preferences.getSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
-        if (getCounterState() == 1) {
-            itemCountTV.setText(String.valueOf(++val));
-            Preferences.setSharedPreferenceInt(appContext, ITEM_COUNTER,
-                    Integer.parseInt(itemCountTV.getText().toString()));
-        } else if (getCounterState() == -1) {
-            itemCountTV.setText(String.valueOf(--val));
-            Preferences.setSharedPreferenceInt(appContext, ITEM_COUNTER,
-                    Integer.parseInt(itemCountTV.getText().toString()));
         }
     }
     

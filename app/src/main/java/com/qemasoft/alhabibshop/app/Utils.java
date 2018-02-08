@@ -40,9 +40,9 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.qemasoft.alhabibshop.app.controller.MyPagerAdapter;
-import com.qemasoft.alhabibshop.app.model.ProductOptionValueItem;
 import com.qemasoft.alhabibshop.app.model.Slideshow;
 import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
+import com.qemasoft.alhabibshop.app.view.fragments.FragCartDetail;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,10 +56,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
@@ -73,11 +71,11 @@ import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.qemasoft.alhabibshop.app.AppConstants.ITEM_COUNTER;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
 
 /**
@@ -347,9 +345,9 @@ public class Utils {
     public void showInternetErrorDialog() {
         
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle("An Error Occurred")
+        builder.setTitle(findStringByName("an_error"))
                 .setMessage("No Internet Connection")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(findStringByName("ok"), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         
                         dialog.cancel();
@@ -366,7 +364,7 @@ public class Utils {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(R.string.an_error)
                 .setMessage(errorMsg)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(findStringByName("ok"), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         
                         dialog.cancel();
@@ -383,7 +381,7 @@ public class Utils {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(title)
                 .setMessage(msg)
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setPositiveButton(findStringByName("ok"), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         
                         dialog.cancel();
@@ -455,7 +453,7 @@ public class Utils {
                         }
                     }
                 });
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.confirm_text, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 
@@ -465,7 +463,7 @@ public class Utils {
                 printLog("Which", "List position =" + list.get(position));
             }
         });
-        builder.setNegativeButton("Cancel", null);
+        builder.setNegativeButton(R.string.ok, null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -548,7 +546,7 @@ public class Utils {
         Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, DEFAULT_STRING_VAL);
         Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, DEFAULT_STRING_VAL);
         Preferences.setSharedPreferenceString(appContext, UNIQUE_ID_KEY, DEFAULT_STRING_VAL);
-        Preferences.setSharedPreferenceInt(appContext, ITEM_COUNTER, 0);
+        ((MainActivity) mContext).counterTV.setText("0");
         
     }
     
@@ -657,8 +655,16 @@ public class Utils {
         
     }
     
-    public String getUniqueId() {
+    public void getUniqueId() {
         
+        String uniqueId = Preferences.getSharedPreferenceString(appContext,
+                UNIQUE_ID_KEY, DEFAULT_STRING_VAL);
+        if (uniqueId.isEmpty() || uniqueId.equals("")) {
+            Preferences.setSharedPreferenceString(appContext, UNIQUE_ID_KEY, generateUniqueId());
+        }
+    }
+    
+    private String generateUniqueId() {
         String uniqueId = UUID.randomUUID().toString();
         String subStrId = uniqueId.substring(0, 24);
         printLog("UniqueId", subStrId);
@@ -677,7 +683,7 @@ public class Utils {
     
     public void setError(EditText editText) {
         
-        editText.setError("Required!");
+        editText.setError(findStringByName("required"));
         editText.requestFocus();
     }
     
@@ -696,17 +702,6 @@ public class Utils {
                 .replace(R.id.flFragments, fragment).commit();
     }
     
-    public void removeDuplicates(List<?> list) {
-        
-        Set hs = new HashSet<>(list);
-        list.clear();
-        list.addAll(hs);
-        
-        ProductOptionValueItem item = (ProductOptionValueItem) list.get(0);
-        printLog("Parent Id = " + item.getOptionValueId() + " Child Id = " + item.getName()
-                + " List Size = " + list.size());
-        
-    }
     
     public int getSelectedRadioIndex(RadioGroup radioGroup) {
         
@@ -727,7 +722,7 @@ public class Utils {
         );
     }
     
-    public void applyCoupon(String couponCode) {
+    public void applyCoupon(final String couponCode) {
         
         showProgress();
         if (!couponCode.isEmpty()) {
@@ -744,7 +739,13 @@ public class Utils {
                             boolean success = response.optBoolean("success");
                             if (success) {
                                 hideProgress();
-                                ((MainActivity) mContext).recreate();
+                                String msg = response.optString("message");
+                                if (!msg.isEmpty()) showAlertDialog("Alert", msg);
+                                Preferences.setSharedPreferenceString(appContext
+                                        , "couponCode", couponCode);
+                                Bundle bundle = new Bundle();
+                                bundle.putString("midFix", "cartProducts");
+                                switchFragment(new FragCartDetail(), bundle);
                             } else {
                                 hideProgress();
                                 printLog("doSimpleRequest", "Success False");
@@ -762,6 +763,58 @@ public class Utils {
                     });
         }
     }
+    
+    
+    public boolean isLoggedIn() {
+        
+        boolean isLoggedIn = Preferences.getSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
+        printLog("IsLoggedIn = ", "" + isLoggedIn);
+        
+        return isLoggedIn;
+    }
+    
+    public void setItemCount() {
+        AppConstants.setMidFixApi("countProducts");
+        printLog("Url = ", getApiCallUrl());
+        AndroidNetworking.post(getApiCallUrl())
+                .addBodyParameter("session_id", Preferences.getSharedPreferenceString(
+                        appContext,
+                        UNIQUE_ID_KEY,
+                        DEFAULT_STRING_VAL))
+                .addBodyParameter("customer_id", Preferences.getSharedPreferenceString(
+                        appContext,
+                        CUSTOMER_KEY,
+                        "0"))
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        boolean success = response.optBoolean("success");
+                        if (success) {
+                            String itemCount = response.optString("total");
+                            ((MainActivity) mContext).counterTV.setText(itemCount);
+                            
+                            printLog("GettingItemCount", "If Success");
+                            printLog("GettingItemCount", response.toString());
+                        } else {
+                            printLog("GettingItemCount", "Success False");
+                            printLog("GettingItemCount", response.toString());
+                        }
+                    }
+                    
+                    @Override
+                    public void onError(ANError anError) {
+                        printLog("GettingItemCount", "If anError");
+                        anError.printStackTrace();
+                        printLog("onError errorCode : " + anError.getErrorCode());
+                        printLog("onError errorBody : " + anError.getErrorBody());
+                        printLog("onError errorDetail : " + anError.getErrorDetail());
+                        
+                    }
+                });
+    }
+    
     
     public interface ClickInterface {
         

@@ -26,36 +26,31 @@
     <string name="nav_head_small_text">Get Everything at Discounted Price</string>
 
     <string name="forgot_pass"><u>Forgot Password?</u></string>
-    <string name="privacy_policy_text_u"><u>Privacy Policy</u></string>
-    <string name="sign_up"><u><i>Sign Up</i></u></string>
+    <string name="privacy_policy_text"><u>Privacy Policy</u></string>
+    <string name="privacy_policy_statement"><i>I have read and agree to the, </i></string>
+    <string name="read_privacy_policy">You must agree to the Privacy Policy</string>
+
     <string name="do_not_have_account">Don\'t have account?</string>
     <string name="register"><u>Register</u></string>
     <string name="have_account"><i>If you have an account, </i></string>
     <string name="click_here"> <u>Click here!</u></string>
-    <string name="privacy_policy_statement"><i>I have read and agree to the, </i></string>
     <string name="your_string_here">This is an &lt;u>underline&lt;/u>.</string>
 
     <string name="action_search">Search</string>
     <string name="forgot_pass_text">Forgot Your Password?</string>
-    <string name="title_activity_recycler_view_test">Recycler View Test</string>
-    <string name="title_activity_json_viewer">JSON Viewer Activity</string>
-    <string name="dummy_text">Opencart is an easy to-use, powerful, Open Source online store management program that can manage multiple online stores from a single back-end. Administrative area simply by filling in forms and clicking “Save”. There are many professionally-written extensions available to customize the store to your needs.\n\n
 
-An OpenCart store can be ready to take orders soon after installation. All you have to do is have it installed for you (any web hosts do it for free), select a template form the many free or low-cost template sites, and your product descriptions and photos, click a few settings, and you are ready to begin accepting orders. Our free Installation &amp; Quick Start chapters show you how.\n
-
-The public side or “Storefront” of OpenCart looks very professional and ready to sell almost as soon as it is installed.</string>
-
-    <string name="title_activity_main2">Main2Activity</string>
     <!--Fragment Cart -->
-    <string name="frag_cart_checkbox_text">Use Coupon</string>
-    <string name="enter_coupon_text">Use Coupon</string>
+
+    <string name="use_coupon_text">Use Coupon</string>
     <string name="frag_cart_btn_text">Checkout</string>
     <string name="preferred_shipping_method_text">Please select the preferred shipping method to use on this order</string>
     <string name="preferred_payment_method_text">Please select the preferred Payment method to use on this order</string>
     <string name="comment_about_order_text">Add Comments About Your Order</string>
     <string name="terms_text"><u>Terms and Conditions</u></string>
+    <string name="accept_terms_statement">You have to Accept Terms and Condition to Continue</string>
     <string name="confirm_order_text">Confirm Order</string>
     <string name="please_select_text">--Please Select--</string>
+    <string name="please_select">Please Select</string>
     <string name="next_text">Next</string>
     <string name="back_text">Back</string>
     <string name="confirm_text">Confirm</string>
@@ -109,6 +104,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
 
 
     <string name="filter_text">Filter</string>
+    <string name="no_filter">No Filter Available!</string>
     <string name="sort_text">Sort</string>
 
     <!--Misc...-->
@@ -122,7 +118,7 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="last_name_hint">Enter your last name</string>
     <string name="email_text">E-Mail Address</string>
     <string name="email_hint">Enter your email id</string>
-    <string name="password_heading">Your Password</string>
+    <string name="password_text">Your Password</string>
     <string name="your_password_text">Enter Your Password</string>
     <string name="confirm_password_text">Confirm Your Password</string>
     <string name="new_password_text">Enter New Password</string>
@@ -133,6 +129,26 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="phone_hint">Enter your phone #</string>
     <string name="submit_text">Submit</string>
     <string name="continue_text">Continue</string>
+
+    <string name="required">Required!</string>
+    <string name="information_text">Information</string>
+    <string name="exit_app_text">Click Again to Exit App</string>
+    <string name="empty_cart_text">There are no products in your cart!</string>
+    <string name="enter_coupon_code">Please enter a coupon code!</string>
+    <string name="apply">Apply</string>
+    <string name="ok">OK</string>
+    <string name="pass_mis_match">Password Mis-match</string>
+    <string name="login_or_register">You must login  or create an account to continue</string>
+    <string name="no_address_msg">You must have at least one address</string>
+    <string name="no_shipping_method">No Shipping options are available</string>
+    <string name="no_payment_method">No Payment options are available</string>
+
+    <string name="empty_fields">Some Fields are Empty</string>
+    <string name="quantity_info">Quantity Must be Greater than 0</string>
+    <string name="address_book_title">Address Book Entries</string>
+
+
+
 
 
     <string name="cancel_text">Cancel</string>
@@ -160,8 +176,6 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="order_history_text">Order History</string>
     <string name="view_order_history_text">View Order History</string>
 
-    <!--Fragment Privacy Policy-->
-    <string name="privacy_policy_text"><u>Privacy Policy</u></string>
 
     <!--Fragment Address Book-->
     <string name="address_book_text">Address Book</string>
@@ -211,9 +225,9 @@ The public side or “Storefront” of OpenCart looks very professional and read
     <string name="checkout">Checkout</string>
     <string name="text_disc">Discount</string>
     <string name="disc">Discount</string>
-    <string name="title_activity_abc">AbcActivity</string>
 
-    <string name="error_fetching_data">Error Fetching Data!…</string>
+
+    <string name="error_fetching_data">Error Fetching Data From Server!…</string>
     <string name="no_data">No Data to Show</string>
     <string name="an_error">An Error Occurred!</string>
 

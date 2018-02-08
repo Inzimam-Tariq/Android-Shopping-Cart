@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.qemasoft.alhabibshop.app.AppConstants.setCounterState;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 
 /**
@@ -42,8 +42,6 @@ public class CartDetailAdapter
     public CartDetailAdapter(List<MyCartDetail> myCartDetailList, boolean isFromCheckout) {
         this.myCartDetailList = myCartDetailList;
         this.isFromCheckout = isFromCheckout;
-        Log.e("Constructor", "Working");
-        Log.e("Constructor", "DataList Size = " + myCartDetailList.size());
     }
     
     @Override
@@ -174,7 +172,6 @@ public class CartDetailAdapter
             TextView qtyTV = holder.productQty;
             
             if (id == R.id.remove_cart_iv) {
-                setCounterState(-1);
                 bundle.putString("id", cartId);
                 bundle.putString("midFix", "removeCart");
                 utils.switchFragment(new FragCartDetail(), bundle);
@@ -182,16 +179,14 @@ public class CartDetailAdapter
             } else {
                 int quantity = Integer.parseInt(qtyTV.getText().toString());
                 if (id == R.id.update_cart_ibtn_plus) {
-                    setCounterState(1);
                     ++quantity;
                 } else if (id == R.id.update_cart_ibtn_minus) {
                     
                     if (quantity <= 1) {
-                        utils.showAlertDialog("Information",
-                                "Quantity Can't be 0 or Negative");
+                        utils.showAlertDialog(findStringByName("information_text"),
+                                findStringByName("quantity_info"));
                         return;
                     } else {
-                        setCounterState(-1);
                         --quantity;
                     }
                 }

@@ -2,6 +2,7 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -66,8 +67,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     private CheckBox termsCB;
     private LinearLayout step1, step2, step3, step4, totalContainer, step5;
     private List<String> list;
-    private TextView confirmOrderTV, subTotalValTV, grandTotalValTV,
-            bankHeadingTV, bankInstructionsTV;
+    private TextView confirmOrderTV, bankHeadingTV, bankInstructionsTV;
     private int selectedAddressIndex;
     private EditText commentET;
     private List<ShippingMethod> shippingMethodList;
@@ -133,8 +133,6 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         totalContainer = view.findViewById(R.id.total_container);
         step5 = view.findViewById(R.id.step5);
         confirmOrderTV = view.findViewById(R.id.confirm_order_tv);
-        subTotalValTV = view.findViewById(R.id.sub_total_val_tv);
-        grandTotalValTV = view.findViewById(R.id.grand_total_val_tv);
         bankHeadingTV = view.findViewById(R.id.bank_heading_tv);
         bankInstructionsTV = view.findViewById(R.id.bank_instructions_tv);
         
@@ -156,11 +154,12 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         switch (v.getId()) {
             case R.id.select_delivery_address_btn:
                 if (addressList == null || addressList.isEmpty()) {
-                    utils.showAlertDialog("Alert!",
-                            "You need to add an address");
+                    utils.showAlertDialog(findStringByName("information_text"),
+                            findStringByName("no_address_msg"));
                 } else {
                     utils.showRadioAlertDialog(selectDeliveryAddress
-                            , "Select Address", list, 0, null);
+                            , findStringByName("please_select_text"), list,
+                            0, null);
                     if (selectedAddressIndex < 0) {
                         selectedAddressIndex = 0;
                     }
@@ -210,9 +209,19 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
 //                    map.put("address_id", addressList.get(selectedAddressIndex).getId());
                     map.put("session_id", Preferences.getSharedPreferenceString(appContext
                             , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
-                    int index = utils.getSelectedRadioIndex(radioGroupPaymentMethod);
+                    int index = utils.getSelectedRadioIndex(radioGroupShippingMethod);
+                    String shippingCode = shippingMethodList.get(index).getCode();
+                    String shippingMethod = shippingMethodList.get(index).getTitle();
+                    String shippingCost = shippingMethodList.get(index).getCost();
+                    index = utils.getSelectedRadioIndex(radioGroupPaymentMethod);
                     String paymentCode = paymentMethodList.get(index).getCode();
-                    utils.printLog("payment_code = " + paymentCode);
+                    String paymentMethod = paymentMethodList.get(index).getTitle();
+                    utils.printLog("shippingCode = " + shippingCode
+                            + "\npaymentCode = " + paymentCode);
+                    map.put("shipping_method", shippingMethod);
+                    map.put("shipping_code", shippingCode);
+                    map.put("shipping_cost", shippingCost);
+                    map.put("payment_method", paymentMethod);
                     map.put("payment_code", paymentCode);
                     bundle.putBoolean("hasParameters", true);
                     bundle.putSerializable("parameters", (Serializable) map);
@@ -225,7 +234,8 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         nextBtn.setText(R.string.confirm_text);
                         stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.FOUR);
                     } else {
-                        utils.showAlertDialog("Read Terms", "You have to Accept Terms and Condition to Continue");
+                        utils.showAlertDialog(findStringByName("information_text"),
+                                findStringByName("accept_terms_statement"));
                     }
                 } else if (step4.getVisibility() == View.VISIBLE) {
                     backBtn.setVisibility(View.GONE);
@@ -245,6 +255,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     int index = utils.getSelectedRadioIndex(radioGroupShippingMethod);
                     String shippingCode = shippingMethodList.get(index).getCode();
                     String shippingMethod = shippingMethodList.get(index).getTitle();
+                    String shippingCost = shippingMethodList.get(index).getCost();
                     index = utils.getSelectedRadioIndex(radioGroupPaymentMethod);
                     String paymentCode = paymentMethodList.get(index).getCode();
                     String paymentMethod = paymentMethodList.get(index).getTitle();
@@ -252,9 +263,13 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                             + "\npaymentCode = " + paymentCode);
                     map.put("shipping_method", shippingMethod);
                     map.put("shipping_code", shippingCode);
+                    map.put("shipping_cost", shippingCost);
                     map.put("payment_method", paymentMethod);
                     map.put("payment_code", paymentCode);
                     map.put("comment", "" + commentET.getText().toString());
+                    String couponCode = Preferences.getSharedPreferenceString(appContext,
+                            "couponCode", "");
+                    if (!couponCode.isEmpty()) map.put("coupon", couponCode);
                     bundle.putBoolean("hasParameters", true);
                     bundle.putSerializable("parameters", (Serializable) map);
                     Intent intent = new Intent(getContext(), FetchData.class);
@@ -319,7 +334,11 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                                         addressObj.optBoolean("default_address")
                                 )
                         );
-                        if (addressList.size() > 0) {
+                        if (addressList == null || addressList.isEmpty() ||
+                                addressList.size() < 1) {
+                            nextBtn.setClickable(false);
+                        } else {
+                            nextBtn.setClickable(true);
                             selectDeliveryAddress.setHint(addressList.get(0).getAddress());
                         }
                     }
@@ -329,7 +348,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     List<String> keysList = new ArrayList<>();
                     radioGroupShippingMethod.removeAllViews();
                     if (shippingMethods == null || shippingMethods.toString().isEmpty()) {
-                        utils.showErrorDialog("No Shipping Method Available");
+                        utils.showErrorDialog(findStringByName("no_shipping_method"));
                         return;
                     }
                     for (int i = 0; i < shippingMethods.length(); i++) {
@@ -354,6 +373,8 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         radioButton.setId(i);
                         RadioGroup.LayoutParams rgParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT,
                                 RadioGroup.LayoutParams.WRAP_CONTENT);
+                        radioButton.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                                "fonts/DroidKufi-Regular.ttf"));
                         radioGroupShippingMethod.addView(radioButton, rgParams);
                     }
                     radioGroupShippingMethod.check(0);
@@ -363,7 +384,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     List<String> keysList = new ArrayList<>();
                     radioGroupPaymentMethod.removeAllViews();
                     if (paymentMethods == null || paymentMethods.toString().isEmpty()) {
-                        utils.showErrorDialog("No Payment Method Available");
+                        utils.showErrorDialog(findStringByName("no_payment_method"));
                         return;
                     }
                     for (int i = 0; i < paymentMethods.length(); i++) {
@@ -386,6 +407,8 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         radioButton.setId(i);
                         RadioGroup.LayoutParams rgParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT,
                                 RadioGroup.LayoutParams.WRAP_CONTENT);
+                        radioButton.setTypeface(Typeface.createFromAsset(context.getAssets(),
+                                "fonts/DroidKufi-Regular.ttf"));
                         radioGroupPaymentMethod.addView(radioButton, rgParams);
                     }
                     radioGroupPaymentMethod.check(0);
@@ -394,7 +417,8 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     JSONArray cartProducts = response.optJSONArray("cartProducts");
                     List<MyCartDetail> cartDetailList = new ArrayList<>();
                     if (cartProducts == null || cartProducts.toString().isEmpty()) {
-                        utils.showErrorDialog("You have no products in cart");
+                        utils.showAlertDialog(findStringByName("information_text"),
+                                findStringByName("empty_cart_text"));
                         nextBtn.setEnabled(false);
                         return;
                     }
@@ -438,8 +462,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                             valTV.setId(i + 10);
                             utils.printLog("Title = " + totalsObj.optString("title"
                                     + "Value = " + totalsObj.optString("text")));
-                            textTV.setText(totalsObj.optString("title")
-                                    .concat(" ").concat(symbol));
+                            textTV.setText(totalsObj.optString("title"));
                             valTV.setText(totalsObj.optString("text")
                                     .concat(" ").concat(symbol));
                             
@@ -453,6 +476,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     
                 } else if (requestCode == PLACE_ORDER_REQUEST_CODE) {
                     stateProgressBar.setVisibility(View.GONE);
+                    utils.setItemCount();
                     String message = response.optString("message");
                     message = message.trim();
                     if (!message.isEmpty()) {
@@ -461,7 +485,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         else confirmOrderTV.setText(Html.fromHtml(message));
                     }
                 }
-            } else utils.showErrorDialog("Response is null");
+            } else utils.showErrorDialog(findStringByName("no_data"));
         } else if (resultCode == FORCED_CANCEL) {
             try {
                 assert data != null;

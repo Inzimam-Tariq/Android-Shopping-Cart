@@ -10,6 +10,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:text="@string/sub_total_text" />
 
     <TextView
@@ -18,7 +20,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:gravity="end"
-        android:text="14300" />
+        android:gravity="end" />
 
 </LinearLayout>

@@ -26,9 +26,9 @@
                     android:id="@+id/img"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/image_height"
+                    android:contentDescription="@string/image_text"
                     android:scaleType="fitXY"
-                    android:src="@drawable/laptop_1"
-                    android:contentDescription="@string/image_text" />
+                    android:src="@drawable/laptop_1" />
 
                 <ProgressBar
                     android:id="@+id/progress_bar"
@@ -47,7 +47,6 @@
                 android:lines="2"
                 android:maxLines="2"
                 android:scrollHorizontally="true"
-                android:text="Item Title"
                 android:textColor="@color/textColorTitle" />
 
             <TextView
@@ -55,7 +54,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="$1012"
                 android:textColor="@color/textColorStrike"
                 android:visibility="gone" />
 
@@ -64,7 +62,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="$895.55"
                 android:textColor="@color/textColorPrice" />
 
 

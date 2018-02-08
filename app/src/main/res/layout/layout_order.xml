@@ -42,8 +42,7 @@
                         android:id="@+id/order_id_value"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:text="id" />
+                        android:layout_weight="0.6" />
 
                 </LinearLayout>
 
@@ -64,9 +63,8 @@
                         android:id="@+id/order_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:text="date"
-                        android:textColorHint="@android:color/darker_gray" />
+                        android:layout_weight="0.6" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -86,9 +84,8 @@
                         android:id="@+id/order_status"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:text="status"
-                        android:textColorHint="@android:color/darker_gray" />
+                        android:layout_weight="0.6" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -108,9 +105,8 @@
                         android:id="@+id/order_quantity"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:text="qty"
-                        android:textColorHint="@android:color/darker_gray" />
+                        android:layout_weight="0.6" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -129,9 +125,7 @@
                         android:id="@+id/order_total"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:text="amount"
-                        android:textColorHint="@android:color/darker_gray" />
+                        android:layout_weight="0.6" />
                 </LinearLayout>
 
                 <Button
@@ -142,7 +136,8 @@
                     android:layout_gravity="center"
                     android:drawableEnd="@drawable/ic_visibility"
                     android:drawableRight="@drawable/ic_visibility"
-                    android:paddingRight="15dp"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
                     android:text="@string/view_order_detail_text" />
 
             </LinearLayout>

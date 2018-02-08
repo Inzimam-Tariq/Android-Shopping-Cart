@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/textColorTitle</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -16,14 +16,14 @@
     </style>
 
     <style name="AppTheme.SmallText">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="NavigationDrawerStyle">
-        <item name="android:textSize">20sp</item><!-- text size in menu-->
-        <!--<item name="android:listPreferredItemHeightSmall">40dp</item>&lt;!&ndash; item size in menu&ndash;&gt;-->
-        <!--<item name="listPreferredItemHeightSmall">40dp</item>&lt;!&ndash; item size in menu&ndash;&gt;-->
-    </style>
+    <!--<style name="NavigationDrawerStyle">-->
+        <!--<item name="android:textSize">20sp</item>&lt;!&ndash; text size in menu&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="android:listPreferredItemHeightSmall">40dp</item>&lt;!&ndash; item size in menu&ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<item name="listPreferredItemHeightSmall">40dp</item>&lt;!&ndash; item size in menu&ndash;&gt;&ndash;&gt;-->
+    <!--</style>-->
 
     <style name="AppTheme.ProgressTheme">
         <item name="colorAccent">@color/colorPrimaryDark</item>
@@ -50,9 +50,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="NumberPickerText">
-        <item name="android:textSize">40sp</item>
-    </style>
 
     <style name="Theme.Transparent" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="windowActionBar">false</item>
@@ -142,7 +139,7 @@
     </style>
     <style name="HeadingStyleTextView" parent="@android:style/Widget.TextView">
         <item name="fontPath">fonts/DroidKufi-Bold.ttf</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <style name="LinkTextView" parent="@android:style/Widget.TextView">

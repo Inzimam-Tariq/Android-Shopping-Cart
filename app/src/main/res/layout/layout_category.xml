@@ -26,6 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:contentDescription="@string/image_text"
                 android:src="@drawable/laptop_1" />
 
             <ProgressBar
@@ -47,7 +48,6 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:scrollHorizontally="true"
-            android:text="Item Title"
             android:textColor="@color/textColorTitle" />
 
     </LinearLayout>

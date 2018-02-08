@@ -37,6 +37,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.RIGHT;
 import static com.qemasoft.alhabibshop.app.AppConstants.STATES_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -148,7 +149,7 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                                 stateList.add(country.getString("name"));
                                 stateIdList.add(country.getString("zone_id"));
                             }
-                        } else utils.showErrorDialog("No State Available");
+                        } else utils.showErrorDialog(findStringByName("error_fetching_data"));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -159,9 +160,9 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                     utils.showAlertDialog("Message", message);
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Unable to Get Data From Server");
+                utils.showErrorDialog(findStringByName("error_fetching_data"));
             }
-        } else utils.showErrorDialog("Response is null");
+        } else utils.showErrorDialog(findStringByName("error_fetching_data"));
     }
 
     @Override
@@ -220,7 +221,6 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                     utils.setError(lNameET);
                 } else if (addressVal.isEmpty()) {
                     utils.setError(addressET);
-                    ;
                 } else if (cityVal.isEmpty()) {
                     utils.setError(cityET);
                 } else if (countryVal.isEmpty() || countryVal.contains("select")) {

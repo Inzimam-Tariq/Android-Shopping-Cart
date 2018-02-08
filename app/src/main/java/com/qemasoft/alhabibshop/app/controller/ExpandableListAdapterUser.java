@@ -1,5 +1,6 @@
 package com.qemasoft.alhabibshop.app.controller;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.UserSubMenu;
@@ -16,21 +18,23 @@ import com.squareup.picasso.Picasso;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+
 
 /**
  * Created by Inzimam on 29-Oct-17.
  */
 
-public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
+public class ExpandableListAdapterUser extends BaseExpandableListAdapter {
     
     private List<String> dataListHeader;
     private HashMap<String, List<UserSubMenu>> listHashMap;
     private List<Integer> userMenuIcons;
     private Utils utils;
     
-    public ExpandableListAdapterRight(List<String> dataListHeader,
-                                      HashMap<String, List<UserSubMenu>> listHashMap,
-                                      List<Integer> userMenuIcons) {
+    public ExpandableListAdapterUser(List<String> dataListHeader,
+                                     HashMap<String, List<UserSubMenu>> listHashMap,
+                                     List<Integer> userMenuIcons) {
         
         this.dataListHeader = dataListHeader;
         this.listHashMap = listHashMap;
@@ -92,6 +96,11 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
         ImageView imageView = groupView.findViewById(R.id.imageView);
         ImageView expandCollapseImg = groupView.findViewById(R.id.expand_collapse_image);
         View divider = groupView.findViewById(R.id.header_divider);
+        String dividerColor = Preferences.getSharedPreferenceString(appContext,
+                "divider_color", "");
+        if (dividerColor != null && !dividerColor.isEmpty()) {
+            divider.setBackgroundColor(Color.parseColor(dividerColor));
+        }
         
         if (getChildrenCount(groupPosition) == 1) {
             groupView = new View(parent.getContext());
@@ -125,6 +134,12 @@ public class ExpandableListAdapterRight extends BaseExpandableListAdapter {
                     .inflate(R.layout.list_item, parent, false);
             
             TextView lblListChild = itemView.findViewById(R.id.lblListItem);
+            View divider = itemView.findViewById(R.id.child_divider);
+            String dividerColor = Preferences.getSharedPreferenceString(appContext,
+                    "divider_color", "");
+            if (dividerColor != null && !dividerColor.isEmpty()) {
+                divider.setBackgroundColor(Color.parseColor(dividerColor));
+            }
             
             
             if (!userSubMenu.getFlagImage().isEmpty()) {

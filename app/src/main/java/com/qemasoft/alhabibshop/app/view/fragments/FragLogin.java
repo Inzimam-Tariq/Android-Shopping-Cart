@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
+import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +37,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 
 /**
@@ -54,7 +57,7 @@ public class FragLogin extends MyBaseFragment {
     
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_login, container, false);
@@ -147,7 +150,7 @@ public class FragLogin extends MyBaseFragment {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            getActivity().recreate();
+                            ((MainActivity) context).recreate();
                         }
                     }, 100);
                 } catch (JSONException e) {
@@ -164,7 +167,7 @@ public class FragLogin extends MyBaseFragment {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Error Getting Data From Server Check Your Internet Connection & try again");
+                utils.showErrorDialog(findStringByName("error_fetching_data"));
             }
             
         }

@@ -224,9 +224,9 @@ public class MainFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         JSONObject promotionObject = modules.optJSONObject("banner");
 //                        utils.printLog("URL", ""+modules.optString("banner"));
                         Slideshow banner = new Slideshow(
-                                promotionObject.optString("banner")
-                                , promotionObject.optString("id")
-                                , promotionObject.optString("banertype"));
+                                promotionObject.optString("banner"),
+                                promotionObject.optString("id"),
+                                promotionObject.optString("banertype"));
                         myAllItemsList.add(banner);
                         
                     } else {

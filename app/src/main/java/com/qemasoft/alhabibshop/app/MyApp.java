@@ -2,6 +2,7 @@ package com.qemasoft.alhabibshop.app;
 
 import android.app.Application;
 import android.content.res.Configuration;
+import android.util.Log;
 
 import java.util.Locale;
 
@@ -20,20 +21,23 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/DroidKufi-Regular.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build()
-        );
-        
         Configuration config = getBaseContext().getResources().getConfiguration();
         String lang = Preferences
                 .getSharedPreferenceString(this, LANGUAGE_KEY, "ar");
+        Log.e("MyApp", "language in MyApp = " + lang);
         if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
             locale = new Locale(lang);
             Locale.setDefault(locale);
             config.locale = locale;
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        }
+        
+        if (lang.contains("ar")) {
+            CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                    .setDefaultFontPath("fonts/DroidKufi-Regular.ttf")
+                    .setFontAttrId(R.attr.fontPath)
+                    .build()
+            );
         }
     }
     

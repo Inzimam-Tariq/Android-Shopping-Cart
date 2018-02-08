@@ -2,6 +2,7 @@ package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +41,8 @@ public class MyPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@NonNull ViewGroup container, int position,
+                            @NonNull Object object) {
 
         container.removeView((View) object);
         utils.printLog("Destroying MPagerView");
@@ -52,8 +54,9 @@ public class MyPagerAdapter extends PagerAdapter {
         return slideshowArrayList.size();
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(final ViewGroup view, int position) {
+    public Object instantiateItem(@NonNull final ViewGroup view, int position) {
 
         View myImageLayout = inflater.inflate(R.layout.slide, view, false);
 
@@ -90,16 +93,20 @@ public class MyPagerAdapter extends PagerAdapter {
                     String id = slideshow.getId();
                     String type = slideshow.getBannerType();
                     Bundle bundle = new Bundle();
-                    if (type.equals("0")) {
-                        bundle.putString("id", id);
-                        utils.switchFragment(new FragProduct(), bundle);
-                    } else if (type.equals("2")) {
-                        bundle.putString("id", id);
-                        bundle.putString("from", "mainActivity");
-                        utils.switchFragment(new FragProductDetail(), bundle);
-                    } else {
-                        bundle.putString("id", id);
-                        utils.switchFragment(new FragProductDetail(), bundle);
+                    switch (type) {
+                        case "0":
+                            bundle.putString("id", id);
+                            utils.switchFragment(new FragProduct(), bundle);
+                            break;
+                        case "2":
+                            bundle.putString("id", id);
+                            bundle.putString("from", "mainActivity");
+                            utils.switchFragment(new FragProductDetail(), bundle);
+                            break;
+                        default:
+                            bundle.putString("id", id);
+                            utils.switchFragment(new FragProductDetail(), bundle);
+                            break;
                     }
                 }
             });
@@ -109,14 +116,14 @@ public class MyPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public int getItemPosition(Object object) {
+    public int getItemPosition(@NonNull Object object) {
         // Causes adapter to reload all Fragments when
         // notifyDataSetChanged is called
         return POSITION_NONE;
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
 
         return view.equals(object);
     }

@@ -39,8 +39,7 @@
                         android:id="@+id/product_title_tv"
                         style="@style/HeadingStyleTextView"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Cannon Siko 5D" />
+                        android:layout_height="wrap_content" />
 
                     <ScrollView
                         android:layout_width="match_parent"
@@ -52,7 +51,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:paddingLeft="@dimen/activity_horizontal_margin"
-                            android:paddingStart="@dimen/activity_horizontal_margin">
+                            android:paddingRight="@dimen/activity_horizontal_margin">
 
                         </LinearLayout>
                     </ScrollView>
@@ -95,7 +94,6 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="1x110"
                     android:textColor="@color/colorPrimaryDark" />
 
                 <ImageView

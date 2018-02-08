@@ -3,6 +3,7 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.RIGHT_MENU_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -30,7 +32,7 @@ public class FragShowText extends MyBaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_show_text_data, container, false);
@@ -41,7 +43,7 @@ public class FragShowText extends MyBaseFragment {
         if (bundle != null) {
             requestData(bundle.getString("id"));
         }else {
-            utils.showErrorDialog("No Data to Show");
+            utils.showErrorDialog(findStringByName("no_data"));
         }
 
         return view;
@@ -87,7 +89,7 @@ public class FragShowText extends MyBaseFragment {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Error Getting Data");
+                utils.showErrorDialog(findStringByName("error_fetching_data"));
             }
         }
     }

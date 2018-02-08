@@ -34,6 +34,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,7 +60,8 @@ public class AddressBook extends MyBaseFragment {
         utils.printLog("CustomerId = ", customerId);
 
         if (customerId.isEmpty()){
-            utils.showAlertDialog("Login Alert", "You need to Login!");
+            utils.showAlertDialog(findStringByName("information_text"),
+                    findStringByName("login_or_register"));
         }else {
             requestData();
         }
@@ -132,7 +134,7 @@ public class AddressBook extends MyBaseFragment {
                         mRecyclerView.setLayoutManager(mLayoutManagerOptions);
                         mRecyclerView.setAdapter(new AddressBookAdapter(addressList));
                     } else {
-                        utils.showErrorDialog("Nothing to show");
+                        utils.showErrorDialog(findStringByName("error_fetching_data"));
                     }
                 }
             } else if (resultCode == FORCED_CANCEL) {
@@ -141,8 +143,8 @@ public class AddressBook extends MyBaseFragment {
                     utils.showAlertDialog("Message", message);
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("Unable to Get Data From Server");
+                utils.showErrorDialog(findStringByName("error_fetching_data"));
             }
-        } else utils.showErrorDialog("Response is null");
+        } else utils.showErrorDialog(findStringByName("error_fetching_data"));
     }
 }

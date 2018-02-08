@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.R;
-import com.qemasoft.alhabibshop.app.controller.ExpandableListAdapter;
+import com.qemasoft.alhabibshop.app.controller.ExpandableListAdapterCategory;
 import com.qemasoft.alhabibshop.app.controller.ItemAdapter;
 import com.qemasoft.alhabibshop.app.controller.SubCatAdapter;
 import com.qemasoft.alhabibshop.app.model.MenuCategory;
@@ -322,14 +322,15 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                 break;
             case R.id.filter_layout:
                 if (headerList == null || headerList.isEmpty() || headerList.size() < 1) {
-                    utils.showAlertDialog("Alert", "No filter available!");
+                    utils.showAlertDialog(findStringByName("filter_text"),
+                            findStringByName("no_filter"));
                     return;
                 }
                 selectedFilters = new ArrayList<>();
-                builder.setTitle("Filter Items");
+                builder.setTitle(R.string.filter_text);
                 
                 ExpandableListView myList = new ExpandableListView(context);
-                ExpandableListAdapter myAdapter = new ExpandableListAdapter(
+                ExpandableListAdapterCategory myAdapter = new ExpandableListAdapterCategory(
                         headerList, hashMap, true);
                 myList.setAdapter(myAdapter);
                 myList.setGroupIndicator(null);
