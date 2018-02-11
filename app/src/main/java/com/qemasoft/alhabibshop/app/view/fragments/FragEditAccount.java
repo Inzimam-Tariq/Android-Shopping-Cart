@@ -25,8 +25,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static android.content.DialogInterface.BUTTON_POSITIVE;
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_CONTACT;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_FIRST_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_ID_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_LAST_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.EDIT_ACCOUNT_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
@@ -37,15 +40,15 @@ import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
  */
 
 public class FragEditAccount extends MyBaseFragment {
-
+    
     Button editAccountBtn;
     private EditText fName, lName, email, contact;
-
+    
     public FragEditAccount() {
         // Required empty public constructor
     }
-
-
+    
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,12 +56,28 @@ public class FragEditAccount extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_edit_account, container, false);
         initUtils();
         initViews(view);
-
-
+        
+            fName.setText(Preferences.getSharedPreferenceString(
+                    appContext,
+                    CUSTOMER_FIRST_NAME,
+                    DEFAULT_STRING_VAL));
+            lName.setText(Preferences.getSharedPreferenceString(
+                    appContext,
+                    CUSTOMER_LAST_NAME,
+                    DEFAULT_STRING_VAL));
+            email.setText(Preferences.getSharedPreferenceString(
+                    appContext,
+                    CUSTOMER_EMAIL,
+                    DEFAULT_STRING_VAL));
+            contact.setText(Preferences.getSharedPreferenceString(
+                    appContext,
+                    CUSTOMER_CONTACT,
+                    DEFAULT_STRING_VAL));
+        
         editAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
                 String fNameVal = fName.getText().toString().trim();
                 String lNameVal = lName.getText().toString().trim();
                 String emailVal = email.getText().toString().trim();
@@ -73,14 +92,14 @@ public class FragEditAccount extends MyBaseFragment {
                     utils.setError(contact);
                 } else {
                     AppConstants.setMidFixApi("editCustomer");
-
+                    
                     Map<String, String> map = new HashMap<>();
                     map.put("email", emailVal);
                     map.put("firstname", fNameVal);
                     map.put("lastname", lNameVal);
                     map.put("telephone", contactVal);
                     map.put("customer_id", Preferences.getSharedPreferenceString(appContext,
-                            CUSTOMER_KEY, DEFAULT_STRING_VAL));
+                            CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
                     Bundle bundle = new Bundle();
                     bundle.putBoolean("hasParameters", true);
                     bundle.putSerializable("parameters", (Serializable) map);
@@ -90,10 +109,10 @@ public class FragEditAccount extends MyBaseFragment {
                 }
             }
         });
-
+        
         return view;
     }
-
+    
     private void initViews(View view) {
         editAccountBtn = view.findViewById(R.id.edit_account_btn);
         fName = view.findViewById(R.id.f_name_et);
@@ -101,32 +120,32 @@ public class FragEditAccount extends MyBaseFragment {
         email = view.findViewById(R.id.email_et);
         contact = view.findViewById(R.id.phone_et);
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-
+        
+        
         if (requestCode == EDIT_ACCOUNT_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
                     String fName = response.optString("firstname");
                     String lName = response.optString("lastname");
-
-                    String userName = fName + " " + lName;
-                    utils.printLog("CustomerId = ", " Username = " + userName);
-                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, userName);
+                    
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_FIRST_NAME, fName);
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_LAST_NAME, lName);
+                    
                     AlertDialog dialog = utils.showAlertDialogReturnDialog(
                             findStringByName("information_text"),
                             response.optString("message"));
                     dialog.setButton(BUTTON_POSITIVE, findStringByName("ok"),
                             new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            utils.switchFragment(new Dashboard());
-                        }
-                    });
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    utils.switchFragment(new Dashboard());
+                                }
+                            });
                     dialog.show();
                 } catch (JSONException e) {
 //                    utils.showErrorDialog("Invalid JSON");
@@ -138,6 +157,6 @@ public class FragEditAccount extends MyBaseFragment {
             }
         }
     }
-
-
+    
+    
 }

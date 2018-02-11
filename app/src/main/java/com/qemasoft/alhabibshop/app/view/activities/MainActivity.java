@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -36,7 +34,6 @@ import com.qemasoft.alhabibshop.app.model.MenuSubCategory;
 import com.qemasoft.alhabibshop.app.model.UserSubMenu;
 import com.qemasoft.alhabibshop.app.view.fragments.Dashboard;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCartDetail;
-import com.qemasoft.alhabibshop.app.view.fragments.FragCategories;
 import com.qemasoft.alhabibshop.app.view.fragments.FragChangePassword;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCheckout;
 import com.qemasoft.alhabibshop.app.view.fragments.FragContactUs;
@@ -62,7 +59,6 @@ import java.util.Map;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-import static android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_SYMBOL_KEY;
@@ -72,7 +68,6 @@ import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_TYPE;
-import static com.qemasoft.alhabibshop.app.AppConstants.MENU_TYPE;
 import static com.qemasoft.alhabibshop.app.AppConstants.SEARCH_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
@@ -301,8 +296,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     bundle.putString("id", userSubMenu.getUserSubMenuCode());
                     utils.switchFragment(new FragShowText(), bundle);
                 } else if (str.contains("اللغة") || str.contains("Language")) {
+                    String language = userSubMenu.getUserSubMenuCode();
+                    String lang;
+                    if (language.contains("-")) {
+                        String langArray[] = language.split("-");
+                        lang = langArray[0];
+                        utils.printLog("Main", "Language = " + lang);
+                    } else lang = language;
+                    
                     Preferences.setSharedPreferenceString(appContext,
-                            LANGUAGE_KEY, userSubMenu.getUserSubMenuCode());
+                            LANGUAGE_KEY, lang);
                     recreate();
                 } else if (str.contains("دقة") || str.contains("Currency")) {
                     makeDefaultCurrencyCall(userSubMenu.getUserSubMenuCode());
@@ -352,21 +355,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 //        boolean isRightToLeft = TextUtilsCompat.getLayoutDirectionFromLocale(Locale
 //                .getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
-        int menuType = Preferences.getSharedPreferenceInt(appContext, MENU_TYPE, 0);
-        utils.printLog("MenuType = " + menuType);
-        if (menuType == 1) {
-//            ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
-//            ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_LTR);
-            ViewCompat.setLayoutDirection(drawer, ViewCompat.LAYOUT_DIRECTION_LTR);
-            
-        } else {
-            if (Build.VERSION.SDK_INT > JELLY_BEAN_MR1) {
-                ViewCompat.setLayoutDirection(drawer, ViewCompat.LAYOUT_DIRECTION_RTL);
-            }
-//            ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_LTR);
-//            ViewCompat.setLayoutDirection(drawerUser, ViewCompat.LAYOUT_DIRECTION_LTR);
-//            ViewCompat.setLayoutDirection(drawerCategory, ViewCompat.LAYOUT_DIRECTION_LTR);
-        }
+//        int menuType = Preferences.getSharedPreferenceInt(appContext, MENU_TYPE, 0);
+//        utils.printLog("MenuType = " + menuType);
+//        if (menuType == 1) {
+////            ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
+////            ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_LTR);
+//            ViewCompat.setLayoutDirection(drawer, ViewCompat.LAYOUT_DIRECTION_LTR);
+//
+//        } else {
+//            if (Build.VERSION.SDK_INT > JELLY_BEAN_MR1) {
+//                ViewCompat.setLayoutDirection(drawer, ViewCompat.LAYOUT_DIRECTION_RTL);
+//            }
+////            ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_LTR);
+////            ViewCompat.setLayoutDirection(drawerUser, ViewCompat.LAYOUT_DIRECTION_LTR);
+////            ViewCompat.setLayoutDirection(drawerCategory, ViewCompat.LAYOUT_DIRECTION_LTR);
+//        }
         
         
         utils.setItemCount();
@@ -482,11 +485,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Fragment fragment = new Fragment();
         
         switch (position) {
-            case 2:
-                fragment = new FragCategories();
-                break;
+            
             case 103:
-                fragment = new Dashboard();
+                if (utils.isLoggedIn())
+                    utils.switchFragment(new Dashboard());
+                else utils.switchFragment(new FragLogin());
                 break;
             case 104:
                 fragment = new FragEditAccount();
@@ -500,6 +503,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case 107:
                 // Clear Login Session
                 utils.clearSession();
+                utils.switchFragment(new MainFrag());
                 recreate();
                 break;
             case 108:
@@ -732,7 +736,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             utils.switchFragment(new FragProduct(), bundle);
             closeDrawer();
         } else if (id == R.id.my_account_tv) {
-            utils.switchFragment(new Dashboard());
+            if (utils.isLoggedIn())
+                utils.switchFragment(new Dashboard());
+            else utils.switchFragment(new FragLogin());
         } else if (id == R.id.disc_tv) {
             utils.printLog("From = Main Act");
             Bundle bundle = new Bundle();

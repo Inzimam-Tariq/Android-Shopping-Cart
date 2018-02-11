@@ -133,7 +133,7 @@ public class ExpandableListAdapterUser extends BaseExpandableListAdapter {
             itemView = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.list_item, parent, false);
             
-            TextView lblListChild = itemView.findViewById(R.id.lblListItem);
+            TextView childTV = itemView.findViewById(R.id.lblListItem);
             View divider = itemView.findViewById(R.id.child_divider);
             String dividerColor = Preferences.getSharedPreferenceString(appContext,
                     "divider_color", "");
@@ -141,11 +141,15 @@ public class ExpandableListAdapterUser extends BaseExpandableListAdapter {
                 divider.setBackgroundColor(Color.parseColor(dividerColor));
             }
             
-            
             if (!userSubMenu.getFlagImage().isEmpty()) {
                 ImageView imageView = itemView.findViewById(R.id.image_view);
                 imageView.setVisibility(View.VISIBLE);
-                lblListChild.setPadding(0, 0, 0, 0);
+                int val = childTV.getPaddingLeft();
+                utils.printLog("ExpandableAdapter", "padding = " + val);
+                childTV.setPadding(0, 0, 0, 0);
+                val = childTV.getPaddingLeft();
+                utils.printLog("ExpandableAdapter", "padding After = " + val);
+//                int v = android.R.attr.expandableListPreferredChildPaddingLeft;
                 Picasso.with(imageView.getContext())
                         .load(userSubMenu.getFlagImage())
                         .error(R.drawable.ic_close_black)
@@ -154,7 +158,7 @@ public class ExpandableListAdapterUser extends BaseExpandableListAdapter {
             }
             
             
-            lblListChild.setText(userSubMenu.getUserSubMenuSymbolLeft().concat(" ")
+            childTV.setText(userSubMenu.getUserSubMenuSymbolLeft().concat(" ")
                     .concat(userSubMenu.getUserSubMenuSymbolRight()).concat(" ")
                     .concat(userSubMenu.getUserSubMenuTitle())
             

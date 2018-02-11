@@ -11,7 +11,8 @@ import android.widget.TextView;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_FIRST_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_LAST_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
@@ -41,7 +42,9 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
         
         userNameTV.setText(findStringByName("welcome_text").concat(" ")
                 .concat(Preferences.getSharedPreferenceString(appContext,
-                        CUSTOMER_NAME, DEFAULT_STRING_VAL)));
+                        CUSTOMER_FIRST_NAME, DEFAULT_STRING_VAL))
+                .concat(" ").concat(Preferences.getSharedPreferenceString(appContext,
+                        CUSTOMER_LAST_NAME, DEFAULT_STRING_VAL)));
         editAccountTV.setOnClickListener(this);
         changePasswordTV.setOnClickListener(this);
         addressBookTV.setOnClickListener(this);

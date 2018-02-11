@@ -2,6 +2,7 @@ package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +13,9 @@ import android.widget.TextView;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.Address;
-import com.qemasoft.alhabibshop.app.view.fragments.FragEditAddress;
+import com.qemasoft.alhabibshop.app.view.fragments.AddAddress;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,45 +24,46 @@ import java.util.List;
  */
 
 public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.MyViewHolder> {
-
+    
     private List<Address> dataList;
     private Context context;
     private Utils utils;
     private int itemPosition;
-
+    
     public AddressBookAdapter(List<Address> dataList) {
         this.dataList = dataList;
 //        utils.printLog("Constructor", "Working");
 //        utils.printLog("Constructor", "DataList Size = " + dataList.size());
     }
-
+    
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        
         this.context = parent.getContext();
         this.utils = new Utils(context);
-
+        
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_address, parent, false);
-
+        
         utils.printLog("LayoutInflated", "Working");
         return new MyViewHolder(itemView);
     }
-
+    
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         utils.printLog("OnBIndMethod", "OnBind Working");
 //        final int pos = holder.getAdapterPosition();
         final Address data = dataList.get(position);
-
+        
         holder.nameTV.setText(data.getFirstName().concat(" ").concat(data.getLastName()));
-
+        
         utils.printLog("Company", data.getCompany() + "C");
         utils.printLog("Address", data.getAddress());
         utils.printLog("City", data.getCity());
         utils.printLog("PostCode", data.getPostalCode());
         utils.printLog("Country", data.getCountry());
         utils.printLog("State", data.getState());
+        
         if (data.getCompany().isEmpty()) {
             holder.companyTV.setVisibility(View.GONE);
         } else {
@@ -68,7 +71,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
         }
         holder.addressTV.setText(data.getAddress());
         holder.cityTV.setText(data.getCity());
-
+        
         if (data.getPostalCode().isEmpty()) {
             holder.postCodeTV.setVisibility(View.GONE);
         } else {
@@ -76,7 +79,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
         }
         holder.countryTV.setText(data.getCountry());
         holder.stateTV.setText(data.getState());
-
+        
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -84,7 +87,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Select Option");
                 builder.setCancelable(false);
-
+                
                 int checkedItem = itemPosition = 0; // 1st element
                 final List<String> list = new ArrayList<>();
                 list.add("Edit");
@@ -103,10 +106,18 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
                     public void onClick(DialogInterface dialog, int which) {
                         utils.printLog("Which", "List position =" + list.get(itemPosition));
                         if (itemPosition == 0) {
-
-                            utils.switchFragment(new FragEditAddress());
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean("isEditAddress", true);
+                            bundle.putString("first_name", data.getFirstName());
+                            bundle.putString("last_name", data.getLastName());
+                            bundle.putString("company_name", data.getCompany());
+                            bundle.putString("address", data.getAddress());
+                            bundle.putString("postal_code", data.getPostalCode());
+                            bundle.putString("city", data.getCity());
+                            
+                            utils.switchFragment(new AddAddress(), bundle);
                         } else if (itemPosition == 1) {
-
+                            
                             utils.printLog("Position", "Position = " + holder.getAdapterPosition());
                             dataList.remove(holder.getAdapterPosition());
                             notifyItemRemoved(holder.getAdapterPosition());
@@ -120,20 +131,20 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
                 return true;
             }
         });
-
+        
     }
-
+    
     @Override
     public int getItemCount() {
         return dataList.size();
     }
-
+    
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
+        
         public TextView nameTV, companyTV, addressTV, cityTV, postCodeTV,
                 countryTV, stateTV;
-
-
+        
+        
         public MyViewHolder(View itemView) {
             super(itemView);
             nameTV = itemView.findViewById(R.id.name_tv);
@@ -143,9 +154,9 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
             postCodeTV = itemView.findViewById(R.id.post_code_tv);
             countryTV = itemView.findViewById(R.id.country_tv);
             stateTV = itemView.findViewById(R.id.state_tv);
-
+            
             utils.printLog("FindViewById", "Working");
         }
     }
-
+    
 }

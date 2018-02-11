@@ -138,6 +138,11 @@
     <string name="quantity_info">يجب أن تكون الكمية أكبر من 0</string>
     <string name="address_book_title">إدخالات دفتر العناوين</string>
 
+    <string name="select_state">اختر ولايه</string>
+    <string name="select_country">Select Country</string>
+
+
+
     <string name="cancel_text">إلغ</string>
     <string name="show_text">تبين</string>
 
@@ -189,6 +194,8 @@
     <string name="view_order_detail_text">عرض تفاصيل الطلب</string>
     <string name="my_orders__text">عرض تفاصيل الطلب</string>
 
+    <string name="my_orders_return">رقم الارجاع</string>
+
 
     <string name="add_to_cart_text">اضافة للسلة</string>
 
@@ -215,7 +222,7 @@
 
     <string name="soft_by">الفرز بواسطة:</string>
 
-    <string-array name="filter_array">
+    <string-array name="sort_array">
 
         <item>الافتراضي</item>
         <item>الإسم من أ - ي</item>

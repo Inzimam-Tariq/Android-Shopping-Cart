@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.MyApp;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
@@ -22,6 +23,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Locale;
 
 
 /**
@@ -88,19 +90,36 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             String symbol = Preferences.getSharedPreferenceString(context
                     , AppConstants.CURRENCY_SYMBOL_KEY, "$");
             
-            
             TextView itemPriceTV = holder.itemPriceFull;
             TextView itemPriceSpecialTV = holder.itemPriceSpecial;
-            
-            if (!data.getItemPriceSpecial().isEmpty()) {
-                itemPriceSpecialTV.setVisibility(View.VISIBLE);
-                itemPriceSpecialTV.setText(data.getItemPriceFull().concat("").concat(symbol));
-                itemPriceTV.setText(data.getItemPriceSpecial().concat("").concat(symbol));
-                // set StrikeThrough to textView
-                itemPriceSpecialTV.setPaintFlags(itemPriceSpecialTV.getPaintFlags()
-                        | Paint.STRIKE_THRU_TEXT_FLAG);
+            utils.printLog("ItemAdapter", "IsRTL = " + MyApp.isRTL(Locale.getDefault()));
+            if (MyApp.isRTL(Locale.getDefault())) {
+                utils.printLog("ItemAdapter", "inside if RTL true");
+                if (!data.getItemPriceSpecial().isEmpty()) {
+                    itemPriceSpecialTV.setVisibility(View.VISIBLE);
+                    
+                    itemPriceSpecialTV.setText(data.getItemPriceFull().concat("").concat(symbol));
+                    itemPriceTV.setText(data.getItemPriceSpecial().concat("").concat(symbol));
+                    // set StrikeThrough to textView
+                    itemPriceSpecialTV.setPaintFlags(itemPriceSpecialTV.getPaintFlags()
+                            | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    itemPriceTV.setText(data.getItemPriceFull().concat("").concat(symbol));
+                }
             } else {
-                itemPriceTV.setText(data.getItemPriceFull().concat("").concat(symbol));
+                utils.printLog("ItemAdapter", "inside if RTL false");
+                if (!data.getItemPriceSpecial().isEmpty()) {
+                    itemPriceSpecialTV.setVisibility(View.VISIBLE);
+                    
+                    itemPriceSpecialTV.setText(symbol.concat("").concat(data.getItemPriceFull()));
+                    itemPriceTV.setText(symbol.concat("").concat(data.getItemPriceSpecial()));
+                    
+                    // set StrikeThrough to textView
+                    itemPriceSpecialTV.setPaintFlags(itemPriceSpecialTV.getPaintFlags()
+                            | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    itemPriceTV.setText(symbol.concat("").concat(data.getItemPriceFull()));
+                }
             }
             
             holder.itemView.setOnClickListener(new View.OnClickListener() {

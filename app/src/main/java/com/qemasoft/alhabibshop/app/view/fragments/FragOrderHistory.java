@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ORDER_HISTORY_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
@@ -87,7 +87,7 @@ public class FragOrderHistory extends MyBaseFragment {
 
         Map<String, String> map = new HashMap<>();
         map.put("customer_id", Preferences.getSharedPreferenceString(appContext,
-                CUSTOMER_KEY, DEFAULT_STRING_VAL));
+                CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
 
         Bundle bundle = new Bundle();
         bundle.putBoolean("hasParameters", true);

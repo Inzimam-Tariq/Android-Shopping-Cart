@@ -45,7 +45,7 @@ import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.ADDRESS_BOOK_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CONFIRM_CHECKOUT_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.LEFT;
@@ -72,6 +72,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
     private EditText commentET;
     private List<ShippingMethod> shippingMethodList;
     private List<PaymentMethod> paymentMethodList;
+    
     
     public FragCheckout() {
         // Required empty public constructor
@@ -111,7 +112,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
         AppConstants.setMidFixApi("getAddresses");
         Map<String, String> map = new HashMap<>();
         map.put("customer_id", Preferences.getSharedPreferenceString(appContext
-                , CUSTOMER_KEY, DEFAULT_STRING_VAL));
+                , CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
         bundle.putBoolean("hasParameters", true);
         bundle.putSerializable("parameters", (Serializable) map);
         Intent intent = new Intent(getContext(), FetchData.class);
@@ -149,8 +150,6 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                 list.add(addressList.get(i).getAddress());
             }
         }
-        int rgPaymentCount = radioGroupPaymentMethod.getChildCount();
-        int rgShippingCount = radioGroupPaymentMethod.getChildCount();
         switch (v.getId()) {
             case R.id.select_delivery_address_btn:
                 if (addressList == null || addressList.isEmpty()) {
@@ -170,7 +169,7 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     AppConstants.setMidFixApi("shippingMethod");
                     Map<String, String> map = new HashMap<>();
                     map.put("customer_id", Preferences.getSharedPreferenceString(appContext
-                            , CUSTOMER_KEY, DEFAULT_STRING_VAL));
+                            , CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
                     map.put("address_id", addressList.get(selectedAddressIndex).getId());
                     bundle.putBoolean("hasParameters", true);
                     bundle.putSerializable("parameters", (Serializable) map);
@@ -181,53 +180,57 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     step2.setVisibility(View.VISIBLE);
                     backBtn.setVisibility(View.VISIBLE);
                     stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.TWO);
-                    if (rgShippingCount > 0) radioGroupShippingMethod.check(-1);
-                    if (rgShippingCount > 0) radioGroupShippingMethod.check(0);
                 } else if (step2.getVisibility() == View.VISIBLE) {
-                    AppConstants.setMidFixApi("paymentMethod");
-                    Map<String, String> map = new HashMap<>();
-                    map.put("customer_id", Preferences.getSharedPreferenceString(appContext
-                            , CUSTOMER_KEY, DEFAULT_STRING_VAL));
-                    map.put("address_id", addressList.get(selectedAddressIndex).getId());
-                    map.put("session_id", Preferences.getSharedPreferenceString(appContext
-                            , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
-                    bundle.putBoolean("hasParameters", true);
-                    bundle.putSerializable("parameters", (Serializable) map);
-                    Intent intent = new Intent(getContext(), FetchData.class);
-                    intent.putExtras(bundle);
-                    startActivityForResult(intent, PAYMENT_METHOD_REQUEST_CODE);
-                    step2.setVisibility(View.GONE);
-                    step3.setVisibility(View.VISIBLE);
-                    stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
-                    if (rgPaymentCount > 0) radioGroupPaymentMethod.check(-1);
-                    if (rgPaymentCount > 0) radioGroupPaymentMethod.check(0);
+                    AppConstants.setShippingSelectedIndex(
+                            utils.getSelectedRadioIndex(radioGroupShippingMethod));
+                    if (AppConstants.getShippingSelectedIndex() != 0) {
+                        AppConstants.setMidFixApi("paymentMethod");
+                        Map<String, String> map = new HashMap<>();
+                        map.put("customer_id", Preferences.getSharedPreferenceString(appContext
+                                , CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
+                        map.put("address_id", addressList.get(selectedAddressIndex).getId());
+                        map.put("session_id", Preferences.getSharedPreferenceString(appContext
+                                , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
+                        bundle.putBoolean("hasParameters", true);
+                        bundle.putSerializable("parameters", (Serializable) map);
+                        Intent intent = new Intent(getContext(), FetchData.class);
+                        intent.putExtras(bundle);
+                        startActivityForResult(intent, PAYMENT_METHOD_REQUEST_CODE);
+                        step2.setVisibility(View.GONE);
+                        step3.setVisibility(View.VISIBLE);
+                        stateProgressBar.setCurrentStateNumber(StateProgressBar.StateNumber.THREE);
+                    }
                 } else if (step3.getVisibility() == View.VISIBLE) {
-                    AppConstants.setMidFixApi("confirm");
-                    Map<String, String> map = new HashMap<>();
-                    map.put("customer_id", Preferences.getSharedPreferenceString(appContext
-                            , CUSTOMER_KEY, DEFAULT_STRING_VAL));
+                    AppConstants.setPaymentSelectedIndex(
+                            utils.getSelectedRadioIndex(radioGroupPaymentMethod));
+                    if (AppConstants.getPaymentSelectedIndex() != 0) {
+                        AppConstants.setMidFixApi("confirm");
+                        Map<String, String> map = new HashMap<>();
+                        map.put("customer_id", Preferences.getSharedPreferenceString(appContext
+                                , CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
 //                    map.put("address_id", addressList.get(selectedAddressIndex).getId());
-                    map.put("session_id", Preferences.getSharedPreferenceString(appContext
-                            , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
-                    int index = utils.getSelectedRadioIndex(radioGroupShippingMethod);
-                    String shippingCode = shippingMethodList.get(index).getCode();
-                    String shippingMethod = shippingMethodList.get(index).getTitle();
-                    String shippingCost = shippingMethodList.get(index).getCost();
-                    index = utils.getSelectedRadioIndex(radioGroupPaymentMethod);
-                    String paymentCode = paymentMethodList.get(index).getCode();
-                    String paymentMethod = paymentMethodList.get(index).getTitle();
-                    utils.printLog("shippingCode = " + shippingCode
-                            + "\npaymentCode = " + paymentCode);
-                    map.put("shipping_method", shippingMethod);
-                    map.put("shipping_code", shippingCode);
-                    map.put("shipping_cost", shippingCost);
-                    map.put("payment_method", paymentMethod);
-                    map.put("payment_code", paymentCode);
-                    bundle.putBoolean("hasParameters", true);
-                    bundle.putSerializable("parameters", (Serializable) map);
-                    Intent intent = new Intent(getContext(), FetchData.class);
-                    intent.putExtras(bundle);
-                    startActivityForResult(intent, CONFIRM_CHECKOUT_REQUEST_CODE);
+                        map.put("session_id", Preferences.getSharedPreferenceString(appContext
+                                , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
+                        int index = AppConstants.getShippingSelectedIndex();
+                        String shippingCode = shippingMethodList.get(index).getCode();
+                        String shippingMethod = shippingMethodList.get(index).getTitle();
+                        String shippingCost = shippingMethodList.get(index).getCost();
+                        index = AppConstants.getPaymentSelectedIndex();
+                        String paymentCode = paymentMethodList.get(index).getCode();
+                        String paymentMethod = paymentMethodList.get(index).getTitle();
+                        utils.printLog("shippingCode = " + shippingCode
+                                + "\npaymentCode = " + paymentCode);
+                        map.put("shipping_method", shippingMethod);
+                        map.put("shipping_code", shippingCode);
+                        map.put("shipping_cost", shippingCost);
+                        map.put("payment_method", paymentMethod);
+                        map.put("payment_code", paymentCode);
+                        bundle.putBoolean("hasParameters", true);
+                        bundle.putSerializable("parameters", (Serializable) map);
+                        Intent intent = new Intent(getContext(), FetchData.class);
+                        intent.putExtras(bundle);
+                        startActivityForResult(intent, CONFIRM_CHECKOUT_REQUEST_CODE);
+                    }
                     if (isTermsCBChecked()) {
                         step3.setVisibility(View.GONE);
                         step4.setVisibility(View.VISIBLE);
@@ -239,7 +242,6 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     }
                 } else if (step4.getVisibility() == View.VISIBLE) {
                     backBtn.setVisibility(View.GONE);
-                    nextBtn.setText(R.string.view_order_history_text);
                     step4.setVisibility(View.INVISIBLE);
                     step5.setVisibility(View.VISIBLE);
                     nextBtn.setText(R.string.continue_text);
@@ -247,16 +249,15 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     AppConstants.setMidFixApi("addOrder");
                     Map<String, String> map = new HashMap<>();
                     map.put("customer_id", Preferences.getSharedPreferenceString(appContext
-                            , CUSTOMER_KEY, DEFAULT_STRING_VAL));
+                            , CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
                     map.put("address_id", addressList.get(selectedAddressIndex).getId());
                     map.put("session_id", Preferences.getSharedPreferenceString(appContext
                             , UNIQUE_ID_KEY, DEFAULT_STRING_VAL));
-                    
-                    int index = utils.getSelectedRadioIndex(radioGroupShippingMethod);
+                    int index = AppConstants.getShippingSelectedIndex();
                     String shippingCode = shippingMethodList.get(index).getCode();
                     String shippingMethod = shippingMethodList.get(index).getTitle();
                     String shippingCost = shippingMethodList.get(index).getCost();
-                    index = utils.getSelectedRadioIndex(radioGroupPaymentMethod);
+                    index = AppConstants.getPaymentSelectedIndex();
                     String paymentCode = paymentMethodList.get(index).getCode();
                     String paymentMethod = paymentMethodList.get(index).getTitle();
                     utils.printLog("shippingCode = " + shippingCode
@@ -376,8 +377,8 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         radioButton.setTypeface(Typeface.createFromAsset(context.getAssets(),
                                 "fonts/DroidKufi-Regular.ttf"));
                         radioGroupShippingMethod.addView(radioButton, rgParams);
+                        radioGroupShippingMethod.check(AppConstants.getShippingSelectedIndex());
                     }
-                    radioGroupShippingMethod.check(0);
                 } else if (requestCode == PAYMENT_METHOD_REQUEST_CODE) {
                     JSONArray paymentMethods = response.optJSONArray("paymentMethods");
                     paymentMethodList = new ArrayList<>();
@@ -405,13 +406,15 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                         RadioButton radioButton = new RadioButton(getActivity());
                         radioButton.setText(paymentMethodList.get(i).getTitle());
                         radioButton.setId(i);
-                        RadioGroup.LayoutParams rgParams = new RadioGroup.LayoutParams(RadioGroup.LayoutParams.MATCH_PARENT,
+                        RadioGroup.LayoutParams rgParams = new RadioGroup.LayoutParams(
+                                RadioGroup.LayoutParams.MATCH_PARENT,
                                 RadioGroup.LayoutParams.WRAP_CONTENT);
                         radioButton.setTypeface(Typeface.createFromAsset(context.getAssets(),
                                 "fonts/DroidKufi-Regular.ttf"));
                         radioGroupPaymentMethod.addView(radioButton, rgParams);
+                        radioGroupPaymentMethod.check(AppConstants.getPaymentSelectedIndex());
                     }
-                    radioGroupPaymentMethod.check(0);
+                    
                 } else if (requestCode == CONFIRM_CHECKOUT_REQUEST_CODE) {
                     
                     JSONArray cartProducts = response.optJSONArray("cartProducts");
@@ -480,6 +483,8 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                     String message = response.optString("message");
                     message = message.trim();
                     if (!message.isEmpty()) {
+                        Preferences.setSharedPreferenceString(appContext, "couponCode", "");
+                        confirmOrderTV.getLayoutParams().height = 300;
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
                             confirmOrderTV.setText(Html.fromHtml(message, Html.FROM_HTML_MODE_COMPACT));
                         else confirmOrderTV.setText(Html.fromHtml(message));

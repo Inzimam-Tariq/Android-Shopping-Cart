@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 
 import com.qemasoft.alhabibshop.app.model.ProductOptionValueItem;
-import com.qemasoft.alhabibshop.app.view.activities.SplashActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,33 +48,36 @@ public class AppConstants {
     
     public static final String DEFAULT_STRING_VAL = "";
     public static final String UNIQUE_ID_KEY = "UNIQUE_ID_KEY";
-    public static final Context appContext = SplashActivity.getAppContext();
+    public static final Context appContext = MyApp.getAppContext();
     public static final String SECRET_KEY_FILE = "secret_key";
     public static final String KEY_FOR_KEY = "KEY_VALUE";
-    public static final String LOGIN_KEY = "LOGIN_KEY";
+    public static final String IS_LOGIN = "IS_LOGIN";
     public static final String LOGO_KEY = "LOGO_KEY";
     public static final String LOGO_TYPE = "LOGO_TYPE";
     public static final String MENU_TYPE = "MENU_TYPE";
     public static final String CURRENCY_KEY = "DEFAULT_CURRENCY";
     public static final String CURRENCY_SYMBOL_KEY = "CURRENCY_SYMBOL";
     public static final String LANGUAGE_KEY = "DEFAULT_LANGUAGE";
-    public static final String CUSTOMER_KEY = "CUSTOMER_KEY";
+    public static final String CUSTOMER_ID_KEY = "CUSTOMER_ID_KEY";
     public static final String CUSTOMER_EMAIL = "CUSTOMER_EMAIL";
-    public static final String CUSTOMER_NAME = "CUSTOMER_NAME";
+    public static final String CUSTOMER_FIRST_NAME = "CUSTOMER_FIRST_NAME";
+    public static final String CUSTOMER_LAST_NAME = "CUSTOMER_LAST_NAME";
+    public static final String CUSTOMER_CONTACT = "CUSTOMER_CONTACT";
     public static final String RIGHT = "right";
     public static final String LEFT = "left";
     public static final String TOP = "top";
     public static final String BOTTOM = "bottom";
-//        private static final String BASE_URL = "http://www.opencartgulf.com/api/";
+    //    private static final String BASE_URL = "https://www.opencartgulf.com/api/";
     private static final String BASE_URL = "https://www.alhabibshop.com/api/";
-//    private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
+    //    private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     
     public static List<ProductOptionValueItem> optionsList = new ArrayList<>();
     private static String MID_FIX_API;
     private static String HOME_EXTRA;
-    private static String PRODUCT_EXTRA;
     private static String SLIDESHOW_EXTRA;
+    static private int shippingSelectedIndex;
+    static private int paymentSelectedIndex;
     
     
     public static String findStringByName(String name) {
@@ -116,14 +118,6 @@ public class AppConstants {
         HOME_EXTRA = homeExtra;
     }
     
-    public static String getProductExtra() {
-        return PRODUCT_EXTRA;
-    }
-    
-    public static void setProductExtra(String productExtra) {
-        PRODUCT_EXTRA = productExtra;
-    }
-    
     public static String getSlideshowExtra() {
         return SLIDESHOW_EXTRA;
     }
@@ -132,4 +126,20 @@ public class AppConstants {
         SLIDESHOW_EXTRA = slideshowExtra;
     }
     
+    
+    public static int getShippingSelectedIndex() {
+        return shippingSelectedIndex;
+    }
+    
+    public static void setShippingSelectedIndex(int shippingSelectedIndex) {
+        AppConstants.shippingSelectedIndex = shippingSelectedIndex;
+    }
+    
+    public static int getPaymentSelectedIndex() {
+        return paymentSelectedIndex;
+    }
+    
+    public static void setPaymentSelectedIndex(int paymentSelectedIndex) {
+        AppConstants.paymentSelectedIndex = paymentSelectedIndex;
+    }
 }

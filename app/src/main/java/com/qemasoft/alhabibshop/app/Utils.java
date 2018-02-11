@@ -67,12 +67,14 @@ import java.util.regex.Pattern;
 import me.relex.circleindicator.CircleIndicator;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_CONTACT;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_FIRST_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_ID_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_LAST_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
+import static com.qemasoft.alhabibshop.app.AppConstants.IS_LOGIN;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
-import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
@@ -541,12 +543,15 @@ public class Utils {
     
     public void clearSession() {
         
-        Preferences.setSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
-        Preferences.setSharedPreferenceString(appContext, CUSTOMER_KEY, DEFAULT_STRING_VAL);
+        Preferences.setSharedPreferenceBoolean(appContext, IS_LOGIN, false);
+        Preferences.setSharedPreferenceString(appContext, CUSTOMER_ID_KEY, DEFAULT_STRING_VAL);
         Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, DEFAULT_STRING_VAL);
-        Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, DEFAULT_STRING_VAL);
+        Preferences.setSharedPreferenceString(appContext, CUSTOMER_FIRST_NAME, DEFAULT_STRING_VAL);
+        Preferences.setSharedPreferenceString(appContext, CUSTOMER_LAST_NAME, DEFAULT_STRING_VAL);
         Preferences.setSharedPreferenceString(appContext, UNIQUE_ID_KEY, DEFAULT_STRING_VAL);
+        Preferences.setSharedPreferenceString(appContext, CUSTOMER_CONTACT, DEFAULT_STRING_VAL);
         ((MainActivity) mContext).counterTV.setText("0");
+        Preferences.setSharedPreferenceString(appContext, "couponCode", "");
         
     }
     
@@ -554,6 +559,22 @@ public class Utils {
         
         Toast.makeText(mContext, "" + msg, Toast.LENGTH_SHORT).show();
     }
+    
+    public void showToast(String msg, int length) {
+        
+        Toast.makeText(mContext, "" + msg, Toast.LENGTH_LONG).show();
+    }
+    
+    public void showToast(int msgStrId) {
+        
+        Toast.makeText(mContext, "" + msgStrId, Toast.LENGTH_SHORT).show();
+    }
+    
+    public void showToast(int msgStrId, int length) {
+        
+        Toast.makeText(mContext, "" + msgStrId, Toast.LENGTH_LONG).show();
+    }
+    
     
     public void printLog(String msg) {
         
@@ -767,7 +788,7 @@ public class Utils {
     
     public boolean isLoggedIn() {
         
-        boolean isLoggedIn = Preferences.getSharedPreferenceBoolean(appContext, LOGIN_KEY, false);
+        boolean isLoggedIn = Preferences.getSharedPreferenceBoolean(appContext, IS_LOGIN, false);
         printLog("IsLoggedIn = ", "" + isLoggedIn);
         
         return isLoggedIn;
@@ -783,7 +804,7 @@ public class Utils {
                         DEFAULT_STRING_VAL))
                 .addBodyParameter("customer_id", Preferences.getSharedPreferenceString(
                         appContext,
-                        CUSTOMER_KEY,
+                        CUSTOMER_ID_KEY,
                         "0"))
                 .setPriority(Priority.HIGH)
                 .build()

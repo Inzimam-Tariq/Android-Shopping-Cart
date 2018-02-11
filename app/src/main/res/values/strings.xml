@@ -147,7 +147,12 @@
     <string name="quantity_info">Quantity Must be Greater than 0</string>
     <string name="address_book_title">Address Book Entries</string>
 
+    <string name="select_state">Select State</string>
+    <string name="select_country">Select Country</string>
 
+
+    <string name="edit_address_context">Press And Hold An Address To Edit OR Delete</string>
+    <string name="add_address_context">Press The Plus Button To Add Address</string>
 
 
 
@@ -204,6 +209,8 @@
     <string name="shipping_method_text">Shipping Method : </string>
     <string name="view_order_detail_text">View Order Detail</string>
     <string name="my_orders__text">View Order Detail</string>
+
+    <string name="my_orders_return">Return ID</string>
 
 
     <string name="add_to_cart_text">Add to Cart</string>

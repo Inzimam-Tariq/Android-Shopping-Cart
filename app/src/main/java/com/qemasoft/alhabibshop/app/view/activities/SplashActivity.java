@@ -47,7 +47,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.setHomeExtra;
 
 public class SplashActivity extends AppCompatActivity implements View.OnClickListener {
     
-    private static Context context;
+    private Context context;
     private Utils utils;
     private int clicks = 0;
     private ProgressBar progressBar;
@@ -57,11 +57,6 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     //we are going to use a handler to be able to run in our TimerTask
     final Handler handler = new Handler();
     
-    
-    public static Context getAppContext() {
-        
-        return context;
-    }
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,34 +142,31 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                         
                         String language = settingObject.optString("language");
                         String currency = settingObject.optString("currency");
-                        int menuType = settingObject.optInt("menu_type");
                         String logoType = settingObject.optString("feed_rest_api_logo_type");
                         Preferences.setSharedPreferenceString(appContext,
                                 LOGO_TYPE, logoType);
                         
-                        Preferences.setSharedPreferenceInt(appContext,
-                                MENU_TYPE, menuType);
-                        
-                        String logoPath;
+                        String logo;
                         if (logoType.equals("image")) {
                             
                             if (width <= 480) {
-                                logoPath = settingObject.optString("logo_small");
+                                logo = settingObject.optString("logo_small");
                             } else {
-                                logoPath = settingObject.optString("logo");
+                                logo = settingObject.optString("logo");
                             }
                             
                         } else {
-                            logoPath = settingObject.optString("site_name");
+                            logo = settingObject.optString("site_name");
                         }
                         Preferences.setSharedPreferenceString(appContext,
-                                LOGO_KEY, logoPath);
+                                LOGO_KEY, logo);
                         
                         String lang;
                         if (language != null && !language.isEmpty()) {
                             if (language.contains("-")) {
                                 String langArray[] = language.split("-");
                                 lang = langArray[0];
+                                utils.printLog("Splash", "Language = " + lang);
                             } else lang = language;
                             Preferences.setSharedPreferenceString(appContext,
                                     LANGUAGE_KEY, lang);

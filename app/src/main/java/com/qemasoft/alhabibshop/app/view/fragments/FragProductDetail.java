@@ -68,14 +68,14 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
     private ImageView previewIV;
     
     private Product product;
-    private TextView productTitleTV, productModelTV, manufacturerTV, productDescriptionTV,
-            productPriceTV, productSpecialPriceTV, discountTV, percentDiscTV,
-            stockStatusTV, dateAddedTV, productDescTV;
+    private TextView productTitleTV, productPriceTV, productSpecialPriceTV,
+            productDiscountTV, stockStatusTV, productDescriptionTV;
     
     private Button addToCartBtn;
     
     private RecyclerView mRecyclerViewOptions;
-    private LinearLayout brandLayout, specialPriceLayout, discountLayout, availableOptionsLayout;
+    private LinearLayout specialPriceLayout, discountLayout,
+            stockLayout, availableOptionsLayout;
     
     public FragProductDetail() {
         // Required empty public constructor
@@ -107,28 +107,21 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
     
     private void initViews(View view) {
         
+        productTitleTV = view.findViewById(R.id.product_title_tv);
         pb = view.findViewById(R.id.progress_bar);
         previewIV = view.findViewById(R.id.image_view);
-
-//        brandLayout = view.findViewById(R.id.brand_layout);
+        
         specialPriceLayout = view.findViewById(R.id.special_price_layout);
         discountLayout = view.findViewById(R.id.disc_layout);
+        stockLayout = view.findViewById(R.id.stock_layout);
         
-        productTitleTV = view.findViewById(R.id.product_title_val_tv);
-//        productModelTV = view.findViewById(R.id.product_model_val_tv);
-//        manufacturerTV = view.findViewById(R.id.maker_company_tv);
-        percentDiscTV = view.findViewById(R.id.product_disc_tv);
-        productDescriptionTV = view.findViewById(R.id.product_desc_val_tv);
-        productPriceTV = view.findViewById(R.id.product_price_val_tv);
-        productSpecialPriceTV = view.findViewById(R.id.product_special_price_val_tv);
-        discountTV = view.findViewById(R.id.product_disc_val_tv);
-        percentDiscTV = view.findViewById(R.id.disc_percent_val_tv);
+        productDescriptionTV = view.findViewById(R.id.product_desc_tv);
+        productPriceTV = view.findViewById(R.id.product_price_tv);
+        productSpecialPriceTV = view.findViewById(R.id.product_special_price_tv);
+        productDiscountTV = view.findViewById(R.id.product_disc_tv);
+        stockStatusTV = view.findViewById(R.id.stock_status_tv);
         
-        stockStatusTV = view.findViewById(R.id.stock_status_val_tv);
-        
-        dateAddedTV = view.findViewById(R.id.added_date_val_tv);
         availableOptionsLayout = view.findViewById(R.id.options_available_layout);
-        
         addToCartBtn = view.findViewById(R.id.add_to_cart_btn);
         
         mRecyclerView = view.findViewById(R.id.product_img_recycler_view);
@@ -209,34 +202,24 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                                     });
                     }
                     /// end
-                    
                     productTitleTV.setText(product.getName());
-                    if (!product.getProductDescription().isEmpty())
-                        percentDiscTV.setVisibility(View.VISIBLE);
+                    
                     productDescriptionTV.setText(product.getProductDescription());
                     productPriceTV.setText(product.getPrice().concat("").concat(symbol));
                     productSpecialPriceTV.setText(product.getSpacialPrice().concat("").concat(symbol));
                     if (!product.getSpacialPrice().isEmpty()) {
                         specialPriceLayout.setVisibility(View.VISIBLE);
-                        discountLayout.setVisibility(View.VISIBLE);
                         productPriceTV.setPaintFlags(productPriceTV.getPaintFlags()
                                 | Paint.STRIKE_THRU_TEXT_FLAG);
-                        float disc = Float.parseFloat(product.getPrice())
-                                - Float.parseFloat(product.getSpacialPrice());
-                        discountTV.setText(String.valueOf(disc).concat(symbol));
-                        float discPercent = (1 - Float.parseFloat(product.getSpacialPrice())
-                                / Float.parseFloat(product.getPrice())) * 100;
-                        int val = Math.round(discPercent);
-                        percentDiscTV.setText(String.valueOf(val).concat("%")
-                                .concat(findStringByName("disc")));
                     }
-                    if (!product.getDiscPercent().isEmpty()) {
-                        percentDiscTV.setText(product.getDiscPercent().concat("").concat(symbol));
+                    if (!product.getDiscount().isEmpty()) {
+                        discountLayout.setVisibility(View.VISIBLE);
+                        productDiscountTV.setText(product.getDiscount());
                     }
-                    
-                    stockStatusTV.setText(product.getStockStatus());
-//                    productQtyTV.setText(product.getQuantity());
-                    dateAddedTV.setText(product.getDateAdded());
+                    if (!product.getStockStatus().isEmpty()) {
+                        stockLayout.setVisibility(View.VISIBLE);
+                        stockStatusTV.setText(product.getStockStatus());
+                    }
                     
                     JSONArray optionsArray = proObj.optJSONArray("options");
                     optionsList = new ArrayList<>();

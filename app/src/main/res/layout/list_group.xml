@@ -22,8 +22,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:padding="4dp"
-            android:textSize="12sp" />
+            android:padding="4dp" />
 
         <ImageView
             android:id="@+id/expand_collapse_image"

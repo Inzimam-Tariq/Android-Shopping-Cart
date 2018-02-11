@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
 
@@ -22,7 +23,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.CONTACT_US_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_CONTACT;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_FIRST_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_LAST_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.REGISTER_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 
@@ -48,6 +55,24 @@ public class FragContactUs extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_contact_us, container, false);
         initUtils();
         initViews(view);
+        
+        nameET.setText(Preferences.getSharedPreferenceString(
+                appContext,
+                CUSTOMER_FIRST_NAME,
+                DEFAULT_STRING_VAL)
+                .concat(" ")
+                .concat(Preferences.getSharedPreferenceString(
+                        appContext,
+                        CUSTOMER_LAST_NAME,
+                        DEFAULT_STRING_VAL)));
+        emailET.setText(Preferences.getSharedPreferenceString(
+                appContext,
+                CUSTOMER_EMAIL,
+                DEFAULT_STRING_VAL));
+        contactET.setText(Preferences.getSharedPreferenceString(
+                appContext,
+                CUSTOMER_CONTACT,
+                DEFAULT_STRING_VAL));
         
         
         contactUsBtn.setOnClickListener(new View.OnClickListener() {

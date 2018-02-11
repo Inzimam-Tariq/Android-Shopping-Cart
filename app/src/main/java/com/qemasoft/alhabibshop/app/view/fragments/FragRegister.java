@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.view.activities.FetchData;
-import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -100,6 +98,14 @@ public class FragRegister extends MyBaseFragment {
                     isNewsLetterSubscribed = 1;
                 }
 //                utils.showToast("Radio Value " + isNewsLetterSubscribed);
+                
+                
+                if (fNameVal.isEmpty()) utils.setError(fName);
+                if (lNameVal.isEmpty()) utils.setError(lName);
+                if (emailVal.isEmpty()) utils.setError(email);
+                if (contactVal.isEmpty()) utils.setError(contact);
+                if (passVal.isEmpty()) utils.setError(pass);
+                if (rePassVal.isEmpty()) utils.setError(confirmPass);
                 boolean hasReadPrivacyPolicy = privacyPolicyCheck();
                 if (!passVal.equals(rePassVal)) {
                     utils.showErrorDialog(findStringByName("pass_mis_match"));
@@ -110,35 +116,27 @@ public class FragRegister extends MyBaseFragment {
                             findStringByName("read_privacy_policy"));
                     return;
                 }
-                
-                if (!fNameVal.isEmpty() && !lNameVal.isEmpty() && !emailVal.isEmpty()
-                        && !contactVal.isEmpty() && !passVal.isEmpty()
-                        && !rePassVal.isEmpty()) {
-                    utils.printLog("InsideLoginClicked = ", "Inside if");
-                    if (utils.isNetworkConnected()) {
-                        utils.printLog("InsideLoginClicked = ", "isNetwork");
-                        AppConstants.setMidFixApi("register");
-                        utils.printLog("RegisterUrl = ", getApiCallUrl());
-                        Map<String, String> map = new HashMap<>();
-                        map.put("firstname", fNameVal);
-                        map.put("lastname", lNameVal);
-                        map.put("email", emailVal);
-                        map.put("telephone", contactVal);
-                        map.put("password", passVal);
-                        map.put("newsletter", String.valueOf(isNewsLetterSubscribed));
-                        Bundle bundle = new Bundle();
-                        bundle.putBoolean("hasParameters", true);
-                        bundle.putSerializable("parameters", (Serializable) map);
-                        Intent intent = new Intent(getContext(), FetchData.class);
-                        intent.putExtras(bundle);
-                        startActivityForResult(intent, REGISTER_REQUEST_CODE);
-                        
-                    } else {
-                        utils.showInternetErrorDialog();
-                    }
+                utils.printLog("InsideLoginClicked = ", "Inside if");
+                if (utils.isNetworkConnected()) {
+                    utils.printLog("InsideLoginClicked = ", "isNetwork");
+                    AppConstants.setMidFixApi("register");
+                    utils.printLog("RegisterUrl = ", getApiCallUrl());
+                    Map<String, String> map = new HashMap<>();
+                    map.put("firstname", fNameVal);
+                    map.put("lastname", lNameVal);
+                    map.put("email", emailVal);
+                    map.put("telephone", contactVal);
+                    map.put("password", passVal);
+                    map.put("newsletter", String.valueOf(isNewsLetterSubscribed));
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean("hasParameters", true);
+                    bundle.putSerializable("parameters", (Serializable) map);
+                    Intent intent = new Intent(getContext(), FetchData.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, REGISTER_REQUEST_CODE);
+                    
                 } else {
-                    // set empty field error message
-                    utils.showErrorDialog(findStringByName("empty_fields"));
+                    utils.showInternetErrorDialog();
                 }
             }
         });
@@ -182,37 +180,29 @@ public class FragRegister extends MyBaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    final String userData = response.optString("userdata");
-                    if (userData != null && !userData.isEmpty()) {
-                        if (userData.contains("email_exist")) {
-                            utils.showAlertDialog(findStringByName("information_text"),
-                                    userData);
-                        } else {
-                            AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                                    findStringByName("information_text"),
-                                    userData);
-                            dialog.setButton(BUTTON_POSITIVE,
-                                    findStringByName("continue_text"),
-                                    (DialogInterface.OnClickListener) null);
-                            dialog.setButton(BUTTON_NEGATIVE,
-                                    findStringByName("login_text"),
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            
-                                            utils.switchFragment(new FragLogin());
-                                        }
-                                    });
-                            dialog.show();
-                            handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    
-                                    ((MainActivity) context).recreate();
-                                }
-                            }, 100);
-                        }
+                    final String msg = response.optString("message");
+                    if (!msg.isEmpty()) {
+                        
+                        AlertDialog dialog = utils.showAlertDialogReturnDialog(
+                                findStringByName("information_text"), msg);
+                        dialog.setButton(BUTTON_POSITIVE,
+                                findStringByName("continue_text"),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        utils.switchFragment(new Dashboard());
+                                    }
+                                });
+                        dialog.setButton(BUTTON_NEGATIVE,
+                                findStringByName("login_text"),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        utils.switchFragment(new FragLogin());
+                                    }
+                                });
+                        dialog.show();
+                        
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -220,9 +210,9 @@ public class FragRegister extends MyBaseFragment {
             } else if (resultCode == AppConstants.FORCED_CANCEL) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    String error = response.optString("message");
-                    if (!error.isEmpty()) {
-                        utils.showErrorDialog(error);
+                    String msg = response.optString("message");
+                    if (!msg.isEmpty()) {
+                        utils.showAlertDialog(findStringByName("information_text"),msg);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

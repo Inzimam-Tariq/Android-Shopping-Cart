@@ -25,6 +25,7 @@
                 android:padding="20dp">
 
                 <TextView
+                    android:id="@+id/heading_tv"
                     style="@style/HeadingStyleTextView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,7 +49,7 @@
                         style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/first_name_hint"
+                        android:hint="@string/first_name_text"
                         android:maxLength="32" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -63,7 +64,7 @@
                         style="@style/AppTheme.MaterialEditText.PersonName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/last_name_hint"
+                        android:hint="@string/first_name_text"
                         android:maxLength="32" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -95,7 +96,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/address_text"
-                        android:maxLength="32" />
+                        android:maxLength="96" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -158,7 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginBottom="20dp"
-                    android:hint="@string/state_text"
+                    android:hint="@string/please_select_text"
                     android:maxLength="32"
                     android:textColorHint="@android:color/darker_gray" />
 

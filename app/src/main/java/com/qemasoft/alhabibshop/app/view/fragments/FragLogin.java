@@ -29,11 +29,13 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_CONTACT;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_FIRST_NAME;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_ID_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_LAST_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.IS_LOGIN;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
@@ -138,14 +140,14 @@ public class FragLogin extends MyBaseFragment {
                     String customerEmail = object.optString("email");
                     String fName = object.optString("firstname");
                     String lName = object.optString("lastname");
-                    
-                    String userName = fName + " " + lName;
-                    utils.printLog("CustomerId = ", customerId + " Username = " + userName);
+                    String contact = object.optString("telephone");
                     
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_EMAIL, customerEmail);
-                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_KEY, customerId);
-                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_NAME, userName);
-                    Preferences.setSharedPreferenceBoolean(appContext, LOGIN_KEY, true);
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_ID_KEY, customerId);
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_FIRST_NAME, fName);
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_LAST_NAME, lName);
+                    Preferences.setSharedPreferenceString(appContext, CUSTOMER_CONTACT, contact);
+                    Preferences.setSharedPreferenceBoolean(appContext, IS_LOGIN, true);
                     
                     new Handler().postDelayed(new Runnable() {
                         @Override

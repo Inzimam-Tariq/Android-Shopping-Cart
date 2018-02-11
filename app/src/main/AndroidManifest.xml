@@ -17,9 +17,6 @@
         android:roundIcon="@drawable/logo_trans"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service
-            android:name=".AppService"
-            android:exported="false" />
 
         <activity
             android:name=".view.activities.SplashActivity"

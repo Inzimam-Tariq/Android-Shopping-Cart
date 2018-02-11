@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.MyApp;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.CartDetailAdapter;
@@ -35,10 +36,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.ADD_TO_CART_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
@@ -137,7 +139,7 @@ public class FragCartDetail extends MyBaseFragment {
         if (!couponCode.isEmpty()) map.put("coupon", couponCode);
         
         String customerId = Preferences.getSharedPreferenceString(appContext,
-                CUSTOMER_KEY, DEFAULT_STRING_VAL);
+                CUSTOMER_ID_KEY, DEFAULT_STRING_VAL);
         map.put("customer_id", customerId);
         if (midFix.contains("removeCart")) {
             map.put("cart_id", id);
@@ -289,8 +291,13 @@ public class FragCartDetail extends MyBaseFragment {
                                 utils.printLog("Title = " + totalsObj.optString("title"
                                         + "Value = " + totalsObj.optString("text")));
                                 textTV.setText(totalsObj.optString("title"));
-                                valTV.setText(totalsObj.optString("text")
-                                        .concat(" ").concat(symbol));
+                                if (MyApp.isRTL(Locale.getDefault())) {
+                                    valTV.setText(totalsObj.optString("text")
+                                            .concat(" ").concat(symbol));
+                                } else {
+                                    valTV.setText(symbol.concat("").concat(
+                                            totalsObj.optString("text")));
+                                }
                                 
                                 totalContainer.addView(layout);
                             }

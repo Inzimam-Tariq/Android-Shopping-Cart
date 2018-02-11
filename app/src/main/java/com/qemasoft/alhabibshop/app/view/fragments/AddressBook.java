@@ -3,7 +3,9 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.ADDRESS_BOOK_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
@@ -40,64 +42,60 @@ import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
  * A simple {@link Fragment} subclass.
  */
 public class AddressBook extends MyBaseFragment {
-
+    
     private ImageView addAddressIcon;
-
+    
     public AddressBook() {
         // Required empty public constructor
     }
-
-
+    
+    
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_address_book, container, false);
         initUtils();
         initViews(view);
-
-        String customerId = Preferences.getSharedPreferenceString(appContext, CUSTOMER_KEY, "");
-        utils.printLog("CustomerId = ", customerId);
-
-        if (customerId.isEmpty()){
-            utils.showAlertDialog(findStringByName("information_text"),
-                    findStringByName("login_or_register"));
-        }else {
-            requestData();
+        
+        requestData();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            utils.showToast(R.string.edit_address_context, 1);
         }
+        
         addAddressIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 utils.switchFragment(new AddAddress());
             }
         });
-
+        
         return view;
     }
-
+    
     private void initViews(View view) {
         addAddressIcon = view.findViewById(R.id.add_address_icon);
         mRecyclerView = view.findViewById(R.id.addresses_recycler_view);
-
+        
     }
-
+    
     private void requestData() {
-
+        
         AppConstants.setMidFixApi("getAddresses");
-
+        
         Map<String, String> map = new HashMap<>();
         map.put("customer_id", Preferences.getSharedPreferenceString(appContext,
-                CUSTOMER_KEY, DEFAULT_STRING_VAL));
-
+                CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
+        
         Bundle bundle = new Bundle();
         bundle.putBoolean("hasParameters", true);
         bundle.putSerializable("parameters", (Serializable) map);
         Intent intent = new Intent(getContext(), FetchData.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, ADDRESS_BOOK_REQUEST_CODE);
-
+        
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
