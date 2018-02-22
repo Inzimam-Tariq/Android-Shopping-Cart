@@ -87,9 +87,8 @@
                         android:text="@string/forgot_pass" />
                 </RelativeLayout>
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/login_btn"
-                    style="@style/CustomButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"

@@ -78,7 +78,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="10dp"
-
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/address_book_text" />
@@ -89,7 +88,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:drawablePadding="10dp"
-
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/order_history_text" />

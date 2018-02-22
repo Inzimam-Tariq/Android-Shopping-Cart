@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
@@ -16,13 +17,34 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/product_title_tv"
-                style="@style/HeadingStyleTextView"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textStyle="bold" />
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/product_title_tv"
+                    style="@style/HeadingStyleTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/share_iv"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:contentDescription="@string/image_text"
+                    app:srcCompat="@drawable/ic_share_black" />
+            </LinearLayout>
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -38,7 +60,7 @@
                 <ImageView
                     android:id="@+id/image_view"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="300dp"
                     android:contentDescription="@string/image_text"
                     android:scaleType="fitXY" />
 
@@ -211,9 +233,8 @@
         </LinearLayout>
     </ScrollView>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/add_to_cart_btn"
-        style="@style/CustomButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"

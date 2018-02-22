@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@android:color/white</color>
+    <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#C75405</color>
-    <color name="colorAccentPink">#FF4081</color>
     <color name="colorAccent">#EC7625</color>
     <color name="link_text">#3030ea</color>
 
@@ -21,5 +20,96 @@
     <color name="text_color">#555</color>
     <color name="card_view_color">#ffffff</color>
     <color name="text_color1">#808080</color>
+
+
+    <!--Color Combination Red-->
+    <color name="colorPrimaryRed">#F44336</color>
+    <color name="colorPrimaryDarkRed">#D50000</color>
+    <color name="colorAccentRed">#4A148C</color>
+
+    <!--Color Combination Pink-->
+    <color name="colorPrimaryPink">#E91E63</color>
+    <color name="colorPrimaryDarkPink">#880E4F</color>
+    <color name="colorAccentPink">#FFFF00</color>
+
+    <!--Color Combination Purple-->
+    <color name="colorPrimaryPurple">#9C27B0</color>
+    <color name="colorPrimaryDarkPurple">#4A148C</color>
+    <color name="colorAccentPurple">#E91E63</color>
+
+    <!--Color Combination DeepPurple-->
+    <color name="colorPrimaryDeepPurple">#7E57C2</color>
+    <color name="colorPrimaryDarkDeepPurple">#311B92</color>
+    <color name="colorAccentDeepPurple">#E91E63</color>
+
+    <!--Color Combination Indigo-->
+    <color name="colorPrimaryIndigo">#3F51B5</color>
+    <color name="colorPrimaryDarkIndigo">#1A237E</color>
+    <color name="colorAccentIndigo">#E91E63</color>
+
+    <!--Color Combination Blue-->
+    <color name="colorPrimaryBlue">#1E88E5</color>
+    <color name="colorPrimaryDarkBlue">#0D47A1</color>
+    <color name="colorAccentBlue">#F44336</color>
+
+    <!--Color Combination Cyan-->
+    <color name="colorPrimaryCyan">#00BCD4</color>
+    <color name="colorPrimaryDarkCyan">#006064</color>
+    <color name="colorAccentCyan">#F44336</color>
+
+    <!--Color Combination Teal-->
+    <color name="colorPrimaryTeal">#009688</color>
+    <color name="colorPrimaryDarkTeal">#004D40</color>
+    <color name="colorAccentTeal">#F44336</color>
+
+    <!--Color Combination Green-->
+    <color name="colorPrimaryGreen">#00C853</color>
+    <color name="colorPrimaryDarkGreen">#1B5E20</color>
+    <color name="colorAccentGreen">#0091EA</color>
+
+    <!--Color Combination Light Green-->
+    <color name="colorPrimaryLightGreen">#8BC34A</color>
+    <color name="colorPrimaryDarkLightGreen">#33691E</color>
+    <color name="colorAccentLightGreen">#E86850</color>
+
+    <!--Color Combination Lime-->
+    <color name="colorPrimaryLime">#CDDC39</color>
+    <color name="colorPrimaryDarkLime">#827717</color>
+    <color name="colorAccentLime">#F44336</color>
+
+    <!--Color Combination Yellow-->
+    <color name="colorPrimaryYellow">#FFEB3B</color>
+    <color name="colorPrimaryDarkYellow">#F57F17</color>
+    <color name="colorAccentYellow">#006064</color>
+
+    <!--Color Combination Amber-->
+    <color name="colorPrimaryAmber">#FFC107</color>
+    <color name="colorPrimaryDarkAmber">#FF6F00</color>
+    <color name="colorAccentAmber">#006064</color>
+
+    <!--Color Combination Orange-->
+    <color name="colorPrimaryOrange">#FF9800</color>
+    <color name="colorPrimaryDarkOrange">#E65100</color>
+    <color name="colorAccentOrange">#006064</color>
+
+    <!--Color Combination Deep Orange-->
+    <color name="colorPrimaryDeepOrange">#FF5722</color>
+    <color name="colorPrimaryDarkDeepOrange">#BF360C</color>
+    <color name="colorAccentDeepOrange">#006064</color>
+
+    <!--Color Combination Brown-->
+    <color name="colorPrimaryBrown">#795548</color>
+    <color name="colorPrimaryDarkBrown">#3E2723</color>
+    <color name="colorAccentBrown">#00BCD4</color>
+
+    <!--Color Combination Grey-->
+    <color name="colorPrimaryGrey">#9E9E9E</color>
+    <color name="colorPrimaryDarkGrey">#212121</color>
+    <color name="colorAccentGrey">#FF5722</color>
+
+    <!--Color Combination Blue Grey-->
+    <color name="colorPrimaryBlueGrey">#607D8B</color>
+    <color name="colorPrimaryDarkBlueGrey">#263238</color>
+    <color name="colorAccentBlueGrey">#FF5722</color>
 
 </resources>

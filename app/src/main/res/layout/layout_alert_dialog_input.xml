@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <TextView
+        android:id="@+id/dialog_title"
+        style="@style/HeadingStyleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:text="AlertDialog"
+        android:textSize="18sp"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <View
+        android:id="@+id/title_separator"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorAccent" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/input"
+            style="@style/AppTheme.MaterialEditText.PersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="32" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/negative_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/colorAccent3"
+            android:text="Negative"
+            android:textColor="@color/colorPrimary" />
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="1dp" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/positive_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Positive"
+            android:textColor="@color/colorPrimary" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -96,17 +96,12 @@ public class ExpandableListAdapterUser extends BaseExpandableListAdapter {
         ImageView imageView = groupView.findViewById(R.id.imageView);
         ImageView expandCollapseImg = groupView.findViewById(R.id.expand_collapse_image);
         View divider = groupView.findViewById(R.id.header_divider);
-        String dividerColor = Preferences.getSharedPreferenceString(appContext,
-                "divider_color", "");
-        if (dividerColor != null && !dividerColor.isEmpty()) {
-            divider.setBackgroundColor(Color.parseColor(dividerColor));
-        }
         
         if (getChildrenCount(groupPosition) == 1) {
             groupView = new View(parent.getContext());
-//            ExpandableListView v = (ExpandableListView) parent;
-//            v.setDivider(null);
+
             divider.setVisibility(View.GONE);
+            
         } else {
             
             imageView.setImageResource(userMenuIcons.get(groupPosition));

@@ -1,10 +1,13 @@
 package com.qemasoft.alhabibshop.app.view.activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,9 +25,6 @@ import com.qemasoft.alhabibshop.app.Utils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_SYMBOL_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.GET_KEY;
@@ -32,13 +32,12 @@ import static com.qemasoft.alhabibshop.app.AppConstants.KEY_FOR_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_TYPE;
-import static com.qemasoft.alhabibshop.app.AppConstants.MENU_TYPE;
 import static com.qemasoft.alhabibshop.app.AppConstants.SECRET_KEY_FILE;
 import static com.qemasoft.alhabibshop.app.AppConstants.SECRET_KEY_URL;
 import static com.qemasoft.alhabibshop.app.AppConstants.SET_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.SPLASH_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.THEME_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.setHomeExtra;
 
 /**
@@ -52,67 +51,73 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
     private int clicks = 0;
     private ProgressBar progressBar;
     
-    Timer timer;
-    TimerTask timerTask;
-    //we are going to use a handler to be able to run in our TimerTask
-    final Handler handler = new Handler();
-    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        
+        this.utils = new Utils(this);
+        context = getApplicationContext();
+        utils.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        context = getApplicationContext();
-        this.utils = new Utils(this);
         
-        progressBar = findViewById(R.id.progress_bar);
-        LinearLayout splash = findViewById(R.id.splash_layout);
-        splash.setOnClickListener(this);
-        
-        AndroidNetworking.initialize(context);
-        
-        if (utils.isNetworkConnected()) {
-            AndroidNetworking.post(SECRET_KEY_URL)
-                    .setPriority(Priority.HIGH)
-                    .build()
-                    .getAsJSONObject(new JSONObjectRequestListener() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            
-                            boolean success = response.optBoolean("success");
-                            if (success) {
-                                AppConstants.setMidFixApi("home");
-                                String secretKey = response.optString(SECRET_KEY_FILE);
-                                String keyVal = GET_KEY(context, KEY_FOR_KEY);
-                                utils.printLog("StoredKey", "Key = " + keyVal);
-                                if (keyVal.isEmpty() || keyVal.length() < 1) {
-                                    utils.printLog("StoringKey", "Success");
-                                    SET_KEY(KEY_FOR_KEY, secretKey);
-                                    utils.printLog("KeyStored", "Success");
-                                }
-                                Bundle bundle = new Bundle();
-                                bundle.putBoolean("hasParameters", false);
-                                Intent intent = new Intent(SplashActivity.this, FetchData.class);
-                                intent.putExtras(bundle);
-                                startActivityForResult(intent, SPLASH_REQUEST_CODE);
+        try {
+            progressBar = findViewById(R.id.progress_bar);
+            LinearLayout splash = findViewById(R.id.splash_layout);
+            splash.setOnClickListener(this);
+            
+            AndroidNetworking.initialize(context);
+            
+            if (utils.isNetworkConnected()) {
+                AndroidNetworking.post(SECRET_KEY_URL)
+                        .setPriority(Priority.HIGH)
+                        .build()
+                        .getAsJSONObject(new JSONObjectRequestListener() {
+                            @Override
+                            public void onResponse(JSONObject response) {
                                 
-                            } else {
-                                utils.printLog("Splash", "Success False");
-                                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                                boolean success = response.optBoolean("success");
+                                if (success) {
+                                    
+                                    AppConstants.setMidFixApi("home");
+                                    String secretKey = response.optString(SECRET_KEY_FILE);
+                                    String keyVal = GET_KEY(context, KEY_FOR_KEY);
+                                    utils.printLog("StoredKey", "Key = " + keyVal);
+                                    if (keyVal.isEmpty() || keyVal.length() < 1) {
+                                        utils.printLog("StoringKey", "Success");
+                                        SET_KEY(KEY_FOR_KEY, secretKey);
+                                        utils.printLog("KeyStored", "Success");
+                                    }
+                                    Bundle bundle = new Bundle();
+                                    bundle.putBoolean("hasParameters", false);
+                                    Intent intent = new Intent(SplashActivity.this, FetchData.class);
+                                    intent.putExtras(bundle);
+                                    startActivityForResult(intent, SPLASH_REQUEST_CODE);
+                                    
+                                } else {
+                                    utils.printLog("Splash", "Success False");
+                                    utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                                            false,
+                                            R.string.ok, null,
+                                            R.string.cancel_text, null);
+                                }
                             }
-                        }
-                        
-                        @Override
-                        public void onError(ANError anError) {
                             
-                            anError.printStackTrace();
-                            utils.showErrorDialog(findStringByName("error_fetching_data"));
-                            utils.showToast("ErrorGettingDataFromServer");
-                        }
-                    });
-        } else {
-            utils.showAlertDialogTurnWifiOn();
+                            @Override
+                            public void onError(ANError anError) {
+                                
+                                anError.printStackTrace();
+                                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                                        false,
+                                        R.string.ok, null,
+                                        R.string.cancel_text, null);
+                                utils.showToast("ErrorGettingDataFromServer");
+                            }
+                        });
+            } else {
+                utils.showAlertDialogTurnWifiOn();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     
@@ -129,16 +134,9 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                         JSONObject settingObject = homeObject.optJSONObject("setting");
                         int width = Utils.getScreenWidth(appContext);
                         
-                        Preferences.setSharedPreferenceInt(appContext,
-                                "primary_color", settingObject.optInt("primary_color"));
-                        Preferences.setSharedPreferenceString(appContext,
-                                "toolbar_color", settingObject.optString("toolbar_color"));
-                        Preferences.setSharedPreferenceString(appContext,
-                                "nav_drawer_color", settingObject.optString("nav_drawer_color"));
-                        Preferences.setSharedPreferenceString(appContext,
-                                "divider_color", settingObject.optString("divider_color"));
-                        Preferences.setSharedPreferenceString(appContext,
-                                "footer_color", settingObject.optString("footer_color"));
+                        String themeCode = settingObject.optString("skin");
+                        Preferences.setSharedPreferenceString(
+                                appContext, THEME_CODE, themeCode);
                         
                         String language = settingObject.optString("language");
                         String currency = settingObject.optString("currency");
@@ -186,14 +184,17 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
                             public void run() {
                                 
                                 Intent intent = new Intent(context, MainActivity.class);
-                                intent.putExtra(MainActivity.KEY_EXTRA, response.toString());
+//                                intent.putExtra(MainActivity.KEY_EXTRA, response.toString());
                                 startActivity(intent);
                                 setHomeExtra(response.toString());
                                 finish();
                             }
                         }, 700);
                     } else {
-                        utils.showErrorDialog(findStringByName("error_fetching_data"));
+                        utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -201,6 +202,10 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
                 utils.printLog("RequestCanceled", "Canceled");
             }
         }
@@ -214,5 +219,9 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
     
-    
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
 }

@@ -39,7 +39,6 @@ import static com.qemasoft.alhabibshop.app.AppConstants.IS_LOGIN;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGIN_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 
 /**
@@ -65,6 +64,7 @@ public class FragLogin extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_login, container, false);
         initViews(view);
         initUtils();
+        applyAccent();
         
         inputLayoutPassword.setTypeface(Typeface.createFromAsset(context.getAssets(),
                 "fonts/DroidKufi-Regular.ttf"));
@@ -116,6 +116,11 @@ public class FragLogin extends MyBaseFragment {
         return view;
     }
     
+    private void applyAccent() {
+        utils.applyAccentColor(registerTV);
+        utils.applyAccentColor(forgotPassTV);
+    }
+    
     private void initViews(View view) {
         
         inputLayoutPassword = view.findViewById(R.id.input_layout_password);
@@ -158,18 +163,24 @@ public class FragLogin extends MyBaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else if (resultCode == AppConstants.FORCED_CANCEL) {
+            } else if (resultCode == AppConstants.FORCE_CANCELED) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    String error = response.optString("message");
-                    if (!error.isEmpty()) {
-                        utils.showErrorDialog(error);
+                    String msg = response.optString("message");
+                    if (!msg.isEmpty()) {
+                        utils.showAlert(R.string.information_text, msg,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
             
         }

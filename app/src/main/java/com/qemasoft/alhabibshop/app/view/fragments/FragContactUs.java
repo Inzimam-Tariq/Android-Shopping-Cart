@@ -28,9 +28,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_FIRST_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_LAST_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.qemasoft.alhabibshop.app.AppConstants.REGISTER_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 
 /**
@@ -79,13 +77,15 @@ public class FragContactUs extends MyBaseFragment {
             @Override
             public void onClick(View v) {
                 
-                
                 String nameVal = nameET.getText().toString().trim();
                 String emailVal = emailET.getText().toString().trim();
                 String contactVal = contactET.getText().toString().trim();
                 String enquiryVal = enquiryET.getText().toString().trim();
                 
-                
+                if (enquiryVal.isEmpty()) utils.setError(enquiryET);
+                if (contactVal.isEmpty()) utils.setError(contactET);
+                if (emailVal.isEmpty()) utils.setError(emailET);
+                if (nameVal.isEmpty()) utils.setError(nameET);
                 if (!nameVal.isEmpty() && !emailVal.isEmpty()
                         && !contactVal.isEmpty() && !enquiryVal.isEmpty()) {
                     utils.printLog("InsideLoginClicked = ", "Inside if");
@@ -93,8 +93,16 @@ public class FragContactUs extends MyBaseFragment {
                     AppConstants.setMidFixApi("contact");
                     
                     Map<String, String> map = new HashMap<>();
-                    
                     map.put("email", emailVal);
+                    map.put("name", Preferences.getSharedPreferenceString(
+                            appContext,
+                            CUSTOMER_FIRST_NAME,
+                            DEFAULT_STRING_VAL)
+                            .concat(" ")
+                            .concat(Preferences.getSharedPreferenceString(
+                                    appContext,
+                                    CUSTOMER_LAST_NAME,
+                                    DEFAULT_STRING_VAL)));
                     map.put("phone", contactVal);
                     map.put("enquiry", enquiryVal);
                     
@@ -105,9 +113,6 @@ public class FragContactUs extends MyBaseFragment {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, CONTACT_US_REQUEST_CODE);
                     
-                } else {
-                    // set empty field error message
-                    utils.showErrorDialog(findStringByName("empty_fields"));
                 }
             }
         });
@@ -127,31 +132,43 @@ public class FragContactUs extends MyBaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REGISTER_REQUEST_CODE) {
+        if (requestCode == CONTACT_US_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    
+                    utils.printLog("ContactUs", "Inside OK");
                     String msg = response.optString("message");
-                    if (!msg.isEmpty())
-                        utils.showAlertDialog(findStringByName("information_text"), msg);
+                    if (!msg.isEmpty()) {
+                        utils.showAlert(R.string.information_text, msg,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
+                    }
                     utils.switchFragment(new MainFrag());
                     
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else if (resultCode == AppConstants.FORCED_CANCEL) {
+            } else if (resultCode == AppConstants.FORCE_CANCELED) {
                 try {
+                    utils.printLog("ContactUs", "Inside Force Cancel");
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
                     String error = response.optString("message");
                     if (!error.isEmpty()) {
-                        utils.showErrorDialog(error);
+                        utils.showAlert(R.string.information_text, error,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.printLog("ContactUs", "Inside Cancel");
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
         }
     }

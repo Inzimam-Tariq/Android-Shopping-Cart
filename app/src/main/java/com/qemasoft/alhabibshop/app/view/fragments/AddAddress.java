@@ -40,7 +40,6 @@ import static com.qemasoft.alhabibshop.app.AppConstants.EDIT_ADDRESS_REQUEST_COD
 import static com.qemasoft.alhabibshop.app.AppConstants.RIGHT;
 import static com.qemasoft.alhabibshop.app.AppConstants.STATES_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,7 +47,7 @@ import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 public class AddAddress extends MyBaseFragment implements View.OnClickListener {
     
     private String countryId = "-1", zoneId = "-1";
-    private EditText fNameET, lNameET, companyNameET, addressET, postalCodeET, cityET;
+    private EditText fNameET, lNameET, addressET, cityET;
     private Button continueBtn, countryBtn, stateBtn;
     private RadioGroup radioGroup;
     private RadioButton rbYes, rbNo;
@@ -83,9 +82,7 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
             
             fNameET.setText(bundle.getString("first_name", DEFAULT_STRING_VAL));
             lNameET.setText(bundle.getString("last_name", DEFAULT_STRING_VAL));
-            companyNameET.setText(bundle.getString("company_name", DEFAULT_STRING_VAL));
             addressET.setText(bundle.getString("address", DEFAULT_STRING_VAL));
-            postalCodeET.setText(bundle.getString("postal_code", DEFAULT_STRING_VAL));
             cityET.setText(bundle.getString("city", DEFAULT_STRING_VAL));
             
         }
@@ -118,10 +115,8 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
         headingTV = view.findViewById(R.id.heading_tv);
         fNameET = view.findViewById(R.id.f_name_et);
         lNameET = view.findViewById(R.id.l_name_et);
-        companyNameET = view.findViewById(R.id.company_et);
         addressET = view.findViewById(R.id.address_et);
         cityET = view.findViewById(R.id.city_et);
-        postalCodeET = view.findViewById(R.id.post_code_et);
         countryBtn = view.findViewById(R.id.country_btn);
         stateBtn = view.findViewById(R.id.state_btn);
         radioGroup = view.findViewById(R.id.radio_group);
@@ -174,20 +169,36 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                                     stateList.add(country.getString("name"));
                                     stateIdList.add(country.getString("zone_id"));
                                 }
-                            } else utils.showErrorDialog(findStringByName("error_fetching_data"));
+                            } else {
+                                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                                        false,
+                                        R.string.ok, null,
+                                        R.string.cancel_text, null);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
-                } else if (resultCode == AppConstants.FORCED_CANCEL) {
+                } else if (resultCode == AppConstants.FORCE_CANCELED) {
                     String message = response.optString("message");
                     if (!message.isEmpty()) {
-                        utils.showAlertDialog("Message", message);
+                        utils.showAlert(R.string.information_text, message,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } else if (resultCode == Activity.RESULT_CANCELED) {
-                    utils.showErrorDialog(findStringByName("error_fetching_data"));
+                    utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                            false,
+                            R.string.ok, null,
+                            R.string.cancel_text, null);
                 }
-            } else utils.showErrorDialog(findStringByName("error_fetching_data"));
+            } else {
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
+            }
         }
     }
     
@@ -234,9 +245,7 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                 utils.printLog("ContinueButtonClicked", "Success");
                 String fNameVal = fNameET.getText().toString().trim();
                 String lNameVal = lNameET.getText().toString().trim();
-                String companyVal = companyNameET.getText().toString().trim();
                 String addressVal = addressET.getText().toString().trim();
-                String postalCodeVal = postalCodeET.getText().toString().trim();
                 String cityVal = cityET.getText().toString().trim();
                 String countryVal = countryBtn.getHint().toString().trim();
                 String stateVal = stateBtn.getHint().toString().trim();
@@ -251,8 +260,10 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                     utils.setError(cityET);
                 } else if (countryVal.isEmpty() || countryId.equals("-1") ||
                         stateVal.isEmpty() || countryId.equals("-1")) {
-                    utils.showAlertDialog(findStringByName("information_text"),
-                            findStringByName("empty_fields"));
+                    utils.showAlert(R.string.information_text, R.string.empty_fields,
+                            false,
+                            R.string.ok, null,
+                            R.string.cancel_text, null);
                 } else {
                     
                     Map<String, String> map = new HashMap<>();
@@ -260,10 +271,8 @@ public class AddAddress extends MyBaseFragment implements View.OnClickListener {
                             CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
                     map.put("firstname", fNameVal);
                     map.put("lastname", lNameVal);
-                    map.put("company", companyVal);
                     map.put("address_1", addressVal);
                     map.put("city", cityVal);
-                    map.put("postcode", postalCodeVal);
                     map.put("country_id", countryId);
                     map.put("zone_id", zoneId);
                     Bundle b = new Bundle();

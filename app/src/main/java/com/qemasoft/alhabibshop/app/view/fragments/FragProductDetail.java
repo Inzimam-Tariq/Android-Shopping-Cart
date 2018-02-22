@@ -36,7 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
+import static com.qemasoft.alhabibshop.app.AppConstants.FORCE_CANCELED;
 import static com.qemasoft.alhabibshop.app.AppConstants.PRODUCT_DETAIL_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
@@ -65,7 +65,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
     };
     
     private ProgressBar pb;
-    private ImageView previewIV;
+    private ImageView previewIV, shareIV;
     
     private Product product;
     private TextView productTitleTV, productPriceTV, productSpecialPriceTV,
@@ -94,12 +94,10 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         if (bundle != null) {
             String id = getArguments().getString("id");
             requestData(id);
-        } else {
-            utils.showAlertDialog(findStringByName("information_text"),
-                    findStringByName("no_data"));
         }
         
         addToCartBtn.setOnClickListener(this);
+        shareIV.setOnClickListener(this);
         
         
         return view;
@@ -110,6 +108,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
         productTitleTV = view.findViewById(R.id.product_title_tv);
         pb = view.findViewById(R.id.progress_bar);
         previewIV = view.findViewById(R.id.image_view);
+        shareIV = view.findViewById(R.id.share_iv);
         
         specialPriceLayout = view.findViewById(R.id.special_price_layout);
         discountLayout = view.findViewById(R.id.disc_layout);
@@ -164,6 +163,7 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                             , proObj.optString("date_added")
                             , proObj.optString("rating")
                             , proObj.optString("review_total")
+                            , proObj.optString("href")
                     );
                     
                     JSONArray images = proObj.optJSONArray("images");
@@ -205,8 +205,9 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                     productTitleTV.setText(product.getName());
                     
                     productDescriptionTV.setText(product.getProductDescription());
-                    productPriceTV.setText(product.getPrice().concat("").concat(symbol));
-                    productSpecialPriceTV.setText(product.getSpacialPrice().concat("").concat(symbol));
+                    productPriceTV.setText(symbol.concat("").concat(product.getPrice()));
+                    productSpecialPriceTV.setText(symbol.concat("").concat(product.getSpacialPrice()));
+                    
                     if (!product.getSpacialPrice().isEmpty()) {
                         specialPriceLayout.setVisibility(View.VISIBLE);
                         productPriceTV.setPaintFlags(productPriceTV.getPaintFlags()
@@ -255,10 +256,13 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                 }
                 
             }
-        } else if (resultCode == FORCED_CANCEL) {
+        } else if (resultCode == FORCE_CANCELED) {
             utils.showToast(findStringByName("no_data"));
         } else if (resultCode == Activity.RESULT_CANCELED) {
-            utils.showErrorDialog(findStringByName("error_fetching_data"));
+            utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                    false,
+                    R.string.ok, null,
+                    R.string.cancel_text, null);
         }
         
         
@@ -275,6 +279,10 @@ public class FragProductDetail extends MyBaseFragment implements View.OnClickLis
                 utils.printLog("ProductId", "ID=" + product.getProductId());
                 bundle.putString("midFix", "addCart");
                 utils.switchFragment(new FragCartDetail(), bundle);
+                break;
+            
+            case R.id.share_iv:
+                utils.shareContent(product.getName(), product.getUrl());
                 break;
         }
     }

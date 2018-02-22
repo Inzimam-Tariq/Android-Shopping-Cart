@@ -5,18 +5,13 @@
     android:layout_height="match_parent"
     tools:context="com.qemasoft.alhabibshop.app.view.activities.MainActivity">
 
-    <include layout="@layout/actionbar_top" />
+    <include
+        android:id="@+id/toolbar_top"
+        layout="@layout/toolbar_top" />
 
     <include layout="@layout/content_main" />
 
-    <RelativeLayout
-        android:id="@+id/appbar_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
-
-        <include layout="@layout/actionbar_bottom" />
-    </RelativeLayout>
+    <include layout="@layout/toolbar_bottom" />
 
 
 </RelativeLayout>

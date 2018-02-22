@@ -34,9 +34,8 @@ import java.util.Map;
 import static com.qemasoft.alhabibshop.app.AppConstants.ADDRESS_BOOK_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
+import static com.qemasoft.alhabibshop.app.AppConstants.FORCE_CANCELED;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,6 +108,17 @@ public class AddressBook extends MyBaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 if (requestCode == ADDRESS_BOOK_REQUEST_CODE) {
                     JSONArray addresses = response.optJSONArray("addresses");
+                    if (addresses == null) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                            utils.showToast(R.string.add_address_context);
+                        else {
+                            utils.showAlert(R.string.information_text, R.string.add_address_context,
+                                    false,
+                                    R.string.ok, null,
+                                    R.string.cancel_text, null);
+                        }
+                        return;
+                    }
                     List<Address> addressList = new ArrayList<>();
                     for (int i = 0; i < addresses.length(); i++) {
                         JSONObject addressObj = addresses.optJSONObject(i);
@@ -125,24 +135,30 @@ public class AddressBook extends MyBaseFragment {
                                 )
                         );
                     }
-                    if (addressList.size() > 0) {
+                    if (!addressList.isEmpty() && addressList.size() > 0) {
                         RecyclerView.LayoutManager mLayoutManagerOptions =
                                 new LinearLayoutManager(getActivity()
                                         , LinearLayoutManager.VERTICAL, false);
                         mRecyclerView.setLayoutManager(mLayoutManagerOptions);
                         mRecyclerView.setAdapter(new AddressBookAdapter(addressList));
-                    } else {
-                        utils.showErrorDialog(findStringByName("error_fetching_data"));
                     }
                 }
-            } else if (resultCode == FORCED_CANCEL) {
+            } else if (resultCode == FORCE_CANCELED) {
                 String message = response.optString("message");
                 if (!message.isEmpty()) {
-                    utils.showAlertDialog("Message", message);
+                    utils.printLog("AddressBook", "Force close if");
+                    utils.showAlert(R.string.information_text, message,
+                            false,
+                            R.string.ok, null,
+                            R.string.cancel_text, null);
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.printLog("AddressBook", "Result Cancel");
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
-        } else utils.showErrorDialog(findStringByName("error_fetching_data"));
+        }
     }
 }

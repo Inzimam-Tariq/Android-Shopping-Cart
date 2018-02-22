@@ -88,13 +88,6 @@ public class ExpandableListAdapterCategory extends BaseExpandableListAdapter {
         View groupView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_group, parent, false);
         
-        View divider = groupView.findViewById(R.id.header_divider);
-        String dividerColor = Preferences.getSharedPreferenceString(appContext,
-                "divider_color", "");
-        if (dividerColor != null && !dividerColor.isEmpty()) {
-            divider.setBackgroundColor(Color.parseColor(dividerColor));
-        }
-        
         TextView lblListHeader = groupView.findViewById(R.id.lblListHeader);
         lblListHeader.setText(menuCategory.getMenuCategoryName());
 //            lblListHeader.setTypeface(null, Typeface.BOLD);
@@ -136,12 +129,7 @@ public class ExpandableListAdapterCategory extends BaseExpandableListAdapter {
             TextView lblListChild = itemView.findViewById(R.id.lblListItem);
             lblListChild.setText(child.getMenuSubCategoryName());
             Log.e("ChildText", child.getMenuSubCategoryName());
-            View divider = itemView.findViewById(R.id.child_divider);
-            String dividerColor = Preferences.getSharedPreferenceString(appContext,
-                    "divider_color", "");
-            if (dividerColor != null && !dividerColor.isEmpty()) {
-                divider.setBackgroundColor(Color.parseColor(dividerColor));
-            }
+            
         } else {
             
             itemView = LayoutInflater.from(parent.getContext())

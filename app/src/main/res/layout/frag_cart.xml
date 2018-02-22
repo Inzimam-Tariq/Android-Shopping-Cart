@@ -60,9 +60,8 @@
 
     </ScrollView>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/cart_checkout_btn"
-        style="@style/CustomButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

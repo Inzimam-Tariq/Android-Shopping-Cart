@@ -25,6 +25,9 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 import java.util.Locale;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.ACCENT_COLOR;
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
+
 
 /**
  * Created by Inzimam on 17-Oct-17.
@@ -35,6 +38,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     private List<MyItem> dataList;
     private Context context;
     private Utils utils;
+    private String accentColor = Preferences.getSharedPreferenceString(
+            appContext, ACCENT_COLOR, "#EC7625");
     
     public ItemAdapter(List<MyItem> dataList) {
         
@@ -91,35 +96,24 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
                     , AppConstants.CURRENCY_SYMBOL_KEY, "$");
             
             TextView itemPriceTV = holder.itemPriceFull;
+            if (!accentColor.isEmpty()) {
+                utils.applyAccentColor(itemPriceTV);
+            }
             TextView itemPriceSpecialTV = holder.itemPriceSpecial;
             utils.printLog("ItemAdapter", "IsRTL = " + MyApp.isRTL(Locale.getDefault()));
-            if (MyApp.isRTL(Locale.getDefault())) {
-                utils.printLog("ItemAdapter", "inside if RTL true");
-                if (!data.getItemPriceSpecial().isEmpty()) {
-                    itemPriceSpecialTV.setVisibility(View.VISIBLE);
-                    
-                    itemPriceSpecialTV.setText(data.getItemPriceFull().concat("").concat(symbol));
-                    itemPriceTV.setText(data.getItemPriceSpecial().concat("").concat(symbol));
-                    // set StrikeThrough to textView
-                    itemPriceSpecialTV.setPaintFlags(itemPriceSpecialTV.getPaintFlags()
-                            | Paint.STRIKE_THRU_TEXT_FLAG);
-                } else {
-                    itemPriceTV.setText(data.getItemPriceFull().concat("").concat(symbol));
-                }
+            
+            utils.printLog("ItemAdapter", "inside if RTL false");
+            if (!data.getItemPriceSpecial().isEmpty()) {
+                itemPriceSpecialTV.setVisibility(View.VISIBLE);
+                
+                itemPriceSpecialTV.setText(symbol.concat("").concat(data.getItemPriceFull()));
+                itemPriceTV.setText(symbol.concat("").concat(data.getItemPriceSpecial()));
+                
+                // set StrikeThrough to textView
+                itemPriceSpecialTV.setPaintFlags(itemPriceSpecialTV.getPaintFlags()
+                        | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
-                utils.printLog("ItemAdapter", "inside if RTL false");
-                if (!data.getItemPriceSpecial().isEmpty()) {
-                    itemPriceSpecialTV.setVisibility(View.VISIBLE);
-                    
-                    itemPriceSpecialTV.setText(symbol.concat("").concat(data.getItemPriceFull()));
-                    itemPriceTV.setText(symbol.concat("").concat(data.getItemPriceSpecial()));
-                    
-                    // set StrikeThrough to textView
-                    itemPriceSpecialTV.setPaintFlags(itemPriceSpecialTV.getPaintFlags()
-                            | Paint.STRIKE_THRU_TEXT_FLAG);
-                } else {
-                    itemPriceTV.setText(symbol.concat("").concat(data.getItemPriceFull()));
-                }
+                itemPriceTV.setText(symbol.concat("").concat(data.getItemPriceFull()));
             }
             
             holder.itemView.setOnClickListener(new View.OnClickListener() {

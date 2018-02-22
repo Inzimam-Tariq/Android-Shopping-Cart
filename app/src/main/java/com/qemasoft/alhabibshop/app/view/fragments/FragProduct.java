@@ -44,7 +44,6 @@ import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.LEFT;
 import static com.qemasoft.alhabibshop.app.AppConstants.PRODUCT_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 
 /**
@@ -86,8 +85,6 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
         bundle = getArguments();
         if (bundle != null) {
             requestData(bundle.getString("id"));
-        } else {
-            utils.showErrorDialog(context.getResources().getString(R.string.no_data));
         }
         
         filterLayout.setOnClickListener(this);
@@ -167,31 +164,6 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                     utils.printLog("Inside Res Frag Products = ");
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
                     
-                    if (!response.toString().isEmpty())
-                        initFilter(response);
-
-//                    String backBanner = response.optString("banner_category");
-//                    if (backBanner != null && !backBanner.isEmpty())
-//                        Picasso.with(context)
-//                                .load(backBanner)
-//                                .noFade()
-//                                .into(backBannerIV, new Callback() {
-//                                    @Override
-//                                    public void onSuccess() {
-//                                        progressBar.setVisibility(View.GONE);
-//                                    }
-//
-//                                    @Override
-//                                    public void onError() {
-//                                        progressBar.setVisibility(View.GONE);
-//                                        backBannerIV.setImageResource(R.drawable.ic_close_black);
-//                                    }
-//                                });
-//                    else {
-//                        backBannerIV.setVisibility(View.GONE);
-//                        progressBar.setVisibility(View.GONE);
-//                    }
-                    
                     String categoryName = response.optString("category_name");
                     productTitleTV.setText(categoryName);
                     
@@ -241,18 +213,24 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else if (resultCode == AppConstants.FORCED_CANCEL) {
+            } else if (resultCode == AppConstants.FORCE_CANCELED) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
                     String error = response.optString("error");
                     if (!error.isEmpty()) {
-                        utils.showErrorDialog(error);
+                        utils.showAlert(R.string.information_text, error,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
         }
     }
@@ -322,8 +300,10 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                 break;
             case R.id.filter_layout:
                 if (headerList == null || headerList.isEmpty() || headerList.size() < 1) {
-                    utils.showAlertDialog(findStringByName("filter_text"),
-                            findStringByName("no_filter"));
+                    utils.showAlert(R.string.filter_text, R.string.no_filter,
+                            false,
+                            R.string.ok, null,
+                            R.string.cancel_text, null);
                     return;
                 }
                 selectedFilters = new ArrayList<>();

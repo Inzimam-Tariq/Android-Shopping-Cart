@@ -2,6 +2,7 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +33,7 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
     
     
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
@@ -82,6 +83,7 @@ public class Dashboard extends MyBaseFragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         int id = v.getId();
+        
         if (id == R.id.edit_account_tv) {
             utils.switchFragment(new FragEditAccount());
         } else if (id == R.id.change_pass_tv) {

@@ -1,11 +1,9 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_CONTACT;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_FIRST_NAME;
@@ -33,7 +30,6 @@ import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_LAST_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.EDIT_ACCOUNT_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -57,22 +53,22 @@ public class FragEditAccount extends MyBaseFragment {
         initUtils();
         initViews(view);
         
-            fName.setText(Preferences.getSharedPreferenceString(
-                    appContext,
-                    CUSTOMER_FIRST_NAME,
-                    DEFAULT_STRING_VAL));
-            lName.setText(Preferences.getSharedPreferenceString(
-                    appContext,
-                    CUSTOMER_LAST_NAME,
-                    DEFAULT_STRING_VAL));
-            email.setText(Preferences.getSharedPreferenceString(
-                    appContext,
-                    CUSTOMER_EMAIL,
-                    DEFAULT_STRING_VAL));
-            contact.setText(Preferences.getSharedPreferenceString(
-                    appContext,
-                    CUSTOMER_CONTACT,
-                    DEFAULT_STRING_VAL));
+        fName.setText(Preferences.getSharedPreferenceString(
+                appContext,
+                CUSTOMER_FIRST_NAME,
+                DEFAULT_STRING_VAL));
+        lName.setText(Preferences.getSharedPreferenceString(
+                appContext,
+                CUSTOMER_LAST_NAME,
+                DEFAULT_STRING_VAL));
+        email.setText(Preferences.getSharedPreferenceString(
+                appContext,
+                CUSTOMER_EMAIL,
+                DEFAULT_STRING_VAL));
+        contact.setText(Preferences.getSharedPreferenceString(
+                appContext,
+                CUSTOMER_CONTACT,
+                DEFAULT_STRING_VAL));
         
         editAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,14 +78,14 @@ public class FragEditAccount extends MyBaseFragment {
                 String lNameVal = lName.getText().toString().trim();
                 String emailVal = email.getText().toString().trim();
                 String contactVal = contact.getText().toString().trim();
-                if (fNameVal.length() < 1) {
-                    utils.setError(fName);
-                } else if (lNameVal.length() < 1) {
-                    utils.setError(lName);
-                } else if (emailVal.length() < 1) {
-                    utils.setError(email);
-                } else if (contactVal.length() < 1) {
+                if (contactVal.isEmpty())
                     utils.setError(contact);
+                if (emailVal.isEmpty())
+                    utils.setError(email);
+                if (lNameVal.isEmpty())
+                    utils.setError(lName);
+                if (fNameVal.isEmpty()) {
+                    utils.setError(fName);
                 } else {
                     AppConstants.setMidFixApi("editCustomer");
                     
@@ -136,24 +132,22 @@ public class FragEditAccount extends MyBaseFragment {
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_FIRST_NAME, fName);
                     Preferences.setSharedPreferenceString(appContext, CUSTOMER_LAST_NAME, lName);
                     
-                    AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                            findStringByName("information_text"),
-                            response.optString("message"));
-                    dialog.setButton(BUTTON_POSITIVE, findStringByName("ok"),
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    utils.switchFragment(new Dashboard());
-                                }
-                            });
-                    dialog.show();
+                    String msg = response.optString("message");
+                    if (!msg.isEmpty())
+                        utils.showAlert(R.string.information_text, msg,
+                                false,
+                                R.string.ok, new Dashboard(),
+                                R.string.cancel_text, null);
                 } catch (JSONException e) {
 //                    utils.showErrorDialog("Invalid JSON");
                     e.printStackTrace();
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
         }
     }

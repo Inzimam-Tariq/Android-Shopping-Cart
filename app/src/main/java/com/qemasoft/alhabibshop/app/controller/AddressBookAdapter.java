@@ -10,14 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.qemasoft.alhabibshop.app.AppConstants;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
 import com.qemasoft.alhabibshop.app.model.Address;
 import com.qemasoft.alhabibshop.app.view.fragments.AddAddress;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 17-Oct-17.
@@ -32,8 +34,6 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
     
     public AddressBookAdapter(List<Address> dataList) {
         this.dataList = dataList;
-//        utils.printLog("Constructor", "Working");
-//        utils.printLog("Constructor", "DataList Size = " + dataList.size());
     }
     
     @Override
@@ -64,19 +64,9 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
         utils.printLog("Country", data.getCountry());
         utils.printLog("State", data.getState());
         
-        if (data.getCompany().isEmpty()) {
-            holder.companyTV.setVisibility(View.GONE);
-        } else {
-            holder.companyTV.setText(data.getCompany());
-        }
         holder.addressTV.setText(data.getAddress());
         holder.cityTV.setText(data.getCity());
         
-        if (data.getPostalCode().isEmpty()) {
-            holder.postCodeTV.setVisibility(View.GONE);
-        } else {
-            holder.postCodeTV.setText(data.getPostalCode());
-        }
         holder.countryTV.setText(data.getCountry());
         holder.stateTV.setText(data.getState());
         
@@ -85,13 +75,14 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
             public boolean onLongClick(View v) {
                 utils.printLog("Position", "Long Click Position = " + holder.getAdapterPosition());
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Select Option");
+                builder.setTitle(R.string.please_select);
                 builder.setCancelable(false);
                 
                 int checkedItem = itemPosition = 0; // 1st element
                 final List<String> list = new ArrayList<>();
-                list.add("Edit");
-                list.add("Delete");
+                list.add(findStringByName("edit"));
+                
+                list.add(findStringByName("delete"));
                 builder.setSingleChoiceItems(list.toArray(new String[list.size()]),
                         checkedItem, new DialogInterface.OnClickListener() {
                             @Override
@@ -101,7 +92,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
                                 }
                             }
                         });
-                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.confirm_text, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         utils.printLog("Which", "List position =" + list.get(itemPosition));
@@ -110,9 +101,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
                             bundle.putBoolean("isEditAddress", true);
                             bundle.putString("first_name", data.getFirstName());
                             bundle.putString("last_name", data.getLastName());
-                            bundle.putString("company_name", data.getCompany());
                             bundle.putString("address", data.getAddress());
-                            bundle.putString("postal_code", data.getPostalCode());
                             bundle.putString("city", data.getCity());
                             
                             utils.switchFragment(new AddAddress(), bundle);
@@ -125,7 +114,7 @@ public class AddressBookAdapter extends RecyclerView.Adapter<AddressBookAdapter.
                         }
                     }
                 });
-                builder.setNegativeButton("Cancel", null);
+                builder.setNegativeButton(R.string.cancel_text, null);
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 return true;

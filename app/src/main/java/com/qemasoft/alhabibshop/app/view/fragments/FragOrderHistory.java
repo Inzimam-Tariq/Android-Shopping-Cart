@@ -38,15 +38,15 @@ import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
  */
 
 public class FragOrderHistory extends MyBaseFragment {
-
+    
     private OrderAdapter orderAdapter;
     private List<MyOrder> myOrderList = new ArrayList<>();
-
+    
     public FragOrderHistory() {
         // Required empty public constructor
     }
-
-
+    
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,19 +55,19 @@ public class FragOrderHistory extends MyBaseFragment {
         initUtils();
         initViews(view);
         this.context = getContext();
-
+        
         loadData();
         setupAdaptersAndShowData();
-
+        
         return view;
     }
-
+    
     private void initViews(View view) {
         mRecyclerView = view.findViewById(R.id.order_recycler_view);
     }
-
+    
     private void setupAdaptersAndShowData() {
-
+        
         // for Orders
         utils.printLog("Item Data list populated");
         orderAdapter = new OrderAdapter(myOrderList);
@@ -77,18 +77,18 @@ public class FragOrderHistory extends MyBaseFragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(orderAdapter);
-
+        
         utils.printLog("Adapter Set Success");
     }
-
+    
     private void loadData() {
-
+        
         AppConstants.setMidFixApi("getOrders");
-
+        
         Map<String, String> map = new HashMap<>();
         map.put("customer_id", Preferences.getSharedPreferenceString(appContext,
                 CUSTOMER_ID_KEY, DEFAULT_STRING_VAL));
-
+        
         Bundle bundle = new Bundle();
         bundle.putBoolean("hasParameters", true);
         bundle.putSerializable("parameters", (Serializable) map);
@@ -96,7 +96,7 @@ public class FragOrderHistory extends MyBaseFragment {
         intent.putExtras(bundle);
         startActivityForResult(intent, ORDER_HISTORY_REQUEST_CODE);
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -104,9 +104,16 @@ public class FragOrderHistory extends MyBaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
-
+                    
                     utils.printLog("InsideOnResult");
                     JSONArray orders = response.optJSONArray("orders");
+                    if (orders == null) {
+                        utils.showAlert(R.string.information_text, R.string.no_data,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
+                        return;
+                    }
                     for (int i = 0; i < orders.length(); i++) {
                         JSONObject orderObj = orders.optJSONObject(i);
                         MyOrder myOrder = new MyOrder(orderObj.optString("order_id"),
@@ -115,15 +122,18 @@ public class FragOrderHistory extends MyBaseFragment {
                         myOrderList.add(myOrder);
                         orderAdapter.notifyDataSetChanged();
                     }
-
+                    
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog("error_fetching_data");
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
         }
     }
-
+    
 }

@@ -1,7 +1,6 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
-import com.qemasoft.alhabibshop.app.MyApp;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.CartDetailAdapter;
@@ -36,16 +34,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.ADD_TO_CART_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
+import static com.qemasoft.alhabibshop.app.AppConstants.FORCE_CANCELED;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.optionsList;
 
 /**
@@ -54,10 +50,9 @@ import static com.qemasoft.alhabibshop.app.AppConstants.optionsList;
 
 public class FragCartDetail extends MyBaseFragment {
     
-    private CheckBox useCoupon;
+    private CheckBox useCouponCB;
     private CartDetailAdapter cartDetailAdapter;
     private Bundle bundle;
-    private TextView subTotalVal, grandTotalVal;
     private Button checkoutBtn;
     private LinearLayout totalContainer, innerLayout;
     
@@ -82,11 +77,11 @@ public class FragCartDetail extends MyBaseFragment {
             requestData(id);
         }
         
-        useCoupon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        useCouponCB.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    createAndShowCustomAlertDialog();
+                    showCouponDialog();
                 }
             }
         });
@@ -97,27 +92,10 @@ public class FragCartDetail extends MyBaseFragment {
                 if (utils.isLoggedIn()) {
                     utils.switchFragment(new FragCheckout());
                 } else {
-                    AlertDialog alertDialog = utils.showAlertDialogReturnDialog(
-                            findStringByName("continue_text"),
-                            findStringByName("please_select"));
-                    
-                    alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
-                            findStringByName("login_text"), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    
-                                    utils.switchFragment(new FragLogin());
-                                }
-                            });
-                    alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,
-                            findStringByName("action_register_text"), new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    
-                                    utils.switchFragment(new FragRegister());
-                                }
-                            });
-                    alertDialog.show();
+                    utils.showAlert(R.string.continue_text, R.string.please_select,
+                            true,
+                            R.string.login_text, new FragLogin(),
+                            R.string.action_register_text, new FragRegister());
                 }
             }
         });
@@ -168,49 +146,53 @@ public class FragCartDetail extends MyBaseFragment {
         utils.printLog("OptionsListSize", "size = " + optionsList.size());
     }
     
-    private void createAndShowCustomAlertDialog() {
+    private void showCouponDialog() {
         
-        final AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
-        
-        builder.setTitle(R.string.use_coupon_text);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setCancelable(true);
-        final EditText input = new EditText(getContext());
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        lp.setMargins(30, 0, 30, 0);
-        input.setLayoutParams(lp);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.layout_alert_dialog_input, null);
+        
+        builder.setView(dialogView);
+        
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        title.setText(R.string.use_coupon_text);
+        Button buttonPositive = dialogView.findViewById(R.id.positive_btn);
+        buttonPositive.setText(R.string.apply);
+        Button buttonNegative = dialogView.findViewById(R.id.negative_btn);
+        buttonNegative.setText(R.string.cancel_text);
+        
+        final EditText input = dialogView.findViewById(R.id.input);
         input.setHint(R.string.enter_coupon_code);
-        builder.setView(input);
-//        builder.setIcon(R.drawable.galleryalart);
-        builder.setPositiveButton(findStringByName("apply"), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                utils.printLog("CoouponCode = " + input.getText().toString());
-                String couponCode = input.getText().toString().trim();
-                if (couponCode.isEmpty())
-                    utils.showAlertDialog(findStringByName("information_text"), findStringByName("enter_coupon_code"));
-                else utils.applyCoupon(couponCode);
-            }
-        });
-        builder.setNegativeButton(findStringByName("cancel_text"), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            
-            }
-        });
         final AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        buttonPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                utils.printLog("CouponCode = " + input.getText().toString());
+                String couponCode = input.getText().toString().trim();
+                if (couponCode.isEmpty()) {
+                    utils.showAlert(R.string.information_text, R.string.enter_coupon_code,
+                            false,
+                            R.string.ok, null,
+                            R.string.cancel_text, null);
+                    useCouponCB.setChecked(false);
+                } else utils.applyCoupon(couponCode);
+            }
+        });
+        buttonNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                useCouponCB.setChecked(false);
+            }
+        });
     }
     
     private void initViews(View view) {
         
         mRecyclerView = view.findViewById(R.id.cart_detail_recycler_view);
-        
-        useCoupon = view.findViewById(R.id.use_coupon_cb);
-        subTotalVal = view.findViewById(R.id.sub_total_val_tv);
-        grandTotalVal = view.findViewById(R.id.grand_total_val_tv);
-        
+        useCouponCB = view.findViewById(R.id.use_coupon_cb);
         checkoutBtn = view.findViewById(R.id.cart_checkout_btn);
         totalContainer = view.findViewById(R.id.total_container);
     }
@@ -233,8 +215,10 @@ public class FragCartDetail extends MyBaseFragment {
                         JSONArray cartProducts = response.optJSONArray("cartProducts");
                         List<MyCartDetail> cartDetailList = new ArrayList<>();
                         if (cartProducts == null || cartProducts.toString().isEmpty()) {
-                            utils.showAlertDialog(findStringByName("information_text"),
-                                    findStringByName("empty_cart_text"));
+                            utils.showAlert(R.string.information_text, R.string.empty_cart_text,
+                                    true,
+                                    R.string.ok, null,
+                                    R.string.cancel_text, null);
                             return;
                         }
                         for (int i = 0; i < cartProducts.length(); i++) {
@@ -291,33 +275,36 @@ public class FragCartDetail extends MyBaseFragment {
                                 utils.printLog("Title = " + totalsObj.optString("title"
                                         + "Value = " + totalsObj.optString("text")));
                                 textTV.setText(totalsObj.optString("title"));
-                                if (MyApp.isRTL(Locale.getDefault())) {
-                                    valTV.setText(totalsObj.optString("text")
-                                            .concat(" ").concat(symbol));
-                                } else {
-                                    valTV.setText(symbol.concat("").concat(
-                                            totalsObj.optString("text")));
-                                }
+                                
+                                valTV.setText(symbol.concat("").concat(
+                                        totalsObj.optString("text")));
                                 
                                 totalContainer.addView(layout);
                             }
-                            
                         }
                         
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-            } else if (resultCode == FORCED_CANCEL) {
+            } else if (resultCode == FORCE_CANCELED) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    utils.showErrorDialog("Response!"
-                            + response.optString("message"));
+                    String msg = response.optString("message");
+                    if (!msg.isEmpty()) {
+                        utils.showAlert(R.string.information_text, msg,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
         }
     }

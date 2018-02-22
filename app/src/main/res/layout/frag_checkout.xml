@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:spb_animateToCurrentProgressState="true"
-                app:spb_animationDuration="5"
+                app:spb_animationDuration="2500"
                 app:spb_checkStateCompleted="true"
                 app:spb_currentStateDescriptionColor="@color/colorPrimaryDark"
                 app:spb_currentStateNumber="one"
@@ -31,7 +31,7 @@
                 app:spb_stateDescriptionColor="#808080"
                 app:spb_stateForegroundColor="@color/colorAccent"
                 app:spb_stateNumberBackgroundColor="#808080"
-                app:spb_stateNumberForegroundColor="#eeeeee" />
+                app:spb_stateNumberForegroundColor="#ffffffff" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -50,7 +50,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableRight="@drawable/ic_menu_more"
-                        android:hint="@string/please_select_text" />
+                        android:hint="@string/please_select_text"
+                        android:drawableEnd="@drawable/ic_menu_more" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -227,18 +228,16 @@
                 android:layout_margin="@dimen/activity_horizontal_margin"
                 android:orientation="horizontal">
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/next_btn"
-                    style="@style/CustomButtonStyle"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
                     android:text="@string/next_text" />
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/back_btn"
-                    style="@style/CustomButtonStyle"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_margin="5dp"

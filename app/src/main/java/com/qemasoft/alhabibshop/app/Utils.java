@@ -1,13 +1,16 @@
 package com.qemasoft.alhabibshop.app;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -23,12 +26,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
@@ -43,6 +48,7 @@ import com.qemasoft.alhabibshop.app.controller.MyPagerAdapter;
 import com.qemasoft.alhabibshop.app.model.Slideshow;
 import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCartDetail;
+import com.qemasoft.alhabibshop.app.view.fragments.FragRegister;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,6 +73,7 @@ import java.util.regex.Pattern;
 import me.relex.circleindicator.CircleIndicator;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.ACCENT_COLOR;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_CONTACT;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_FIRST_NAME;
@@ -75,6 +82,8 @@ import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_LAST_NAME;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.IS_LOGIN;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
+import static com.qemasoft.alhabibshop.app.AppConstants.PRIMARY_COLOR;
+import static com.qemasoft.alhabibshop.app.AppConstants.THEME_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.UNIQUE_ID_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
@@ -340,90 +349,57 @@ public class Utils {
     public boolean isNetworkConnected() {
         
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert cm != null;
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         return (netInfo != null) && netInfo.isConnected();
     }
     
-    public void showInternetErrorDialog() {
+    public void showInternetErrorDialog(int msgId) {
         
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(findStringByName("an_error"))
-                .setMessage("No Internet Connection")
-                .setPositiveButton(findStringByName("ok"), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        
-                        dialog.cancel();
-                    }
-                });
-        // Create the AlertDialog object and return it
-        AlertDialog alertDialog = builder.create();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setCancelable(true);
+        
+        LayoutInflater inflater = ((MainActivity) mContext).getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.layout_alert_dialog, null);
+        builder.setView(dialogView);
+        
+        TextView titleTV = dialogView.findViewById(R.id.dialog_title);
+        titleTV.setText(R.string.information_text);
+        Button buttonPositive = dialogView.findViewById(R.id.positive_btn);
+        buttonPositive.setText(R.string.ok);
+        
+        TextView msgTV = dialogView.findViewById(R.id.msg_tv);
+        msgTV.setText(msgId);
+        
+        final AlertDialog alertDialog = builder.create();
         alertDialog.show();
-        
-    }
-    
-    public void showErrorDialog(String errorMsg) {
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(R.string.an_error)
-                .setMessage(errorMsg)
-                .setPositiveButton(findStringByName("ok"), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        
-                        dialog.cancel();
-                    }
-                });
-        // Create the AlertDialog object and return it
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-        
-    }
-    
-    public void showAlertDialog(String title, String msg) {
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(title)
-                .setMessage(msg)
-                .setPositiveButton(findStringByName("ok"), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
-    
-    public AlertDialog showAlertDialogReturnDialog(String title, String msg) {
-        
-        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-        builder.setTitle(title)
-                .setMessage(msg);
-        
-        // Create the AlertDialog object and return it
-        
-        return builder.create();
+        buttonPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
     }
     
     public void showAlertDialogTurnWifiOn() {
         
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle("Enable Internet")
-                .setMessage("It seems you have no internet connection, To turn on wifi press Wifi" +
+                .setMessage("It seems you have no internet connection, Goto Wifi setting" +
                         " or Goto settings")
-                .setPositiveButton("Wifi", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.wifi, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         
                         WifiManager wifiManager = (WifiManager) mContext.getApplicationContext()
                                 .getSystemService(Context.WIFI_SERVICE);
+                        assert wifiManager != null;
                         if (!wifiManager.isWifiEnabled()) {
                             wifiManager.setWifiEnabled(true);
-//                        } else if (wifiManager.isWifiEnabled()) {
-//                            wifiManager.setWifiEnabled(false);
                         }
                     }
                 })
-                .setNegativeButton("Settings", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.action_settings, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         
@@ -458,7 +434,6 @@ public class Utils {
         builder.setPositiveButton(R.string.confirm_text, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                
                 button.setHint(list.get(position));
                 if (clickInterface != null)
                     clickInterface.OnItemClicked(position);
@@ -468,6 +443,29 @@ public class Utils {
         builder.setNegativeButton(R.string.ok, null);
         AlertDialog dialog = builder.create();
         dialog.show();
+        
+        String theme = Preferences.getSharedPreferenceString(appContext,
+                THEME_CODE, "default");
+        if (!theme.isEmpty() && !theme.equalsIgnoreCase("default")) {
+            String pColor = Preferences.getSharedPreferenceString(
+                    appContext, PRIMARY_COLOR, "#ff000000");
+            String aColor = Preferences.getSharedPreferenceString(
+                    appContext, ACCENT_COLOR, "#EC7625");
+            
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(40, 0, 40, 0);
+            params.weight = 1f;
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setLayoutParams(params);
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setLayoutParams(params);
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                    .setBackgroundColor(Color.parseColor(pColor));
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+                    .setBackgroundColor(Color.parseColor(aColor));
+        }
+        
     }
     
     public void showProgress() {
@@ -692,26 +690,44 @@ public class Utils {
         return subStrId;
     }
     
-    public void sendAppMsg(View view) {
+    public void shareContent(String title, String url) {
         
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
-        sendIntent.setType("text/plain");
-        sendIntent.setPackage("com.whatsapp");
-        mContext.startActivity(sendIntent);
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_SUBJECT, title);
+//        i.putExtra(Intent.EXTRA_COMPONENT_NAME, title);
+        i.putExtra(Intent.EXTRA_TEXT, url);
+        mContext.startActivity(Intent.createChooser(i, "Share URL"));
+        
     }
     
     public void setError(EditText editText) {
-        
         editText.setError(findStringByName("required"));
         editText.requestFocus();
+    }
+    
+    public void applyAccentColor(TextView textView) {
+        String accentColor = Preferences.getSharedPreferenceString(
+                appContext, ACCENT_COLOR, "#EC7625");
+        
+        if (!accentColor.isEmpty())
+            textView.setTextColor(Color.parseColor(accentColor));
+        
+    }
+    
+    public void applyAccentColor(Button button) {
+        String accentColor = Preferences.getSharedPreferenceString(
+                appContext, ACCENT_COLOR, "#EC7625");
+        
+        if (!accentColor.isEmpty())
+            button.setTextColor(Color.parseColor(accentColor));
+        
     }
     
     public void switchFragment(Fragment fragment) {
         
         ((MainActivity) mContext).getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flFragments, fragment).commit();
+                .replace(R.id.flFragments, fragment).addToBackStack(null).commit();
     }
     
     public void switchFragment(Fragment fragment, Bundle bundle) {
@@ -720,7 +736,7 @@ public class Utils {
             fragment.setArguments(bundle);
         }
         ((MainActivity) mContext).getSupportFragmentManager().beginTransaction()
-                .replace(R.id.flFragments, fragment).commit();
+                .replace(R.id.flFragments, fragment).addToBackStack(null).commit();
     }
     
     
@@ -761,7 +777,12 @@ public class Utils {
                             if (success) {
                                 hideProgress();
                                 String msg = response.optString("message");
-                                if (!msg.isEmpty()) showAlertDialog("Alert", msg);
+                                if (!msg.isEmpty()) {
+                                    showAlert(R.string.information_text,
+                                            R.string.please_select, true,
+                                            R.string.ok, null,
+                                            R.string.cancel_text, null);
+                                }
                                 Preferences.setSharedPreferenceString(appContext
                                         , "couponCode", couponCode);
                                 Bundle bundle = new Bundle();
@@ -840,6 +861,317 @@ public class Utils {
     public interface ClickInterface {
         
         void OnItemClicked(int item_id);
+    }
+    
+    public void showAlert(int titleId, int msgId, boolean cancelable, int posBtnTextId,
+                          final Fragment posBtnActionFrag,
+                          int negBtnTextId, final Fragment negBtnActionFrag) {
+        
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setCancelable(cancelable);
+        LayoutInflater inflater = ((AppCompatActivity) mContext).getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.layout_alert_dialog, null);
+        
+        builder.setView(dialogView);
+        
+        TextView titleTV = dialogView.findViewById(R.id.dialog_title);
+        View separator = dialogView.findViewById(R.id.title_separator);
+        TextView msgTV = dialogView.findViewById(R.id.msg_tv);
+        Button buttonPositive = dialogView.findViewById(R.id.positive_btn);
+        Button buttonNegative = dialogView.findViewById(R.id.negative_btn);
+        
+        titleTV.setText(titleId);
+        msgTV.setText(msgId);
+        buttonPositive.setText(posBtnTextId);
+        
+        String theme = Preferences.getSharedPreferenceString(appContext,
+                THEME_CODE, "default");
+        if (!theme.isEmpty() && !theme.equalsIgnoreCase("default")) {
+            String pColor = Preferences.getSharedPreferenceString(
+                    appContext, PRIMARY_COLOR, "#ff000000");
+            titleTV.setTextColor(Color.parseColor(pColor));
+            String aColor = Preferences.getSharedPreferenceString(
+                    appContext, ACCENT_COLOR, "#EC7625");
+            separator.setBackgroundColor(Color.parseColor(pColor));
+            buttonPositive.setBackgroundColor(Color.parseColor(pColor));
+            buttonNegative.setBackgroundColor(Color.parseColor(aColor));
+        }
+        
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        buttonPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (posBtnActionFrag != null)
+                    switchFragment(posBtnActionFrag);
+                alertDialog.dismiss();
+            }
+        });
+        buttonNegative.setText(negBtnTextId);
+        buttonNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (negBtnActionFrag != null)
+                    switchFragment(new FragRegister());
+                alertDialog.dismiss();
+            }
+        });
+    }
+    
+    public void showAlert(int titleId, String msg, boolean cancelable, int posBtnTextId,
+                          final Fragment posBtnActionFrag,
+                          int negBtnTextId, final Fragment negBtnActionFrag) {
+        
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setCancelable(cancelable);
+        LayoutInflater inflater = ((AppCompatActivity) mContext).getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.layout_alert_dialog, null);
+        
+        builder.setView(dialogView);
+        
+        TextView titleTV = dialogView.findViewById(R.id.dialog_title);
+        View separator = dialogView.findViewById(R.id.title_separator);
+        TextView msgTV = dialogView.findViewById(R.id.msg_tv);
+        Button buttonPositive = dialogView.findViewById(R.id.positive_btn);
+        Button buttonNegative = dialogView.findViewById(R.id.negative_btn);
+        
+        titleTV.setText(titleId);
+        msgTV.setText(msg);
+        buttonPositive.setText(posBtnTextId);
+        
+        String theme = Preferences.getSharedPreferenceString(appContext,
+                THEME_CODE, "default");
+        if (!theme.isEmpty() && !theme.equalsIgnoreCase("default")) {
+            String pColor = Preferences.getSharedPreferenceString(
+                    appContext, PRIMARY_COLOR, "#ff000000");
+            titleTV.setTextColor(Color.parseColor(pColor));
+            String aColor = Preferences.getSharedPreferenceString(
+                    appContext, ACCENT_COLOR, "#EC7625");
+            separator.setBackgroundColor(Color.parseColor(pColor));
+            buttonPositive.setBackgroundColor(Color.parseColor(pColor));
+            buttonNegative.setBackgroundColor(Color.parseColor(aColor));
+        }
+        
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+        buttonPositive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (posBtnActionFrag != null)
+                    switchFragment(posBtnActionFrag);
+                alertDialog.dismiss();
+            }
+        });
+        
+        buttonNegative.setVisibility(View.VISIBLE);
+        buttonNegative.setText(negBtnTextId);
+        buttonNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (negBtnActionFrag != null)
+                    switchFragment(new FragRegister());
+                alertDialog.dismiss();
+            }
+        });
+    }
+    
+    public void setTheme(Context c) {
+        String themeCode = Preferences.getSharedPreferenceString(appContext, THEME_CODE, "");
+        
+        Resources resources = c.getResources();
+        
+        Log.e("MyApp", "ThemeCode = " + themeCode);
+        switch (themeCode) {
+            case "red": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryRed);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentRed);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialRed);
+                break;
+            }
+            case "pink": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryPink);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentPink);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialPink);
+                break;
+            }
+            case "purple": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryPurple);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentPurple);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialPurple);
+                break;
+            }
+            case "deep_purple": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryDeepPurple);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentDeepPurple);
+                Preferences.setSharedPreferenceString(appContext, pColor, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialDeepPurple);
+                break;
+            }
+            case "indigo": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryIndigo);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentIndigo);
+                Preferences.setSharedPreferenceString(appContext, pColor, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialIndigo);
+                break;
+            }
+            case "blue":
+            case "light_blue": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryBlue);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentBlue);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialBlue);
+                break;
+            }
+            case "cyan": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryCyan);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentCyan);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialCyan);
+                break;
+            }
+            case "teal": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryTeal);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentTeal);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialTeal);
+                break;
+            }
+            case "green": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryGreen);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentGreen);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialGreen);
+                break;
+            }
+            case "light_green": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryLightGreen);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentLightGreen);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialLightGreen);
+                break;
+            }
+            case "lime": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryLime);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentLime);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialLime);
+                break;
+            }
+            case "yellow": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryYellow);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentYellow);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialYellow);
+                break;
+            }
+            case "amber": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryAmber);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentAmber);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialAmber);
+                break;
+            }
+            case "orange": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryOrange);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentOrange);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialOrange);
+                break;
+            }
+            case "deep_orange": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryDeepOrange);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentDeepOrange);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialDeepOrange);
+                break;
+            }
+            case "brown": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryBrown);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentBrown);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialBrown);
+                break;
+            }
+            case "grey": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryGrey);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentGrey);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialGrey);
+                break;
+            }
+            case "blue_grey": {
+                @SuppressLint("ResourceType")
+                String pColor = resources.getString(R.color.colorPrimaryBlueGrey);
+                @SuppressLint("ResourceType")
+                String aColor = resources.getString(R.color.colorAccentBlueGrey);
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, pColor);
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, aColor);
+                c.setTheme(R.style.MaterialBlueGrey);
+                break;
+            }
+            default:
+                printLog("MainAct", "Default Running");
+                Preferences.setSharedPreferenceString(appContext, PRIMARY_COLOR, "#ffffff");
+                Preferences.setSharedPreferenceString(appContext, ACCENT_COLOR, "#EC7625");
+                c.setTheme(R.style.AppTheme_NoActionBar);
+                break;
+        }
+
+//        setDefaultNightMode(MODE_NIGHT_YES);
     }
     
 }

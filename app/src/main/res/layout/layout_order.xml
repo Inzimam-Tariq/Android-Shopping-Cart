@@ -128,9 +128,8 @@
                         android:layout_weight="0.6" />
                 </LinearLayout>
 
-                <Button
+                <android.support.v7.widget.AppCompatButton
                     android:id="@+id/view_order_btn"
-                    style="@style/CustomButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"

@@ -69,9 +69,11 @@
     <string name="company_text">الشركة</string>
     <string name="address_text">العنوان الاول</string>
     <string name="Address2_text">العنوان الثاني</string>
+    <string name="add_address_text">اضف عنوان</string>
+    <string name="default_address_text">العنوان الافتراضى</string>
     <string name="city_text">المدينة</string>
-    <string name="country_text">البلد</string>
-    <string name="state_text">دولة</string>
+    <string name="country_text">الدولة</string>
+    <string name="state_text">المنطقة</string>
     <string name="post_code_text">صندوق البريد</string>
     <!--Fragment Categories -->
     <string name="inquiry_text">الاستفسار</string>
@@ -105,8 +107,8 @@
     <string name="your_name_hint">أدخل أسمك</string>
     <string name="first_name_text">الاسم الاول</string>
     <string name="first_name_hint">أدخل اسمك الأول</string>
-    <string name="last_name_text">اسم العائلة</string>
-    <string name="last_name_hint">أدخل اسم العائلة</string>
+    <string name="last_name_text">الاسم الثاني</string>
+    <string name="last_name_hint">أدخل الاسم الثاني</string>
     <string name="email_text">البريد الالكتروني</string>
     <string name="email_hint">أدخل عنوان بريدك الالكتروني</string>
     <string name="password_text">كلمة المرور</string>
@@ -138,9 +140,15 @@
     <string name="quantity_info">يجب أن تكون الكمية أكبر من 0</string>
     <string name="address_book_title">إدخالات دفتر العناوين</string>
 
-    <string name="select_state">اختر ولايه</string>
-    <string name="select_country">Select Country</string>
+    <string name="select_state">اختر المنطقة</string>
+    <string name="select_country">اختر الدولة</string>
 
+    <string name="edit">تحرير</string>
+    <string name="delete">حذف</string>
+    <string name="wifi">واي فاي</string>
+
+    <string name="edit_address_context">Press And Hold An Address To Edit OR Delete</string>
+    <string name="add_address_context">Press The Plus Button To Add Address</string>
 
 
     <string name="cancel_text">إلغ</string>
@@ -192,7 +200,7 @@
     <string name="payment_method_text">طريقة الدفع</string>
     <string name="shipping_method_text">طريقة الشحن</string>
     <string name="view_order_detail_text">عرض تفاصيل الطلب</string>
-    <string name="my_orders__text">عرض تفاصيل الطلب</string>
+    <string name="my_orders_text">عرض تفاصيل الطلب</string>
 
     <string name="my_orders_return">رقم الارجاع</string>
 

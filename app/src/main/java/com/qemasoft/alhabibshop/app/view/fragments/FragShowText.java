@@ -17,20 +17,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.RIGHT_MENU_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 24-Oct-17.
  */
 
 public class FragShowText extends MyBaseFragment {
-
+    
     private TextView titleTV, contentTV;
-
+    
     public FragShowText() {
         // Required empty public constructor
     }
-
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -38,31 +37,29 @@ public class FragShowText extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_show_text_data, container, false);
         initUtils();
         initViews(view);
-
+        
         Bundle bundle = getArguments();
         if (bundle != null) {
             requestData(bundle.getString("id"));
-        }else {
-            utils.showErrorDialog(findStringByName("no_data"));
         }
-
+        
         return view;
     }
-
+    
     private void requestData(String id) {
         AppConstants.setMidFixApi("getInformation/information_id/" + id);
-
+        
         Bundle bundle = new Bundle();
         Intent intent = new Intent(getContext(), FetchData.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, RIGHT_MENU_REQUEST_CODE);
     }
-
+    
     private void initViews(View view) {
         titleTV = view.findViewById(R.id.title_tv);
         contentTV = view.findViewById(R.id.content_tv);
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -70,29 +67,35 @@ public class FragShowText extends MyBaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    String  title = response.optString("title");
-                    String  description = response.optString("description");
+                    String title = response.optString("title");
+                    String description = response.optString("description");
                     utils.printLog("Categories", title);
                     titleTV.setText(title);
                     contentTV.setText(description);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else if (resultCode == AppConstants.FORCED_CANCEL) {
+            } else if (resultCode == AppConstants.FORCE_CANCELED) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    String error = response.optString("message");
-                    if (!error.isEmpty()) {
-                        utils.showErrorDialog(error);
+                    String msg = response.optString("message");
+                    if (!msg.isEmpty()) {
+                        utils.showAlert(R.string.information_text, msg,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
         }
     }
-
-
+    
+    
 }

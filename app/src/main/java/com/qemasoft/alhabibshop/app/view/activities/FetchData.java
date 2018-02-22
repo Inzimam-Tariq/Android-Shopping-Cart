@@ -28,13 +28,15 @@ public class FetchData extends AppCompatActivity {
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        this.utils = new Utils(this);
+//        utils.setTheme(this);
         
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fetch_data);
         this.setFinishOnTouchOutside(false);
-        this.utils = new Utils(this);
         
-        boolean hasParameters = getIntent().getBooleanExtra("hasParameters", false);
+        boolean hasParameters = getIntent().getBooleanExtra("hasParameters",
+                false);
         utils.printLog("Inside FetchData", "Has Extra = " + hasParameters);
         
         if (hasParameters) {
@@ -69,7 +71,7 @@ public class FetchData extends AppCompatActivity {
                     } else {
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("result", response.toString());
-                        setResult(AppConstants.FORCED_CANCEL, returnIntent);
+                        setResult(AppConstants.FORCE_CANCELED, returnIntent);
                         finish();
                         utils.printLog("doParametrizedRequest", "If Success False");
                         utils.printLog("ForceCanceled", response.toString());
@@ -110,7 +112,7 @@ public class FetchData extends AppCompatActivity {
                         } else {
                             Intent returnIntent = new Intent();
                             returnIntent.putExtra("result", response.toString());
-                            setResult(AppConstants.FORCED_CANCEL, returnIntent);
+                            setResult(AppConstants.FORCE_CANCELED, returnIntent);
                             finish();
                             utils.printLog("doSimpleRequest", "Success False");
                             utils.printLog("doSimpleRequest", response.toString());

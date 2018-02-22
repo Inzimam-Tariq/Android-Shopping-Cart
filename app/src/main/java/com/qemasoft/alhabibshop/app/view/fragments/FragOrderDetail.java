@@ -30,26 +30,25 @@ import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
 import static com.qemasoft.alhabibshop.app.AppConstants.ORDER_DETAIL_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 24-Oct-17.
  */
 
 public class FragOrderDetail extends MyBaseFragment {
-
+    
     private RecyclerView mRecyclerView;
     private TextView orderIdTV, orderDateTV, orderStatusTV, paymentMethodTV, shippingMethodTV,
             subTotalTV, shippingCostTV, grandTotalTV,
             subTotalTextTV, shippingCostTextTV, grandTotalTextTV;
     private OrderDetailAdapter orderDetailAdapter;
     private List<Product> myOrderList = new ArrayList<>();
-
+    
     public FragOrderDetail() {
         // Required empty public constructor
     }
-
-
+    
+    
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,20 +56,20 @@ public class FragOrderDetail extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_order_detail, container, false);
         initViews(view);
         initUtils();
-
+        
         Bundle bundle = getArguments();
         if (bundle != null) {
             utils.printLog("ID: ", "" + bundle.getString("id", DEFAULT_STRING_VAL));
             requestData(bundle.getString("id", DEFAULT_STRING_VAL));
         }
-
+        
         setupAdaptersAndShowData();
-
+        
         return view;
     }
-
+    
     private void initViews(View view) {
-
+        
         mRecyclerView = view.findViewById(R.id.order_detail_recycler_view);
         orderIdTV = view.findViewById(R.id.order_id_value);
         orderDateTV = view.findViewById(R.id.order_date);
@@ -83,12 +82,12 @@ public class FragOrderDetail extends MyBaseFragment {
         subTotalTextTV = view.findViewById(R.id.sub_total_txt_tv);
         shippingCostTextTV = view.findViewById(R.id.shipping_cost_txt_tv);
         grandTotalTextTV = view.findViewById(R.id.grand_total_txt_tv);
-
+        
     }
-
-
+    
+    
     private void setupAdaptersAndShowData() {
-
+        
         // for Orders
         utils.printLog("Order Data list populated");
         orderDetailAdapter = new OrderDetailAdapter(myOrderList);
@@ -101,24 +100,24 @@ public class FragOrderDetail extends MyBaseFragment {
         mRecyclerView.setAdapter(orderDetailAdapter);
         utils.printLog("Adapter Set Success");
     }
-
+    
     private void requestData(String id) {
-
+        
         AppConstants.setMidFixApi("getOrder");
-
+        
         Map<String, String> map = new HashMap<>();
         map.put("order_id", id);
         utils.printLog("order_id", id);
-
+        
         Bundle bundle = new Bundle();
         bundle.putBoolean("hasParameters", true);
         bundle.putSerializable("parameters", (Serializable) map);
         Intent intent = new Intent(getContext(), FetchData.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, ORDER_DETAIL_REQUEST_CODE);
-
+        
     }
-
+    
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -126,9 +125,9 @@ public class FragOrderDetail extends MyBaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
-
+                    
                     utils.printLog("InsideOnResult");
-
+                    
                     JSONObject order = response.optJSONObject("order");
                     JSONObject orderInfo = order.optJSONObject("order_info");
                     JSONArray products = order.optJSONArray("products");
@@ -141,13 +140,13 @@ public class FragOrderDetail extends MyBaseFragment {
                         myOrderList.add(product);
                         orderDetailAdapter.notifyDataSetChanged();
                     }
-
+                    
                     orderIdTV.setText(orderInfo.optString("order_id"));
                     orderDateTV.setText(orderInfo.optString("date_added"));
                     orderStatusTV.setText(orderInfo.optString("order_status_id"));
                     paymentMethodTV.setText(orderInfo.optString("payment_method"));
                     shippingMethodTV.setText(orderInfo.optString("shipping_method"));
-
+                    
                     JSONArray totals = order.optJSONArray("totals");
                     List<String> totalListText = new ArrayList<>();
                     List<String> totalListValue = new ArrayList<>();
@@ -156,7 +155,7 @@ public class FragOrderDetail extends MyBaseFragment {
                         totalListText.add(productObj.optString("title"));
                         totalListValue.add(productObj.optString("text"));
                     }
-
+                    
                     if (totalListValue.size() > 0) {
                         subTotalTV.setText(totalListValue.get(0));
                         shippingCostTV.setText(totalListValue.get(1));
@@ -167,13 +166,16 @@ public class FragOrderDetail extends MyBaseFragment {
                         shippingCostTextTV.setText(totalListText.get(1));
                         grandTotalTextTV.setText(totalListText.get(2));
                     }
-
+                    
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
             if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
         }
     }

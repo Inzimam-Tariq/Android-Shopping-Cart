@@ -5,61 +5,54 @@
     android:layout_height="?attr/actionBarSize"
     android:layout_gravity="bottom"
     android:background="#f3f3f3"
+    android:clickable="true"
+    android:elevation="5dp"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:layoutDirection="ltr"
     android:theme="@style/AppTheme.SmallText"
     app:popupTheme="@style/AppTheme.PopupOverlay">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
+        android:id="@+id/ab_bottom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        app:cardUseCompatPadding="true">
+        android:gravity="center"
+        android:weightSum="4">
 
-        <LinearLayout
-            android:id="@+id/ab_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:weightSum="4">
+        <ImageView
+            android:id="@+id/my_account_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/image_text"
+            android:gravity="center|center_vertical"
+            app:srcCompat="@drawable/ic_person_black" />
 
-            <ImageView
-                android:id="@+id/my_account_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/image_text"
-                android:gravity="center|center_vertical"
-                app:srcCompat="@drawable/ic_person_black" />
+        <ImageView
+            android:id="@+id/checkout_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|center_vertical"
+            app:srcCompat="@drawable/ic_shopping_cart_black" />
 
-            <ImageView
-                android:id="@+id/checkout_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center|center_vertical"
-                app:srcCompat="@drawable/ic_shopping_cart_black" />
+        <ImageView
+            android:id="@+id/disc_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|center_vertical"
+            app:srcCompat="@drawable/ic_tag_black" />
 
-            <ImageView
-                android:id="@+id/disc_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center|center_vertical"
-                app:srcCompat="@drawable/ic_tag_black" />
+        <ImageView
+            android:id="@+id/home_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center|center_vertical"
+            app:srcCompat="@drawable/ic_home_black" />
 
-            <ImageView
-                android:id="@+id/home_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center|center_vertical"
-                app:srcCompat="@drawable/ic_home_black" />
-
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
 </RelativeLayout>

@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.qemasoft.alhabibshop.app.AppConstants.FORGOT_PASS_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -92,25 +91,34 @@ public class FragForgotPass extends MyBaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 try {
                     final JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    String error = response.optString("message");
-                    if (!error.isEmpty()) {
-                        utils.showErrorDialog(error);
+                    String msg = response.optString("message");
+                    if (!msg.isEmpty()) {
+                        utils.showAlert(R.string.information_text, msg,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else if (resultCode == AppConstants.FORCED_CANCEL) {
+            } else if (resultCode == AppConstants.FORCE_CANCELED) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
-                    String error = response.optString("message");
-                    if (!error.isEmpty()) {
-                        utils.showErrorDialog(error);
+                    String msg = response.optString("message");
+                    if (!msg.isEmpty()) {
+                        utils.showAlert(R.string.information_text, msg,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
             
         }

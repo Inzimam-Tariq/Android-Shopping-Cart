@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/appbar_top"
+
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:orientation="vertical"
-    android:elevation="5dp"
+    android:elevation="4dp"
     android:theme="@style/AppTheme.SmallText"
     app:popupTheme="@style/AppTheme.PopupOverlay">
 
     <RelativeLayout
         android:id="@+id/toolbar_layout"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent">
 
 
@@ -19,8 +18,6 @@
             android:id="@+id/drawer_icon_left"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:paddingEnd="5dp"
-            android:paddingStart="5dp"
             android:scaleX="-1"
             app:srcCompat="@drawable/ic_list_black" />
 
@@ -58,9 +55,9 @@
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
-                app:srcCompat="@drawable/cart_icon" />
+                app:srcCompat="@drawable/ic_cart" />
 
             <!-- Badge Count -->
             <TextView
@@ -86,4 +83,4 @@
             app:srcCompat="@drawable/ic_search_black" />
     </RelativeLayout>
 
-</RelativeLayout>
+</android.support.v7.widget.Toolbar>

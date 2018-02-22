@@ -2,8 +2,8 @@ package com.qemasoft.alhabibshop.app.view.activities;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,9 +12,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.ActionMenuView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -59,18 +61,21 @@ import java.util.Map;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static android.support.v7.app.AppCompatDelegate.setCompatVectorFromResourcesEnabled;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CURRENCY_SYMBOL_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
+import static com.qemasoft.alhabibshop.app.AppConstants.FORCE_CANCELED;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LANGUAGE_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_KEY;
 import static com.qemasoft.alhabibshop.app.AppConstants.LOGO_TYPE;
+import static com.qemasoft.alhabibshop.app.AppConstants.PRIMARY_COLOR;
 import static com.qemasoft.alhabibshop.app.AppConstants.SEARCH_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
+import static com.qemasoft.alhabibshop.app.AppConstants.getHomeExtra;
 
 /**
  * Created by Inzimam Tariq on 18/10/2017.
@@ -78,10 +83,8 @@ import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     
-    public static final String KEY_EXTRA = "com.qemasoft.alhabibshop.app" + "getMainScreenExtra";
-    
     static {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        setCompatVectorFromResourcesEnabled(true);
     }
     
     public TextView counterTV;
@@ -124,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private HashMap<MenuCategory, List<MenuSubCategory>> hashMapCategory;
     
     
-    private RelativeLayout appbarTop, appbarBottom, toolbarLayout;
+    private RelativeLayout appbarTop, toolbarLayout;//appbarBottom,
     private LinearLayout drawerCategory, drawerUser;
     private ImageView myAccountTV, checkoutTV, discountTV, homeTV;
     private TextView siteName, discountedCategoryTV;
@@ -141,17 +144,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         
         this.utils = new Utils(this);
-        
+        utils.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initViews();
+        
+        Toolbar toolbar = findViewById(R.id.toolbar_top);
+        setSupportActionBar(toolbar);
         this.context = this;
         setupToolbar(this);
         utils.getUniqueId();
         utils.switchFragment(new MainFrag());
 //        setCompoundDrawable();
         setOnClickListener();
-        
+        applyThemeConfig(toolbar);
         initRightMenuData();
         initLeftMenuData();
         
@@ -175,12 +182,78 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
     }
     
-    private void setOnClickListener() {
+    private void applyThemeConfig(Toolbar toolbar) {
+        String primaryColor = Preferences.getSharedPreferenceString(
+                appContext, PRIMARY_COLOR, "#EC7625");
         
-        myAccountTV.setOnClickListener(this);
-        checkoutTV.setOnClickListener(this);
-        discountTV.setOnClickListener(this);
-        homeTV.setOnClickListener(this);
+        utils.printLog("MainApplyThemeConfig", "pColor = " + primaryColor);
+        if (!primaryColor.isEmpty()) {
+            toolbar.setBackgroundColor(Color.parseColor(primaryColor));
+        }
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the toolbar menu
+//        getMenuInflater().inflate(R.menu.menu_bottom, menu);
+        
+        // Inflate and initialize the bottom menu
+        ActionMenuView bottomBar = findViewById(R.id.bottom_toolbar);
+        Menu bottomMenu = bottomBar.getMenu();
+        getMenuInflater().inflate(R.menu.menu_bottom, bottomMenu);
+        for (int i = 0; i < bottomMenu.size(); i++) {
+            bottomMenu.getItem(i).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    return onOptionsItemSelected(item);
+                }
+            });
+        }
+        
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        
+        switch (item.getItemId()) {
+            case R.id.nav_account:
+                if (utils.isLoggedIn())
+                    utils.switchFragment(new Dashboard());
+                else utils.switchFragment(new FragLogin());
+                break;
+            case R.id.nav_cart:
+                if (utils.isLoggedIn()) {
+                    utils.switchFragment(new FragCheckout());
+                } else {
+                    utils.showAlert(R.string.continue_text, R.string.please_select,
+                            true,
+                            R.string.login_text, new FragLogin(),
+                            R.string.action_register_text, new FragRegister());
+                }
+                break;
+            case R.id.nav_disc:
+                utils.printLog("From = Main Act");
+                Bundle bundle = new Bundle();
+                bundle.putString("from", "mainActivity");
+                utils.switchFragment(new FragProduct(), bundle);
+                break;
+            case R.id.nav_home:
+                utils.switchFragment(new MainFrag());
+                break;
+            default:
+            
+        }
+        return super.onOptionsItemSelected(item);
+        
+    }
+    
+    private void setOnClickListener() {
+
+//        myAccountTV.setOnClickListener(this);
+//        checkoutTV.setOnClickListener(this);
+//        discountTV.setOnClickListener(this);
+//        homeTV.setOnClickListener(this);
         searchIcon.setOnClickListener(this);
         cartLayout.setOnClickListener(this);
 //        closeRightDrawerIV.setOnClickListener(this);
@@ -306,7 +379,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     
                     Preferences.setSharedPreferenceString(appContext,
                             LANGUAGE_KEY, lang);
-                    recreate();
+//                    recreate();
+                    Intent mStartActivity = new Intent(context, MainActivity.class);
+                    startActivity(mStartActivity);
                 } else if (str.contains("دقة") || str.contains("Currency")) {
                     makeDefaultCurrencyCall(userSubMenu.getUserSubMenuCode());
                 }
@@ -339,38 +414,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     
     private void setupToolbar(Context context) {
         
-        String toolbarColor = Preferences.getSharedPreferenceString(appContext,
-                "toolbar_color", "");
-        String drawerColor = Preferences.getSharedPreferenceString(appContext,
-                "nav_drawer_color", "");
-        String footerColor = Preferences.getSharedPreferenceString(appContext,
-                "footer_color", "");
-        if (toolbarColor != null && !toolbarColor.isEmpty())
-            toolbarLayout.setBackgroundColor(Color.parseColor(toolbarColor));
-        if (footerColor != null && !footerColor.isEmpty())
-            appbarBottom.setBackgroundColor(Color.parseColor(footerColor));
-        if (drawerColor != null && !drawerColor.isEmpty()) {
-            drawerUser.setBackgroundColor(Color.parseColor(drawerColor));
-            drawerCategory.setBackgroundColor(Color.parseColor(drawerColor));
-        }
-//        boolean isRightToLeft = TextUtilsCompat.getLayoutDirectionFromLocale(Locale
-//                .getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
-//        int menuType = Preferences.getSharedPreferenceInt(appContext, MENU_TYPE, 0);
-//        utils.printLog("MenuType = " + menuType);
-//        if (menuType == 1) {
-////            ViewCompat.setLayoutDirection(appbarBottom, ViewCompat.LAYOUT_DIRECTION_RTL);
-////            ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_LTR);
-//            ViewCompat.setLayoutDirection(drawer, ViewCompat.LAYOUT_DIRECTION_LTR);
-//
-//        } else {
-//            if (Build.VERSION.SDK_INT > JELLY_BEAN_MR1) {
-//                ViewCompat.setLayoutDirection(drawer, ViewCompat.LAYOUT_DIRECTION_RTL);
-//            }
-////            ViewCompat.setLayoutDirection(appbarTop, ViewCompat.LAYOUT_DIRECTION_LTR);
-////            ViewCompat.setLayoutDirection(drawerUser, ViewCompat.LAYOUT_DIRECTION_LTR);
-////            ViewCompat.setLayoutDirection(drawerCategory, ViewCompat.LAYOUT_DIRECTION_LTR);
-//        }
-        
         
         utils.setItemCount();
 
@@ -397,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         
         
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        setCompatVectorFromResourcesEnabled(true);
         actionbarToggle();
         drawer.addDrawerListener(mDrawerToggle);
         
@@ -445,8 +488,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerUser = findViewById(R.id.user_menu);
 //        closeLeftDrawerIV = findViewById(R.id.close_left_drawer_iv);
 //        closeRightDrawerIV = findViewById(R.id.close_right_drawer_iv);
-        
-        appbarBottom = findViewById(R.id.appbar_bottom);
+
+//        appbarBottom = findViewById(R.id.appbar_bottom);
         appbarTop = findViewById(R.id.appbar_top);
         toolbarLayout = findViewById(R.id.toolbar_layout);
         myAccountTV = findViewById(R.id.my_account_tv);
@@ -467,13 +510,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             drawer.closeDrawer(GravityCompat.END);
         } else {
             clicks++;
-            if (clicks == 1) {
-                Toast.makeText(context, findStringByName("exit_app_text"),
-                        Toast.LENGTH_SHORT).show();
+            
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager.getBackStackEntryCount() != 0) {
+                fragmentManager.popBackStack();
+            } else {
+                if (clicks == 1) {
+                    Toast.makeText(context, findStringByName("exit_app_text"),
+                            Toast.LENGTH_SHORT).show();
+                }
+                if (clicks % 2 == 0) {
+                    super.onBackPressed();
+                }
             }
-            if (clicks % 2 == 0) {
-                super.onBackPressed();
-            }
+            
             
         }
     }
@@ -488,8 +538,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             
             case 103:
                 if (utils.isLoggedIn())
-                    utils.switchFragment(new Dashboard());
-                else utils.switchFragment(new FragLogin());
+                    fragment = new Dashboard();
+                else fragment = new FragLogin();
                 break;
             case 104:
                 fragment = new FragEditAccount();
@@ -514,6 +564,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         
         transaction.replace(R.id.flFragments, fragment);
+        transaction.addToBackStack(null);
         transaction.commit();
         
     }
@@ -544,52 +595,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 
             }
         }
-        String responseStr = "";
-        if (getIntent().hasExtra(KEY_EXTRA)) {
-            responseStr = getIntent().getStringExtra(KEY_EXTRA);
-            utils.printLog("ResponseInInitData", responseStr);
-            try {
-                JSONObject responseObject = new JSONObject(responseStr);
-                boolean success = responseObject.optBoolean("success");
-                if (success) {
-                    try {
-                        JSONObject homeObject = responseObject.getJSONObject("home");
-                        JSONArray slideshow = homeObject.optJSONArray("slideshow");
-                        AppConstants.setSlideshowExtra(slideshow.toString());
-                        JSONArray menuRight = homeObject.optJSONArray("usermenu");
+        String responseStr = getHomeExtra();
+        utils.printLog("ResponseInInitData", responseStr);
+        try {
+            JSONObject responseObject = new JSONObject(responseStr);
+            boolean success = responseObject.optBoolean("success");
+            if (success) {
+                try {
+                    JSONObject homeObject = responseObject.getJSONObject("home");
+                    JSONArray slideshow = homeObject.optJSONArray("slideshow");
+                    AppConstants.setSlideshowExtra(slideshow.toString());
+                    JSONArray menuRight = homeObject.optJSONArray("usermenu");
+                    
+                    for (int z = 0; z < menuRight.length(); z++) {
+                        List<UserSubMenu> userSubMenuList = new ArrayList<>();
+                        JSONObject object = menuRight.getJSONObject(z);
+                        headerListUser.add(object.optString("name"));
+                        JSONArray childArray = object.optJSONArray("children");
                         
-                        for (int z = 0; z < menuRight.length(); z++) {
-                            List<UserSubMenu> userSubMenuList = new ArrayList<>();
-                            JSONObject object = menuRight.getJSONObject(z);
-                            headerListUser.add(object.optString("name"));
-                            JSONArray childArray = object.optJSONArray("children");
-                            
-                            for (int y = 0; y < childArray.length(); y++) {
-                                JSONObject obj = childArray.optJSONObject(y);
-                                userSubMenuList.add(new UserSubMenu(obj.optString("code"),
-                                        obj.optString("title"),
-                                        obj.optString("symbol_left"),
-                                        obj.optString("symbol_right"),
-                                        obj.optString("image")));
-                            }
-                            hashMapUser.put(headerListUser.get(headerListUser.size() - 1), userSubMenuList);
-                            utils.printLog("AfterHashMap", "" + hashMapUser.size());
+                        for (int y = 0; y < childArray.length(); y++) {
+                            JSONObject obj = childArray.optJSONObject(y);
+                            userSubMenuList.add(new UserSubMenu(obj.optString("code"),
+                                    obj.optString("title"),
+                                    obj.optString("symbol_left"),
+                                    obj.optString("symbol_right"),
+                                    obj.optString("image")));
                         }
-                        
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        hashMapUser.put(headerListUser.get(headerListUser.size() - 1), userSubMenuList);
+                        utils.printLog("AfterHashMap", "" + hashMapUser.size());
                     }
-                } else {
-                    utils.showErrorDialog("Error Getting Data From Server");
-                    utils.printLog("SuccessFalse", "Within getCategories");
+                    
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                utils.printLog("JSONObjEx_MainAct", responseStr);
+            } else {
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
+                utils.printLog("SuccessFalse", "Within getCategories");
             }
-        } else {
-            utils.printLog("ResponseExMainActivity", responseStr);
-            throw new IllegalArgumentException("Activity cannot find  extras " + KEY_EXTRA);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            utils.printLog("JSONObjEx_MainAct", responseStr);
         }
         
     }
@@ -625,55 +673,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         headerListCategory = new ArrayList<>();
         hashMapCategory = new HashMap<>();
         
-        String responseStr = "";
-        if (getIntent().hasExtra(KEY_EXTRA)) {
-            responseStr = getIntent().getStringExtra(KEY_EXTRA);
-            utils.printLog("ResponseInMainActivity", responseStr);
-            try {
-                JSONObject responseObject = new JSONObject(responseStr);
-                utils.printLog("JSON_Response", "" + responseObject);
-                boolean success = responseObject.optBoolean("success");
-                if (success) {
-                    try {
-                        JSONObject homeObject = responseObject.getJSONObject("home");
+        String responseStr = getHomeExtra();
+        utils.printLog("ResponseInMainActivity", responseStr);
+        try {
+            JSONObject responseObject = new JSONObject(responseStr);
+            utils.printLog("JSON_Response", "" + responseObject);
+            boolean success = responseObject.optBoolean("success");
+            if (success) {
+                try {
+                    JSONObject homeObject = responseObject.getJSONObject("home");
+                    
+                    JSONArray menuCategories = homeObject.optJSONArray("categoryMenu");
+                    utils.printLog("Categories", menuCategories.toString());
+                    for (int i = 0; i < menuCategories.length(); i++) {
                         
-                        JSONArray menuCategories = homeObject.optJSONArray("categoryMenu");
-                        utils.printLog("Categories", menuCategories.toString());
-                        for (int i = 0; i < menuCategories.length(); i++) {
-                            
-                            JSONObject menuCategoryObj = menuCategories.getJSONObject(i);
-                            JSONArray menuSubCategoryArray = menuCategoryObj.optJSONArray(
-                                    "children");
-                            
-                            List<MenuSubCategory> childMenuList = new ArrayList<>();
-                            for (int j = 0; j < menuSubCategoryArray.length(); j++) {
-                                JSONObject menuSubCategoryObj = menuSubCategoryArray.getJSONObject(j);
-                                MenuSubCategory menuSubCategory = new MenuSubCategory(
-                                        menuSubCategoryObj.optString("child_id"),
-                                        menuSubCategoryObj.optString("name"));
-                                childMenuList.add(menuSubCategory);
-                            }
-                            MenuCategory menuCategory = new MenuCategory(menuCategoryObj.optString(
-                                    "category_id"), menuCategoryObj.optString("name"),
-                                    menuCategoryObj.optString("icon"), childMenuList);
-                            headerListCategory.add(menuCategory);
-                            hashMapCategory.put(headerListCategory.get(i), menuCategory.getMenuSubCategory());
+                        JSONObject menuCategoryObj = menuCategories.getJSONObject(i);
+                        JSONArray menuSubCategoryArray = menuCategoryObj.optJSONArray(
+                                "children");
+                        
+                        List<MenuSubCategory> childMenuList = new ArrayList<>();
+                        for (int j = 0; j < menuSubCategoryArray.length(); j++) {
+                            JSONObject menuSubCategoryObj = menuSubCategoryArray.getJSONObject(j);
+                            MenuSubCategory menuSubCategory = new MenuSubCategory(
+                                    menuSubCategoryObj.optString("child_id"),
+                                    menuSubCategoryObj.optString("name"));
+                            childMenuList.add(menuSubCategory);
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        MenuCategory menuCategory = new MenuCategory(menuCategoryObj.optString(
+                                "category_id"), menuCategoryObj.optString("name"),
+                                menuCategoryObj.optString("icon"), childMenuList);
+                        headerListCategory.add(menuCategory);
+                        hashMapCategory.put(headerListCategory.get(i), menuCategory.getMenuSubCategory());
                     }
-                } else {
-                    utils.showErrorDialog(findStringByName("error_fetching_data"));
-                    utils.printLog("SuccessFalse", "Within getCategories");
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                utils.printLog("JSONObjEx_MainAct", responseStr);
+            } else {
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
+                utils.printLog("SuccessFalse", "Within getCategories");
             }
-        } else {
-            utils.printLog("ResponseExMainActivity", responseStr);
-            throw new IllegalArgumentException("Activity cannot find  extras " + KEY_EXTRA);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            utils.printLog("JSONObjEx_MainAct", responseStr);
         }
+        
     }
     
     private void actionbarToggle() {
@@ -740,6 +786,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 utils.switchFragment(new Dashboard());
             else utils.switchFragment(new FragLogin());
         } else if (id == R.id.disc_tv) {
+            
             utils.printLog("From = Main Act");
             Bundle bundle = new Bundle();
             bundle.putString("from", "mainActivity");
@@ -750,30 +797,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (utils.isLoggedIn()) {
                 utils.switchFragment(new FragCheckout());
             } else {
-                AlertDialog alertDialog = utils.showAlertDialogReturnDialog(
-                        findStringByName("continue_text"),
-                        findStringByName("please_select"));
-//
-                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,
-                        findStringByName("login_text"), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                
-                                utils.switchFragment(new FragLogin());
-                            }
-                        });
-                alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL,
-                        findStringByName("action_register_text"), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                
-                                utils.switchFragment(new FragRegister());
-                            }
-                        });
-                alertDialog.show();
+                utils.showAlert(R.string.information_text, R.string.login_or_register,
+                        false,
+                        R.string.login_text, new FragLogin(),
+                        R.string.register, new FragRegister());
             }
         } else if (id == R.id.home_tv) {
-            utils.switchFragment(new MainFrag());
+//            utils.switchFragment(new MainFrag());
             recreate();
             //            utils.switchFragment(new LoginMaterial());
         } else if (id == R.id.search_icon) {
@@ -829,13 +859,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 bundle.putString("id", responseStr);
                                 bundle.putString("from", "fromSearch");
                                 utils.switchFragment(new FragProduct(), bundle);
-                            } else {
-                                utils.showAlertDialog("Alert", responseStr);
                             }
                         }
-                    } else if (resultCode == FORCED_CANCEL) {
+                    } else if (resultCode == FORCE_CANCELED) {
+                        utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                         utils.printLog("WithinSearchResult", "If Success False" + responseStr);
                     } else if (resultCode == Activity.RESULT_CANCELED) {
+                        utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                         utils.printLog("WithinSearchResult", "Result Cancel" + responseStr);
                     }
                 }

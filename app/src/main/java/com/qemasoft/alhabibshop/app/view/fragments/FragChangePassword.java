@@ -1,13 +1,11 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +24,11 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CHANGE_PASS_REQUEST_CODE;
 import static com.qemasoft.alhabibshop.app.AppConstants.CUSTOMER_EMAIL;
 import static com.qemasoft.alhabibshop.app.AppConstants.DEFAULT_STRING_VAL;
-import static com.qemasoft.alhabibshop.app.AppConstants.FORCED_CANCEL;
+import static com.qemasoft.alhabibshop.app.AppConstants.FORCE_CANCELED;
 import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 
 /**
  * Created by Inzimam on 24-Oct-17.
@@ -72,13 +68,13 @@ public class FragChangePassword extends MyBaseFragment {
                 String confirmPassVal = confirmPass.getText().toString().trim();
                 
                 if (!newPassVal.equals(confirmPassVal)) {
-                    utils.showErrorDialog(findStringByName("pass_mis_match"));
+                    utils.showAlert(R.string.information_text, R.string.pass_mis_match,
+                            false,
+                            R.string.ok, null,
+                            R.string.cancel_text, null);
                     return;
                 }
-                if (!newPassVal.equals(confirmPassVal)) {
-                    confirmPass.setError(findStringByName("pass_mis_match"));
-                    return;
-                }
+                
                 if (currentPassVal.length() < 1) {
                     utils.setError(currentPass);
                 } else if (newPassVal.length() < 1) {
@@ -132,28 +128,24 @@ public class FragChangePassword extends MyBaseFragment {
                     
                     String message = response.optString("message");
                     if (message.length() > 0) {
-                        AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                                findStringByName("information_text"), message);
-                        dialog.setButton(BUTTON_POSITIVE, findStringByName("ok"),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                        utils.switchFragment(new Dashboard());
-                                    }
-                                });
-                        dialog.show();
+                        utils.showAlert(R.string.information_text, message,
+                                false,
+                                R.string.ok, new Dashboard(),
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            if (resultCode == FORCED_CANCEL) {
+            if (resultCode == FORCE_CANCELED) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
                     String error = response.optString("message");
                     if (!error.isEmpty()) {
-                        utils.showErrorDialog(error);
+                        utils.showAlert(R.string.information_text, error,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -164,19 +156,15 @@ public class FragChangePassword extends MyBaseFragment {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
                     String message = response.optString("message");
                     if (message.length() > 0) {
-                        AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                                findStringByName("an_error"), message);
-                        dialog.setButton(BUTTON_POSITIVE, findStringByName("ok"),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog,
-                                                        int which) {
-                                    }
-                                });
-                        dialog.show();
+                        utils.showAlert(R.string.information_text, message,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     } else {
-                        utils.showAlertDialog(findStringByName("information_text"),
-                                findStringByName("error_fetching_data"));
+                        utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

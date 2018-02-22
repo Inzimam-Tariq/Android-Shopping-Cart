@@ -1,10 +1,10 @@
 package com.qemasoft.alhabibshop.app.controller;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +24,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
+import static com.qemasoft.alhabibshop.app.AppConstants.ACCENT_COLOR;
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 
 /**
@@ -38,6 +39,8 @@ public class CartDetailAdapter
     private Context context;
     private Utils utils;
     private boolean isFromCheckout;
+    private String accentColor = Preferences.getSharedPreferenceString(
+            appContext, ACCENT_COLOR, "#EC7625");
     
     public CartDetailAdapter(List<MyCartDetail> myCartDetailList, boolean isFromCheckout) {
         this.myCartDetailList = myCartDetailList;
@@ -52,7 +55,7 @@ public class CartDetailAdapter
         
         int layoutId;
         if (isFromCheckout) {
-            layoutId = R.layout.layout_confirn_cart_new;
+            layoutId = R.layout.layout_confirm_cart_new;
         } else {
             layoutId = R.layout.layout_cart_new;
         }
@@ -97,6 +100,7 @@ public class CartDetailAdapter
             String p = data.getOrderQty().concat("x")
                     .concat(data.getProductPrice().concat("").concat(symbol));
             holder.productPrice.setText(p);
+            holder.productPrice.setTextColor(Color.parseColor(accentColor));
 //            holder.total.setText(data.getTotal().concat("").concat(symbol));
             
             String imgPath = data.getProductImage();
@@ -183,8 +187,12 @@ public class CartDetailAdapter
                 } else if (id == R.id.update_cart_ibtn_minus) {
                     
                     if (quantity <= 1) {
-                        utils.showAlertDialog(findStringByName("information_text"),
-                                findStringByName("quantity_info"));
+//                        utils.showAlertDialog(findStringByName("information_text"),
+//                                findStringByName("quantity_info"));
+                        utils.showAlert(R.string.information_text, R.string.quantity_info,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                         return;
                     } else {
                         --quantity;

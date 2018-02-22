@@ -7,23 +7,21 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/textColorTitle</item>
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <item name="buttonStyle">@style/ButtonStyle.Default</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Default</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Default</item>
     </style>
 
     <style name="AppTheme.SmallText">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">11sp</item>
     </style>
-
-    <!--<style name="NavigationDrawerStyle">-->
-        <!--<item name="android:textSize">20sp</item>&lt;!&ndash; text size in menu&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="android:listPreferredItemHeightSmall">40dp</item>&lt;!&ndash; item size in menu&ndash;&gt;&ndash;&gt;-->
-        <!--&lt;!&ndash;<item name="listPreferredItemHeightSmall">40dp</item>&lt;!&ndash; item size in menu&ndash;&gt;&ndash;&gt;-->
-    <!--</style>-->
 
     <style name="AppTheme.ProgressTheme">
         <item name="colorAccent">@color/colorPrimaryDark</item>
@@ -49,6 +47,11 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="HeaderBar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textAppearance">@android:style/TextAppearance</item>
+    </style>
 
 
     <style name="Theme.Transparent" parent="Theme.AppCompat.Light.Dialog.Alert">
@@ -137,6 +140,7 @@
     <style name="BoldTextViewStyle" parent="@android:style/Widget.TextView">
         <item name="fontPath">fonts/DroidKufi-Bold.ttf</item>
     </style>
+
     <style name="HeadingStyleTextView" parent="@android:style/Widget.TextView">
         <item name="fontPath">fonts/DroidKufi-Bold.ttf</item>
         <item name="android:textSize">13sp</item>
@@ -150,7 +154,359 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:editTextStyle">@style/CustomETStyle</item>
+        <item name="android:editTextStyle">@style/AppTheme.MaterialEditText</item>
+    </style>
+
+
+    <style name="ButtonStyle" parent="Widget.AppCompat.Button">
+        <!-- Customize your theme here. -->
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+    <style name="ButtonStyle.Default">
+        <item name="android:background">@color/colorPrimaryDark</item>
+    </style>
+
+
+    <style name="MaterialRed" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryRed</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkRed</item>
+        <item name="colorAccent">@color/colorAccentRed</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Red</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Red</item>
+
+    </style>
+
+    <style name="ButtonStyle.Red">
+        <item name="android:background">@color/colorPrimaryDarkRed</item>
+    </style>
+
+    <style name="MaterialPink" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryPink</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkPink</item>
+        <item name="colorAccent">@color/colorAccentPink</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Pink</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Pink</item>
+
+    </style>
+
+    <style name="ButtonStyle.Pink">
+        <item name="android:background">@color/colorPrimaryDarkPink</item>
+    </style>
+
+    <style name="MaterialPurple" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryPurple</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkPurple</item>
+        <item name="colorAccent">@color/colorAccentPurple</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Purple</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Purple</item>
+
+    </style>
+
+    <style name="ButtonStyle.Purple">
+        <item name="android:background">@color/colorPrimaryDarkPurple</item>
+    </style>
+
+    <style name="MaterialDeepPurple" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryDeepPurple</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDeepPurple</item>
+        <item name="colorAccent">@color/colorAccentDeepPurple</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.DeepPurple</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.DeepPurple</item>
+
+    </style>
+
+    <style name="ButtonStyle.DeepPurple">
+        <item name="android:background">@color/colorPrimaryDarkDeepPurple</item>
+    </style>
+
+    <style name="MaterialIndigo" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryIndigo</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkIndigo</item>
+        <item name="colorAccent">@color/colorAccentIndigo</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Indigo</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Indigo</item>
+
+    </style>
+
+    <style name="ButtonStyle.Indigo">
+        <item name="android:background">@color/colorPrimaryDarkIndigo</item>
+    </style>
+
+
+    <!--Blue Theme-->
+    <style name="MaterialBlue" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryBlue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlue</item>
+        <item name="colorAccent">@color/colorAccentBlue</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Blue</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Blue</item>
+
+    </style>
+
+    <style name="ButtonStyle.Blue">
+        <item name="android:background">@color/colorPrimaryDarkBlue</item>
+    </style>
+
+    <!--Cyan Theme-->
+    <style name="MaterialCyan" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryCyan</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkCyan</item>
+        <item name="colorAccent">@color/colorAccentCyan</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Cyan</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Cyan</item>
+
+    </style>
+
+    <style name="ButtonStyle.Cyan">
+        <item name="android:background">@color/colorPrimaryDarkCyan</item>
+    </style>
+
+    <!--// Teal Theme-->
+    <style name="MaterialTeal" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryTeal</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkTeal</item>
+        <item name="colorAccent">@color/colorAccentTeal</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Teal</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Teal</item>
+
+    </style>
+
+    <style name="ButtonStyle.Teal">
+        <item name="android:background">@color/colorPrimaryDarkTeal</item>
+    </style>
+
+    <!--Green Theme-->
+    <style name="MaterialGreen" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryGreen</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGreen</item>
+        <item name="colorAccent">@color/colorAccentGreen</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Green</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Green</item>
+
+    </style>
+
+    <style name="ButtonStyle.Green">
+        <item name="android:background">@color/colorPrimaryDarkGreen</item>
+    </style>
+
+    <!--// LightGreen Theme-->
+    <style name="MaterialLightGreen" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryLightGreen</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLightGreen</item>
+        <item name="colorAccent">@color/colorAccentLightGreen</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.LightGreen</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.LightGreen</item>
+
+    </style>
+
+    <style name="ButtonStyle.LightGreen">
+        <item name="android:background">@color/colorPrimaryDarkLightGreen</item>
+    </style>
+
+    <!--Lime Theme-->
+    <style name="MaterialLime" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryLime</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLime</item>
+        <item name="colorAccent">@color/colorAccentLime</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Lime</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Lime</item>
+
+    </style>
+
+    <style name="ButtonStyle.Lime">
+        <item name="android:background">@color/colorPrimaryDarkLime</item>
+    </style>
+
+    <!--Yellow Theme-->
+    <style name="MaterialYellow" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryYellow</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkYellow</item>
+        <item name="colorAccent">@color/colorAccentYellow</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Yellow</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Yellow</item>
+
+    </style>
+
+    <style name="ButtonStyle.Yellow">
+        <item name="android:background">@color/colorPrimaryDarkYellow</item>
+    </style>
+
+    <!--Amber Theme-->
+    <style name="MaterialAmber" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryAmber</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkAmber</item>
+        <item name="colorAccent">@color/colorAccentAmber</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Amber</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Amber</item>
+
+    </style>
+
+    <style name="ButtonStyle.Amber">
+        <item name="android:background">@color/colorPrimaryDarkAmber</item>
+    </style>
+
+    <!--Orange Theme-->
+    <style name="MaterialOrange" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryOrange</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkOrange</item>
+        <item name="colorAccent">@color/colorAccentOrange</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Orange</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Orange</item>
+
+    </style>
+
+    <style name="ButtonStyle.Orange">
+        <item name="android:background">@color/colorPrimaryDarkOrange</item>
+    </style>
+
+    <!--Deep Orange Theme-->
+    <style name="MaterialDeepOrange" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryDeepOrange</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDeepOrange</item>
+        <item name="colorAccent">@color/colorAccentDeepOrange</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.DeepOrange</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.DeepOrange</item>
+
+    </style>
+
+    <style name="ButtonStyle.DeepOrange">
+        <item name="android:background">@color/colorPrimaryDarkDeepOrange</item>
+    </style>
+
+    <!--Brown Theme-->
+    <style name="MaterialBrown" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryBrown</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBrown</item>
+        <item name="colorAccent">@color/colorAccentBrown</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Brown</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Brown</item>
+
+    </style>
+
+    <style name="ButtonStyle.Brown">
+        <item name="android:background">@color/colorPrimaryDarkBrown</item>
+    </style>
+
+    <!--Grey Theme-->
+    <style name="MaterialGrey" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryGrey</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkGrey</item>
+        <item name="colorAccent">@color/colorAccentGrey</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Grey</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.Grey</item>
+
+    </style>
+
+    <style name="ButtonStyle.Grey">
+        <item name="android:background">@color/colorPrimaryDarkGrey</item>
+    </style>
+
+    <!--Blue Grey Theme-->
+    <style name="MaterialBlueGrey" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="colorPrimary">@color/colorPrimaryBlueGrey</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkBlueGrey</item>
+        <item name="colorAccent">@color/colorAccentBlueGrey</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.BlueGrey</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.BlueGrey</item>
+
+    </style>
+
+    <style name="ButtonStyle.BlueGrey">
+        <item name="android:background">@color/colorPrimaryDarkBlueGrey</item>
     </style>
 
 </resources>

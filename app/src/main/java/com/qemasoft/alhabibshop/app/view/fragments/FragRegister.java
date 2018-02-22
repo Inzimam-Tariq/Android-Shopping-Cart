@@ -1,13 +1,11 @@
 package com.qemasoft.alhabibshop.app.view.fragments;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +27,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import static android.content.DialogInterface.BUTTON_NEGATIVE;
-import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static com.qemasoft.alhabibshop.app.AppConstants.REGISTER_REQUEST_CODE;
-import static com.qemasoft.alhabibshop.app.AppConstants.findStringByName;
 import static com.qemasoft.alhabibshop.app.AppConstants.getApiCallUrl;
 
 /**
@@ -61,7 +56,7 @@ public class FragRegister extends MyBaseFragment {
         View view = inflater.inflate(R.layout.frag_register, container, false);
         initUtils();
         initViews(view);
-
+        applyAccent();
 //        guestCheck();
         
         inputLayoutPassword.setTypeface(Typeface.createFromAsset(context.getAssets(),
@@ -108,12 +103,17 @@ public class FragRegister extends MyBaseFragment {
                 if (rePassVal.isEmpty()) utils.setError(confirmPass);
                 boolean hasReadPrivacyPolicy = privacyPolicyCheck();
                 if (!passVal.equals(rePassVal)) {
-                    utils.showErrorDialog(findStringByName("pass_mis_match"));
+                    utils.showAlert(R.string.information_text, R.string.pass_mis_match,
+                            false,
+                            R.string.ok, null,
+                            R.string.cancel_text, null);
                     return;
                 }
                 if (!hasReadPrivacyPolicy) {
-                    utils.showAlertDialog(findStringByName("information_text"),
-                            findStringByName("read_privacy_policy"));
+                    utils.showAlert(R.string.information_text, R.string.read_privacy_policy,
+                            false,
+                            R.string.ok, null,
+                            R.string.cancel_text, null);
                     return;
                 }
                 utils.printLog("InsideLoginClicked = ", "Inside if");
@@ -135,13 +135,17 @@ public class FragRegister extends MyBaseFragment {
                     intent.putExtras(bundle);
                     startActivityForResult(intent, REGISTER_REQUEST_CODE);
                     
-                } else {
-                    utils.showInternetErrorDialog();
                 }
             }
         });
         
         return view;
+    }
+    
+    
+    private void applyAccent() {
+        utils.applyAccentColor(privacyPolicyTV);
+        utils.applyAccentColor(clickLoginTV);
     }
     
     
@@ -183,42 +187,32 @@ public class FragRegister extends MyBaseFragment {
                     final String msg = response.optString("message");
                     if (!msg.isEmpty()) {
                         
-                        AlertDialog dialog = utils.showAlertDialogReturnDialog(
-                                findStringByName("information_text"), msg);
-                        dialog.setButton(BUTTON_POSITIVE,
-                                findStringByName("continue_text"),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        utils.switchFragment(new Dashboard());
-                                    }
-                                });
-                        dialog.setButton(BUTTON_NEGATIVE,
-                                findStringByName("login_text"),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        utils.switchFragment(new FragLogin());
-                                    }
-                                });
-                        dialog.show();
-                        
+                        utils.showAlert(R.string.information_text, msg,
+                                false,
+                                R.string.continue_text, new Dashboard(),
+                                R.string.login_text, new FragLogin());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else if (resultCode == AppConstants.FORCED_CANCEL) {
+            } else if (resultCode == AppConstants.FORCE_CANCELED) {
                 try {
                     JSONObject response = new JSONObject(data.getStringExtra("result"));
                     String msg = response.optString("message");
                     if (!msg.isEmpty()) {
-                        utils.showAlertDialog(findStringByName("information_text"),msg);
+                        utils.showAlert(R.string.information_text, msg,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             } else if (resultCode == Activity.RESULT_CANCELED) {
-                utils.showErrorDialog(findStringByName("error_fetching_data"));
+                utils.showAlert(R.string.an_error, R.string.error_fetching_data,
+                        false,
+                        R.string.ok, null,
+                        R.string.cancel_text, null);
             }
             
         }

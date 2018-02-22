@@ -44,7 +44,7 @@ public class AppConstants {
     public static final int PLACE_ORDER_REQUEST_CODE = 26;
     public static final int LANGUAGE_REQUEST_CODE = 27;
     public static final int CURRENCY_REQUEST_CODE = 28;
-    public static final int FORCED_CANCEL = 2;
+    public static final int FORCE_CANCELED = 2;
     
     public static final String DEFAULT_STRING_VAL = "";
     public static final String UNIQUE_ID_KEY = "UNIQUE_ID_KEY";
@@ -67,8 +67,11 @@ public class AppConstants {
     public static final String LEFT = "left";
     public static final String TOP = "top";
     public static final String BOTTOM = "bottom";
-    //    private static final String BASE_URL = "https://www.opencartgulf.com/api/";
-    private static final String BASE_URL = "https://www.alhabibshop.com/api/";
+    public static final String PRIMARY_COLOR = "PRIMARY_COLOR";
+    public static final String ACCENT_COLOR = "ACCENT_COLOR";
+    public static final String THEME_CODE = "ThemeCode";
+    private static final String BASE_URL = "https://www.opencartgulf.com/api/";
+    //    private static final String BASE_URL = "https://www.alhabibshop.com/api/";
     //    private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     
@@ -76,8 +79,8 @@ public class AppConstants {
     private static String MID_FIX_API;
     private static String HOME_EXTRA;
     private static String SLIDESHOW_EXTRA;
-    static private int shippingSelectedIndex;
-    static private int paymentSelectedIndex;
+    static private int shippingSelectedIndex = -1;
+    static private int paymentSelectedIndex = -1;
     
     
     public static String findStringByName(String name) {
