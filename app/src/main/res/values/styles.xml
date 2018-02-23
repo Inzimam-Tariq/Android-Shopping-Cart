@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/textColorTitle</item>
         <item name="android:textSize">11sp</item>
-        <item name="android:textColorSecondary">@color/colorAccent</item>
+        <!--<item name="android:textColorSecondary">@color/colorAccent</item>-->
         <item name="buttonStyle">@style/ButtonStyle.Default</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Default</item>
     </style>
@@ -160,7 +160,6 @@
 
     <style name="ButtonStyle" parent="Widget.AppCompat.Button">
         <!-- Customize your theme here. -->
-        <item name="android:background">@color/colorPrimaryDark</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginBottom">10dp</item>

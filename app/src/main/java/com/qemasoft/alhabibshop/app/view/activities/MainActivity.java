@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.MyContextWrapper;
 import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.Utils;
@@ -133,19 +135,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView siteName, discountedCategoryTV;
     private ImageView logoIcon;
     private int clicks = 0;
-    
+
+
+//    @Override
+//    protected void attachBaseContext(Context newBase) {
+//        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+//    }
     
     @Override
     protected void attachBaseContext(Context newBase) {
+        
+        // create or get your new Locale object here.
+        String lang = Preferences
+                .getSharedPreferenceString(appContext, LANGUAGE_KEY, "ar");
+        
+        Context context = MyContextWrapper.wrap(newBase, lang);
+//        super.attachBaseContext(context);
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
+    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         
         this.utils = new Utils(this);
         utils.setTheme(this);
+        
         super.onCreate(savedInstanceState);
+//        utils.changeLanguage();
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initViews();
@@ -199,6 +216,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
         // Inflate and initialize the bottom menu
         ActionMenuView bottomBar = findViewById(R.id.bottom_toolbar);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            bottomBar.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
         Menu bottomMenu = bottomBar.getMenu();
         getMenuInflater().inflate(R.menu.menu_bottom, bottomMenu);
         for (int i = 0; i < bottomMenu.size(); i++) {
@@ -226,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (utils.isLoggedIn()) {
                     utils.switchFragment(new FragCheckout());
                 } else {
-                    utils.showAlert(R.string.continue_text, R.string.please_select,
+                    utils.showAlert(R.string.continue_text, R.string.login_or_register,
                             true,
                             R.string.login_text, new FragLogin(),
                             R.string.action_register_text, new FragRegister());
@@ -241,8 +261,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.nav_home:
                 utils.switchFragment(new MainFrag());
                 break;
+            case R.id.nav_login:
+                utils.switchFragment(new FragLogin());
+                break;
+            case R.id.nav_register:
+                utils.switchFragment(new FragRegister());
+                break;
+            case R.id.nav_contact_us:
+                utils.switchFragment(new FragContactUs());
+                break;
             default:
-            
+                break;
         }
         return super.onOptionsItemSelected(item);
         

@@ -99,13 +99,13 @@ public class FragCheckout extends MyBaseFragment implements View.OnClickListener
                 findStringByName("payment_text"),
                 findStringByName("confirm_text")};
         String theme = Preferences.getSharedPreferenceString(
-                appContext, THEME_CODE, "null");
+                appContext, THEME_CODE, "default");
         if (theme != null && !theme.equalsIgnoreCase("default")) {
             stateProgressBar.setStateDescriptionData(descriptionData);
             String pColor = Preferences.getSharedPreferenceString(
                     appContext, PRIMARY_COLOR, "#EC7625");
             String aColor = Preferences.getSharedPreferenceString(
-                    appContext, ACCENT_COLOR, "#F44336");
+                    appContext, ACCENT_COLOR, "#555555");
             stateProgressBar.setBackgroundColor(Color.parseColor(pColor));
             stateProgressBar.setCurrentStateDescriptionColor(Color.parseColor(pColor));
             stateProgressBar.setStateDescriptionColor(Color.parseColor(aColor));

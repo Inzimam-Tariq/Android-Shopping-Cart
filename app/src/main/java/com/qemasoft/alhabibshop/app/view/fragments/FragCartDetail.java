@@ -92,7 +92,7 @@ public class FragCartDetail extends MyBaseFragment {
                 if (utils.isLoggedIn()) {
                     utils.switchFragment(new FragCheckout());
                 } else {
-                    utils.showAlert(R.string.continue_text, R.string.please_select,
+                    utils.showAlert(R.string.continue_text, R.string.login_or_register,
                             true,
                             R.string.login_text, new FragLogin(),
                             R.string.action_register_text, new FragRegister());

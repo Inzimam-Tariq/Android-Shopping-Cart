@@ -219,9 +219,5 @@ public class SplashActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
     
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
+    
 }

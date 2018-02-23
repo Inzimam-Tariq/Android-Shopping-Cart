@@ -133,6 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
+                    android:background="@color/colorPrimaryDark"
                     android:drawableEnd="@drawable/ic_visibility"
                     android:drawableRight="@drawable/ic_visibility"
                     android:paddingEnd="@dimen/activity_horizontal_margin"

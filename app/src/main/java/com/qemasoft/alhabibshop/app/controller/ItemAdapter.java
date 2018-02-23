@@ -39,7 +39,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     private Context context;
     private Utils utils;
     private String accentColor = Preferences.getSharedPreferenceString(
-            appContext, ACCENT_COLOR, "#EC7625");
+            appContext, ACCENT_COLOR, "#555555");
     
     public ItemAdapter(List<MyItem> dataList) {
         
@@ -102,7 +102,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             TextView itemPriceSpecialTV = holder.itemPriceSpecial;
             utils.printLog("ItemAdapter", "IsRTL = " + MyApp.isRTL(Locale.getDefault()));
             
-            utils.printLog("ItemAdapter", "inside if RTL false");
             if (!data.getItemPriceSpecial().isEmpty()) {
                 itemPriceSpecialTV.setVisibility(View.VISIBLE);
                 

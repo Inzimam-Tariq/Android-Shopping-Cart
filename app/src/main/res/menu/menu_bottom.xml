@@ -3,38 +3,43 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_account"
-            android:icon="@drawable/ic_person_black"
-            android:title="@string/account"
-            app:showAsAction="always"/>
-        <item
-            android:id="@+id/nav_cart"
-            android:icon="@drawable/ic_shopping_cart_black"
-            android:title="@string/checkout"
-            app:showAsAction="always"/>
-        <item
-            android:id="@+id/nav_disc"
-            android:icon="@drawable/ic_tag_black"
-            android:title="@string/disc"
-            app:showAsAction="always"/>
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home_black"
-            android:title="@string/title_home"
-            app:showAsAction="always"/>
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_exit_to_app_black"
-            android:title="@string/logout"
-            app:showAsAction="ifRoom"/>
-        <item
-            android:id="@+id/nav_order_history"
-            android:icon="@drawable/ic_add_shopping_cart_black"
-            android:title="@string/order_history_text"
-            app:showAsAction="ifRoom"/>
-    </group>
+    <!--<group android:checkableBehavior="single">-->
+    <item
+        android:id="@+id/nav_account"
+        android:icon="@drawable/ic_person_black"
+        android:title="@string/account"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_cart"
+        android:icon="@drawable/ic_shopping_cart_black"
+        android:title="@string/checkout"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_disc"
+        android:icon="@drawable/ic_tag_black"
+        android:title="@string/disc"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home_black"
+        android:title="@string/title_home"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/nav_login"
+        android:icon="@drawable/ic_lock_black"
+        android:title="@string/login_text"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/nav_register"
+        android:icon="@drawable/ic_person_add_black"
+        android:title="@string/action_register_text"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/nav_contact_us"
+        android:icon="@drawable/ic_email_black"
+        android:title="@string/contact_us_text"
+        app:showAsAction="ifRoom" />
+    <!--</group>-->
 
 
 </menu>

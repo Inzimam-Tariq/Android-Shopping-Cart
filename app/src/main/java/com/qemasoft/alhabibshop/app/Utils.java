@@ -17,8 +17,10 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -48,7 +50,6 @@ import com.qemasoft.alhabibshop.app.controller.MyPagerAdapter;
 import com.qemasoft.alhabibshop.app.model.Slideshow;
 import com.qemasoft.alhabibshop.app.view.activities.MainActivity;
 import com.qemasoft.alhabibshop.app.view.fragments.FragCartDetail;
-import com.qemasoft.alhabibshop.app.view.fragments.FragRegister;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -99,6 +100,13 @@ public class Utils {
     private ProgressDialog progressBar;
     private int position, currentPage;
     private MyCountDownTimer myCountDownTimer;
+    
+    private String theme = Preferences.getSharedPreferenceString(appContext,
+            THEME_CODE, "default");
+    private String pColor = Preferences.getSharedPreferenceString(
+            appContext, PRIMARY_COLOR, "#EC7625");
+    private String aColor = Preferences.getSharedPreferenceString(
+            appContext, ACCENT_COLOR, "#555555");
     
     
     public Utils(Context mContext) {
@@ -395,7 +403,9 @@ public class Utils {
                                 .getSystemService(Context.WIFI_SERVICE);
                         assert wifiManager != null;
                         if (!wifiManager.isWifiEnabled()) {
-                            wifiManager.setWifiEnabled(true);
+//                            wifiManager.setWifiEnabled(true);
+                            ((AppCompatActivity) mContext).startActivityForResult(
+                                    new Intent(Settings.ACTION_WIFI_SETTINGS), 0);
                         }
                     }
                 })
@@ -410,6 +420,11 @@ public class Utils {
         // Create the AlertDialog object and return it
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+        
+        Button pBtn = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button nBtn = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        
+        styleDialogButtons(pBtn, nBtn);
         
     }
     
@@ -444,28 +459,32 @@ public class Utils {
         AlertDialog dialog = builder.create();
         dialog.show();
         
-        String theme = Preferences.getSharedPreferenceString(appContext,
-                THEME_CODE, "default");
-        if (!theme.isEmpty() && !theme.equalsIgnoreCase("default")) {
-            String pColor = Preferences.getSharedPreferenceString(
-                    appContext, PRIMARY_COLOR, "#ff000000");
-            String aColor = Preferences.getSharedPreferenceString(
-                    appContext, ACCENT_COLOR, "#EC7625");
-            
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.setMargins(40, 0, 40, 0);
-            params.weight = 1f;
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setLayoutParams(params);
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setLayoutParams(params);
-            dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-                    .setBackgroundColor(Color.parseColor(pColor));
-            dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-                    .setBackgroundColor(Color.parseColor(aColor));
-        }
+        Button pBtn = dialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button nBtn = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         
+        styleDialogButtons(pBtn, nBtn);
+    }
+    
+    private void styleDialogButtons(Button pBtn, Button nBtn) {
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(40, 0, 40, 0);
+        params.weight = 1f;
+        
+        pBtn.setLayoutParams(params);
+        nBtn.setLayoutParams(params);
+        
+        if (theme != null && !theme.isEmpty() &&
+                !theme.equalsIgnoreCase("default")) {
+            pBtn.setBackgroundColor(Color.parseColor(pColor));
+            nBtn.setBackgroundColor(Color.parseColor(aColor));
+        } else {
+            String pColor = "#EC7625";
+            String aColor = "#555555";
+            pBtn.setBackgroundColor(Color.parseColor(pColor));
+            nBtn.setBackgroundColor(Color.parseColor(aColor));
+        }
     }
     
     public void showProgress() {
@@ -527,7 +546,7 @@ public class Utils {
     public void changeLanguage(String languageCode) {
         
         String language = Preferences.getSharedPreferenceString(appContext,
-                LANGUAGE_KEY, "en");
+                LANGUAGE_KEY, "ar");
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
@@ -537,6 +556,22 @@ public class Utils {
 
 //        showToast(" Locale Country = " + locale.getDisplayLanguage());
     
+    }
+    
+    public void changeLanguage() {
+        Locale locale = new Locale("ar");
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(locale);
+        } else {
+            config.locale = locale;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            appContext.createConfigurationContext(config);
+        }
+//        appContext.getApplicationContext().getResources().updateConfiguration(config,
+//                appContext.getApplicationContext().getResources().getDisplayMetrics());
     }
     
     public void clearSession() {
@@ -779,7 +814,7 @@ public class Utils {
                                 String msg = response.optString("message");
                                 if (!msg.isEmpty()) {
                                     showAlert(R.string.information_text,
-                                            R.string.please_select, true,
+                                            msg, true,
                                             R.string.ok, null,
                                             R.string.cancel_text, null);
                                 }
@@ -884,14 +919,16 @@ public class Utils {
         msgTV.setText(msgId);
         buttonPositive.setText(posBtnTextId);
         
-        String theme = Preferences.getSharedPreferenceString(appContext,
-                THEME_CODE, "default");
-        if (!theme.isEmpty() && !theme.equalsIgnoreCase("default")) {
-            String pColor = Preferences.getSharedPreferenceString(
-                    appContext, PRIMARY_COLOR, "#ff000000");
+        if (theme != null && !theme.isEmpty() &&
+                !theme.equalsIgnoreCase("default")) {
             titleTV.setTextColor(Color.parseColor(pColor));
-            String aColor = Preferences.getSharedPreferenceString(
-                    appContext, ACCENT_COLOR, "#EC7625");
+            separator.setBackgroundColor(Color.parseColor(pColor));
+            buttonPositive.setBackgroundColor(Color.parseColor(pColor));
+            buttonNegative.setBackgroundColor(Color.parseColor(aColor));
+        } else {
+            String pColor = "#EC7625";
+            String aColor = "#555555";
+            titleTV.setTextColor(Color.parseColor(pColor));
             separator.setBackgroundColor(Color.parseColor(pColor));
             buttonPositive.setBackgroundColor(Color.parseColor(pColor));
             buttonNegative.setBackgroundColor(Color.parseColor(aColor));
@@ -912,7 +949,7 @@ public class Utils {
             @Override
             public void onClick(View v) {
                 if (negBtnActionFrag != null)
-                    switchFragment(new FragRegister());
+                    switchFragment(negBtnActionFrag);
                 alertDialog.dismiss();
             }
         });
@@ -939,14 +976,18 @@ public class Utils {
         msgTV.setText(msg);
         buttonPositive.setText(posBtnTextId);
         
-        String theme = Preferences.getSharedPreferenceString(appContext,
-                THEME_CODE, "default");
-        if (!theme.isEmpty() && !theme.equalsIgnoreCase("default")) {
-            String pColor = Preferences.getSharedPreferenceString(
-                    appContext, PRIMARY_COLOR, "#ff000000");
+        
+        if (theme != null && !theme.isEmpty() &&
+                !theme.equalsIgnoreCase("default")) {
+            
             titleTV.setTextColor(Color.parseColor(pColor));
-            String aColor = Preferences.getSharedPreferenceString(
-                    appContext, ACCENT_COLOR, "#EC7625");
+            separator.setBackgroundColor(Color.parseColor(pColor));
+            buttonPositive.setBackgroundColor(Color.parseColor(pColor));
+            buttonNegative.setBackgroundColor(Color.parseColor(aColor));
+        } else {
+            String pColor = "#EC7625";
+            String aColor = "#555555";
+            titleTV.setTextColor(Color.parseColor(pColor));
             separator.setBackgroundColor(Color.parseColor(pColor));
             buttonPositive.setBackgroundColor(Color.parseColor(pColor));
             buttonNegative.setBackgroundColor(Color.parseColor(aColor));
@@ -963,24 +1004,24 @@ public class Utils {
             }
         });
         
-        buttonNegative.setVisibility(View.VISIBLE);
         buttonNegative.setText(negBtnTextId);
         buttonNegative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (negBtnActionFrag != null)
-                    switchFragment(new FragRegister());
+                    switchFragment(negBtnActionFrag);
                 alertDialog.dismiss();
             }
         });
     }
     
     public void setTheme(Context c) {
-        String themeCode = Preferences.getSharedPreferenceString(appContext, THEME_CODE, "");
+        String themeCode = Preferences.getSharedPreferenceString(
+                appContext, THEME_CODE, "default");
         
         Resources resources = c.getResources();
         
-        Log.e("MyApp", "ThemeCode = " + themeCode);
+        Log.e("UtilsSetTheme", "ThemeCode = " + themeCode);
         switch (themeCode) {
             case "red": {
                 @SuppressLint("ResourceType")

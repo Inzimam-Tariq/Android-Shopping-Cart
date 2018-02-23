@@ -50,6 +50,7 @@
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/positive_btn"
             android:layout_width="0dp"
+            android:background="@color/colorPrimaryDark"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:text="Positive"

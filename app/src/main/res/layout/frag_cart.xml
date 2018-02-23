@@ -66,6 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="?attr/actionBarSize"
+        android:background="@color/colorPrimaryDark"
         android:elevation="3dp"
         android:text="@string/checkout" />
 

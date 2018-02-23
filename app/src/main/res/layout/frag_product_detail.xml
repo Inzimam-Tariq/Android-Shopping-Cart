@@ -36,13 +36,13 @@
                     android:id="@+id/share_iv"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
+                    android:clickable="true"
+
                     android:contentDescription="@string/image_text"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     app:srcCompat="@drawable/ic_share_black" />
             </LinearLayout>
 
@@ -239,6 +239,7 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="?actionBarSize"
+        android:background="@color/colorPrimaryDark"
         android:drawableLeft="@drawable/ic_cart_white"
         android:drawablePadding="-16dp"
         android:drawableStart="@drawable/ic_cart_white"

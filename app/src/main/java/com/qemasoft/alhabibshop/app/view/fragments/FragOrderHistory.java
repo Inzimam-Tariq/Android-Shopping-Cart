@@ -107,7 +107,7 @@ public class FragOrderHistory extends MyBaseFragment {
                     
                     utils.printLog("InsideOnResult");
                     JSONArray orders = response.optJSONArray("orders");
-                    if (orders == null) {
+                    if (orders == null || orders.toString().isEmpty()) {
                         utils.showAlert(R.string.information_text, R.string.no_data,
                                 false,
                                 R.string.ok, null,

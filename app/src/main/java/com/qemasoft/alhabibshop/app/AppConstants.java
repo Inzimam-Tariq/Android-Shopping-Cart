@@ -70,8 +70,8 @@ public class AppConstants {
     public static final String PRIMARY_COLOR = "PRIMARY_COLOR";
     public static final String ACCENT_COLOR = "ACCENT_COLOR";
     public static final String THEME_CODE = "ThemeCode";
-    private static final String BASE_URL = "https://www.opencartgulf.com/api/";
-    //    private static final String BASE_URL = "https://www.alhabibshop.com/api/";
+        private static final String BASE_URL = "https://www.opencartgulf.com/api/";
+//    private static final String BASE_URL = "https://www.alhabibshop.com/api/";
     //    private static final String BASE_URL = "https://www.tecnicomovil.es/api/";
     public static final String SECRET_KEY_URL = BASE_URL + "getKey";
     

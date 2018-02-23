@@ -40,7 +40,7 @@ public class CartDetailAdapter
     private Utils utils;
     private boolean isFromCheckout;
     private String accentColor = Preferences.getSharedPreferenceString(
-            appContext, ACCENT_COLOR, "#EC7625");
+            appContext, ACCENT_COLOR, "#555555");
     
     public CartDetailAdapter(List<MyCartDetail> myCartDetailList, boolean isFromCheckout) {
         this.myCartDetailList = myCartDetailList;

@@ -4,6 +4,7 @@ package com.qemasoft.alhabibshop.app.view.fragments;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.qemasoft.alhabibshop.app.AppConstants;
+import com.qemasoft.alhabibshop.app.Preferences;
 import com.qemasoft.alhabibshop.app.R;
 import com.qemasoft.alhabibshop.app.controller.ExpandableListAdapterCategory;
 import com.qemasoft.alhabibshop.app.controller.ItemAdapter;
@@ -42,8 +45,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.qemasoft.alhabibshop.app.AppConstants.ACCENT_COLOR;
 import static com.qemasoft.alhabibshop.app.AppConstants.LEFT;
+import static com.qemasoft.alhabibshop.app.AppConstants.PRIMARY_COLOR;
 import static com.qemasoft.alhabibshop.app.AppConstants.PRODUCT_REQUEST_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.THEME_CODE;
+import static com.qemasoft.alhabibshop.app.AppConstants.appContext;
 
 
 /**
@@ -168,6 +175,16 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                     productTitleTV.setText(categoryName);
                     
                     JSONArray categories = response.optJSONArray("categories");
+                    JSONArray products = response.optJSONArray("products");
+                    
+                    if ((categories == null || categories.toString().isEmpty())
+                            && (products == null || products.toString().isEmpty())) {
+                        utils.showAlert(R.string.information_text, R.string.no_data,
+                                false,
+                                R.string.ok, null,
+                                R.string.cancel_text, null);
+                        return;
+                    }
                     
                     List<MyCategory> categoryList = new ArrayList<>();
                     if (categories != null) {
@@ -191,8 +208,6 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                         subCatAdapter = new SubCatAdapter(categoryList);
                         subCatRecycleView.setAdapter(subCatAdapter);
                     }
-                    
-                    JSONArray products = response.optJSONArray("products");
                     
                     utils.printLog("Products", products.toString());
                     for (int i = 0; i < products.length(); i++) {
@@ -297,6 +312,35 @@ public class FragProduct extends MyBaseFragment implements View.OnClickListener 
                 builder.setNegativeButton(R.string.cancel_text, null);
                 dialog = builder.create();
                 dialog.show();
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(40, 0, 40, 0);
+                params.weight = 1f;
+                dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setLayoutParams(params);
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).setLayoutParams(params);
+                
+                String theme = Preferences.getSharedPreferenceString(appContext,
+                        THEME_CODE, "default");
+                if (theme != null && !theme.isEmpty() &&
+                        !theme.equalsIgnoreCase("default")) {
+                    String pColor = Preferences.getSharedPreferenceString(
+                            appContext, PRIMARY_COLOR, "#EC7625");
+                    String aColor = Preferences.getSharedPreferenceString(
+                            appContext, ACCENT_COLOR, "#555555");
+                    
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                            .setBackgroundColor(Color.parseColor(pColor));
+                    dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+                            .setBackgroundColor(Color.parseColor(aColor));
+                } else {
+                    String pColor = "#EC7625";
+                    String aColor = "#555555";
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE)
+                            .setBackgroundColor(Color.parseColor(pColor));
+                    dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+                            .setBackgroundColor(Color.parseColor(aColor));
+                }
                 break;
             case R.id.filter_layout:
                 if (headerList == null || headerList.isEmpty() || headerList.size() < 1) {

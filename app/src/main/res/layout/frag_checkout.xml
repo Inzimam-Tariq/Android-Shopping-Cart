@@ -49,9 +49,9 @@
                         style="@style/CustomDropDownStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableEnd="@drawable/ic_menu_more"
                         android:drawableRight="@drawable/ic_menu_more"
-                        android:hint="@string/please_select_text"
-                        android:drawableEnd="@drawable/ic_menu_more" />
+                        android:hint="@string/please_select_text" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -234,6 +234,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
+                    android:background="@color/colorPrimaryDark"
                     android:text="@string/next_text" />
 
                 <android.support.v7.widget.AppCompatButton
@@ -242,6 +243,7 @@
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
+                    android:background="@color/colorPrimaryDark"
                     android:text="@string/back_text"
                     android:visibility="gone" />
 
