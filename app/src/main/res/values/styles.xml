@@ -2,15 +2,16 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/textColorTitle</item>
         <item name="android:textSize">11sp</item>
-        <!--<item name="android:textColorSecondary">@color/colorAccent</item>-->
         <item name="buttonStyle">@style/ButtonStyle.Default</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Default</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,19 +20,26 @@
         <item name="buttonStyle">@style/ButtonStyle.Default</item>
     </style>
 
+    <style name="AppTheme.NoActionBar.RTL">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.Default</item>
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
+    </style>
+
     <style name="AppTheme.SmallText">
         <item name="android:textSize">11sp</item>
     </style>
 
-    <style name="AppTheme.ProgressTheme">
+    <style name="AppTheme.ProgressThemeD">
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="colorControlActivated">@color/colorPrimaryDark</item>
     </style>
 
     <style name="CustomProgressActivityTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="windowActionBar">false</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
-        <item name="colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorPrimaryRed</item>
+        <item name="colorControlActivated">@color/colorPrimaryRed</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -167,7 +175,7 @@
 
     </style>
 
-    <style name="ButtonStyle.Default">
+    <style name="ButtonStyle.Default" parent="ButtonStyle">
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
@@ -183,10 +191,15 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Red</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Red</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
     </style>
 
-    <style name="ButtonStyle.Red">
+    <style name="MaterialRed.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
+    </style>
+
+    <style name="ButtonStyle.Red" parent="ButtonStyle">
         <item name="android:background">@color/colorPrimaryDarkRed</item>
     </style>
 
@@ -201,10 +214,15 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Pink</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Pink</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
     </style>
 
-    <style name="ButtonStyle.Pink">
+    <style name="MaterialPink.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
+    </style>
+
+    <style name="ButtonStyle.Pink" parent="ButtonStyle">
         <item name="android:background">@color/colorPrimaryDarkPink</item>
     </style>
 
@@ -219,7 +237,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Purple</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Purple</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialPurple.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Purple">
@@ -237,7 +260,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.DeepPurple</item>
         <item name="android:buttonStyle">@style/ButtonStyle.DeepPurple</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialDeepPurple.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.DeepPurple">
@@ -255,7 +283,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Indigo</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Indigo</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialIndigo.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Indigo">
@@ -274,12 +307,42 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Blue</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Blue</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialBlue.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Blue">
         <item name="android:background">@color/colorPrimaryDarkBlue</item>
     </style>
+
+
+    <!--Light Blue Theme-->
+    <style name="MaterialLightBlue" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryLightBlue</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLightBlue</item>
+        <item name="colorAccent">@color/colorAccentLightBlue</item>
+        <item name="android:textColor">@color/textColorTitle</item>
+        <item name="android:textSize">11sp</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="buttonStyle">@style/ButtonStyle.LightBlue</item>
+        <item name="android:buttonStyle">@style/ButtonStyle.LightBlue</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
+
+    </style>
+
+    <style name="MaterialLightBlue.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
+    </style>
+
+    <style name="ButtonStyle.LightBlue">
+        <item name="android:background">@color/colorPrimaryDarkLightBlue</item>
+    </style>
+
 
     <!--Cyan Theme-->
     <style name="MaterialCyan" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -292,7 +355,17 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Cyan</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Cyan</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialCyan.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
+    </style>
+
+    <style name="ProgressThemeC">
+        <item name="colorAccent">@color/colorAccentCyan</item>
+        <item name="colorControlActivated">@color/colorPrimaryDarkCyan</item>
     </style>
 
     <style name="ButtonStyle.Cyan">
@@ -311,7 +384,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Teal</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Teal</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialTeal.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Teal">
@@ -330,7 +408,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Green</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Green</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialGreen.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Green">
@@ -349,7 +432,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.LightGreen</item>
         <item name="android:buttonStyle">@style/ButtonStyle.LightGreen</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialLightGreen.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.LightGreen">
@@ -368,7 +456,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Lime</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Lime</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialLime.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Lime">
@@ -387,7 +480,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Yellow</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Yellow</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialYellow.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Yellow">
@@ -406,7 +504,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Amber</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Amber</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialAmber.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Amber">
@@ -425,7 +528,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Orange</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Orange</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialOrange.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Orange">
@@ -444,7 +552,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.DeepOrange</item>
         <item name="android:buttonStyle">@style/ButtonStyle.DeepOrange</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialDeepOrange.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.DeepOrange">
@@ -463,7 +576,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Brown</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Brown</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialBrown.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Brown">
@@ -482,7 +600,12 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.Grey</item>
         <item name="android:buttonStyle">@style/ButtonStyle.Grey</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialGrey.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.Grey">
@@ -501,11 +624,32 @@
         <item name="windowNoTitle">true</item>
         <item name="buttonStyle">@style/ButtonStyle.BlueGrey</item>
         <item name="android:buttonStyle">@style/ButtonStyle.BlueGrey</item>
+        <item name="TextView.Heading">@style/TextViewHeadingLTR</item>
 
+    </style>
+
+    <style name="MaterialBlueGrey.RTL">
+        <item name="TextView.Heading">@style/TextViewHeadingRTL</item>
     </style>
 
     <style name="ButtonStyle.BlueGrey">
         <item name="android:background">@color/colorPrimaryDarkBlueGrey</item>
     </style>
+
+    <!--TextView Styles-->
+    <style name="TextViewHeadingLTR">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextViewHeadingRTL">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--Reference attribute-->
+    <attr name="TextView.Heading" format="reference" />
+    <attr name="TextView.Regular" format="reference" />
+    <attr name="TextView.Link" format="reference" />
 
 </resources>

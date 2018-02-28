@@ -29,7 +29,7 @@
 
                     <TextView
                         android:id="@+id/title_tv"
-                        style="@style/HeadingStyleTextView"
+                        style="?attr/TextView.Heading"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/about_us_text" />

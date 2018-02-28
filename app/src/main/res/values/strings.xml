@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Al Habib</string>
+    <string name="domain_name">www.alhabibshop.com</string>
     <string name="title_activity_main">Main Activity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -159,7 +160,6 @@
     <string name="add_address_context">Press The Plus Button To Add Address</string>
 
 
-
     <string name="cancel_text">Cancel</string>
     <string name="show_text">Show</string>
 
@@ -220,8 +220,11 @@
     <string name="add_to_cart_text">Add to Cart</string>
 
     <string name="categories">Featured Categories</string>
+    <!--<string name="banner">Special Offer</string>-->
     <string name="trending">Trending Products</string>
-    <string name="recombination">Featured</string>
+    <string name="recombination">Recombination</string>
+    <string name="latest">Latest Products</string>
+    <string name="featured">Featured Products</string>
     <string name="bestseller">Best Seller</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

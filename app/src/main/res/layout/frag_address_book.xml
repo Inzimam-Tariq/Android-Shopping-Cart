@@ -4,29 +4,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="2dp">
 
         <TextView
-            style="@style/HeadingStyleTextView"
-            android:layout_width="match_parent"
+            style="?attr/TextView.Heading"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="40dp"
-            android:layout_marginEnd="40dp"
+            android:layout_weight="1"
             android:text="@string/address_book_title" />
 
         <ImageView
             android:id="@+id/add_address_icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             app:srcCompat="@drawable/ic_add_box_black" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/addresses_recycler_view"

@@ -6,7 +6,7 @@
     android:layout_height="?attr/actionBarSize"
     android:orientation="horizontal"
     app:popupTheme="@style/AppTheme.PopupOverlay"
-    tools:context="com.qemasoft.alhabibshop.app.view.activities.SearchActivity">
+    tools:context="com.qemasoft.alhabibshop.app.com.web2design.souqclone.app.view.activities.SearchActivity">
 
     <ImageView
         android:id="@+id/exit_activity_btn"

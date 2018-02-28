@@ -67,7 +67,7 @@
 
                 <TextView
                     android:id="@+id/product_price_tv"
-                    style="@style/HeadingStyleTextView"
+                    style="?attr/TextView.Heading"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

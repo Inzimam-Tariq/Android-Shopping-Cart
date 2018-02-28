@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/dialog_title"
-        style="@style/HeadingStyleTextView"
+        style="?attr/TextView.Heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
@@ -18,8 +18,7 @@
     <View
         android:id="@+id/title_separator"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/colorAccent" />
+        android:layout_height="2dp" />
 
     <TextView
         android:id="@+id/msg_tv"
@@ -39,7 +38,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:background="@color/colorAccent3"
             android:text="Negative"
             android:textColor="@color/colorPrimary" />
 
@@ -50,7 +48,6 @@
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/positive_btn"
             android:layout_width="0dp"
-            android:background="@color/colorPrimaryDark"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
             android:text="Positive"

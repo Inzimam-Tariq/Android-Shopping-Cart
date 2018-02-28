@@ -1,11 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
-    tools:context="com.qemasoft.alhabibshop.app.view.fragments.FragCheckout">
+    android:padding="10dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -158,7 +156,7 @@
                             android:padding="3dp">
 
                             <TextView
-                                style="@style/HeadingStyleTextView"
+                                style="?attr/TextView.Heading"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="8dp"
@@ -183,7 +181,7 @@
 
                             <TextView
                                 android:id="@+id/bank_heading_tv"
-                                style="@style/HeadingStyleTextView"
+                                style="?attr/TextView.Heading"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -234,7 +232,6 @@
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
-                    android:background="@color/colorPrimaryDark"
                     android:text="@string/next_text" />
 
                 <android.support.v7.widget.AppCompatButton
@@ -243,7 +240,6 @@
                     android:layout_height="40dp"
                     android:layout_margin="5dp"
                     android:layout_weight="0.5"
-                    android:background="@color/colorPrimaryDark"
                     android:text="@string/back_text"
                     android:visibility="gone" />
 

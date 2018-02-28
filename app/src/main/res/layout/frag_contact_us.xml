@@ -25,7 +25,7 @@
                 android:padding="20dp">
 
                 <TextView
-                    style="@style/HeadingStyleTextView"
+                    style="?attr/TextView.Heading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
@@ -108,7 +108,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
-                    android:background="@color/colorPrimaryDark"
                     android:text="@string/submit_text" />
 
                 <View

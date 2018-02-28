@@ -24,7 +24,7 @@
                 android:padding="5dp">
 
                 <TextView
-                    style="@style/HeadingStyleTextView"
+                    style="?attr/TextView.Heading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/order_detail_text" />

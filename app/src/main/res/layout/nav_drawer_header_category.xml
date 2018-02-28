@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/category_drawer_header_layout"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@drawable/nav_head_back_black"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <!--<TextView-->
+        <!--style="?attr/TextView.Heading"-->
+        <!--fontPath="fonts/DroidKufi-Regular.ttf"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/browse_by_category_text"-->
+        <!--android:textColor="@color/colorPrimary"-->
+        <!--tools:ignore="MissingPrefix" />-->
+
+</LinearLayout>

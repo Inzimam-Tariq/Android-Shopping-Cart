@@ -20,8 +20,6 @@
     <color name="text_color">#555555</color>
     <color name="card_view_color">#ffffff</color>
     <color name="text_color1">#808080</color>
-    <color name="text_color2">#808080</color>
-
 
 
     <!--Color Combination Red-->
@@ -30,9 +28,9 @@
     <color name="colorAccentRed">#4A148C</color>
 
     <!--Color Combination Pink-->
-    <color name="colorPrimaryPink">#E91E63</color>
-    <color name="colorPrimaryDarkPink">#880E4F</color>
-    <color name="colorAccentPink">#FFFF00</color>
+    <color name="colorPrimaryPink">#f52f72</color>
+    <color name="colorPrimaryDarkPink">#b70966</color>
+    <color name="colorAccentPink">#009688</color>
 
     <!--Color Combination Purple-->
     <color name="colorPrimaryPurple">#9C27B0</color>
@@ -54,13 +52,18 @@
     <color name="colorPrimaryDarkBlue">#0D47A1</color>
     <color name="colorAccentBlue">#F44336</color>
 
+    <!--Color Combination Light Blue-->
+    <color name="colorPrimaryLightBlue">#05aefa</color>
+    <color name="colorPrimaryDarkLightBlue">#01579B</color>
+    <color name="colorAccentLightBlue">#F44336</color>
+
     <!--Color Combination Cyan-->
     <color name="colorPrimaryCyan">#00BCD4</color>
     <color name="colorPrimaryDarkCyan">#006064</color>
     <color name="colorAccentCyan">#F44336</color>
 
     <!--Color Combination Teal-->
-    <color name="colorPrimaryTeal">#009688</color>
+    <color name="colorPrimaryTeal">#01877b</color>
     <color name="colorPrimaryDarkTeal">#004D40</color>
     <color name="colorAccentTeal">#F44336</color>
 

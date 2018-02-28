@@ -23,8 +23,8 @@
 
             <ImageView
                 android:id="@+id/cat_img"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_centerInParent="true"
                 android:contentDescription="@string/image_text"
                 android:src="@drawable/laptop_1" />

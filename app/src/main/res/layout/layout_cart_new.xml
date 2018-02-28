@@ -37,7 +37,7 @@
 
                     <TextView
                         android:id="@+id/product_title_tv"
-                        style="@style/HeadingStyleTextView"
+                        style="?attr/TextView.Heading"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
@@ -88,7 +88,7 @@
 
                 <TextView
                     android:id="@+id/product_price_tv"
-                    style="@style/HeadingStyleTextView"
+                    style="?attr/TextView.Heading"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
