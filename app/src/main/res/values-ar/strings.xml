@@ -89,6 +89,7 @@
     <string name="added_date_text">تاريخ الإضافة</string>
     <string name="stock_status_text">حالة التوفر</string>
     <string name="available_option_text">الخيارات المتاحة</string>
+    <string name="select_option_text">حدد الخيارات المتاحة</string>
     <string name="rate_us_text">قيمنا</string>
     <string name="write_review_text">كتابة تعليق</string>
     <string name="review_text">اضافة تعليق</string>

@@ -97,6 +97,7 @@
     <string name="added_date_text">Added Date</string>
     <string name="stock_status_text">Stock Status</string>
     <string name="available_option_text">Available Options</string>
+    <string name="select_option_text">Select Available Options</string>
     <string name="rate_us_text">Rate Us</string>
     <string name="write_review_text">Write Review</string>
     <string name="review_text">Review</string>
